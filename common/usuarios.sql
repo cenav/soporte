@@ -1,5 +1,5 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user MOBANDO account unlock;
+alter user EVALIENTE account unlock;
 
 
 alter user juan17 account lock;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MOBANDO';
+ where username like 'EVALIENTE';
 
 -- Dependencies
 select *
@@ -299,7 +299,7 @@ select username, account_status from dba_users where username like '%APEX%';
 
 -- drop user apex_instance_admin_user cascade;
 
-select dbms_xdb.gethttpport from dual;
+-- select dbms_xdb.gethttpport from dual;
 
 -- version 3.2.1.00.12
 select * from dba_registry where comp_id = 'APEX';

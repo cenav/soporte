@@ -880,3 +880,8 @@ select *
 select *
   from activo_fijo_asiento
  where cod_activo_fijo = 'MAQ4GEN-002';
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '20'
+   and numero = 216;
