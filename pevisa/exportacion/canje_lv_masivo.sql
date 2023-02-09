@@ -101,12 +101,23 @@ select *
  where tipdoc = '01'
    and numero = '7736';
 
+select *
+  from factcob_canje
+ where numero = 14373;
 
 select *
   from canjedoc
  where doccanje = 'J1'
    and sercanje = '1'
    and nrocanje = '68856';
+
+select * from ruta_docvirtual;
+
+select *
+  from caja
+ where id_serie = 9
+   and id_numero = 2;
+
 
 -- 2020 8 60 81158
 
@@ -117,7 +128,7 @@ select *
 
 select *
   from canjedoc
- where nrodoc = 13110;
+ where nrodoc = 55014373;
 
 select *
   from logger_logs
@@ -607,6 +618,21 @@ select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura
  order by fecha_salida desc, numero_booking;
 
 
+select distinct numero_booking
+  from vw_booking_facturas
+ where saldo > 0
+   and estado != '4'
+   and facturas_despachadas = total_facturas
+   and numero_factura = 55014373;
+
+select *
+  from exbooking_d
+ where numero_factura = 55014373;
+
+select *
+  from exbooking
+ where numero_booking = 'CRPTC23001H';
+
 select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
      , nombre_cliente, cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
      , estado
@@ -620,9 +646,8 @@ select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura
 select distinct numero_booking
   from vw_booking_facturas
  where saldo > 0
---    and estado != '4'
-   and facturas_despachadas = total_facturas
-   and numero_booking = '63807886';
+   and estado != '4'
+   and facturas_despachadas = total_facturas;
 
 select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
      , cod_cliente, nombre_cliente
@@ -658,3 +683,53 @@ select * from tab_grupos where descripcion like '%OSRAM%';
 select * from tab_lineas where descripcion like '%OSRAM%';
 
 select * from clientes where cod_cliente = '10468893881';
+
+select *
+  from factcob_canje
+ where tipdoc = '01'
+   and numero = 14373;
+
+select *
+  from canjedoc
+ where tpodoc = 'LV'
+   and nrodoc = 19363;
+
+select * from factcob;
+
+select *
+  from exfacturas
+ where numero = 55014373;
+
+select *
+  from factcob_canje
+ where nrocanje = '84320';
+
+select *
+  from factcob_canje
+ where tipdoc = 'LV'
+   and numero = '19363';
+
+select distinct numero_booking
+  from vw_booking_facturas
+ where saldo > 0
+   and estado != '4'
+   and facturas_despachadas = total_facturas;
+
+select *
+  from solimat_g
+ where numero = 177335;
+
+select *
+  from solimat_d
+ where numero = 177335;
+
+select *
+  from kardex_g
+ where num_importa = 'M22495';
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29622;

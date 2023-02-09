@@ -597,13 +597,6 @@ select *
   from almacen
  where cod_art = 'EQ SEGU13';
 
-select costo_s, costo_d, round(costo_s, costo_d, 3) as cambio
-  from kardex_d
- where cod_alm = '97'
-   and tp_transac = '11'
-   and serie = 1
-   and numero = 25319;
-
 -- 97	11	1	24600
 
 select *
@@ -1123,8 +1116,20 @@ select *
    and serie = 1
    and numero = 99685;
 
-select cod_alm, tp_transac, serie, numero, fch_transac, cod_art, cantidad
-  from kardex_d
- where cod_art in ('UPENTRENTM', 'UPENTRENTS', 'UPENTRENTL')
-   and extract(year from fch_transac) = 2023
-order by fch_transac, cod_art;
+select kd.cod_alm, kd.tp_transac, kd.serie, kd.numero, kd.fch_transac, kd.cod_art, kd.cantidad
+  from kardex_d kd
+ where kd.cod_art in ('UPENTRENTM', 'UPENTRENTS', 'UPENTRENTL')
+   and extract(year from kd.fch_transac) = 2023
+ order by kd.fch_transac, kd.cod_art;
+
+select d.cod_alm, d.tp_transac, d.serie, d.numero, d.fch_transac, d.cod_art, d.cantidad
+     , g.cod_relacion, p.nombre as empleado, o.nombre as proveedor
+  from kardex_g g
+       join kardex_d d
+            on g.cod_alm = d.cod_alm and g.tp_transac = d.tp_transac and g.serie = d.serie and
+               g.numero = d.numero
+       left join vw_personal p on g.cod_relacion = p.c_codigo
+       left join proveed o on g.cod_relacion = o.cod_proveed
+ where d.cod_art in ('UPENTRENTM', 'UPENTRENTS', 'UPENTRENTL')
+   and extract(year from d.fch_transac) = 2023
+ order by d.fch_transac, d.cod_art;

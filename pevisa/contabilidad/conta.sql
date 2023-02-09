@@ -10,11 +10,11 @@ select *
 
 select *
   from movdeta
- where ano = 2022
-   and mes = 8
+ where ano = 2023
+   and mes = 1
    and libro = '08'
    and voucher in (
-   80272
+   10056
    );
 
 select m.*
@@ -345,7 +345,7 @@ select *
 select *
   from activo_fijo_depreciacion
  where extract(year from fecha) = 2022
-   and extract(month from fecha) = 5;
+   and extract(month from fecha) = 12;
 
 select *
   from activo_fijo
@@ -363,9 +363,9 @@ select count(*)
 
 select *
   from ot_mantto
- where id_tipo = 'EQ'
-   and id_serie = 1
-   and id_numero = 21;
+ where id_tipo = 'MQ'
+   and id_serie = 7
+   and id_numero = 5150;
 
 select *
   from kardex_g
@@ -441,16 +441,15 @@ select *
 
 select *
   from activo_fijo_depreciacion
- where cod_activo_fijo = 'EQ MEDIC8'
+ where cod_activo_fijo = '05BALA1 MAN1'
+   and moneda = 'D'
  order by fecha desc;
-
 
 select *
   from activo_fijo_depreciacion
  where cod_activo_fijo = 'EQ MEDIC9'
    and cod_tipo_depreciacion = 'NIF'
    and moneda = 'D';
-
 
 select *
   from tablas_auxiliares
@@ -885,3 +884,66 @@ select *
   from gastos_de_viaje_habilitado
  where id_vendedor = '20'
    and numero = 216;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '22';
+
+select *
+  from kardex_d d
+ where d.cod_alm = '62'
+   and d.tp_transac = '22'
+   and d.serie = 1
+   and d.numero = 217839;
+
+select *
+  from kardex_g g
+ where g.cod_alm = 'A3'
+   and g.tp_transac = '11'
+   and g.serie = 1
+   and g.numero = 28456;
+
+select *
+  from kardex_d d
+ where d.cod_alm = 'A3'
+   and d.tp_transac = '11'
+   and d.serie = 1
+   and d.numero = 28456;
+
+
+select *
+  from kardex_d d
+ where d.cod_art = 'CEL996437769R1';
+
+select *
+  from almacen
+ where cod_art = 'CEL996437769R1';
+
+select *
+  from movdeta
+ where ano = 2023
+   and cuenta = '2821'
+   and generado = 'O';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '22';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'ACC4 AREN-001';
+
+select *
+  from kardex_d_otm
+ where cod_alm = '62'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 217839;
+
+select *
+  from kardex_d_otm
+ where cod_alm = '62'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 217841;
+

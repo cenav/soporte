@@ -1,7 +1,7 @@
 select *
   from itemord
  where serie = 1
-   and num_ped = 83659;
+   and num_ped = 84820;
 
 -- debe cuadrar con el total de la factura
 select precio * cant_ped / factor_uc, total
