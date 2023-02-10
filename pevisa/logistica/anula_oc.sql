@@ -4,7 +4,7 @@ declare
       from orden_de_compra
      where serie = 6
        and num_ped in (
-       2257, 2258
+       2269
        );
 
   function ot_cerrada(

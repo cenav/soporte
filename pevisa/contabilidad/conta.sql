@@ -1,20 +1,20 @@
 -- contabilidad maestro
 select *
   from movglos
- where ano = 2022
-   and mes = 8
-   and libro = '39'
+ where ano = 2023
+   and mes = 1
+   and libro = '40'
    and voucher in (
-   2205
+   10042
    );
 
 select *
   from movdeta
  where ano = 2023
    and mes = 1
-   and libro = '08'
+   and libro = '40'
    and voucher in (
-   10056
+   10042
    );
 
 select m.*
@@ -45,6 +45,9 @@ update movdeta m
    '759502'
    );
 
+select *
+  from movdeta
+ where detalle = 'CEL996437769R1';
 
 
 select *
@@ -108,21 +111,18 @@ select *
    82278
    );
 
-
 select *
   from factpag
- where cod_proveedor = '20251505111'
-   and tipdoc = '01'
-   and serie_num = 'F001'
+ where cod_proveedor = '10254971133'
+   and tipdoc = '02'
+   and serie_num = 'E001'
    and numero in (
-   '0021859'
+   '010042'
    );
-
 
 select *
   from vw_pagoimp_noemb
  where emb_ano = 2022;
-
 
   with costo as (
     select tip_doc, ser_doc, nro_doc
@@ -187,9 +187,21 @@ select *
    and nro_referencia = '2036356';
 
 select *
-  from activo_fijo_asigna
- where cod_activo_fijo = 'CPUC61';
+  from activo_fijo
+ where cod_activo_fijo = '04LAPT46';
 
+select *
+  from itemord
+ where cod_art = '04LAPT46';
+
+select *
+  from orden_de_compra
+ where serie = 2
+   and num_ped = 523;
+
+select *
+  from kardex_d
+ where cod_art = '04LAPT46';
 
 select c_codigo, nombre
   from vw_personal
@@ -209,14 +221,13 @@ select *
    'CPUC61-MONI'
    );
 
-
 select *
   from activo_fijo
- where cod_activo_fijo = 'MAQ4GEN-001';
+ where cod_activo_fijo = 'CEL996437769R1';
 
 select *
   from activo_fijo_asiento
- where cod_activo_fijo = 'MAQ4GEN-001';
+ where cod_activo_fijo = 'CEL996437769R1';
 
 select *
   from kardex_d
@@ -244,24 +255,6 @@ select *
 select *
   from activo_fijo_asiento
  where cod_activo_fijo = 'MQ2GEN-011';
-
-select *
-  from activo_fijo
- where cod_activo_fijo = 'MQ2GEN-011';
-
-select * from activo_fijo_estado;
-
-select *
-  from ot_mantto
- where id_activo_fijo = 'MQ2GEN-011';
-
-select *
-  from activo_fijo
- where cod_activo_fijo = 'CEL985319973';
-
-select *
-  from activo_fijo
- where cod_activo_fijo = 'CEL996809126';
 
 select * from activo_fijo_estado;
 
@@ -803,13 +796,13 @@ select *
 select *
   from ot_mantto
  where id_tipo = 'PY'
-   and id_serie = 1
-   and id_numero = 5;
+   and id_serie = 2
+   and id_numero in (549, 524);
 
 select *
   from itemord
  where serie = 6
-   and num_ped = 1677;
+   and num_ped = 2380;
 
 select *
   from gastos_de_viaje_d
@@ -847,7 +840,7 @@ select *
   from ot_mantto
  where id_tipo = 'PY'
    and id_serie = 2
-   and id_numero = 530;
+   and id_numero = 521;
 
 select *
   from caja_chica_d
@@ -859,7 +852,7 @@ select *
   from itemord
  where otm_tipo = 'PY'
    and otm_serie = 2
-   and otm_numero = 2298;
+   and otm_numero = 2259;
 
 select *
   from kardex_d_otm
@@ -870,7 +863,7 @@ select *
 select *
   from itemord
  where serie = 6
-   and num_ped in (2298);
+   and num_ped in (2380);
 
 select *
   from activo_fijo
@@ -910,14 +903,13 @@ select *
    and d.serie = 1
    and d.numero = 28456;
 
-
 select *
   from kardex_d d
- where d.cod_art = 'CEL996437769R1';
+ where d.cod_art = '04LAPT46';
 
 select *
   from almacen
- where cod_art = 'CEL996437769R1';
+ where cod_art = '04LAPT46';
 
 select *
   from movdeta
@@ -931,7 +923,11 @@ select *
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'ACC4 AREN-001';
+ where cod_activo_fijo = 'CEL996437769R1';
+
+select *
+  from activo_fijo_asiento
+ where cod_activo_fijo = 'CEL996437769R1';
 
 select *
   from kardex_d_otm
@@ -947,3 +943,8 @@ select *
    and serie = 1
    and numero = 217841;
 
+select *
+  from ot_mantto
+ where id_tipo = 'PY'
+   and id_serie = 2
+   and id_numero = 523;
