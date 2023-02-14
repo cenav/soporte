@@ -34,7 +34,8 @@ select *
    and tp_transac = '29'
    and serie = 1
    and numero in (
-                  1574783, 1574782, 1574781, 1574780, 1574779, 1574778, 1574777, 1574776, 1574775, 1574774
+                  1574783, 1574782, 1574781, 1574780, 1574779, 1574778, 1574777, 1574776, 1574775,
+                  1574774
    );
 
 
@@ -147,8 +148,10 @@ select *
   with detalle as (
     select v.cod_cliente, v.nombre, v.fch_pedido, v.pedido, v.pedido_item, v.nuot_serie
          , v.nuot_tipoot_codigo, v.numero, v.fecha, v.formu_art_cod_art, v.estado, v.art_cod_art
-         , v.cant_formula, v.rendimiento, v.saldo, v.despachar, v.cod_lin, v.abre02, v.preuni, v.valor
-         , v.stock, v.tiene_stock, v.tiene_stock_ot, v.tiene_stock_item, v.tiene_importado, v.impreso
+         , v.cant_formula, v.rendimiento, v.saldo, v.despachar, v.cod_lin, v.abre02, v.preuni
+         , v.valor
+         , v.stock, v.tiene_stock, v.tiene_stock_ot, v.tiene_stock_item, v.tiene_importado
+         , v.impreso
          , v.fch_impresion, v.es_juego, v.es_importado, v.es_prioritario, v.es_sao
          , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end oa
          , dense_rank() over (
@@ -181,8 +184,10 @@ select *
 
 select * from vw_ordenes_impresas_pendientes;
 
-select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado, a.estado_old, trunc(a.fecha) as fecha
-     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo, b.cod_lin, b.formu_art_cod_art, b.cant_prog
+select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado, a.estado_old
+     , trunc(a.fecha) as fecha
+     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo, b.cod_lin, b.formu_art_cod_art
+     , b.cant_prog
      , b.abre02 cliente, b.abre01 pedido, b.per_env item, b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total, a.usuario, 'ALMACEN'
   from pr_trasab_estado a, pr_ot b, expedido_d c, expednac_d e
@@ -1059,8 +1064,10 @@ select * from tmp_imprime_ot;
 select * from orden_impresa_surtimiento;
 
 select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado
-     , a.estado_old, trunc(a.fecha) as fecha, nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo, b.cod_lin
-     , b.formu_art_cod_art, b.cant_prog, b.abre02 cliente, b.abre01 pedido, b.per_env item, b.destino
+     , a.estado_old, trunc(a.fecha) as fecha, nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
+     , b.cod_lin
+     , b.formu_art_cod_art, b.cant_prog, b.abre02 cliente, b.abre01 pedido, b.per_env item
+     , b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total, a.usuario, 'PLANEAMIENTO'
   from pr_trasab_estado a
      , pr_ot b
@@ -1133,3 +1140,13 @@ select d.cod_alm, d.tp_transac, d.serie, d.numero, d.fch_transac, d.cod_art, d.c
  where d.cod_art in ('UPENTRENTM', 'UPENTRENTS', 'UPENTRENTL')
    and extract(year from d.fch_transac) = 2023
  order by d.fch_transac, d.cod_art;
+
+select *
+  from planilla10.tar_encarga
+ order by codigo;
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'CASTILLO'
+   and nombres like '%KAREN%';
+

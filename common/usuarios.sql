@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user mfernandez account unlock;
+alter user caucho account unlock;
 
 
-alter user juan17 account lock;
+alter user oquintana account lock;
 
 
-alter user mobando identified by "pevisa.123";
+alter user ualmacen identified by "pevisa.123";
 
 
-alter user mobando password expire;
+alter user ualmacen password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MFERNANDEZ';
+ where username like 'CAUCHO';
 
 -- Dependencies
 select *
@@ -189,7 +189,8 @@ select *
                     '4018', '401802'
    )
    and usuario in (
-                   'ALBERTO', 'HOLIVARES', 'BULISES', 'JMENDEZ', 'MCASTILLA', 'DCONTRERAS', 'CFERNANDEZ',
+                   'ALBERTO', 'HOLIVARES', 'BULISES', 'JMENDEZ', 'MCASTILLA', 'DCONTRERAS',
+                   'CFERNANDEZ',
                    'RGONZALES', 'MGARCIA', 'IVEGA', 'EJACHO', 'EVALIENTE', 'PEVISA', 'JCABEZAS',
                    'DTIRAVANTI'
    );

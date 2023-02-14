@@ -6,6 +6,13 @@ select *
    );
 
 select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'VA'
+   and numero in (
+   9759
+   );
+
+select *
   from kardex_g
  where cod_alm = '18'
    and tp_transac = '18'
@@ -17,4 +24,4 @@ select *
  where cod_alm = '18'
    and tp_transac = '29'
    and serie = 1
-   and numero = 1630589;
+   and numero = 1630;

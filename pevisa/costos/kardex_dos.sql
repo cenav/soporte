@@ -33,9 +33,9 @@ update tmp_moviart_dos
    set ordtra  = 'VENTA EX'
      , cod_ope = '80'
  where ano = 2022
-   and mes in (7)
+   and mes in (12)
    and id = 'S'
-   and motivo = '1'
+--    and motivo = '1'
    and docto like 'PK%'
    and (cta like '26%');
 
@@ -109,7 +109,8 @@ select *
 select *
   from tab_lineas
  where linea in (
-                 '2054', '2034', '2038', '2039', '2043', '2044', '2045', '2046', '2047', '2048', '2400',
+                 '2054', '2034', '2038', '2039', '2043', '2044', '2045', '2046', '2047', '2048',
+                 '2400',
                  '2402',
                  '2404',
                  '2405', '2406', '2408', '2409', '2410'
@@ -623,16 +624,32 @@ select *
    and mes = 5;
 
 select *
-  from kardex_g_movglos
- where ano = 2022
-   and mes = 4
-   and libro = '08'
-   and voucher = 40818;
-
-select *
   from tmp_mastart_dos
  where codigo = 'HAF9020 0.6-MU';
 
 select *
   from tmp_mastart_dos
  where codigo = 'HAF9020 0.8';
+
+select *
+  from kardex_g
+ where num_importa = 'M22497';
+
+select *
+  from kardex_g_movglos
+ where cod_alm = '02'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29633;
+
+select *
+  from kardex_d
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29834;
+
+select *
+  from caja_chica
+ where serie = 1
+   and numero = 23315;

@@ -84,11 +84,11 @@ select *
 
 -- 39	18	2	459080
 select *
-  from kardex_d as of timestamp to_timestamp('29-09-2022 16:00:00', 'DD-MM-YYYY HH24:MI:SS')
+  from kardex_g as of timestamp to_timestamp('11-02-2023 08:00:00', 'DD-MM-YYYY HH24:MI:SS')
  where cod_alm = 'SS'
-   and tp_transac = '22'
+   and tp_transac = '11'
    and serie = 1
-   and numero = 233822;
+   and numero = 29810;
 
 select *
   from kardex_d as of timestamp to_timestamp('12-09-2022 11:00:00', 'DD-MM-YYYY HH24:MI:SS')
@@ -524,3 +524,11 @@ select *
    317695
    )
  order by numero_kardex, fecha_envio;
+
+insert into kardex_g
+select *
+  from kardex_g as of timestamp to_timestamp('11-02-2023 08:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'SS'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29810;

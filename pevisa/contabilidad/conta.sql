@@ -1,20 +1,20 @@
 -- contabilidad maestro
 select *
   from movglos
- where ano = 2023
-   and mes = 1
-   and libro = '40'
+ where ano = 2022
+   and mes = 12
+   and libro = '09'
    and voucher in (
-   10042
+   120001
    );
 
 select *
   from movdeta
- where ano = 2023
-   and mes = 1
-   and libro = '40'
+ where ano = 2022
+   and mes = 12
+   and libro = '09'
    and voucher in (
-   10042
+   120001
    );
 
 select m.*
@@ -132,7 +132,8 @@ select *
      group by tip_doc, ser_doc, nro_doc
     )
      , facturas as (
-    select pn.tipo, pn.serie, pn.numero, e.numero as nro_expo, e.cod_cliente, e.nombre, e.fecha as fch_factura
+    select pn.tipo, pn.serie, pn.numero, e.numero as nro_expo, e.cod_cliente, e.nombre
+         , e.fecha as fch_factura
          , pn.total, pn.saldo, e.fecemb as fch_embarque, pn.fch_pago
          , extract(year from e.fecemb) as emb_ano
          , extract(month from e.fecemb) as emb_mes
@@ -146,7 +147,8 @@ select *
                        and pn.serie = d.serie
                        and pn.numero = d.numero
     )
-select f.tipo, f.serie, f.numero, f.nro_expo, f.cod_cliente, f.nombre, f.fch_factura, f.total, f.saldo
+select f.tipo, f.serie, f.numero, f.nro_expo, f.cod_cliente, f.nombre, f.fch_factura, f.total
+     , f.saldo
      , f.fch_embarque, f.fch_pago, f.emb_ano, f.emb_mes
   from facturas f
        left join costo c
@@ -676,12 +678,18 @@ select *
    and mes = 7
    and libro = '14'
    and voucher in (
-                   71578, 71579, 71580, 70231, 70232, 70233, 70234, 70235, 70236, 70237, 70238, 70239, 70240,
-                   70241, 70242, 70243, 70244, 70245, 70246, 70247, 70248, 70249, 70250, 70251, 70252, 70253,
-                   70254, 70255, 70256, 70257, 70258, 70259, 70260, 70261, 70262, 70263, 70264, 70265, 70266,
-                   70267, 70268, 70269, 70270, 70271, 70272, 70273, 70274, 70275, 70276, 70277, 70278, 70279,
-                   70280, 70281, 70282, 70283, 70284, 70285, 70286, 70287, 70288, 70289, 70290, 70291, 70292,
-                   70293, 70294, 70295, 70296, 70297, 70298, 70299, 70300, 70301, 70302, 70303, 70304, 70305,
+                   71578, 71579, 71580, 70231, 70232, 70233, 70234, 70235, 70236, 70237, 70238,
+                   70239, 70240,
+                   70241, 70242, 70243, 70244, 70245, 70246, 70247, 70248, 70249, 70250, 70251,
+                   70252, 70253,
+                   70254, 70255, 70256, 70257, 70258, 70259, 70260, 70261, 70262, 70263, 70264,
+                   70265, 70266,
+                   70267, 70268, 70269, 70270, 70271, 70272, 70273, 70274, 70275, 70276, 70277,
+                   70278, 70279,
+                   70280, 70281, 70282, 70283, 70284, 70285, 70286, 70287, 70288, 70289, 70290,
+                   70291, 70292,
+                   70293, 70294, 70295, 70296, 70297, 70298, 70299, 70300, 70301, 70302, 70303,
+                   70304, 70305,
                    70306, 70307, 70308, 70309, 70310, 70311, 70312, 70313, 70314, 70315
    );
 
@@ -766,7 +774,8 @@ select *
   from cambdol_historia
  where trunc(fecha) = to_date('31/08/2022', 'dd/mm/yyyy');
 
-select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num, numero_cp as numerodoc
+select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num
+     , numero_cp as numerodoc
      , cod_art, ano, mes, libro, voucher
   from view_kardex_reg_compras
  where ano = 2022
@@ -802,39 +811,12 @@ select *
 select *
   from itemord
  where serie = 6
-   and num_ped = 2380;
+   and num_ped = 2274;
 
 select *
   from gastos_de_viaje_d
  where id_vendedor = 'Z2'
    and numero = 127;
-
-declare
-  type t_rec is record (
-    num number
-  );
-  l_rec t_rec;
-begin
-  l_rec.num := least(l_rec.num, 8);
-  dbms_output.put_line(l_rec.num);
-end;
-
-select ano, mes, libro, voucher
-     , case libro
-         when '08' then 1
-         when '05' then 2
-         when '40' then 3
-         else 99
-       end as orden
-  from movdeta
- where relacion = '10070983791'
-   and tipo_referencia = '02'
-   and serie = 'E001'
---    and nro_referencia = lpad(r.numerodoc, 7, '0')
-   and libro not in ('10')
-   and ano = 2022
---    and mes = 8
- order by orden;
 
 select *
   from ot_mantto
@@ -858,12 +840,21 @@ select *
   from kardex_d_otm
  where otm_tipo = 'PY'
    and otm_serie = 2
-   and otm_numero = 549;
+   and otm_numero = 298;
+
+select *
+  from kardex_d_otm
+ where otm_tipo = 'PY'
+   and otm_serie = 2
+   and otm_numero = 298
+   and cod_art = 'CAJA METALICA TIPO II';
+
+
 
 select *
   from itemord
  where serie = 6
-   and num_ped in (2380);
+   and num_ped in (1909);
 
 select *
   from activo_fijo
@@ -947,4 +938,42 @@ select *
   from ot_mantto
  where id_tipo = 'PY'
    and id_serie = 2
-   and id_numero = 523;
+   and id_numero = 520;
+
+select * from caja_chica;
+
+select *
+  from sistabgen
+ where sistabcod = '137';
+
+select *
+  from grupo_edificacion
+ order by cod_grupo;
+
+select cod_art, detalle, ubicacion
+  from tmp_carga_data;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like 'LOCAL DESCARTES OFICINA%';
+
+select *
+  from cabfpag
+ where ano = 2022
+   and mes = 12
+   and libro = '39'
+   and voucher = 120004;
+
+select *
+  from kardex_g_movglos
+ where cod_alm = '15'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 7088;
+
+select *
+  from kardex_d
+ where cod_alm = '15'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 7088;
