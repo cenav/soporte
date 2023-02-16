@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   499483
+                  469861, 469858, 475239, 475236, 487587, 487590
    );
 
 select *

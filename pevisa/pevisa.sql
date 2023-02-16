@@ -1149,4 +1149,3 @@ select *
   from planilla10.personal
  where apellido_paterno = 'CASTILLO'
    and nombres like '%KAREN%';
-

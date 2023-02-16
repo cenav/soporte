@@ -1,11 +1,11 @@
 -- contabilidad maestro
 select *
   from movglos
- where ano = 2022
-   and mes = 12
-   and libro = '09'
+ where ano = 2023
+   and mes = 1
+   and libro = '08'
    and voucher in (
-   120001
+   11683
    );
 
 select *
@@ -977,3 +977,26 @@ select *
    and tp_transac = '11'
    and serie = 2
    and numero = 7088;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like '%LOCAL DESCARTES PLANTA%'
+ order by cod_activo_fijo;
+
+-- pkg_activo_fijo.nuevo_codigo
+
+select * from nroafijo;
+
+--990216
+
+-- declare
+--   l_nro number;
+-- begin
+--   l_nro := api_nroafijo.next_key('LICENCIA WIND03', 'MAN');
+--   dbms_output.put_line(l_nro);
+-- end;
+
+select *
+  from caja_chica
+ where serie = 1
+   and numero = 23315;

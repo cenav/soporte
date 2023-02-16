@@ -122,6 +122,7 @@ declare
 --        and libro = '10'
        and voucher is null
 --        and voucher like '2%'
+--      and cod_art = 'SLIM400.777'
      group by cod_relacion, tipdoc_cp, serie_cp, numero_cp, ano, mes, voucher, cod_art, libro;
 begin
   for r in cr_archivo loop

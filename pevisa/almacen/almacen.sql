@@ -10,7 +10,14 @@ select *
  where cod_alm = 'SS'
    and tp_transac = '11'
    and serie = 1
-   and numero = 29810;
+   and numero = 29807;
+
+select *
+  from kardex_g_movglos
+ where cod_alm = 'SS'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29807;
 
 select *
   from pr_ot

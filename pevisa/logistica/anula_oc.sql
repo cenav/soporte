@@ -2,9 +2,9 @@ declare
   cursor cr_ordenes is
     select *
       from orden_de_compra
-     where serie = 6
+     where serie = 3
        and num_ped in (
-       2269
+       43081
        );
 
   function ot_cerrada(
