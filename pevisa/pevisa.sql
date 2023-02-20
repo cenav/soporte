@@ -1149,3 +1149,9 @@ select *
   from planilla10.personal
  where apellido_paterno = 'CASTILLO'
    and nombres like '%KAREN%';
+
+-- call bonohe.email(2022, 4);
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '056';

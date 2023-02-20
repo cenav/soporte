@@ -1,7 +1,7 @@
 select *
   from orden_de_compra
- where serie = 30
-   and num_ped in (471);
+ where serie = 22
+   and num_ped in (76, 77, 78);
 
 select *
   from itemord

@@ -77,6 +77,12 @@ select *
    and motivo = '1'
    and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 
+select *
+  from tmp_moviart_dos
+ where ano = 2022
+   and mes = 10
+   and docto = 'FCI22000117'
+   and cta = '20120203';
 
 select docto, replace(docto, ':', '')
   from tmp_moviart_dos
@@ -633,14 +639,14 @@ select *
 
 select *
   from kardex_g
- where num_importa = 'M22497';
+ where num_importa = 'BI-22406';
 
 select *
   from kardex_g_movglos
- where cod_alm = '02'
+ where cod_alm = '62'
    and tp_transac = '11'
    and serie = 1
-   and numero = 29633;
+   and numero = 29636;
 
 select *
   from kardex_d

@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  469861, 469858, 475239, 475236, 487587, 487590
+   499407
    );
 
 select *
@@ -25,3 +25,52 @@ select *
    and tp_transac = '29'
    and serie = 1
    and numero = 1630;
+
+select *
+  from proveed
+ where cod_proveed = '';
+
+select *
+  from cliente_grupo
+ where grupo = 'B003';
+
+select * from grupo_cliente;
+
+select cod_cliente, nombre
+  from clientes
+ where cod_cliente in (
+                       '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
+                       '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
+   )
+ minus
+select cod_cliente, nombre
+  from clientes
+ where grupo = 'B018';
+
+select *
+  from clientes
+ where grupo = 'B018'
+   and cod_cliente in (
+                       '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
+                       '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
+   );
+
+select cod_cliente, nombre
+  from clientes
+ where grupo = 'B018'
+   and cod_cliente in (
+                       '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
+                       '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
+   );
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E42889';
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'TMMT';
+
+select *
+  from planilla10.t_sector
+ where c_sector = '40';

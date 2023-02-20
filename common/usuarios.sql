@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user wquispe account unlock;
+alter user caucho account unlock;
 
 
 alter user oquintana account lock;
 
 
-alter user dacosta identified by "pevisa.123";
+alter user caucho identified by "pevisa.123";
 
 
 alter user dacosta password expire;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'LSALCEDO';
+ where username like 'CAUCHO';
 
 -- Dependencies
 select *
@@ -148,16 +148,25 @@ select *
 select * from modulo where id_modulo = 'CASILLEROS';
 
 select *
+  from usuario_modulo
+ where modulo in ('PERMISO')
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where usuario = 'KCASTILLO';
+
+select *
   from usuario_modulo_alterno
- where id_alterno in ('ASOCIAL');
+ where id_alterno in ('KCASTILLO');
 
 select *
   from usuario_modulo
- where usuario = 'LSALCEDO';
+ where usuario = '';
 
 select *
   from usuario_modulo
- where usuario = 'EVALIENTE'
+ where usuario = 'RRODRIGUEZ'
  order by modulo;
 
 select *

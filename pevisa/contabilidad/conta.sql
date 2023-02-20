@@ -1000,3 +1000,21 @@ select *
   from caja_chica
  where serie = 1
    and numero = 23315;
+
+select *
+  from grupo_edificacion
+ order by cod_grupo;
+
+insert into grupo_edificacion(cod_grupo, descripcion, estado, cod_local)
+select 20 + row_number() over (order by centro_costo) as id
+     , nombre
+     , '1'
+     , 'DES'
+  from centro_de_costos
+ where centro_costo in (
+                        '1001', '1002', '1003', '2002', '2003', '2005', '2006', '2007', '3050',
+                        '3060', '3090', '4001', '4002', '4003', '4004', '4005', '4006', '4007',
+                        '4008', '4009', '4010', '4012', '5001', '5002', '8906', '8907', '8908',
+                        '8909', '8993', '8997', '9801', '9996', '7301'
+   )
+ order by centro_costo;
