@@ -1,12 +1,17 @@
 select *
   from orden_de_compra
- where serie = 22
-   and num_ped in (76, 77, 78);
+ where serie = 3
+   and num_ped in (43104);
 
 select *
   from itemord
- where serie = 5
-   and num_ped = 2137;
+ where serie = 1
+   and num_ped in (84849);
+
+select *
+  from orden_de_compra_historia
+ where serie = 3
+   and num_ped in (43104);
 
 select *
   from oc_registro_facturas
