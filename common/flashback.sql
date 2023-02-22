@@ -185,7 +185,8 @@ select *
 
 insert into permiso_idtecflex
 select *
-  from permiso_idtecflex as of timestamp to_timestamp('20-11-2019 18:00:00', 'DD-MM-YYYY HH24:MI:SS')
+  from permiso_idtecflex as of timestamp to_timestamp('20-11-2019 18:00:00',
+                                                      'DD-MM-YYYY HH24:MI:SS')
  where numero = 43032;
 
 
@@ -495,7 +496,8 @@ select *
    437068
    );
 
-select distinct ot_numero from ot_saos as of timestamp to_timestamp('14-06-2022 19:40', 'DD-MM-YYYY HH24:MI');
+select distinct ot_numero
+  from ot_saos as of timestamp to_timestamp('14-06-2022 19:40', 'DD-MM-YYYY HH24:MI');
 
 select *
   from pr_ot as of timestamp to_timestamp('26-09-2022 08:45', 'DD-MM-YYYY HH24:MI')
@@ -532,3 +534,7 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero = 29810;
+
+select *
+  from usuario_modulo_alterno as of timestamp to_timestamp('21-02-2023 08:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where id_alterno = 'KCASTILLO';

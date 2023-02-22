@@ -60,17 +60,19 @@ select *
 select *
   from user_scheduler_jobs;
 
+select *
+  from all_source
+ where upper(text) like upper('%DOCUMENTOS VENCIDOS AL%');
 
 select *
   from all_source
- where upper(text) like upper('%PEVISA AUTO PARTS S.A. - Reporte de Letras en Cartera%');
-
+ where upper(text) like upper('%dmelgarejo%')
+   and owner = 'PEVISA';
 
 select *
   from dba_source
  where upper(text) like upper('%Codigos en linea de validacion%')
    and owner = 'PEVISA';
-
 
 select sysdate
   from dual;

@@ -1155,3 +1155,45 @@ select *
 select *
   from planilla10.tar_encarga
  where codigo = '056';
+
+select *
+  from proceso_puntualidad_pers
+ where id_personal = 'E42807'
+ order by id_proceso;
+
+--ingreso almacen detraccion
+
+select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo, c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion
+     , g.c_codigo as encargado, p.sexo, g.nombre as desc_encargado, h.local
+     , l.descripcion as desc_local, p.f_ingreso, p.fnatal, d.num_doc as dni
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+  from planilla10.personal p
+       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
+       left join planilla10.tar_secc s on p.seccion = s.codigo
+       left join planilla10.tar_encarga g on p.encargado = g.codigo
+       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
+       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+       left join planilla10.pla_local l on h.local = l.local
+ where p.situacion not in ('8', '9')
+   and (upper(g.usuario) = (
+   select usuario
+     from usuario_modulo
+    where usuario = :user and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user and id_modulo = :modulo
+   ) or :user in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ));
+
+select *
+  from usuario_modulo
+ where usuario = 'KCASTILLO';
+
+-- JMENDEZ,ACCIDENTES,KCASTILLO
+-- JMENDEZ,EVALUACION,KCASTILLO
+-- JMENDEZ,EVALUACION_PENDIENTE,KCASTILLO
+-- JMENDEZ,MATRIZ_PERSONAL,KCASTILLO

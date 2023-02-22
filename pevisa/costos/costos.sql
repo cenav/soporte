@@ -22,3 +22,7 @@ select *
    and tpo_transac = '11'
    and ser_transac = 2
    and nro_transac = 6794;
+
+select *
+  from tmp_moviart_dos
+ where voucher = '100509';

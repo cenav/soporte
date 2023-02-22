@@ -1,5 +1,5 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user caucho account unlock;
+alter user haparcana account unlock;
 
 
 alter user oquintana account lock;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CAUCHO';
+ where username like 'HAPARCANA';
 
 -- Dependencies
 select *

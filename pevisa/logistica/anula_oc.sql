@@ -2,9 +2,9 @@ declare
   cursor cr_ordenes is
     select *
       from orden_de_compra
-     where serie = 3
+     where serie = 1
        and num_ped in (
-       43081
+       84791
        );
 
   function ot_cerrada(
@@ -17,7 +17,8 @@ declare
       into l_count
       from vw_compra_otm c
            left join ot_mantto o
-                     on c.otm_tipo = o.id_tipo and c.otm_serie = o.id_serie and c.otm_numero = o.id_numero
+                     on c.otm_tipo = o.id_tipo and c.otm_serie = o.id_serie and
+                        c.otm_numero = o.id_numero
      where c.serie = p_serie
        and c.num_ped = p_numero
        and o.estado = 8;

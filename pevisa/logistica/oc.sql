@@ -1,7 +1,7 @@
 select *
   from orden_de_compra
- where serie = 3
-   and num_ped in (43104);
+ where serie = 1
+   and num_ped in (84822);
 
 select *
   from itemord
@@ -10,8 +10,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 3
-   and num_ped in (43104);
+ where serie = 1
+   and num_ped in (84822)
+   and glosa = 'APROBADO';
 
 select *
   from oc_registro_facturas
@@ -24,3 +25,15 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero = 29834;
+
+select *
+  from caja_chica
+ where serie = 2
+   and numero = 230013;
+
+select *
+  from gastos_de_viaje_habilitado_m
+ where id_vendedor = '21'
+   and numero = '168';
+
+select * from gastos_de_viaje_motivos;

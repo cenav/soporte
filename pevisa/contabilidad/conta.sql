@@ -2,19 +2,19 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 1
-   and libro = '08'
+   and mes = 2
+   and libro = '48'
    and voucher in (
-   11683
+   20001
    );
 
 select *
   from movdeta
- where ano = 2022
-   and mes = 12
-   and libro = '09'
+ where ano = 2023
+   and mes = 2
+   and libro = '48'
    and voucher in (
-   120001
+   23061
    );
 
 select m.*
@@ -61,11 +61,11 @@ select *
 
 select *
   from movfide
- where ano = 2022
-   and mes = 9
+ where ano = 2023
+   and mes = 2
    and tipo = '2'
    and voucher in (
-   93448
+   23255
    );
 
 select *
