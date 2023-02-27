@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user haparcana account unlock;
+alter user msoto account unlock;
 
 
 alter user oquintana account lock;
 
 
-alter user caucho identified by "pevisa.123";
+alter user apastrana identified by "pevisa.123";
 
 
-alter user dacosta password expire;
+alter user apastrana password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'HAPARCANA';
+ where username like 'MSOTO';
 
 -- Dependencies
 select *
@@ -707,3 +707,25 @@ select * from tmp_imprime_ot;
 
 -- DDIAZ
 -- FURTEAGA
+
+select *
+  from planilla10.personal
+ where encargado = '006'
+   and situacion not in ('8', '9');
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '006';
+
+select *
+  from usuario_modulo
+ where usuario = 'MGUIELAC'
+   and modulo = 'EVALUACION';
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'MGUIELAC';
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'MGUIELAC';

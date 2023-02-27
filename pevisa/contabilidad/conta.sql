@@ -2,19 +2,19 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 2
-   and libro = '48'
+   and mes = 1
+   and libro = '10'
    and voucher in (
-   20001
+   21324301
    );
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 2
-   and libro = '48'
+   and mes = 1
+   and libro = '10'
    and voucher in (
-   23061
+   21324301
    );
 
 select m.*
@@ -1018,3 +1018,62 @@ select 20 + row_number() over (order by centro_costo) as id
                         '8909', '8993', '8997', '9801', '9996', '7301'
    )
  order by centro_costo;
+
+select * from proceso_cominac;
+
+select * from proceso_cominac_concepto;
+
+select * from proceso_cominac_venta_det;
+
+select *
+  from movfide_situacion_banco
+ where p_ano = 2023
+   and p_mes = 1
+   and cta_cte_banco = '000-9957936'
+   and voucher is null;
+
+select *
+  from vw_analpla_personal_total
+ where c_area = '010';
+
+select *
+  from planilla10.tar_secc
+ where c_area = '010';
+
+select * from planilla10.t_area;
+
+select distinct sector
+  from planilla10.personal
+ where seccion = '05';
+
+select *
+  from planilla10.personal
+ where seccion = '05'
+   and situacion not in ('8', '9');
+
+select c_codigo, nombre, sexo, c_cargo, desc_cargo, f_ingreso, fnatal, desc_doc, num_doc, email
+     , email_p, edad
+     , anos_empresa, anos_aniversario, desc_seccion, c_area, dsc_area, c_encargado, desc_encargado
+     , usuario_encargado, email_encargado, desc_local, f_cese, sector, desc_sector, situacion
+     , horario
+     , desc_horario, turno
+  from vw_personal
+ where flg_planta = 1
+   and situacion not in ('8', '9')
+   and sector in ('10', '20', '40', '80', '30')
+   and c_area = '010';
+
+select *
+  from planilla10.t_sector
+ where c_sector in ('30', '60');
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = 'MQ2SPAPL-003'
+   and fecha >= to_date('30/09/2022', 'dd/mm/yyyy');
+
+select *
+  from activo_fijo
+ where cod_activo_fijo in ('MQ1PMET-001', 'MQ2FERR-004');
+
+select * from activo_fijo_estado;

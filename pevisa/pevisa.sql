@@ -1197,3 +1197,13 @@ select *
 -- JMENDEZ,EVALUACION,KCASTILLO
 -- JMENDEZ,EVALUACION_PENDIENTE,KCASTILLO
 -- JMENDEZ,MATRIZ_PERSONAL,KCASTILLO
+
+
+select *
+  from bono_obrero
+ where estado = 1
+ order by id_bono_obrero;
+
+select *
+  from hallazgo_importacion
+ where id_hallazgo = 295;

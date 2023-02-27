@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   475045
+   499941
    );
 
 select *
@@ -74,3 +74,5 @@ select *
 select *
   from planilla10.t_sector
  where c_sector = '40';
+
+select * from locales;

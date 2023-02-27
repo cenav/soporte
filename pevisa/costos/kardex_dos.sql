@@ -1,15 +1,17 @@
 select *
   from tmp_moviart_dos
  where ano = 2022
-   and mes in (2)
-   and id in ('I')
-   and motivo = '1'
+   and mes in (12)
+   and id in ('S')
+--    and motivo = '1'
 --    AND ordtra IS NULL;
-   and (cta like '26%')
---    and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or cta like '21%')
+--    and (cta like '26%')
+   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
+        cta like '21%')
 --    and tp_transac in ('26%')
---    and cod_ope in ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81');
-   and docto like 'PK%';
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '36', '37', '48');
+--    and docto like 'PK%';
 -- AND ordtra IN ('VENTA NA');
 -- AND ordtra IN ('598272', '590102', '590174', '590178', '592854', '597853', '595823', '590104', '590103')
 --    AND cod_ope IN ('86');
@@ -638,24 +640,7 @@ select *
  where codigo = 'HAF9020 0.8';
 
 select *
-  from kardex_g
- where num_importa = 'BI-22406';
+  from tmp_moviart_dos
+ where ano = 2023;
 
-select *
-  from kardex_g_movglos
- where cod_alm = '62'
-   and tp_transac = '11'
-   and serie = 1
-   and numero = 29636;
-
-select *
-  from kardex_d
- where cod_alm = 'A3'
-   and tp_transac = '11'
-   and serie = 1
-   and numero = 29834;
-
-select *
-  from caja_chica
- where serie = 1
-   and numero = 23315;
+select * from planilla10.tar_encarga order by codigo;

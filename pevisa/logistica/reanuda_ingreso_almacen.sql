@@ -1,4 +1,5 @@
-select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda moneda_factura, o.por_desc1
+select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda moneda_factura
+              , o.por_desc1
               , o.por_desc2, c.descripcion descripcion_pago, o.fecha, p.ruc, o.impsto, o.tot_valvta
               , o.tot_impu
               , o.tot_orden, c.v01, decode(o.moneda, 'D', 'US$', 'S', 'S/.', 'XXX') simbolo_moneda

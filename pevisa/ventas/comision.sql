@@ -1,5 +1,5 @@
 begin
---   pkg_cominac.genera_contrato(2022, 8, 'S',  51, 'SI');
+  --   pkg_cominac.genera_contrato(2022, 8, 'S',  51, 'SI');
   --     pkg_cominac.genera_periodo(2022, 5, 'S');
   pkg_cominac.elimina_periodo(2023, 1);
 --   pkg_cominac.elimina_proceso(01718);
@@ -243,13 +243,16 @@ select *
    and cod_personal = 'E762';
 
 -- bono produccion
-select i.cod_personal, p.nombre, cit.descripcion, a.porcentaje_neto, cit2.descripcion, a2.porcentaje_neto
+select i.cod_personal, p.nombre, cit.descripcion, a.porcentaje_neto, cit2.descripcion
+     , a2.porcentaje_neto
   from comision_ingeniero i
        join vw_personal p on i.cod_personal = p.c_codigo
        join comision_ingeniero_asigna a on i.cod_personal = a.cod_personal and a.cod_tipo = 'ME'
-       join comision_ingeniero_tab cit on a.cod_tipo = cit.cod_tipo and a.cod_premio = cit.cod_premio
+       join comision_ingeniero_tab cit
+            on a.cod_tipo = cit.cod_tipo and a.cod_premio = cit.cod_premio
        join comision_ingeniero_asigna a2 on i.cod_personal = a2.cod_personal and a2.cod_tipo = 'SE'
-       join comision_ingeniero_tab cit2 on a2.cod_tipo = cit2.cod_tipo and a2.cod_premio = cit2.cod_premio
+       join comision_ingeniero_tab cit2
+            on a2.cod_tipo = cit2.cod_tipo and a2.cod_premio = cit2.cod_premio
  order by a.porcentaje_neto desc, nombre;
 
 select * from comision_ingeniero_asigna;

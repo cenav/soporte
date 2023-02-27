@@ -1,12 +1,12 @@
 select *
   from orden_de_compra
- where serie = 1
-   and num_ped in (84822);
+ where serie = 3
+   and num_ped in (43144);
 
 select *
   from itemord
  where serie = 1
-   and num_ped in (84849);
+   and num_ped in (84861);
 
 select *
   from orden_de_compra_historia
@@ -20,11 +20,18 @@ select *
    and numero_oc = 2137;
 
 select *
-  from kardex_d
- where cod_alm = 'A3'
+  from kardex_g
+ where cod_alm = '02'
    and tp_transac = '11'
    and serie = 1
-   and numero = 29834;
+   and numero = 29913;
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29913;
 
 select *
   from caja_chica

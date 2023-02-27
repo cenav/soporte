@@ -56,17 +56,16 @@ select *
   from dba_scheduler_jobs
  where job_name = 'JOB_PREMIO_PUNTUALIDAD';
 
-
 select *
   from user_scheduler_jobs;
 
 select *
   from all_source
- where upper(text) like upper('%DOCUMENTOS VENCIDOS AL%');
+ where upper(text) like upper('%Ordenes faltantes generadas por planeamiento%');
 
 select *
   from all_source
- where upper(text) like upper('%dmelgarejo%')
+ where upper(text) like upper('%seguridad%')
    and owner = 'PEVISA';
 
 select *

@@ -18,3 +18,14 @@ select *
    and num_ped = 7126;
 
 select * from paramlg;
+
+select * from proceso_cominac;
+
+select *
+  from proceso_cominac_venta_det
+ where cod_proceso =   01939
+   and cod_concepto = 2;
+
+select *
+  from cominac_concepto
+ where cod_concepto in (1, 2);
