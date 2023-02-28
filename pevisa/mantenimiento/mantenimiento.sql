@@ -1,4 +1,5 @@
 select *
   from ot_mantto
- where id_serie = 5
-   and id_numero = 1133;
+ where id_tipo = 'MQ'
+   and id_serie = 7
+   and id_numero in (5946, 5947);

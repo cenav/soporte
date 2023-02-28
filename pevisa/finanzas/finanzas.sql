@@ -29,3 +29,8 @@ select *
 select * from ot_mantto where id_tipo = 'EQ' and id_serie = 2 and id_numero = 3;
 
 select * from pevisa.tab_semanas order by al;
+
+select *
+  from pagos_h
+ where serie_planilla = 3
+   and numero_planilla = 2762;

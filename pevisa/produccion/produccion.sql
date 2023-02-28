@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   499941
+  494434
    );
 
 select *
@@ -20,11 +20,11 @@ select *
    and numero = 516713;
 
 select *
-  from kardex_g
- where cod_alm = '18'
-   and tp_transac = '29'
-   and serie = 1
-   and numero = 1630;
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 518046;
 
 select *
   from proveed
@@ -76,3 +76,8 @@ select *
  where c_sector = '40';
 
 select * from locales;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (704793);

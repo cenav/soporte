@@ -1,5 +1,29 @@
 create or replace package body utilconta as
 
+  procedure asiento_sin_detalle(
+    p_ano simple_integer
+  , p_mes simple_integer
+  ) is
+  begin
+    delete
+      from movglos g
+     where g.ano = p_ano
+       and g.mes = p_mes
+       and not exists(
+         select 1
+           from movdeta d
+          where d.ano = g.ano
+            and d.mes = g.mes
+            and d.libro = g.libro
+            and d.voucher = g.voucher
+       );
+  end;
+
+  procedure asiento_sin_detalle is
+  begin
+    asiento_sin_detalle(extract(year from sysdate), extract(month from sysdate));
+  end;
+
   procedure completa_cero(
     p_ano simple_integer
   , p_mes simple_integer
@@ -53,12 +77,57 @@ create or replace package body utilconta as
   ) is
     l_ano simple_integer := 0;
   begin
-    select ano
-      into l_ano
-      from movdeta
-     where ano = 2022
-       and mes = 12
-       and relacion is null
-       and tipo_relacion is not null;
+    for r in (
+      select *
+        from movdeta
+       where ano = p_ano
+         and mes = p_mes
+         and relacion is not null
+         and tipo_relacion is null
+      )
+    loop
+      if api_proveed.row_exists(r.relacion) then
+        update movdeta
+           set tipo_relacion = 'P'
+         where ano = r.ano
+           and mes = r.mes
+           and libro = r.libro
+           and voucher = r.voucher
+           and relacion = r.relacion;
+      end if;
+      if api_vw_personal.exist(r.relacion) then
+        update movdeta
+           set tipo_relacion = 'T'
+         where ano = r.ano
+           and mes = r.mes
+           and libro = r.libro
+           and voucher = r.voucher
+           and relacion = r.relacion;
+      end if;
+      if api_centro_de_costos.row_exists(r.relacion) then
+        update movdeta
+           set tipo_relacion = 'U'
+         where ano = r.ano
+           and mes = r.mes
+           and libro = r.libro
+           and voucher = r.voucher
+           and relacion = r.relacion;
+      end if;
+      if api_clientes.exist(r.relacion) then
+        update movdeta
+           set tipo_relacion = 'C'
+         where ano = r.ano
+           and mes = r.mes
+           and libro = r.libro
+           and voucher = r.voucher
+           and relacion = r.relacion;
+      end if;
+    end loop;
   end;
+
+  procedure agrega_relacion is
+  begin
+    agrega_relacion(extract(year from sysdate), extract(month from sysdate));
+  end;
+
 end;

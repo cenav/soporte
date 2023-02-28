@@ -12,9 +12,9 @@ select *
   from movdeta
  where ano = 2023
    and mes = 1
-   and libro = '10'
+   and libro = '33'
    and voucher in (
-   21324301
+   10006
    );
 
 select m.*
@@ -190,7 +190,7 @@ select *
 
 select *
   from activo_fijo
- where cod_activo_fijo = '04LAPT46';
+ where cod_activo_fijo = 'KIT AUDIOVISUAL10R1';
 
 select *
   from itemord
@@ -1077,3 +1077,26 @@ select *
  where cod_activo_fijo in ('MQ1PMET-001', 'MQ2FERR-004');
 
 select * from activo_fijo_estado;
+
+select * from planilla10.tar_encarga order by codigo;
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'MANAYAY';
+
+select *
+  from movdeta
+ where ano = 2022
+   and mes = 11
+   and relacion is not null
+   and tipo_relacion is null;
+
+declare
+  l_ano simple_integer := 2022;
+  l_mes simple_integer := 11;
+begin
+  utilconta.asiento_sin_detalle(l_ano, l_mes);
+  utilconta.completa_cero(l_ano, l_mes);
+  utilconta.elimina_relacion(l_ano, l_mes);
+  utilconta.agrega_relacion(l_ano, l_mes);
+end;

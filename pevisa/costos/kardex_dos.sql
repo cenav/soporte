@@ -17,13 +17,18 @@ select *
 --    AND cod_ope IN ('86');
 
 update tmp_moviart_dos
-   set libro   = '05',
-       voucher = '40078'
+   set nro_doc   = docto
  where ano = 2022
-   and mes in (4)
-   and id = 'S'
-   and (cta like '25%')
-   and cod_ope = '86';
+   and mes in (12)
+   and id in ('S')
+--    and motivo = '1'
+--    AND ordtra IS NULL;
+--    and (cta like '26%')
+   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
+        cta like '21%')
+--    and tp_transac in ('26%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
 
 -- reporte
 -- stock a la fecha

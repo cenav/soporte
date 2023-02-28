@@ -1,0 +1,3 @@
+begin
+  depreciacion.procesa();
+end;

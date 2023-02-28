@@ -7,11 +7,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = 'SS'
-   and tp_transac = '11'
+ where cod_alm = '02'
+   and tp_transac = '27'
    and serie = 1
-   and numero = 29807
-   and cod_art = 'GNSPLIT';
+   and numero = 1344565;
 
 select *
   from kardex_g_movglos
@@ -23,7 +22,7 @@ select *
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
-   and numero = 9788;
+   and numero = 178279;
 
 select *
   from instrumento_asigna

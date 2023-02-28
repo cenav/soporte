@@ -1,9 +1,11 @@
 begin
   --   pkg_cominac.genera_contrato(2022, 8, 'S',  51, 'SI');
   --     pkg_cominac.genera_periodo(2022, 5, 'S');
-  pkg_cominac.elimina_periodo(2023, 1);
+  pkg_cominac.elimina_periodo(2023, 2);
 --   pkg_cominac.elimina_proceso(01718);
 end;
+
+-- johnny ramos
 
 -- Elimina comision en un intervalo de numeros de proceso
 begin

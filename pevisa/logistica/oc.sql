@@ -1,12 +1,22 @@
 select *
   from orden_de_compra
- where serie = 3
-   and num_ped in (43144);
+ where serie = 1
+   and num_ped in (84888);
 
 select *
   from itemord
  where serie = 1
-   and num_ped in (84861);
+   and num_ped in (84885);
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10407285056'
+ order by fecha;
+
+select *
+  from itemord
+ where serie = 3
+   and num_ped = 42672;
 
 select *
   from orden_de_compra_historia
@@ -44,3 +54,12 @@ select *
    and numero = '168';
 
 select * from gastos_de_viaje_motivos;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = '02FRIO6';
+
+select *
+  from planilla10.personal
+ where nombres like '%JOEL%'
+   and apellido_paterno = 'JUAREZ';
