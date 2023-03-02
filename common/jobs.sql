@@ -65,7 +65,7 @@ select *
 
 select *
   from all_source
- where upper(text) like upper('%mrojas%')
+ where upper(text) like upper('%contadora%')
    and owner = 'PEVISA';
 
 select *
@@ -76,4 +76,4 @@ select *
 select sysdate
   from dual;
 
-call puntualidad.automatico(2022, 5);
+-- call puntualidad.automatico(2022, 5);

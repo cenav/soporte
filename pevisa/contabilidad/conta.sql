@@ -49,7 +49,6 @@ select *
   from movdeta
  where detalle = 'CEL996437769R1';
 
-
 select *
   from movfigl
  where ano = 2022
@@ -69,11 +68,11 @@ select *
    );
 
 select *
-  from movfigl_historia
- where ano = 2022
-   and mes = 8
-   and tipo = '3'
-   and voucher = 80063;
+  from movglos_historia
+ where ano = 2023
+   and mes = 0
+   and libro = '5'
+   and voucher = 1;
 
 select *
   from relacion
@@ -190,7 +189,7 @@ select *
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'KIT AUDIOVISUAL10R1';
+ where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
 
 select *
   from itemord
@@ -412,9 +411,9 @@ select *
 
 
 select *
-  from caja_chica_d
+  from caja_chica
  where serie = 7
-   and numero = 22039;
+   and numero = 22153;
 
 select * from vendedores where cod_vendedor = 'M1';
 
@@ -1100,3 +1099,62 @@ begin
   utilconta.elimina_relacion(l_ano, l_mes);
   utilconta.agrega_relacion(l_ano, l_mes);
 end;
+
+
+select a.cod_activo_fijo
+     , a.descripcion
+     , a.cod_clase
+     , a.cod_estado
+     , e.descripcion as desc_estado
+     , a.cuenta_contable
+     , a.cuenta_depreciacion
+     , a.cuenta_gasto_depreciacion
+     , a.fecha_adquisicion
+     , a.fecha_activacion
+     , a.fecha_baja
+     , a.centro_costo
+     , a.cod_tipo_adquisicion
+  --, DECODE( :p_moneda,  'S', a.valor_adquisicion_s,  'D', a.valor_adquisicion_d) AS valor_adquisicion
+     , pkg_activo_fijo_qry.valor_adquisicion(a.cod_activo_fijo, :p_moneda,
+                                             :p_fecha) as valor_adquisicion
+     , d.porcentaje
+     , d.depreciacion
+     , pkg_activo_fijo_qry.depre_acum_anual(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda,
+                                            :p_fecha) as depre_acum_anual
+     , sf_depreciacion_acumulada(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda,
+                                 :p_fecha) as depreciacion_acumulada
+     , sf_costo_neto(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha) as costo_neto
+--             , NVL(d.depreciacion_acumulada, sf_depreciacion_acumulada_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha)) AS depreciacion_acumulada
+--             , NVL(d.costo_neto, sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha)) AS costo_neto
+     , decode(last_day(a.fecha_adquisicion), :p_fecha,
+              decode(:p_moneda, 'S', a.valor_adquisicion_s, 'D', a.valor_adquisicion_d),
+              0) as valor_compra
+  --, DECODE(TO_NUMBER(TO_CHAR(a.fecha_adquisicion, 'YYYY')), :p_periodo_ano, DECODE( :p_moneda, 'S', a.valor_adquisicion_s,  'D', a.valor_adquisicion_d), 0) AS valor_compra_anual
+     , pkg_activo_fijo_qry.valor_compra_anual(a.cod_activo_fijo, :p_moneda,
+                                              :p_fecha) as valor_compra_anual
+     , decode(last_day(a.fecha_baja), :p_fecha,
+              sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, a.fecha_baja),
+              0) as valor_venta
+     , decode(to_number(to_char(a.fecha_baja, 'YYYY')), :p_periodo_ano,
+              sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, a.fecha_baja),
+              0) as valor_venta_anual
+     , decode(a.inoperativo, 'S', 'SI', 'N', 'NO', 'NO') as inoperativo
+  from activo_fijo a
+     , activo_fijo_depreciacion d
+     , activo_fijo_estado e
+ where a.cod_activo_fijo = d.cod_activo_fijo(+)
+--    and d.cod_tipo_depreciacion(+) = :p_tipo_depreciacion
+--    and d.moneda(+) = :p_moneda
+   and a.cod_estado = e.cod_estado
+   and to_number(to_char(d.fecha(+), 'YYYY')) = :p_periodo_ano
+   and to_number(to_char(d.fecha(+), 'MM')) = :p_periodo_mes
+--    and a.cod_tipo_adquisicion like :p_tipo_adquisicion
+--    and a.cod_clase like :p_clase
+   and a.cod_estado != '9'
+   and a.depreciable = 'S'
+   AND    a.cod_activo_fijo IN ('LOCAL DESCARTES OFICINA MAN2')
+   --AND    NVL(a.fecha_baja, TO_DATE('01/01/9999', 'DD/MM/YYYY')) >= :p_fecha
+   and (a.fecha_activacion is null
+   or (a.fecha_activacion is not null
+     and a.fecha_activacion between :p_fecha_adq_del and :p_fecha_adq_al));
+

@@ -1207,3 +1207,12 @@ select *
 select *
   from hallazgo_importacion
  where id_hallazgo = 295;
+
+select *
+  from pk_gnumero
+ where pk_numero in (
+                     52018, 52084, 52255, 52363, 52569, 52721, 53002, 53188, 53274, 53300, 53308
+   );
+
+select * from pk_glosa
+where ;

@@ -1,12 +1,12 @@
 select *
   from orden_de_compra
- where serie = 1
-   and num_ped in (84888);
+ where serie = 6
+   and num_ped in (2069);
 
 select *
   from itemord
- where serie = 1
-   and num_ped in (84885);
+ where serie = 6
+   and num_ped in (2069);
 
 select *
   from orden_de_compra
@@ -20,8 +20,8 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 1
-   and num_ped in (84822)
+ where serie = 6
+   and num_ped in (2069)
    and glosa = 'APROBADO';
 
 select *

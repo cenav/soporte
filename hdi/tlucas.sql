@@ -23,9 +23,33 @@ select * from proceso_cominac;
 
 select *
   from proceso_cominac_venta_det
- where cod_proceso =   01939
+ where cod_proceso = 01939
    and cod_concepto = 2;
 
 select *
   from cominac_concepto
  where cod_concepto in (1, 2);
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = 'H3'
+   and numero = 141;
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = 'H3'
+   and numero = 141;
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 2
+   and libro = '08'
+   and voucher = 20403;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 2
+   and libro = '08'
+   and voucher = 20403;

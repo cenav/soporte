@@ -7,10 +7,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '02'
-   and tp_transac = '27'
+ where cod_alm = 'SS'
+   and tp_transac = '22'
    and serie = 1
-   and numero = 1344565;
+   and numero = 245143;
 
 select *
   from kardex_g_movglos

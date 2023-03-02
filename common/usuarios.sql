@@ -1,5 +1,5 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user msoto account unlock;
+alter user habilitado account unlock;
 
 
 alter user oquintana account lock;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'HROMERO';
+ where username like 'HABILITADO';
 
 -- Dependencies
 select *
@@ -162,12 +162,11 @@ select *
 
 select *
   from usuario_modulo
- where usuario = '';
+ where usuario = 'JMANAYAY';
 
 select *
-  from usuario_modulo
- where usuario = 'RRODRIGUEZ'
- order by modulo;
+  from usuario_modulo_alterno
+ where id_alterno = 'JMANAYAY';
 
 select *
   from usuario_modulo_alterno
@@ -729,3 +728,11 @@ select *
 select *
   from usuario_modulo_alterno
  where id_usuario = 'MGUIELAC';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'GARCIA';
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'CTH';

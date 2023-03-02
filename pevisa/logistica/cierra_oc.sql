@@ -4,9 +4,9 @@ declare
     cursor cr_ordenes is
         select *
           from orden_de_compra
-         where serie = 1
+         where serie = 6
            and num_ped in (
-                           81327, 80996
+                           2069
              );
 begin
     for r in cr_ordenes loop

@@ -5,7 +5,6 @@ select *
    and tipo = '2'
    and voucher = 23233;
 
-
 select *
   from movfide
  where ano = 2023
@@ -18,7 +17,6 @@ select *
  where tipdoc = '26'
    and serie_num = '008'
    and numero = '3484117';
-
 
 select *
   from cabfpag
