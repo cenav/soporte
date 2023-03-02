@@ -61,11 +61,11 @@ select *
 
 select *
   from all_source
- where upper(text) like upper('%Ordenes faltantes generadas por planeamiento%');
+ where upper(text) like upper('%procede recojo de reclamo%');
 
 select *
   from all_source
- where upper(text) like upper('%contadora%')
+ where upper(text) like upper('%asiscont3%')
    and owner = 'PEVISA';
 
 select *

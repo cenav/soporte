@@ -5,7 +5,6 @@ begin
 --   pkg_cominac.elimina_proceso(01718);
 end;
 
--- johnny ramos
 
 -- Elimina comision en un intervalo de numeros de proceso
 begin
@@ -237,25 +236,11 @@ select *
   from cominac_concepto
  where descripcion like '%BUJ%';
 
-
 select *
   from comisiones_planilla
  where ano = 2021
    and mes = 9
    and cod_personal = 'E762';
-
--- bono produccion
-select i.cod_personal, p.nombre, cit.descripcion, a.porcentaje_neto, cit2.descripcion
-     , a2.porcentaje_neto
-  from comision_ingeniero i
-       join vw_personal p on i.cod_personal = p.c_codigo
-       join comision_ingeniero_asigna a on i.cod_personal = a.cod_personal and a.cod_tipo = 'ME'
-       join comision_ingeniero_tab cit
-            on a.cod_tipo = cit.cod_tipo and a.cod_premio = cit.cod_premio
-       join comision_ingeniero_asigna a2 on i.cod_personal = a2.cod_personal and a2.cod_tipo = 'SE'
-       join comision_ingeniero_tab cit2
-            on a2.cod_tipo = cit2.cod_tipo and a2.cod_premio = cit2.cod_premio
- order by a.porcentaje_neto desc, nombre;
 
 select * from comision_ingeniero_asigna;
 
@@ -272,3 +257,16 @@ select *
   from comisiones_planilla
  where ano = 2022
    and mes = 1;
+
+begin
+  if api_proceso_cominac.row_exists(2023, 2) then
+    dbms_output.put_line('true');
+  else
+    dbms_output.put_line('false');
+  end if;
+end;
+
+select *
+  from comisiones_planilla
+ where ano = 2023
+   and mes = 2;

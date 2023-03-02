@@ -1,12 +1,12 @@
 select *
   from orden_de_compra
- where serie = 6
-   and num_ped in (2069);
+ where serie = 13
+   and num_ped in (4254);
 
 select *
   from itemord
- where serie = 6
-   and num_ped in (2069);
+ where serie = 3
+   and num_ped in (43129);
 
 select *
   from orden_de_compra
@@ -63,3 +63,4 @@ select *
   from planilla10.personal
  where nombres like '%JOEL%'
    and apellido_paterno = 'JUAREZ';
+

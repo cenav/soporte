@@ -377,10 +377,9 @@ select *
 
 select *
   from kardex_g_movglos
- where cod_proveedor = '20549453024'
-   and tipdoc_cp = '01'
+ where tipdoc_cp = '01'
    and serie_cp = 'FFF1'
-   and numero_cp = '3015';
+   and numero_cp = '0007326';
 
 select *
   from view_kardex_reg_compras
@@ -716,8 +715,8 @@ select *
 select *
   from factcob
  where tipdoc = '01'
-   and serie_num = 'F055'
-   and numero = '13162';
+   and serie_num = 'FFF1'
+   and numero = '007326';
 
 select *
   from cabfcob
@@ -1152,9 +1151,15 @@ select a.cod_activo_fijo
 --    and a.cod_clase like :p_clase
    and a.cod_estado != '9'
    and a.depreciable = 'S'
-   AND    a.cod_activo_fijo IN ('LOCAL DESCARTES OFICINA MAN2')
+   and a.cod_activo_fijo in ('LOCAL DESCARTES OFICINA MAN2')
    --AND    NVL(a.fecha_baja, TO_DATE('01/01/9999', 'DD/MM/YYYY')) >= :p_fecha
    and (a.fecha_activacion is null
    or (a.fecha_activacion is not null
      and a.fecha_activacion between :p_fecha_adq_del and :p_fecha_adq_al));
 
+select *
+  from caja
+ where id_serie = 1
+   and id_numero = 53;
+
+select * from estado_caja order by id_estado;

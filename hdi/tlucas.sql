@@ -53,3 +53,22 @@ select *
    and mes = 2
    and libro = '08'
    and voucher = 20403;
+
+begin
+  pkg_cominac.genera_periodo(2022, 2, 'S');
+end;
+
+select cod_proceso, cod_concepto, cod_vendedor, tipodoc, nombre_doc, serie, numero, fecha
+     , cod_cliente, nombre_cliente, item, cod_art, cod_lin, neto, soles, dolares, total_soles
+     , total_dolares, cambio, total_cambio, porc_comision, comision, total_sin_igv, costo_soles
+     , costo_dolares, cantidad
+  from proceso_cominac_venta_det;
+
+select *
+  from pevisa.movglos
+ where ano = 2023
+   and mes = 2
+   and libro = '08'
+   and voucher in (
+                   20398, 20399, 20400, 20401, 20402, 20403, 20405, 20406
+   );

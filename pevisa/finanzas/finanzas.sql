@@ -30,5 +30,5 @@ select * from pevisa.tab_semanas order by al;
 
 select *
   from pagos_h
- where serie_planilla = 3
-   and numero_planilla = 2762;
+ where serie_planilla = 1
+   and numero_planilla = 24656;

@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user habilitado account unlock;
+alter user KCUCHO account unlock;
 
 
 alter user oquintana account lock;
 
 
-alter user apastrana identified by "pevisa.123";
+alter user mvillanueva identified by "pevisa.123";
 
 
-alter user apastrana password expire;
+alter user mvillanueva password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'HABILITADO';
+ where username like 'KCUCHO';
 
 -- Dependencies
 select *

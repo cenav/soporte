@@ -121,3 +121,11 @@ select *
   from proceso_cominac_venta_det
  where cod_proceso = 1904
    and cod_concepto = 1;
+
+
+select *
+  from pevisa.movglos
+ where ano = 2023
+   and mes = 2
+   and libro = '08'
+   and voucher = 20398;
