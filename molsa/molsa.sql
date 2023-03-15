@@ -10,7 +10,7 @@ select *
  where ano = 2022
    and mes = 12
    and libro = '09'
-   and voucher = 120001;
+   and voucher = 43029;
 
 select * from activo_fijo_depreciacion;
 
@@ -28,3 +28,30 @@ begin
   utilconta.agrega_relacion(l_ano, l_mes);
   commit;
 end;
+
+select *
+  from plancta
+ where cuenta = '31110201';
+
+select *
+  from movdeta
+ where ano = 2022
+   and mes = 12
+   and cuenta = '31110201';
+
+select sum(cantidad * precio * factor_uc) as total_item
+  from itemord
+ where serie = 3
+   and num_ped = 671;
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped = 671;
+
+select *
+  from movfide
+ where ano = 2022
+   and mes = 4
+   and tipo = '2'
+   and voucher = 43029;

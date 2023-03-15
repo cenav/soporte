@@ -3,14 +3,14 @@ select *
  where ano = 2023
    and mes = 2
    and tipo = '2'
-   and voucher = 23233;
+   and voucher = 23057;
 
 select *
   from movfide
  where ano = 2023
    and mes = 2
    and tipo = '2'
-   and voucher = 23233;
+   and voucher = 23057;
 
 select *
   from factpag
@@ -31,4 +31,9 @@ select * from pevisa.tab_semanas order by al;
 select *
   from pagos_h
  where serie_planilla = 1
-   and numero_planilla = 24656;
+   and numero_planilla = 24718;
+
+select *
+  from pagos_i
+ where serie_planilla = 1
+   and numero_planilla = 24718;

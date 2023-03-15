@@ -72,3 +72,79 @@ select *
    and voucher in (
                    20398, 20399, 20400, 20401, 20402, 20403, 20405, 20406
    );
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = 'S3'
+   and numero = 102;
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = 'S3'
+   and numero = 102;
+
+
+select *
+  from centro_costo_motivo_viatico
+ where cod_centro_costo = '02'
+   and cod_motivo = '01';
+
+select * from pla_control;
+
+select * from plancta where cuenta = '69321104';
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = 'S3'
+   and numero = 102;
+
+declare
+  l_cuenta varchar2(30);
+begin
+  l_cuenta := fn_cuenta_contable_viatico('02', '08');
+  dbms_output.put_line(l_cuenta);
+end;
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '20123459';
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 1
+   and tipo = '9'
+   and voucher = 10001;
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 1
+   and tipo = '9'
+   and voucher = 10001;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 1
+   and libro = '10'
+   and voucher = 21307101;
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '221213213';
+
+select *
+  from tab_bancos
+ where cuenta_de_terceros = 'S'
+ order by codigo_banco;
+
+select *
+  from tablas_auxiliares
+ where codigo != '....'
+   and tipo = '11'
+ order by codigo;
+
+select *
+  from proveed
+ where cod_proveed = '99000038';

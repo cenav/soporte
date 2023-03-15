@@ -536,5 +536,27 @@ select *
    and numero = 29810;
 
 select *
-  from usuario_modulo_alterno as of timestamp to_timestamp('21-02-2023 08:00:00', 'DD-MM-YYYY HH24:MI:SS')
+  from usuario_modulo_alterno as of timestamp to_timestamp('21-02-2023 08:00:00',
+                                                           'DD-MM-YYYY HH24:MI:SS')
  where id_alterno = 'KCASTILLO';
+
+
+select *
+  from saldosc_tmp as of timestamp to_timestamp('13-03-2023 15:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ctactble = '123106'
+   and fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy');
+
+insert into saldosc_tmp
+select *
+  from saldosc_tmp as of timestamp to_timestamp('13-03-2023 15:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+select *
+  from movglos as of timestamp to_timestamp('13-03-2023 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;

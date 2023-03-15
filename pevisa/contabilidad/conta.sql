@@ -3,18 +3,18 @@ select *
   from movglos
  where ano = 2023
    and mes = 1
-   and libro = '10'
+   and libro = '38'
    and voucher in (
-   21324301
+   10024
    );
 
 select *
   from movdeta
  where ano = 2023
    and mes = 1
-   and libro = '33'
+   and libro = '38'
    and voucher in (
-   10006
+   10024
    );
 
 select m.*
@@ -219,7 +219,9 @@ select * from prevencionista;
 select *
   from activo_fijo
  where cod_activo_fijo in (
-   'CPUC61-MONI'
+                           'MQ1ACAB-024-INST1', 'MQ1COR-004-MEJ1', 'MQ1RET-013', 'AC1PAF-002',
+                           'MQ2MATR-017', 'MQ1PAF-006', 'MQ1ACAB-024', 'MQ1COR-004', 'MQ1RET-012',
+                           'MQ1ARMPT-011', 'MQ1METP-007'
    );
 
 select *
@@ -1155,11 +1157,127 @@ select a.cod_activo_fijo
    --AND    NVL(a.fecha_baja, TO_DATE('01/01/9999', 'DD/MM/YYYY')) >= :p_fecha
    and (a.fecha_activacion is null
    or (a.fecha_activacion is not null
-     and a.fecha_activacion between :p_fecha_adq_del and :p_fecha_adq_al));
+     and trunc(a.fecha_activacion) between :p_fecha_adq_del and :p_fecha_adq_al));
+
+
+select cod_activo_fijo, fecha_adquisicion, fecha_activacion
+  from activo_fijo
+ where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
+
+update activo_fijo
+   set fecha_adquisicion = trunc(fecha_adquisicion)
+ where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
 
 select *
-  from caja
- where id_serie = 1
-   and id_numero = 53;
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
 
-select * from estado_caja order by id_estado;
+select *
+  from ctabnco_parametros
+ where usuario = 'MDIAZ';
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo in ('MQ1PJEB-018-INST1')
+   and fecha = to_date('31/12/2022', 'dd/mm/yyyy');
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'MQ1PJEB-018-INST1';
+
+select count(*)
+  from saldosc_tmp
+ where fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy')
+   and ctactble = '123106';
+
+select *
+  from saldosc_tmp
+ where fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy')
+   and voucher = '10011';
+
+select *
+  from saldosc_tmp
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+select f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble
+     , nvl(p.col_compras, 0) as col_compras
+     , decode(p.auto_mas, null, 'N', 'O') genera
+     , (
+    round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal,
+          2) -
+    round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) *
+          :icambio, 2)) as saldo
+     , f.tcam_sal
+  from factcob f, cabfcob c, plancta p
+ where f.moneda = 'D' and f.ctactble = :p_cuenta and
+------  f.tipdoc = :selecciona.tipdoc and
+-----    f.fecha <= :selecciona.fecha   and
+   ((f.mes is null and f.fecha <= :fecha)
+     or (f.mes is not null and
+         f.ano || lpad(f.mes, 2, '0') <= to_char(:fecha, 'YYYY') || to_char(:fecha, 'MM')))
+--    and f.tcam_sal <> :icambio
+   and c.tipdoc(+) = f.tipdoc
+   and c.serie_num(+) = f.serie_num and c.numero(+) = f.numero
+   and c.fecha(+) <= :fecha and p.cuenta = f.ctactble
+having f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) <> 0
+ group by f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble, p.col_compras
+        , decode(p.auto_mas, null, 'N', 'O'), f.importe, f.moneda, f.tcam_sal;
+
+select cod_cliente, tipdoc, serie_num, numero, ctactble, col_compras, generado
+     , saldo saldox
+  from saldosc_tmp
+ where saldo < 0
+   and fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy')
+   and ctactble = '123106';
+
+select *
+  from saldosc_tmp
+ where ctactble = '123106'
+   and fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy');
+
+select estado
+  from movglos
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+
+select *
+  from ubigeo
+ where cod_ubc = '150135';
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 1
+   and libro = '38'
+   and voucher = 10011;
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = '04LAPT41';
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = '04LAPT41'
+   and cod_tipo_depreciacion = 'NIF'
+   and moneda = 'S'
+ order by fecha;

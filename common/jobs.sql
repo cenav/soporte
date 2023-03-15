@@ -65,7 +65,7 @@ select *
 
 select *
   from all_source
- where upper(text) like upper('%asiscont3%')
+ where upper(text) like upper('%pr_prioridad_htmp_30%')
    and owner = 'PEVISA';
 
 select *

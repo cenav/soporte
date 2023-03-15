@@ -17,7 +17,7 @@ select *
 --    AND cod_ope IN ('86');
 
 update tmp_moviart_dos
-   set nro_doc   = docto
+   set nro_doc = docto
  where ano = 2022
    and mes in (12)
    and id in ('S')
@@ -53,11 +53,10 @@ select *
 
 select *
   from tmp_moviart_dos
- where ano = 2022
-   and mes in (3)
-   and id = 'S'
-   and cta like '25%'
-   and cod_ope = '86';
+ where ano = 2023
+   and mes in (1)
+   and id = 'I'
+   and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 
 update tmp_moviart_dos
    set libro   = '05',

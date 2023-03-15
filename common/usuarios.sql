@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user KCUCHO account unlock;
+alter user MCASTILLA account unlock;
 
 
 alter user oquintana account lock;
 
 
-alter user mvillanueva identified by "pevisa.123";
+alter user jaime identified by "Descartes20";
 
 
-alter user mvillanueva password expire;
+alter user jaime password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'KCUCHO';
+ where username like 'MCASTILLA';
 
 -- Dependencies
 select *
@@ -736,3 +736,7 @@ select *
 select *
   from planilla10.t_cargo
  where c_cargo = 'CTH';
+
+select *
+  from usuario_modulo
+ where modulo like 'CAMPANA%';

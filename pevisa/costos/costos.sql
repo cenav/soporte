@@ -26,3 +26,8 @@ select *
 select *
   from tmp_moviart_dos
  where voucher = '100509';
+
+select *
+  from analisis_consumo
+ where ano = 2023
+   and mes = 1;

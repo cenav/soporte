@@ -1214,5 +1214,44 @@ select *
                      52018, 52084, 52255, 52363, 52569, 52721, 53002, 53188, 53274, 53300, 53308
    );
 
-select * from pk_glosa
-where ;
+select *
+  from pr_prioridad
+ where ano = 2023
+   and mes = 3;
+
+select * from pr_prioridad_htmp_30;
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 22161;
+
+select * from estado_caja order by id_estado;
+
+select *
+  from caja_chica_d
+ where serie = 7
+   and numero = 22161;
+
+select *
+  from otm_serie_usuario
+ where id_tipo = 'MQ';
+
+select *
+  from ot_mantto_serie
+ where id_tipo = 'MQ'
+ order by id_tipo, id_serie;
+
+select *
+  from articul
+ where cod_art = 'PIED-PEV-0001';
+
+select *
+  from tab_lineas
+ where linea = '2048';
+
+select * from kardex_d;
+
+select *
+  from almacen
+ where cod_art = 'PIED-PEV-0001';

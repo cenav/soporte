@@ -5,7 +5,7 @@ declare
     select *
       from pagos_h
      where serie_planilla = 1
-       and numero_planilla in (6667);
+       and numero_planilla in (24718);
 
   procedure anula_detalle(
     p_serie  pagos_h.serie_planilla%type

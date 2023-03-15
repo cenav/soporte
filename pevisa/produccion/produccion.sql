@@ -2,14 +2,14 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-  503996
+                  '500226', '500231', '500236', '500433', '500428'
    );
 
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'VA'
    and numero in (
-   9759
+   9933
    );
 
 select *
@@ -21,10 +21,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '03'
+ where cod_alm = 'D5'
    and tp_transac = '18'
    and serie = 2
-   and numero = 518046;
+   and numero = 520707;
 
 select *
   from proveed

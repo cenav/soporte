@@ -1,5 +1,5 @@
 declare
-  l_usuario varchar2(30) := 'mvillanueva';
+  l_usuario varchar2(30) := 'JAIME';
 begin
   --   execute immediate 'alter user ' || l_usuario || ' account unlock;';
   execute immediate 'alter user ' || l_usuario || ' account unlock;';

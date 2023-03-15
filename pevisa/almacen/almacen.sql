@@ -7,10 +7,35 @@ select *
 
 select *
   from kardex_d
- where cod_alm = 'SS'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 245143;
+ where cod_alm = '42'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 520585;
+
+-- descarga almacen de transito
+select *
+  from kardex_g
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 39
+   and numero = 2323
+   and estado <= 7
+   and tp_transac = '10'
+   and ing_sal = 'I'
+--    and cod_relacion = '20100084768' and nro_sucur in ('04', '05', '06', '11', '03')
+   and cod_alm in (
+   select cod_alm_transito
+     from almacenes
+    where cod_alm_transito is not null
+      and cod_alm_transito = kardex_g.cod_alm
+   );
+
+select *
+  from kardex_d
+ where cod_alm = 'D5'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 520707;
 
 select *
   from kardex_g_movglos
@@ -18,6 +43,11 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero = 29807;
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
 
 select *
   from pr_ot

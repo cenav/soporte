@@ -1,11 +1,11 @@
 declare
   cursor transaccion_cur is
     select cod_alm, tp_transac, serie, numero
-      from kardex_d
-     where cod_alm = '30'
-       and tp_transac = '22'
-       and serie = 1
-       and numero = 244896;
+      from kardex_g
+     where cod_alm = '42'
+       and tp_transac = '18'
+       and serie = 2
+       and numero = 520585;
 begin
   for r in transaccion_cur loop
     delete

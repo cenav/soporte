@@ -1,7 +1,7 @@
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
-   and numero = 704793;
+   and numero = 833085;
 
 select *
   from pr_ot_det

@@ -129,3 +129,5 @@ select *
    and mes = 2
    and libro = '08'
    and voucher = 20398;
+
+select * from pla_control;
