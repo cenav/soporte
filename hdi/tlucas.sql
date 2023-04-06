@@ -1,7 +1,16 @@
-insert into usuarios_tipos(usuario, tipo, mes_predeterminado)
-select 'ECHINCHA', tipo, mes_predeterminado
-  from usuarios_tipos
- where usuario = 'MDIAZ';
+select *
+  from movglos
+ where ano = 2023
+   and mes = 1
+   and libro = '25'
+   and voucher in (10030);
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 1
+   and libro = '25'
+   and voucher in (10030);
 
 select *
   from usuarios_tipos
@@ -41,18 +50,10 @@ select *
    and numero = 141;
 
 select *
-  from movglos
+  from nrolibr
  where ano = 2023
-   and mes = 2
-   and libro = '08'
-   and voucher = 20403;
-
-select *
-  from movdeta
- where ano = 2023
-   and mes = 2
-   and libro = '08'
-   and voucher = 20403;
+   and libro = '25'
+   and mes = 1;
 
 begin
   pkg_cominac.genera_periodo(2022, 2, 'S');
@@ -112,16 +113,16 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 1
-   and tipo = '9'
-   and voucher = 10001;
+   and mes = 2
+   and tipo = '2'
+   and voucher = 23187;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 1
-   and tipo = '9'
-   and voucher = 10001;
+   and mes = 2
+   and tipo = '2'
+   and voucher = 23187;
 
 select *
   from movdeta
@@ -148,3 +149,70 @@ select *
 select *
   from proveed
  where cod_proveed = '99000038';
+
+select *
+  from caja_chica
+ where serie = 4
+   and numero = 23007;
+
+select *
+  from factpag_canje
+ where numero = '0000035';
+
+select *
+  from factpag_canje
+ where nrocanje = '0000036';
+
+select * from canjedoc_cpag;
+
+select *
+  from factpag
+ where cod_proveedor = '99000038'
+   and numero = '0000035';
+
+select *
+  from pagos_h
+ where serie_planilla = 1
+   and numero_planilla = 6727;
+
+select *
+  from pagos_i
+ where serie_planilla = 1
+   and numero_planilla = 6727;
+
+select *
+  from proveed
+ where cod_proveed = '9900097';
+
+select *
+  from proveed_tipos_pedidos
+ where cod_proveed = '9900097';
+
+select *
+  from caja_chica_d
+ where serie = 4
+   and numero = 23007;
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '0057496';
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 1
+   and tipo = '3'
+   and voucher = 10005;
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 1
+   and tipo = '3'
+   and voucher = 10005;
+
+select *
+  from factpag
+ where cod_proveedor = '99000038'
+   and tipdoc = '26'
+   and numero = '19012023';

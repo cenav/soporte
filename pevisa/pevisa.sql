@@ -13,7 +13,7 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-   232242
+   458204
    );
 
 -- faucett
@@ -1255,3 +1255,96 @@ select * from kardex_d;
 select *
   from almacen
  where cod_art = 'PIED-PEV-0001';
+
+select *
+  from capacitacion
+ where id_capacitacion = 2460;
+
+select tp_transac, descripcion
+  from transacciones_almacen
+ order by tp_transac;
+
+select *
+  from lg_detalle_gastos
+ where numero_embarque = 4036;
+
+-- no se puede ver
+select *
+  from campana
+ where cod_campana in (
+   'ND2023-1'
+   );
+
+-- revisar importes
+select *
+  from campana
+ where cod_campana in (
+   'ND2023-2'
+   );
+
+select * from estado_campana;
+
+select cod_alm from almacen_activo_fijo;
+
+select *
+  from kardex_d
+ where cod_art = '04EQ D17';
+
+select cod_cliente, nombre from exclientes;
+
+select round(sysdate - to_date('25/03/2023', 'dd/mm/yyyy')) as atras
+     , round(sysdate - to_date('31/03/2023', 'dd/mm/yyyy')) as adelante
+  from dual;
+
+select *
+  from accidente
+ where id_accidente = 196;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like '%AREA COMUN ADM%'
+ order by cod_activo_fijo;
+
+select * from itemdocu;
+
+select *
+  from pedido
+ where num_ped = 216754;
+
+select *
+  from itemped
+ where num_ped = 216754;
+
+select *
+  from planilla10.personal
+ where encargado = '057';
+
+select * from planilla10.tar_encarga;
+
+select cod_proveedor, detalle, bateria from tmp_carga_data;
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'CANDELA';
+
+select * from planilla10.personal;
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'ASOP';
+
+select c_codigo, nombre, c_cargo, desc_cargo, desc_doc, num_doc
+     , to_char(fnatal, 'dd/mm/yyyy') as nacimiento
+     , to_char(f_ingreso, 'dd/mm/yyyy') as ingreso
+  from vw_personal
+ where c_codigo = 'E730';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'SALCEDO';
+
+select *
+  from vendedores
+ where cod_vendedor = 'S1';
+
+select * from pla_control;

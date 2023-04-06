@@ -269,4 +269,4 @@ end;
 select *
   from comisiones_planilla
  where ano = 2023
-   and mes = 2;
+   and mes = 3;

@@ -410,11 +410,10 @@ select *
   from articul
  where cod_art = 'RACK SELECT11';
 
-
 select *
   from caja_chica
  where serie = 7
-   and numero = 22153;
+   and numero = 22174;
 
 select * from vendedores where cod_vendedor = 'M1';
 
@@ -1252,7 +1251,6 @@ select *
    and libro = '38'
    and voucher = 10011;
 
-
 select *
   from ubigeo
  where cod_ubc = '150135';
@@ -1281,3 +1279,9 @@ select *
    and cod_tipo_depreciacion = 'NIF'
    and moneda = 'S'
  order by fecha;
+
+select * from orden_de_compra_calificacion;
+
+select cod_proveed, nombre, email
+  from proveed
+ where email is not null;

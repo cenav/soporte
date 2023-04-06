@@ -7,6 +7,7 @@ select *
   from usuarios_tipos
  where usuario = 'ECHINCHA';
 
+
 select *
   from factpag
  where cod_proveedor = '99000038'
@@ -131,3 +132,109 @@ select *
    and voucher = 20398;
 
 select * from pla_control;
+
+
+select *
+  from pevisa.gastos_de_viaje_habilitado
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_habilitado
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_habilitado
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_habilitado_m
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_habilitado_d
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_m
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from pevisa.gastos_de_viaje_d
+ where id_vendedor = '65'
+   and numero = 171;
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '0003CM5';
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '0003CM5';
+
+insert into prestamo_banco
+select cod_banco, '0003CM5', fecha, estado, importe_prestamo, moneda, tasa_interes
+     , cod_tipo_prestamo, ano, mes, tipo, voucher, item, asiento_generado_quien
+     , asiento_generado_cuando, cod_derivado, debito_auto, contrato, cod_proveedor, tipdoc
+     , importe_neto, tasa_igv, contrato_derivado, cod_penalidad, estructuracion, cod_interes_leasing
+     , cod_motivo, nombre_archivo, cod_unidad_negocio
+  from prestamo_banco
+ where cod_prestamo = '0001CM5';
+
+insert into prestamo_banco_cuota
+select cod_banco, '0003CM5', nro_cuota, fecha_vcto, importe_saldo_capital, importe_capital
+     , importe_interes, importe_cuota, serie_num, numero, importe_portes, importe_igv
+     , importe_comision, importe_gastos, importe_valor_cuota, tipdoc_cp, serie_cp, numero_cp
+     , fecha_debito_banco, importe_capital_real, importe_interes_real, importe_valor_cuota_real
+     , importe_portes_real, importe_igv_real, importe_comision_real, importe_gastos_real
+     , importe_cuota_real, opcion_de_compra
+  from prestamo_banco_cuota
+ where cod_prestamo = '0001CM5';
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 1
+   and tipo = '3'
+   and voucher = 10013;
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 1
+   and tipo = '3'
+   and voucher = 10013;
+
+select *
+  from factpag
+ where cod_proveedor = '20609623277'
+--    and serie_num = '0000'
+   and numero = '0001CM8';
+
+select *
+  from articul
+ where cod_art = 'SERV_HD';
+
+select *
+  from caja_chica
+ where numero = 23012;
+
+select *
+  from pevisa.gastos_de_viaje
+ where id_vendedor = '67'
+   and numero = 143;
+
+select *
+  from pevisa.gastos_de_viaje
+ where id_vendedor = '67'
+   and numero = 143;

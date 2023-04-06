@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user MCASTILLA account unlock;
+alter user JCHIRINOS account unlock;
 
 
 alter user oquintana account lock;
 
 
-alter user jaime identified by "Descartes20";
+alter user mmiranda identified by "mamalucy9+";
 
 
-alter user jaime password expire;
+alter user mbondy password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MCASTILLA';
+ where username like 'MFERNANDEZ';
 
 -- Dependencies
 select *
@@ -48,16 +48,17 @@ select *
 
 select * from dba_registry where comp_id = 'APEX';
 
+
 -- busca procedimineto
 select *
   from dba_source
- where upper(text) like upper('%Ingreso por compra:%')
+ where upper(text) like upper('%Ordenes faltantes generadas por planeamiento%')
    and owner = 'PEVISA';
 
 
 select *
   from all_source
- where upper(text) like upper('%generadas por planeamiento%')
+ where upper(text) like upper('%Stock Minimo IQF%')
    and owner = 'PEVISA';
 
 
@@ -86,7 +87,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'JCABEZAS';
+ where co_usrusr = '';
 
 select *
   from seccrus
@@ -141,11 +142,25 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('AMONESTACION')
+ where modulo in ('CAJA_PRESUPUESTO')
    and supermaestro = 'SI'
  order by usuario, modulo;
 
-select * from modulo where id_modulo = 'CASILLEROS';
+select * from modulo where id_modulo like '%CAJA%';
+
+select *
+  from usuario_modulo
+ where usuario = 'APASTRANA'
+   and modulo like 'CAJA%';
+
+select *
+  from serie_caja_usuario
+ where usuario = 'APASTRANA';
+
+insert into serie_caja_usuario
+select id_serie, 'APASTRANA', maestro, supermaestro
+  from serie_caja_usuario
+ where usuario = 'PEVISA';
 
 select *
   from usuario_modulo
@@ -740,3 +755,62 @@ select *
 select *
   from usuario_modulo
  where modulo like 'CAMPANA%';
+
+select *
+  from usuario_modulo
+ where usuario = 'HOCANA';
+
+select *
+  from usuario_modulo
+ where usuario = 'LSALCEDO';
+
+select *
+  from usuario_modulo
+ where usuario = 'RRODRIGUEZ';
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'RRODRIGUEZ';
+
+select *
+  from permiso
+ where numero = 56161;
+
+select *
+  from proceso_puntualidad_pers
+ where id_personal = 'E42964';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'VASQUEZ'
+   and apellido_materno = 'FLORES';
+
+select *
+  from usuarios
+ where nombres like '%ROMERO%';
+
+select * from motivo_hallazgo_cliente;
+
+select * from usuarios where usuario = 'DARENAS';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'ARENAS'
+   and nombres like '%DIEGO%';
+
+select * from planilla10.t_cargo where c_cargo = 'AMKT';
+
+-- matrices corte
+select cod_art, descripcion, cod_lin
+  from vw_articulo
+ where cod_art like '%MATRIZ DE CORTE%';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'HERMOZA';
+
+select * from planilla10.tar_encarga;
+
+select *
+  from planilla10.personal
+ where encargado = '049';
