@@ -1,20 +1,16 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 1
+   and mes = 3
    and libro = '25'
-   and voucher in (10030);
+   and voucher in (30004);
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 1
+   and mes = 3
    and libro = '25'
-   and voucher in (10030);
-
-select *
-  from usuarios_tipos
- where usuario = 'ECHINCHA';
+   and voucher in (30004);
 
 select *
   from orden_de_compra
@@ -110,26 +106,41 @@ select *
   from prestamo_banco
  where cod_prestamo = '20123459';
 
+
 select *
   from movfigl
  where ano = 2023
-   and mes = 2
-   and tipo = '2'
-   and voucher = 23187;
+   and mes = 1
+   and tipo = '3'
+   and voucher = 10013;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 2
-   and tipo = '2'
-   and voucher = 23187;
+   and mes = 3
+   and tipo = '6'
+   and voucher = 30021;
+
+select *
+  from factpag
+ where cod_proveedor = '20111435473'
+   and tipdoc = '01'
+   and serie_num = 'E001'
+   and numero = '0001307';
+
+select *
+  from cabfpag
+ where cod_proveedor = '20111435473'
+   and tipdoc = '01'
+   and serie_num = 'E001'
+   and numero = '0001307';
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 1
-   and libro = '10'
-   and voucher = 21307101;
+   and mes = 3
+   and libro = '09'
+   and voucher = 93000601;
 
 select *
   from prestamo_banco
@@ -200,19 +211,77 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 1
-   and tipo = '3'
-   and voucher = 10005;
+   and mes = 3
+   and tipo = '2'
+   and voucher = 33115;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 1
-   and tipo = '3'
-   and voucher = 10005;
+   and mes = 3
+   and tipo = '2'
+   and voucher = 33115;
 
 select *
   from factpag
- where cod_proveedor = '99000038'
-   and tipdoc = '26'
-   and numero = '19012023';
+ where cod_proveedor = '20111435473'
+   and tipdoc = '01'
+   and serie_num = 'E001'
+   and numero = '0001307';
+
+select *
+  from cabfcob
+ where tipdoc = '01'
+   and serie_num = 'E001'
+   and numero = '0001307';
+
+select *
+  from factpag
+ where cod_proveedor = '20445396592'
+--    and tipdoc = 'A1'
+   and numero = '0000003';
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 3
+   and tipo = '6'
+   and voucher = 30024;
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '3848548';
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 4
+   and tipo = '2'
+   and voucher = 43035;
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 3
+   and tipo = '6'
+   and voucher = 30021;
+
+select *
+  from pevisa.movglos
+ where ano = 2023
+   and mes = 3
+   and libro = '25'
+   and voucher = 30017;
+
+select *
+  from pevisa.movdeta
+ where ano = 2023
+   and mes = 3
+   and libro = '25'
+   and voucher = 30017;
+
+select *
+  from nrolibr
+ where ano = 2023
+   and mes = 3
+   and libro = '25';

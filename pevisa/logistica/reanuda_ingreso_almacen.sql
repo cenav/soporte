@@ -27,7 +27,6 @@ select *
  where serie = :serie_oc
    and num_ped = :numero_oc;
 
-
 -- SALDO ITEM
 select *
   from itemord
@@ -39,7 +38,6 @@ select *
   from oc_registro_facturas
  where serie_oc = :serie_oc
    and numero_oc = :numero_oc;
-
 
 -- BORRAR TODA LA FILA DE INGRESO ALMACEN
 select *
@@ -73,10 +71,10 @@ select *
 
 select *
   from kardex_g
- where cod_alm = 'AD'
+ where cod_alm = 'A3'
    and tp_transac = '11'
-   and serie = 11
-   and numero = 6718;
+   and serie = 1
+   and numero = 30245;
 
 select *
   from kardex_d
@@ -147,4 +145,3 @@ select *
 
 select *
   from activo_fijo;
-

@@ -2,20 +2,41 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 1
-   and libro = '38'
+   and mes = 4
+   and libro = '40'
    and voucher in (
-   10024
+   40046
    );
+
+select *
+  from factpag
+ where numero = '0000008'
+   and cod_proveedor = '10417784417';
+
 
 select *
   from movdeta
  where ano = 2023
    and mes = 1
-   and libro = '38'
+   and libro = '08'
    and voucher in (
-   10024
+   11865
    );
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '20'
+   and numero = 215;
+
+select *
+  from movglos_historia
+ where ano = 2023
+   and mes = 1
+   and libro = '08'
+   and voucher in (
+   11865
+   )
+ order by creacion_cuando;
 
 select m.*
 --      , round(m.cargo_d * 3.838, 2) as cargo_corregido
@@ -1285,3 +1306,140 @@ select * from orden_de_compra_calificacion;
 select cod_proveed, nombre, email
   from proveed
  where email is not null;
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 22184;
+
+select *
+  from caja_chica_d
+ where serie = 7
+   and numero = 22184;
+
+select *
+  from factcob
+ where serie_num = '6'
+   and numero = 251188;
+
+select n.tipodoc, t.descripcion, n.serie, n.ctaconts, n.ctacontd, automatico
+  from nrodoc n, tablas_auxiliares t
+ where t.tipo = '40'
+   and n.tipodoc = t.codigo
+ order by n.tipodoc, n.serie;
+
+select *
+  from factcob
+ where cod_cliente = '08124314'
+   and tipdoc = 'L1'
+   and serie_num = 6
+   and f_incobrable is not null;
+
+select *
+  from plancta
+ where cuenta = '12930101';
+
+select *
+  from nrodoc
+ where tipodoc = 'L1';
+
+select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
+  from tablas_auxiliares t, nrodoc n
+ where tipo = '2'
+   and codigo = 'L1'
+   and n.tipodoc = t.obs
+   and n.serie = 6;
+
+select * from nrodoc where tipodoc = 'IL';
+
+select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
+  from tablas_auxiliares t, nrodoc n
+ where tipo = '2'
+   and codigo = 'L1'
+   and n.tipodoc = t.obs
+   and n.serie = 6;
+
+select *
+  from movdeta
+ where cuenta = '129301010';
+
+select * from comiacc_contrato;
+
+select *
+  from analisis_consumo
+ where ano = 2023
+   and mes = 2;
+
+-- PT
+
+select *
+  from cotizacion
+ where num_ped = 193963;
+
+select *
+  from pedido
+ where cod_cliente = '10411454083'
+ order by fecha desc;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 915135;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'AR'
+   and numero = 915135;
+
+select *
+  from expedido_d
+ where numero = 12121
+   and nro = 81;
+
+select *
+  from pr_ot
+ where numero = 335
+   and nuot_tipoot_codigo = 'FC';
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '62128AFB';
+
+select *
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 525737;
+
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '10'
+   and serie = 1
+   and numero = 4093;
+
+
+select *
+  from kardex_d
+ where cod_alm = '63'
+   and tp_transac = '35'
+   and serie = 39
+   and numero = 2234;
+
+
+select *
+  from kardex_d
+ where cod_alm = '63'
+   and tp_transac = '10'
+   and serie = 39
+   and numero = 2674;
+
+
+select *
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 39
+   and numero = 2674;
+

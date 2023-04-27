@@ -2,7 +2,7 @@
 declare
   cursor vencimientos is
        with fechas as (
-         select date'2023-01-01' as desde, date'2023-04-04' as hasta
+         select date'2023-01-01' as desde, date'2023-04-10' as hasta
            from dual
          )
      select f.desde + level - 1 as dia
@@ -15,6 +15,7 @@ begin
     pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
   end loop;
 end;
+
 
 -- genera asiento de pagare que vencia en una fecha pero se pago en otra
 declare

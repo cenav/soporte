@@ -1,9 +1,9 @@
 select *
   from kardex_g
- where cod_alm = '02'
-   and tp_transac = '11'
+ where cod_alm = '91'
+   and tp_transac = '16'
    and serie = 1
-   and numero = 29919;
+   and numero = 193762;
 
 select *
   from kardex_d

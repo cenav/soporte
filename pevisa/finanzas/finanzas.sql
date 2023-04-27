@@ -35,5 +35,5 @@ select *
 
 select *
   from pagos_i
- where serie_planilla = 1
-   and numero_planilla = 24718;
+ where serie_planilla = 2
+   and numero_planilla = 14108;

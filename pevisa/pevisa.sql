@@ -1348,3 +1348,124 @@ select *
  where cod_vendedor = 'S1';
 
 select * from pla_control;
+
+select * from exproforma_libre;
+
+select * from planilla10.tar_encarga;
+
+select *
+  from planilla10.personal
+ where encargado = '039';
+
+select *
+  from usuario_modulo
+ where modulo = 'ACCIDENTES';
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'ACCIDENTES';
+
+select * from activo_fijo_asigna;
+
+select * from activo_fijo where cod_activo_fijo = 'EQ COMP/OF35';
+
+select *
+  from tema_capacitacion
+ order by id_tema;
+
+select *
+  from capacitacion
+ where id_tema = 'CAP 154';
+
+select *
+  from pr_forsec
+ where cod_art in (
+   select cod_art
+     from solicita_emision_det
+    where numero = 595
+   )
+   and codigo_proceso is null;
+
+select *
+  from pr_forsec
+ where cod_art = '400.2758VIT';
+
+select *
+  from pr_forsec
+ where codigo_proceso is null;
+
+select *
+  from permiso
+ where numero = '56621';
+
+select * from concepto_permiso;
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'GONZALES';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E851';
+
+select * from planilla10.t_situacion_cesado;
+
+select *
+  from view_cli_para_booking
+ where cod_cliente = '998103';
+
+select *
+  from exbooking_d
+ where numero_factura = '55014185';
+
+select *
+  from exbooking
+ where numero_booking like 'TER-%';
+
+select nf.cod_cliente, nf.nombre, sum(nf.total_mercaderia) as total_mercaderia
+     , min(fecha) fecha_factura_mas_antigua
+  from vw_fac_para_booking nf
+--  where 1 = 1
+ where nf.fecha_despacho is null
+   and nf.numero not in (
+   select h.numero
+     from exfacturas_his h
+    where h.numero = nf.numero
+      and h.accion in ('70', '71', '72')
+   )
+   and nf.numero = '55014185'
+ group by nf.cod_cliente, nf.nombre
+ order by 1;
+
+select *
+  from exfacturas
+ where numero = 55014185;
+
+-- cambio para Adela
+select *
+  from pk_gnumero
+ where pk_numero = 52495;
+
+select * from personal_mantto;
+
+select *
+  from amonestacion
+ where numero = 252;
+
+select *
+  from factcob
+ where numero = '354270';
+
+select *
+  from vw_personal
+ where c_codigo = 'E42951';
+
+select *
+  from proveed
+ where nombre like '%VALCARCEL%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10254971133'
+ order by fecha desc;
+

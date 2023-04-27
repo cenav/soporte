@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   490069
+   506686
    );
 
 select *
@@ -21,10 +21,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = 'D5'
+ where cod_alm = 'D2'
    and tp_transac = '18'
    and serie = 2
-   and numero = 520707;
+   and numero = 525055;
 
 select *
   from proveed
@@ -137,3 +137,46 @@ select *
 select *
   from pr_consd
  where cod_art = '300.506SR';
+
+declare
+  orden pr_ot%rowtype;
+begin
+  emite.op('65000S', 1, false, orden);
+end;
+
+select *
+  from error_log
+ order by id_log desc;
+
+select f.art_cod_art, f.cantidad, f.almacen, a.descripcion, a.c_pro
+     , f.cod_lin, f.pr_secuencia
+  from pr_for_ins f
+     , articul a
+ where formu_art_cod_art = '65000S'
+   and formu_receta = 1
+   and art_cod_art = cod_art
+   and rtrim(a.flag_cal) is null;
+
+
+select *
+  from pr_formu f
+ where f.vigencia = 1
+   and f.art_cod_art = '65000S';
+
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'OIQ';
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%IQ%';
+
+select *
+  from responsabilidad_cargo
+ where id_cargo in ('MLS', 'OM', 'OP', 'OSL', 'OIQ');
+
+
+select *
+  from reparacion
+ where numero = 4024;

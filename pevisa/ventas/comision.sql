@@ -5,7 +5,6 @@ begin
 --   pkg_cominac.elimina_proceso(01718);
 end;
 
-
 -- Elimina comision en un intervalo de numeros de proceso
 begin
   for i in -2601 .. -2555 loop
@@ -270,3 +269,9 @@ select *
   from comisiones_planilla
  where ano = 2023
    and mes = 3;
+
+begin
+  pkg_bono_obreros.elimina(82);
+end;
+
+select * from param_bono_obrero;

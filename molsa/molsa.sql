@@ -89,3 +89,9 @@ select *
  where p_ano = 2023
    and p_mes = 2
    and cta_cte_banco = '191-1200848-1-86';
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '3479350';
+
+select * from v$version;

@@ -1,5 +1,5 @@
 declare
-  c_numero_orden simple_integer := 822057;
+  c_numero_orden simple_integer := 913244;
 begin
   delete produccion_armado where numero_oa in (c_numero_orden);
   dbms_output.put_line(sql%rowcount);

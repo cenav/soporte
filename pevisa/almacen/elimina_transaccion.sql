@@ -1,13 +1,19 @@
 declare
-  cursor transaccion_cur is
-    select cod_alm, tp_transac, serie, numero
+  -- Anula transacciones masivo
+  l_total simple_integer := 0;
+
+  cursor trx is
+    select *
       from kardex_g
-     where cod_alm = '42'
-       and tp_transac = '18'
-       and serie = 2
-       and numero = 520585;
+     where cod_alm = 'F4'
+       and tp_transac = '22'
+       and serie = 1
+       and numero in (
+                      107, 112, 103, 105, 109, 104, 110, 106, 111
+       )
+     order by ing_sal desc, numero_pguia;
 begin
-  for r in transaccion_cur loop
+  for r in trx loop
     delete
       from kardex_g
      where cod_alm = r.cod_alm
@@ -15,7 +21,7 @@ begin
        and serie = r.serie
        and numero = r.numero;
 
-    dbms_output.put_line('maestro ' || sql%rowcount);
+    l_total := l_total + sql%rowcount;
 
     delete
       from kardex_d
@@ -24,8 +30,7 @@ begin
        and serie = r.serie
        and numero = r.numero;
 
-    dbms_output.put_line('detalle ' || sql%rowcount);
   end loop;
 
-  commit;
+  dbms_output.put_line('total eliminado >>>>> ' || l_total);
 end;

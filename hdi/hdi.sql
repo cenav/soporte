@@ -127,9 +127,24 @@ select *
 select *
   from pevisa.movglos
  where ano = 2023
-   and mes = 2
-   and libro = '08'
-   and voucher = 20398;
+   and mes = 0
+   and libro = '05'
+   and voucher = 1;
+
+select *
+  from pevisa.movdeta
+ where ano = 2023
+   and mes = 0
+   and libro = '05'
+   and voucher = 8;
+
+select *
+  from pevisa.movdeta
+ where nro_referencia = '0076761';
+
+select *
+  from movdeta
+ where tipo_referencia = '91';
 
 select * from pla_control;
 
@@ -204,16 +219,16 @@ select cod_banco, '0003CM5', nro_cuota, fecha_vcto, importe_saldo_capital, impor
 select *
   from movfigl
  where ano = 2023
-   and mes = 1
-   and tipo = '3'
-   and voucher = 10013;
+   and mes = 4
+   and tipo = '2'
+   and voucher = 43035;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 1
-   and tipo = '3'
-   and voucher = 10013;
+   and mes = 3
+   and tipo = '2'
+   and voucher = 33021;
 
 select *
   from factpag
@@ -238,3 +253,129 @@ select *
   from pevisa.gastos_de_viaje
  where id_vendedor = '67'
    and numero = 143;
+
+select *
+  from factcob
+ where tipdoc = 'A1'
+   and serie_num = '1'
+   and numero = '0000003';
+
+select *
+  from cabfcob
+ where tipdoc = 'A1'
+   and serie_num = '1'
+   and numero = '0000004';
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '3848548';
+
+select *
+  from pevisa.plancta
+ where cuenta = '37312100';
+
+select *
+  from pevisa.plancta
+ where cuenta like '37%';
+
+select codigo, descripcion, indicador1
+  from tablas_auxiliares
+ where tipo = '33' and codigo like 'F%';
+
+select codigo, descripcion, indicador1
+  from tablas_auxiliares
+ where tipo = '33'
+   and codigo like 'F0';
+
+-- Vulcano Nº 210 – Ate
+
+select nro_sucur, direccion
+  from sucursales
+ where cod_cliente in (
+   select c_empleador
+     from pla_control
+   );
+
+select *
+  from sucursales
+ where cod_cliente = '20610114041';
+
+select *
+  from cominac_concepto
+ where cod_concepto = 363;
+
+select *
+  from pevisa.cominac_concepto
+ where cod_concepto in (361, 362, 364, 365, 366);
+
+select *
+  from proceso_cominac
+ where periodo_ano = 2023
+   and periodo_mes = 2;
+
+select *
+  from pevisa.tab_grupos
+ where grupo = '138';
+
+select * from vendedores;
+
+select * from vw_cominac_consulta;
+
+select *
+  from lg_factura_comercial
+ where numero_embarque = 40;
+
+select *
+  from importacion_registro_facturas
+--  where :FACTURA_COMERCIAL.cod_proveed_grupo = :SELECCION.codigo_proveedor
+ where cod_proveed = '99000032'
+   and numero = 'IN076761'
+   and voucher is null;
+
+select *
+  from pevisa.proveed
+ where nombre like '%HARTRIDGE%';
+
+select * from pevisa.paramin;
+
+
+select f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3) abre
+     , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero doc,
+    to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv,
+    f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia refe, f.fecha, f.f_vencto
+     , decode(f.moneda, 'S', 'S/.', 'US$') mon, f.pventa importf, f.tcam_sal, f.pventax,
+    f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) saldo_d, round(
+    ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
+    2) saldo_en_soles
+     , f.moneda, f.tcam_sal, f.tipdoc, f.numero, f.ctactble
+  from factpag f, cabfpag c, proveed l, tablas_auxiliares t
+ where f.cod_proveedor like :PRO
+   and ((f.ano * 100) + f.mes) <= ((:P_ANO * 100) + :P_MES)
+   and f.tipdoc like :PROV
+   and c.tipdoc(+) = f.tipdoc
+   and c.serie_num(+) = f.serie_num
+   and c.numero(+) = f.numero
+   and ((c.ano(+) * 100) + c.mes(+)) <= ((:P_ANO * 100) + :P_MES)
+   and c.cod_proveedor(+) = f.cod_proveedor
+   and l.cod_proveed = f.cod_proveedor
+   and t.tipo(+) = 02
+   and t.codigo(+) = f.tipdoc
+   and f.ctactble like :P_CUENTA
+having (f.pventa + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe, c.importe_x),
+                                  decode(c.moneda, 'D', c.importe, c.importe_x))), 0)) <> 0
+ group by f.ctactble, f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3)
+        , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero,
+     to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher),
+     f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
+        , decode(f.moneda, 'S', 'S/.', 'US$'), f.pventa, f.pventax, f.moneda, f.tcam_sal, f.tipdoc
+        , f.numero
+ order by f.ctactble, l.nombre, f.tipdoc || '-' || f.numero;
+
+select *
+  from pevisa.factpag
+ where numero = '3848548'
+   and serie_num = '007';
+
+select *
+  from lg_pedjam
+ where num_importa = 'PH2023/061';

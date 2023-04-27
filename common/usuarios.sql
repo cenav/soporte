@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user JCHIRINOS account unlock;
+alter user CMARCELO account unlock;
 
 
-alter user oquintana account lock;
+alter user apastrana account lock;
 
 
-alter user mmiranda identified by "mamalucy9+";
+alter user marredondo identified by "pevisa.123";
 
 
-alter user mbondy password expire;
+alter user jquispeb password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,9 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MFERNANDEZ';
+ where username like 'CMARCELO';
+
+select * from dba_users where username like 'CBO%';
 
 -- Dependencies
 select *
@@ -52,13 +54,13 @@ select * from dba_registry where comp_id = 'APEX';
 -- busca procedimineto
 select *
   from dba_source
- where upper(text) like upper('%Ordenes faltantes generadas por planeamiento%')
+ where upper(text) like upper('%asiscont3@pevisa.com.pe%')
    and owner = 'PEVISA';
 
 
 select *
   from all_source
- where upper(text) like upper('%Stock Minimo IQF%')
+ where upper(text) like upper('%La comunidad de Colaboradores de%')
    and owner = 'PEVISA';
 
 
@@ -66,6 +68,7 @@ select owner, table_name
   from all_tab_columns
  where column_name like '%KARDEX%'
    and owner = 'PEVISA';
+
 
 select *
   from v$version;
@@ -142,11 +145,10 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('CAJA_PRESUPUESTO')
-   and supermaestro = 'SI'
+ where modulo in ('INCUMPLIMIENTO')
  order by usuario, modulo;
 
-select * from modulo where id_modulo like '%CAJA%';
+select * from modulo where id_modulo like '%HALLAZGO%';
 
 select *
   from usuario_modulo
@@ -814,3 +816,29 @@ select * from planilla10.tar_encarga;
 select *
   from planilla10.personal
  where encargado = '049';
+
+select * from personal_mantto;
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'ACCIDENTES'
+   and id_alterno = 'NBELANDRIA';
+
+select *
+  from usuario_modulo
+ where usuario = 'NBELANDRIA';
+
+select * from planilla10.tar_encarga;
+
+select *
+  from planilla10.personal
+ where encargado = '042';
+
+select *
+  from caja_chica_d
+ where serie = 7
+   and numero = 22184;
+
+select *
+  from cese_personal
+ where id_personal = 'E42736';

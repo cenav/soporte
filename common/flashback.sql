@@ -560,3 +560,8 @@ select *
    and mes = 1
    and libro = '38'
    and voucher = 10011;
+
+select *
+  from analisis_consumo as of timestamp to_timestamp('18-04-2023 09:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 2;
