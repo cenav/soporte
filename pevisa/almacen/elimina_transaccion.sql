@@ -5,11 +5,11 @@ declare
   cursor trx is
     select *
       from kardex_g
-     where cod_alm = 'F4'
-       and tp_transac = '22'
-       and serie = 1
+     where cod_alm = 'FI'
+       and tp_transac = '29'
+       and serie = 3
        and numero in (
-                      107, 112, 103, 105, 109, 104, 110, 106, 111
+       595595
        )
      order by ing_sal desc, numero_pguia;
 begin

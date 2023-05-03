@@ -1469,3 +1469,64 @@ select *
  where cod_proveed = '10254971133'
  order by fecha desc;
 
+select *
+  from activo_fijo
+ where abreviatura = 'MESA SUPERIOR YANGLI 80-';
+
+select *
+  from serie_caja_usuario
+ where usuario = 'APASTRANA';
+
+select * from serie_caja;
+
+select *
+  from serie_caja_usuario
+ where usuario = 'VMONTANEZ';
+
+select *
+  from usuarios
+ where usuario = 'APASTRANA';
+
+select *
+  from usuario_modulo
+ where modulo = 'EMBARQUES';
+
+select *
+  from articul
+ where cod_art = '2741MFX-OSRAM';
+
+select *
+  from cotizacion
+ where num_ped = 193646;
+
+select *
+  from cotizacion
+ where refe_pedido = '217757';
+
+select *
+  from pedido
+ where num_ped = 217757;
+
+select *
+  from planilla10.personal
+ where encargado = '057';
+
+select * from planilla10.tar_encarga;
+
+-- jcarrera
+-- jmedina
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '85'
+   and numero = 129;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'IVEGA';
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'DACOSTA';
+
+select * from caja_chica_serie;

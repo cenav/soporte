@@ -53,3 +53,11 @@ select * from pr_prioridad_htmp_30;
 select *
   from pr_prioridad
  where ano = 2023;
+
+select *
+  from exbooking
+ where numero_booking = 'AER-113';
+
+select *
+  from exbooking_d
+ where numero_booking = 'AER-113';

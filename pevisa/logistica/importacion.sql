@@ -10,11 +10,11 @@ select *
   from pr_programas_compras
  where id_programa = 'PVC220912';
 
--- PR230402
+--REC230401
 
 select *
   from pr_programas_compras
- where id_programa like 'PR%'
+ where id_programa like 'REC%'
  order by id_programa;
 
 select * from planeamiento_compras;

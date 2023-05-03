@@ -1,18 +1,21 @@
-insert into usuarios_tipos(usuario, tipo, mes_predeterminado)
-select 'ECHINCHA', tipo, mes_predeterminado
-  from usuarios_tipos
- where usuario = 'MDIAZ';
+select *
+  from pevisa.movglos
+ where ano = 2023
+   and mes = 4
+   and libro = '05'
+   and voucher = 40009;
 
 select *
-  from usuarios_tipos
- where usuario = 'ECHINCHA';
-
+  from pevisa.movdeta
+ where ano = 2023
+   and mes = 4
+   and libro = '05'
+   and voucher = 40009;
 
 select *
   from factpag
- where cod_proveedor = '99000038'
-   and tipdoc = '91'
-   and numero in ('0000027', '0000030', '0000033');
+ where cod_proveedor = '93590880'
+   and numero in ('0000077');
 
 select *
   from plancta
@@ -123,20 +126,6 @@ select *
  where cod_proceso = 1904
    and cod_concepto = 1;
 
-
-select *
-  from pevisa.movglos
- where ano = 2023
-   and mes = 0
-   and libro = '05'
-   and voucher = 1;
-
-select *
-  from pevisa.movdeta
- where ano = 2023
-   and mes = 0
-   and libro = '05'
-   and voucher = 8;
 
 select *
   from pevisa.movdeta
@@ -379,3 +368,51 @@ select *
 select *
   from lg_pedjam
  where num_importa = 'PH2023/061';
+
+select *
+  from pevisa.pagos_h
+ where serie_planilla in (1, 2)
+   and (estado = 6 or
+        (estado = 2 and documentos_con_detraccion = 0))
+   and forma_de_pago = 'TRAN'
+   and exists(
+     select distinct -1
+       from ctabnco_unidad_de_negocio x, ctabnco_parametros p, ctabnco c
+      where x.codigo = c.codigo
+        and x.codigo_unidad_negocio = nvl(pagos_h.codigo_unidad_negocio, '00')
+        and c.moneda = pagos_h.moneda
+        and c.banco like nvl(pagos_h.banco_de_cuenta_de_abono, '%')
+        and p.id_cuenta = c.codigo
+        and p.usuario = user
+   )
+   and serie_planilla = 1
+   and numero_planilla = 106;
+
+select *
+  from pevisa.pagos_h
+ where serie_planilla = 1
+   and numero_planilla = 106;
+
+select *
+  from ctabnco_parametros
+ where id_cuenta = '11';
+
+select *
+  from ctabnco_unidad_de_negocio
+ where codigo_unidad_negocio = '01';
+
+select *
+  from pevisa.orden_de_venta
+ where numero = 6738;
+
+select *
+  from pevisa.orden_de_venta_historia
+ where numero = 6738;
+
+select *
+  from pevisa.lg_factura_comercial
+ where numero_embarque = 54;
+
+alter user pevisa identified by "hdi4041";
+
+select * from pla_control;

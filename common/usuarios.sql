@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user CMARCELO account unlock;
+alter user amantenimiento account unlock;
 
 
 alter user apastrana account lock;
 
 
-alter user marredondo identified by "pevisa.123";
+alter user nquispe identified by "pevisa.123";
 
 
 alter user jquispeb password expire;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CMARCELO';
+ where username like 'AMANTENIMIENTO';
 
 select * from dba_users where username like 'CBO%';
 
@@ -145,7 +145,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('INCUMPLIMIENTO')
+ where modulo in ('EMBARQUES')
  order by usuario, modulo;
 
 select * from modulo where id_modulo like '%HALLAZGO%';
@@ -842,3 +842,7 @@ select *
 select *
   from cese_personal
  where id_personal = 'E42736';
+
+select *
+  from usuario_modulo
+ where modulo = 'EMBARQUES';

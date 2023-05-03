@@ -1,49 +1,25 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 3
-   and libro = '25'
-   and voucher in (30004);
+   and mes = 4
+   and libro = '05'
+   and voucher in (40007);
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 3
-   and libro = '25'
-   and voucher in (30004);
+   and mes = 4
+   and libro = '05'
+   and voucher in (40007);
 
 select *
-  from orden_de_compra
- where serie = 13
-   and num_ped = 7126;
+  from factpag
+ where cod_proveedor = '156406309'
+   and numero = '0000077';
 
 select *
-  from itemord
- where serie = 13
-   and num_ped = 7126;
-
-select * from paramlg;
-
-select * from proceso_cominac;
-
-select *
-  from proceso_cominac_venta_det
- where cod_proceso = 01939
-   and cod_concepto = 2;
-
-select *
-  from cominac_concepto
- where cod_concepto in (1, 2);
-
-select *
-  from gastos_de_viaje
- where id_vendedor = 'H3'
-   and numero = 141;
-
-select *
-  from gastos_de_viaje_d
- where id_vendedor = 'H3'
-   and numero = 141;
+  from plancta
+ where cuenta in ('44291100', '42122100');
 
 select *
   from nrolibr

@@ -275,3 +275,5 @@ begin
 end;
 
 select * from param_bono_obrero;
+
+select * from cabfpag;

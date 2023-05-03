@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   506686
+                  495761, 495762, 495763, 486107, 493501
    );
 
 select *
@@ -157,12 +157,10 @@ select f.art_cod_art, f.cantidad, f.almacen, a.descripcion, a.c_pro
    and art_cod_art = cod_art
    and rtrim(a.flag_cal) is null;
 
-
 select *
   from pr_formu f
  where f.vigencia = 1
    and f.art_cod_art = '65000S';
-
 
 select *
   from planilla10.t_cargo
@@ -180,3 +178,57 @@ select *
 select *
   from reparacion
  where numero = 4024;
+
+select cod_art, cant_faltante, saldo_op, numero_op, stock, stock_requerida
+  from vw_articulo
+ where cod_art = '180.654FIB';
+
+select *
+  from pr_ot
+ where abre01 = '15758'
+   and nuot_tipoot_codigo = 'AR';
+
+select pa.numero, pa.nuot_serie, pa.nuot_tipoot_codigo, pa.cant_prog, pa.receta
+     , pa.formu_art_cod_art, pa.plazo, pa.fecha_plazo, pa.per_env, pa.abre01, pa.abre02, pa.destino
+     , pa.cod_eqi, pa.empaque, pa.embalaje, pa.prioridad, pa.cod_lin, pa.pais
+     , get_grupo_ventas_marcas(pa.formu_art_cod_art) marca
+  from pr_ot pa, articul a, pr_formu f
+ where pa.origen = 'PLANEADA'
+   and pa.nuot_tipoot_codigo = 'PA'
+   and pa.destino in ('1', '2')
+   and pa.formu_art_cod_art = a.cod_art
+   and f.art_cod_art = pa.formu_art_cod_art
+   and f.receta = 1
+   and pa.abre01 = '15758'
+   and pa.nuot_tipoot_codigo = 'PA'
+   and not exists
+   (select distinct 1
+      from pr_for_ins i, articul a
+     where i.formu_art_cod_art = pa.formu_art_cod_art
+       and i.art_cod_art = a.cod_art
+       and a.cod_lin in
+           (
+             select cod_lin
+               from pr_grupos_lineas_desarrollo
+              union
+             select '1980'
+               from dual
+              union
+             select 'ZZ'
+               from dual
+             ));
+
+select *
+  from pr_num_ot
+ where tipoot_codigo = 'AR'
+   and serie = 3;
+
+select *
+  from pr_ot
+ where numero = 915811
+   and nuot_tipoot_codigo = 'AR';
+
+select max(numero)
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and nuot_serie = 3;

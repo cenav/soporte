@@ -1,20 +1,26 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 2
+   and mes = 1
    and libro = '08'
-   and voucher = 20013;
+   and voucher = 10018;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 2
-   and libro = '40'
-   and voucher = 20001;
+   and mes = 1
+   and libro = '08'
+   and voucher = 10018;
 
 select *
   from factpag
- where cod_proveedor = '10257424281';
+ where cod_proveedor = '20100047218'
+   and numero = '2724333';
+
+select *
+  from cabfpag
+ where cod_proveedor = '20418896915'
+   and numero = '0065104';
 
 select * from activo_fijo_depreciacion;
 
