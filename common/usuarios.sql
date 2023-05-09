@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user amantenimiento account unlock;
+alter user NBELANDRIA account unlock;
 
 
 alter user apastrana account lock;
 
 
-alter user nquispe identified by "pevisa.123";
+alter user tguerrero identified by "patg10$vt";
 
 
 alter user jquispeb password expire;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'AMANTENIMIENTO';
+ where username like 'NBELANDRIA';
 
 select * from dba_users where username like 'CBO%';
 
@@ -101,7 +101,7 @@ select *
  where co_ctrctr = 'M_COSTO_M'
    and co_usrusr = 'APASTRANA';
 
-select * from usuarios where usuario = 'JJUAREZ';
+select * from usuarios where usuario = 'ADELA';
 
 select * from planilla10.hr_personal where c_codigo = 'E840';
 
@@ -846,3 +846,9 @@ select *
 select *
   from usuario_modulo
  where modulo = 'EMBARQUES';
+
+select *
+  from expedidos
+ where numero = 15501;
+
+select * from packing_agrupar order by 1;

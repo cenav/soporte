@@ -1,6 +1,8 @@
-select sysdate from dual;
+select sysdate
+  from dual;
 
-select * from packing_agrupar;
+select *
+  from packing_agrupar;
 
 select *
   from pr_ot_anulacion
@@ -13,8 +15,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-   458204
-   );
+     458204
+     );
 
 -- faucett
 select *
@@ -23,8 +25,8 @@ select *
    and tp_transac = '14'
    and serie = 10
    and numero in (
-   16403
-   )
+     16403
+     )
  order by numero;
 
 
@@ -36,7 +38,7 @@ select *
    and numero in (
                   1574783, 1574782, 1574781, 1574780, 1574779, 1574778, 1574777, 1574776, 1574775,
                   1574774
-   );
+     );
 
 
 select *
@@ -45,8 +47,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-   227677
-   );
+     227677
+     );
 
 select *
   from kardex_g_movglos
@@ -54,8 +56,8 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero in (
-   28961
-   );
+     28961
+     );
 
 select *
   from kardex_d
@@ -77,8 +79,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-   232242
-   );
+     232242
+     );
 
 select *
   from kardex_d_historia
@@ -86,8 +88,8 @@ select *
    and tp_transac = '18'
    and serie = 2
    and numero in (
-   492695
-   );
+     492695
+     );
 
 select *
   from kardex_d_otm
@@ -96,7 +98,8 @@ select *
    and serie = 1
    and numero = 225859;
 
-select * from paramin;
+select *
+  from paramin;
 
 select *
   from produccion_armado
@@ -112,7 +115,8 @@ select *
   from traslados_almacenes
  where cod_alm_origen = '35';
 
-select * from cargo_trabajador;
+select *
+  from cargo_trabajador;
 
 select *
   from vw_personal
@@ -129,7 +133,8 @@ select *
  where fch_seleccion is not null
     or file_name is not null;
 
-select * from ruta_docvirtual;
+select *
+  from ruta_docvirtual;
 
 select sum(hasta - desde + 1) as total_dias
   from permiso
@@ -146,50 +151,92 @@ select *
    and id_personal = 'E110';
 
   with detalle as (
-    select v.cod_cliente, v.nombre, v.fch_pedido, v.pedido, v.pedido_item, v.nuot_serie
-         , v.nuot_tipoot_codigo, v.numero, v.fecha, v.formu_art_cod_art, v.estado, v.art_cod_art
-         , v.cant_formula, v.rendimiento, v.saldo, v.despachar, v.cod_lin, v.abre02, v.preuni
-         , v.valor
-         , v.stock, v.tiene_stock, v.tiene_stock_ot, v.tiene_stock_item, v.tiene_importado
-         , v.impreso
-         , v.fch_impresion, v.es_juego, v.es_importado, v.es_prioritario, v.es_sao
-         , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end oa
-         , dense_rank() over (
-      order by case when p.prioritario = 1 then v.es_prioritario end desc
+      select v.cod_cliente
+           , v.nombre
+           , v.fch_pedido
+           , v.pedido
+           , v.pedido_item
+           , v.nuot_serie
+           , v.nuot_tipoot_codigo
+           , v.numero
+           , v.fecha
+           , v.formu_art_cod_art
+           , v.estado
+           , v.art_cod_art
+           , v.cant_formula
+           , v.rendimiento
+           , v.saldo
+           , v.despachar
+           , v.cod_lin
+           , v.abre02
+           , v.preuni
+           , v.valor
+           , v.stock
+           , v.tiene_stock
+           , v.tiene_stock_ot
+           , v.tiene_stock_item
+           , v.tiene_importado
+           , v.impreso
+           , v.fch_impresion
+           , v.es_juego
+           , v.es_importado
+           , v.es_prioritario
+           , v.es_sao
+           , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end oa
+           , dense_rank() over (
+          order by case when p.prioritario = 1 then v.es_prioritario end desc
 --             , case when trunc(sysdate) - v.fch_pedido > p_dias then 1 else 0 end desc --> 25/08/22 solo filtre mayores a fecha
-        , case when v.valor > p.valor_item then 1 else 0 end desc
-        , v.es_juego
-        , v.valor desc
-        , v.pedido
-        , v.pedido_item
-      ) as ranking
-      from vw_ordenes_pedido_pendiente v
-           join param_surte p on p.id_param = 1
-     where (v.es_prioritario = 1
-       or ((v.pais = :p_pais or :p_pais is null)
-         and (v.vendedor = :p_vendedor or :p_vendedor is null)
-         and (v.empaque = :p_empaque or :p_empaque is null)
-         and (trunc(sysdate) - v.fch_pedido > :p_dias or :p_dias is null)
-         and (v.es_juego = :p_es_juego or :p_es_juego is null)
-         and (exists(select * from tmp_selecciona_cliente t where v.cod_cliente = t.cod_cliente) or
-              not exists(select * from tmp_selecciona_cliente)))
-       )
-       and v.impreso = 'NO'
+              , case when v.valor > p.valor_item then 1 else 0 end desc
+              , v.es_juego
+              , v.valor desc
+              , v.pedido
+              , v.pedido_item
+          ) as                                                                                   ranking
+        from vw_ordenes_pedido_pendiente v
+             join param_surte p on p.id_param = 1
+       where (v.es_prioritario = 1
+           or ((v.pais = :p_pais or :p_pais is null)
+               and (v.vendedor = :p_vendedor or :p_vendedor is null)
+               and (v.empaque = :p_empaque or :p_empaque is null)
+               and (trunc(sysdate) - v.fch_pedido > :p_dias or :p_dias is null)
+               and (v.es_juego = :p_es_juego or :p_es_juego is null)
+               and (exists(
+                   select * from tmp_selecciona_cliente t where v.cod_cliente = t.cod_cliente
+                   ) or
+                    not exists(
+                        select *
+                          from tmp_selecciona_cliente
+                        )))
+           )
+         and v.impreso = 'NO'
 --            and pedido = 14660
 --            and pedido_item = 135
-    )
+      )
 select *
   from detalle
  order by ranking;
 
-select * from vw_ordenes_impresas_pendientes;
+select *
+  from vw_ordenes_impresas_pendientes;
 
-select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado, a.estado_old
-     , trunc(a.fecha) as fecha
-     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo, b.cod_lin, b.formu_art_cod_art
+select user
+     , b.numero
+     , b.nuot_serie
+     , b.nuot_tipoot_codigo
+     , a.estado
+     , a.estado_old
+     , trunc(a.fecha) as                           fecha
+     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
+     , b.cod_lin
+     , b.formu_art_cod_art
      , b.cant_prog
-     , b.abre02 cliente, b.abre01 pedido, b.per_env item, b.destino
-     , decode(b.destino, 1, c.totlin, 2, e.totlin) total, a.usuario, 'ALMACEN'
+     , b.abre02                                    cliente
+     , b.abre01                                    pedido
+     , b.per_env                                   item
+     , b.destino
+     , decode(b.destino, 1, c.totlin, 2, e.totlin) total
+     , a.usuario
+     , 'ALMACEN'
   from pr_trasab_estado a, pr_ot b, expedido_d c, expednac_d e
  where a.fecha between :x_fecha_del and :x_fecha_al + 1
    and a.tipo = 'AR'
@@ -207,16 +254,16 @@ select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado, a.estado_ol
    and a.usuario not in ('BETY')
    and b.cod_lin not in ('1970', '1971', '1972')
    and a.fecha = (
-   select max(fecha)
-     from pr_trasab_estado p
-    where p.numero = a.numero
-      and p.serie = a.serie
-      and p.tipo = a.tipo
-      and p.estado = a.estado
-      and p.estado_old in ('0', '1')
+     select max(fecha)
+       from pr_trasab_estado p
+      where p.numero = a.numero
+        and p.serie = a.serie
+        and p.tipo = a.tipo
+        and p.estado = a.estado
+        and p.estado_old in ('0', '1')
 --       and p.estado_old in ('1', '2', '3')
-      and p.usuario not in ('BETY')
-   )
+        and p.usuario not in ('BETY')
+     )
 --    and exists(
 --      select 1
 --        from vw_ordenes_impresas_pendientes i
@@ -230,7 +277,7 @@ select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado, a.estado_ol
       where b.nuot_tipoot_codigo = i.nuot_tipoot_codigo
         and b.nuot_serie = i.nuot_serie
         and b.numero = i.numero
-   )
+     )
    and nvl(f_grupo_formu(b.formu_art_cod_art), 99) like :x_grupo;
 
 select *
@@ -253,15 +300,15 @@ select *
   from itemord
  where serie = 3
    and num_ped in (
-   42673
-   );
+     42673
+     );
 
 select *
   from orden_de_compra_historia
  where serie = 20
    and num_ped in (
-   982
-   )
+     982
+     )
    and glosa = 'APROBADO'
    and creacion_quien = 'JAIME';
 
@@ -269,14 +316,16 @@ select sum(cantidad * precio) as total
   from itemord
  where serie = 4
    and num_ped in (
-   58332
-   );
+     58332
+     );
 
 select *
   from itemmatri
  where num_ped = 220169;
 
-select * from articul where cod_art = 'VLC140';
+select *
+  from articul
+ where cod_art = 'VLC140';
 
 select *
   from tab_grupos
@@ -295,7 +344,10 @@ select *
  where grupo = ?;
 
 
-select * from orden_de_compra_historia where serie = 30 and num_ped = 282;
+select *
+  from orden_de_compra_historia
+ where serie = 30
+   and num_ped = 282;
 
 
 select *
@@ -332,7 +384,10 @@ select sum(cantidad * precio)
   from itemmatri
  where num_ped = 210078;
 
-select * from orden_de_compra where serie = 4 and num_ped = 58095;
+select *
+  from orden_de_compra
+ where serie = 4
+   and num_ped = 58095;
 
 
 select *
@@ -358,11 +413,12 @@ select *
 
 select *
   from kardex_g
- where cod_alm = '14' and tp_transac = '29'
+ where cod_alm = '14'
+   and tp_transac = '29'
    and serie = 1
    and numero in (
                   1573059, 1573061, 1573062, 1573064, 1573066
-   );
+     );
 
 select *
   from kardex_g_historia
@@ -370,11 +426,11 @@ select *
    and tp_transac = '27'
    and serie = 1
    and numero in (
-   1278250
-   );
+     1278250
+     );
 
 begin
-  dbms_output.put_line(api_kardex_g_historia.mas_antiguo('03', '18', 2, 496189).usuario);
+    dbms_output.put_line(api_kardex_g_historia.mas_antiguo('03', '18', 2, 496189).usuario);
 end;
 
 select *
@@ -387,8 +443,8 @@ select sum(total)
   from itemord
  where serie = 6
    and num_ped in (
-   1468
-   );
+     1468
+     );
 
 
 select *
@@ -465,16 +521,16 @@ select cant_ped, factor_uc, cantidad * factor_uc, 637, cantidad
   from itemord
  where serie = 1
    and num_ped in (
-   83659
-   );
+     83659
+     );
 
 
 select cantidad, cant_ped, factor_uc, cantidad * precio * factor_uc as calculado
   from itemord
  where serie = 1
    and num_ped in (
-   83659
-   );
+     83659
+     );
 
 
 -- APROBADO	ACTUALIZACION ESTADO	JAIME
@@ -482,8 +538,8 @@ select *
   from orden_de_compra_historia
  where serie = 6
    and num_ped in (
-   1464
-   );
+     1464
+     );
 
 
 -- saldo anterior 48200
@@ -492,8 +548,8 @@ select cod_art, saldo, precio, round(saldo * precio, 2) as total_calc, total
   from itemord
  where serie = 1
    and num_ped in (
-   83925
-   );
+     83925
+     );
 
 select *
   from usuario_modulo
@@ -515,14 +571,20 @@ select cod_art, sum(precio * cantidad) as total
 
 
 -- debe cuadrar con el total de la factura
-select precio * cant_ped, factor_uc, total
-     , precio * cant_ped, total as factor_calculado, factor_uc
-     , precio * 93, factor_uc, total
+select precio * cant_ped
+     , factor_uc
+     , total
+     , precio * cant_ped
+     , total as factor_calculado
+     , factor_uc
+     , precio * 93
+     , factor_uc
+     , total
   from itemord
  where serie = 1
    and num_ped in (
-   84265
-   );
+     84265
+     );
 
 
 select *
@@ -536,8 +598,8 @@ select precio * 548.790, 3700.4
   from itemord
  where serie = 1
    and num_ped in (
-   84426
-   );
+     84426
+     );
 
 
 select *
@@ -557,16 +619,16 @@ select precio * 546.1, 2.48227272727272727272727272727272727273
   from itemord
  where serie = 1
    and num_ped in (
-   84453
-   );
+     84453
+     );
 
 
 select total, precio * 1.09481287127158555729984301412872841444
   from itemord
  where serie = 1
    and num_ped in (
-   83659
-   );
+     83659
+     );
 
 
 select *
@@ -718,11 +780,11 @@ select *
 merge into itemord i
 using orden_de_compra o
 on (i.serie = o.serie
-  and i.num_ped = o.num_ped
-  and o.id_maquina is not null)
+    and i.num_ped = o.num_ped
+    and o.id_maquina is not null)
 when matched then
-  update
-     set i.cod_maquina = o.id_maquina;
+    update
+       set i.cod_maquina = o.id_maquina;
 
 
 ---------------------------------------------------------
@@ -761,7 +823,8 @@ select *
  where usuario = user
    and cod_alm = 'A3';
 
-select * from prestamo_activo_fijo;
+select *
+  from prestamo_activo_fijo;
 
 -- reactiva saldo
 select *
@@ -787,7 +850,8 @@ select *
   from vendedores
  where nombre like '%BONDY%';
 
-select * from ruta_docvirtual;
+select *
+  from ruta_docvirtual;
 
 select *
   from caja_chica
@@ -804,7 +868,8 @@ select *
   from logger_logs
  order by id desc;
 
-select * from vw_personal;
+select *
+  from vw_personal;
 
 -- DESC_ENCARGADO
 
@@ -828,11 +893,14 @@ select *
    and numero_planilla = 714;
 
 
-select * from pr_prioridad_htmp_30;
+select *
+  from pr_prioridad_htmp_30;
 
-select * from pr_prioridad_tmp_30;
+select *
+  from pr_prioridad_tmp_30;
 
-select * from pr_prioridad_pza_30;
+select *
+  from pr_prioridad_pza_30;
 
 select *
   from extablas_expo
@@ -843,7 +911,8 @@ select *
   from extablas_expo
  where tipo = '13';
 
-select nvl(t.abreviada, 'OFICINA') p_vende, nvl(e.cod_vende, '00') vende
+select nvl(t.abreviada, 'OFICINA')                              p_vende
+     , nvl(e.cod_vende, '00')                                   vende
      , sum(decode(to_char(e.fecha, 'MM'), '01', e.imp_neto, 0)) ene
      , sum(decode(to_char(e.fecha, 'MM'), '02', e.imp_neto, 0)) feb
      , sum(decode(to_char(e.fecha, 'MM'), '03', e.imp_neto, 0)) mar
@@ -859,7 +928,7 @@ select nvl(t.abreviada, 'OFICINA') p_vende, nvl(e.cod_vende, '00') vende
   from docuvent e, clientes c, extablas_expo t
  where to_char(e.fecha, 'YYYY') = :P_ANO
    and nvl(e.estado, '0') <> '9'
-   --AND  E.TIPODOC = '01'
+     --AND  E.TIPODOC = '01'
    and e.origen = 'EXPO'
    and c.cod_cliente = e.cod_cliente
    and t.tipo = '13'
@@ -871,7 +940,7 @@ select *
   from lg_itemjam
  where cod_art in (
                    'ELEVADOR DXTT48', 'ELEVADOR FOP3-45'
-   );
+     );
 
 select *
   from lg_itemjam
@@ -886,7 +955,8 @@ select *
  where num_importa = 'BP-220826'
    and cod_alm in ('D2', 'D3', 'D5');
 
-select c_empleador from pla_control;
+select c_empleador
+  from pla_control;
 
 select *
   from kardex_d
@@ -936,14 +1006,16 @@ select *
   from produccion_armado
  where numero_oa = 855790;
 
-select * from pcmasters;
+select *
+  from pcmasters;
 
 select *
   from pcformulas f
        join articul a on f.cod_for = a.cod_art
  where a.tp_art = 'P';
 
-select * from pcformulas;
+select *
+  from pcformulas;
 
 select *
   from pcformulas f
@@ -953,7 +1025,7 @@ select *
      select 1
        from pcmasters m
       where f.cod_art = m.cod_art
-   );
+     );
 
 select *
   from pcmasters
@@ -967,7 +1039,7 @@ select *
      select 1
        from pcformulas f
       where a.cod_art = f.cod_for
-   );
+     );
 
 select *
   from pcformulas
@@ -1003,8 +1075,9 @@ select *
         and g.serie = d.serie
         and g.numero = d.numero
         and ((length(a.cod_lin) = 3 and a.cod_lin between '800' and '833')
-        or (length(a.cod_lin) = 3 and a.cod_lin between '850' and '854'))
-   )) or :estado != '3')
+          or (length(a.cod_lin) = 3 and a.cod_lin between '850' and '854'))
+     )) or
+        :estado != '3')
  order by ing_sal desc, numero_pguia;
 
 select *
@@ -1021,9 +1094,11 @@ select *
    and serie = 3
    and numero = 563908;
 
-select * from vw_bono_ordenes_armado;
+select *
+  from vw_bono_ordenes_armado;
 
-select * from seg_letras;
+select *
+  from seg_letras;
 
 select *
   from lineas_bloqueadas_codigo
@@ -1039,7 +1114,7 @@ select *
    and t2 = 'PLANEAMIENTO';
 
 begin
-  surte.por_item();
+    surte.por_item();
 end;
 
 create public synonym surte for pevisa.surte;
@@ -1059,16 +1134,30 @@ select *
   from docuvent_cierre
  order by fecha desc;
 
-select * from tmp_imprime_ot;
+select *
+  from tmp_imprime_ot;
 
-select * from orden_impresa_surtimiento;
+select *
+  from orden_impresa_surtimiento;
 
-select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado
-     , a.estado_old, trunc(a.fecha) as fecha, nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
+select user
+     , b.numero
+     , b.nuot_serie
+     , b.nuot_tipoot_codigo
+     , a.estado
+     , a.estado_old
+     , trunc(a.fecha) as                           fecha
+     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
      , b.cod_lin
-     , b.formu_art_cod_art, b.cant_prog, b.abre02 cliente, b.abre01 pedido, b.per_env item
+     , b.formu_art_cod_art
+     , b.cant_prog
+     , b.abre02                                    cliente
+     , b.abre01                                    pedido
+     , b.per_env                                   item
      , b.destino
-     , decode(b.destino, 1, c.totlin, 2, e.totlin) total, a.usuario, 'PLANEAMIENTO'
+     , decode(b.destino, 1, c.totlin, 2, e.totlin) total
+     , a.usuario
+     , 'PLANEAMIENTO'
   from pr_trasab_estado a
      , pr_ot b
      , expedido_d c
@@ -1085,20 +1174,22 @@ select user, b.numero, b.nuot_serie, b.nuot_tipoot_codigo, a.estado
    and b.per_env = e.nro(+)
    and a.estado_old in ('0', '1')
    and a.fecha = (
-   select max(fecha)
-     from pr_trasab_estado p
-    where p.numero = a.numero
-      and p.serie = a.serie
-      and p.tipo = a.tipo
-      and p.estado = a.estado
-      and p.estado_old in ('0', '1')
-   )
+     select max(fecha)
+       from pr_trasab_estado p
+      where p.numero = a.numero
+        and p.serie = a.serie
+        and p.tipo = a.tipo
+        and p.estado = a.estado
+        and p.estado_old in ('0', '1')
+     )
    and exists
-   (select 1
-      from orden_impresa_surtimiento i
-     where b.nuot_tipoot_codigo = i.ot_tpo
-       and b.nuot_serie = i.ot_ser
-       and b.numero = i.ot_nro)
+     (
+         select 1
+           from orden_impresa_surtimiento i
+          where b.nuot_tipoot_codigo = i.ot_tpo
+            and b.nuot_serie = i.ot_ser
+            and b.numero = i.ot_nro
+         )
    and nvl(f_grupo_formu(b.formu_art_cod_art), 99) like :x_grupo;
 
 select *
@@ -1129,8 +1220,16 @@ select kd.cod_alm, kd.tp_transac, kd.serie, kd.numero, kd.fch_transac, kd.cod_ar
    and extract(year from kd.fch_transac) = 2023
  order by kd.fch_transac, kd.cod_art;
 
-select d.cod_alm, d.tp_transac, d.serie, d.numero, d.fch_transac, d.cod_art, d.cantidad
-     , g.cod_relacion, p.nombre as empleado, o.nombre as proveedor
+select d.cod_alm
+     , d.tp_transac
+     , d.serie
+     , d.numero
+     , d.fch_transac
+     , d.cod_art
+     , d.cantidad
+     , g.cod_relacion
+     , p.nombre as empleado
+     , o.nombre as proveedor
   from kardex_g g
        join kardex_d d
             on g.cod_alm = d.cod_alm and g.tp_transac = d.tp_transac and g.serie = d.serie and
@@ -1163,12 +1262,22 @@ select *
 
 --ingreso almacen detraccion
 
-select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
-     , p.c_cargo, c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion
-     , g.c_codigo as encargado, p.sexo, g.nombre as desc_encargado, h.local
-     , l.descripcion as desc_local, p.f_ingreso, p.fnatal, d.num_doc as dni
-     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
-     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+select p.c_codigo
+     , p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo
+     , c.descripcion                                                        as desc_cargo
+     , p.seccion
+     , s.nombre                                                             as desc_seccion
+     , g.c_codigo                                                           as encargado
+     , p.sexo
+     , g.nombre                                                             as desc_encargado
+     , h.local
+     , l.descripcion                                                        as desc_local
+     , p.f_ingreso
+     , p.fnatal
+     , d.num_doc                                                            as dni
+     , trunc(months_between(sysdate, p.fnatal) / 12)                        as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años'          as tiempo_empresa
   from planilla10.personal p
        left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
        left join planilla10.tar_secc s on p.seccion = s.codigo
@@ -1178,16 +1287,21 @@ select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.
        left join planilla10.pla_local l on h.local = l.local
  where p.situacion not in ('8', '9')
    and (upper(g.usuario) = (
-   select usuario
-     from usuario_modulo
-    where usuario = :user and modulo = :modulo
-    union
-   select id_usuario
-     from usuario_modulo_alterno
-    where id_alterno = :user and id_modulo = :modulo
-   ) or :user in (
-   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
-   ));
+     select usuario
+       from usuario_modulo
+      where usuario = :user
+        and modulo = :modulo
+      union
+     select id_usuario
+       from usuario_modulo_alterno
+      where id_alterno = :user
+        and id_modulo = :modulo
+     ) or :user in (
+     select usuario
+       from usuario_modulo
+      where modulo = :modulo
+        and maestro = 'SI'
+     ));
 
 select *
   from usuario_modulo
@@ -1212,21 +1326,24 @@ select *
   from pk_gnumero
  where pk_numero in (
                      52018, 52084, 52255, 52363, 52569, 52721, 53002, 53188, 53274, 53300, 53308
-   );
+     );
 
 select *
   from pr_prioridad
  where ano = 2023
    and mes = 3;
 
-select * from pr_prioridad_htmp_30;
+select *
+  from pr_prioridad_htmp_30;
 
 select *
   from caja_chica
  where serie = 7
    and numero = 22161;
 
-select * from estado_caja order by id_estado;
+select *
+  from estado_caja
+ order by id_estado;
 
 select *
   from caja_chica_d
@@ -1250,7 +1367,8 @@ select *
   from tab_lineas
  where linea = '2048';
 
-select * from kardex_d;
+select *
+  from kardex_d;
 
 select *
   from almacen
@@ -1272,25 +1390,28 @@ select *
 select *
   from campana
  where cod_campana in (
-   'ND2023-1'
-   );
+     'ND2023-1'
+     );
 
 -- revisar importes
 select *
   from campana
  where cod_campana in (
-   'ND2023-2'
-   );
+     'ND2023-2'
+     );
 
-select * from estado_campana;
+select *
+  from estado_campana;
 
-select cod_alm from almacen_activo_fijo;
+select cod_alm
+  from almacen_activo_fijo;
 
 select *
   from kardex_d
  where cod_art = '04EQ D17';
 
-select cod_cliente, nombre from exclientes;
+select cod_cliente, nombre
+  from exclientes;
 
 select round(sysdate - to_date('25/03/2023', 'dd/mm/yyyy')) as atras
      , round(sysdate - to_date('31/03/2023', 'dd/mm/yyyy')) as adelante
@@ -1305,7 +1426,8 @@ select *
  where cod_activo_fijo like '%AREA COMUN ADM%'
  order by cod_activo_fijo;
 
-select * from itemdocu;
+select *
+  from itemdocu;
 
 select *
   from pedido
@@ -1319,22 +1441,30 @@ select *
   from planilla10.personal
  where encargado = '057';
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.tar_encarga;
 
-select cod_proveedor, detalle, bateria from tmp_carga_data;
+select cod_proveedor, detalle, bateria
+  from tmp_carga_data;
 
 select *
   from planilla10.personal
  where apellido_paterno = 'CANDELA';
 
-select * from planilla10.personal;
+select *
+  from planilla10.personal;
 
 select *
   from planilla10.t_cargo
  where c_cargo = 'ASOP';
 
-select c_codigo, nombre, c_cargo, desc_cargo, desc_doc, num_doc
-     , to_char(fnatal, 'dd/mm/yyyy') as nacimiento
+select c_codigo
+     , nombre
+     , c_cargo
+     , desc_cargo
+     , desc_doc
+     , num_doc
+     , to_char(fnatal, 'dd/mm/yyyy')    as nacimiento
      , to_char(f_ingreso, 'dd/mm/yyyy') as ingreso
   from vw_personal
  where c_codigo = 'E730';
@@ -1347,11 +1477,14 @@ select *
   from vendedores
  where cod_vendedor = 'S1';
 
-select * from pla_control;
+select *
+  from pla_control;
 
-select * from exproforma_libre;
+select *
+  from exproforma_libre;
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.tar_encarga;
 
 select *
   from planilla10.personal
@@ -1365,9 +1498,12 @@ select *
   from usuario_modulo_alterno
  where id_modulo = 'ACCIDENTES';
 
-select * from activo_fijo_asigna;
+select *
+  from activo_fijo_asigna;
 
-select * from activo_fijo where cod_activo_fijo = 'EQ COMP/OF35';
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'EQ COMP/OF35';
 
 select *
   from tema_capacitacion
@@ -1380,10 +1516,10 @@ select *
 select *
   from pr_forsec
  where cod_art in (
-   select cod_art
-     from solicita_emision_det
-    where numero = 595
-   )
+     select cod_art
+       from solicita_emision_det
+      where numero = 595
+     )
    and codigo_proceso is null;
 
 select *
@@ -1398,7 +1534,8 @@ select *
   from permiso
  where numero = '56621';
 
-select * from concepto_permiso;
+select *
+  from concepto_permiso;
 
 select *
   from planilla10.personal
@@ -1408,7 +1545,8 @@ select *
   from planilla10.personal
  where c_codigo = 'E851';
 
-select * from planilla10.t_situacion_cesado;
+select *
+  from planilla10.t_situacion_cesado;
 
 select *
   from view_cli_para_booking
@@ -1422,17 +1560,19 @@ select *
   from exbooking
  where numero_booking like 'TER-%';
 
-select nf.cod_cliente, nf.nombre, sum(nf.total_mercaderia) as total_mercaderia
-     , min(fecha) fecha_factura_mas_antigua
+select nf.cod_cliente
+     , nf.nombre
+     , sum(nf.total_mercaderia) as total_mercaderia
+     , min(fecha)                  fecha_factura_mas_antigua
   from vw_fac_para_booking nf
 --  where 1 = 1
  where nf.fecha_despacho is null
    and nf.numero not in (
-   select h.numero
-     from exfacturas_his h
-    where h.numero = nf.numero
-      and h.accion in ('70', '71', '72')
-   )
+     select h.numero
+       from exfacturas_his h
+      where h.numero = nf.numero
+        and h.accion in ('70', '71', '72')
+     )
    and nf.numero = '55014185'
  group by nf.cod_cliente, nf.nombre
  order by 1;
@@ -1446,7 +1586,8 @@ select *
   from pk_gnumero
  where pk_numero = 52495;
 
-select * from personal_mantto;
+select *
+  from personal_mantto;
 
 select *
   from amonestacion
@@ -1477,7 +1618,8 @@ select *
   from serie_caja_usuario
  where usuario = 'APASTRANA';
 
-select * from serie_caja;
+select *
+  from serie_caja;
 
 select *
   from serie_caja_usuario
@@ -1511,7 +1653,8 @@ select *
   from planilla10.personal
  where encargado = '057';
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.tar_encarga;
 
 -- jcarrera
 -- jmedina
@@ -1529,4 +1672,43 @@ select *
   from usuarios_caja_chica
  where usuario = 'DACOSTA';
 
-select * from caja_chica_serie;
+select *
+  from caja_chica_serie;
+
+select *
+  from caja
+ where id_serie = 3;
+
+select *
+  from estado_caja;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'MQ1METP-125';
+
+select *
+  from kardex_d
+ where cod_art = 'MQ1METP-125';
+
+select *
+  from campana_cliente;
+
+select *
+  from exfacturas
+ where numero in (55014872, 55014889, 55015146);
+
+select *
+  from pk_gnumero
+ where pk_numero in (
+                     53529, 53564, 53949
+     );
+
+select *
+  from pedido
+ where extract(year from fecha) = 2023
+   and extract(month from fecha) = 3;
+
+select *
+  from analisis_consumo
+ where ano = 2023
+   and mes = 4;

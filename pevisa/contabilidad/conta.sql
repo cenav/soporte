@@ -3,9 +3,9 @@ select *
   from movglos
  where ano = 2023
    and mes = 4
-   and libro = '40'
+   and libro = '10'
    and voucher in (
-   40046
+   24307601
    );
 
 select *
@@ -72,20 +72,20 @@ select *
 
 select *
   from movfigl
- where ano = 2022
-   and mes = 9
+ where ano = 2023
+   and mes = 4
    and tipo = '2'
    and voucher in (
-   93448
+                   43077, 43078, 43080
    );
 
 select *
   from movfide
  where ano = 2023
-   and mes = 2
+   and mes = 4
    and tipo = '2'
    and voucher in (
-   23255
+   43076
    );
 
 select *
@@ -1442,4 +1442,3 @@ select *
    and tp_transac = '35'
    and serie = 39
    and numero = 2674;
-

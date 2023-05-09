@@ -2,15 +2,15 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  495761, 495762, 495763, 486107, 493501
-   );
+     730438
+     );
 
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'VA'
    and numero in (
-   9933
-   );
+     9933
+     );
 
 select *
   from kardex_g
@@ -41,7 +41,7 @@ select cod_cliente, nombre
  where cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-   )
+     )
  minus
 select cod_cliente, nombre
   from clientes
@@ -53,7 +53,7 @@ select *
    and cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-   );
+     );
 
 select cod_cliente, nombre
   from clientes
@@ -61,7 +61,7 @@ select cod_cliente, nombre
    and cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-   );
+     );
 
 select *
   from planilla10.personal
@@ -88,28 +88,28 @@ select *
    and numero between 505341 and 505419;
 
   with op_curso as (
-    select cod_art
-         , sum(saldo) as saldo_op
-         , listagg(numero || '(' || estado || ',' || cant_prog || ')', ' | ')
-                   within group ( order by estado, numero) as numero_op
-      from vw_ordenes_curso
-     where nuot_tipoot_codigo = 'PR'
-     group by cod_art
-    )
+      select cod_art
+           , sum(saldo) as saldo_op
+           , listagg(numero || '(' || estado || ',' || cant_prog || ')', ' | ')
+                     within group ( order by estado, numero) as numero_op
+        from vw_ordenes_curso
+       where nuot_tipoot_codigo = 'PR'
+       group by cod_art
+      )
      , requerimiento as (
-    select cod_art
-         , sum(cant_requerida) as cant_requerida
-         , sum(cant_separado) as cant_separado
-         , sum(faltante) as cant_faltante
-         , sum(stock) as stock_requerida
-      from vw_requerimiento_articulo
-     group by cod_art
-    )
+      select cod_art
+           , sum(cant_requerida) as cant_requerida
+           , sum(cant_separado) as cant_separado
+           , sum(faltante) as cant_faltante
+           , sum(stock) as stock_requerida
+        from vw_requerimiento_articulo
+       group by cod_art
+      )
      , stock_art as (
-    select cod_art, sum(stock) as stock
-      from almacen
-     group by cod_art
-    )
+      select cod_art, sum(stock) as stock
+        from almacen
+       group by cod_art
+      )
 select a.cod_art, a.descripcion, a.cod_lin, g.id_grupo, g.dsc_grupo
      , r.cant_requerida, r.cant_separado, r.cant_faltante
      , nvl(s.stock, 0) as stock, r.stock_requerida, o.numero_op, o.saldo_op
@@ -139,9 +139,9 @@ select *
  where cod_art = '300.506SR';
 
 declare
-  orden pr_ot%rowtype;
+    orden pr_ot%rowtype;
 begin
-  emite.op('65000S', 1, false, orden);
+    emite.op('65000S', 1, false, orden);
 end;
 
 select *
@@ -202,21 +202,23 @@ select pa.numero, pa.nuot_serie, pa.nuot_tipoot_codigo, pa.cant_prog, pa.receta
    and pa.abre01 = '15758'
    and pa.nuot_tipoot_codigo = 'PA'
    and not exists
-   (select distinct 1
-      from pr_for_ins i, articul a
-     where i.formu_art_cod_art = pa.formu_art_cod_art
-       and i.art_cod_art = a.cod_art
-       and a.cod_lin in
-           (
-             select cod_lin
-               from pr_grupos_lineas_desarrollo
-              union
-             select '1980'
-               from dual
-              union
-             select 'ZZ'
-               from dual
-             ));
+     (
+         select distinct 1
+           from pr_for_ins i, articul a
+          where i.formu_art_cod_art = pa.formu_art_cod_art
+            and i.art_cod_art = a.cod_art
+            and a.cod_lin in
+                (
+                    select cod_lin
+                      from pr_grupos_lineas_desarrollo
+                     union
+                    select '1980'
+                      from dual
+                     union
+                    select 'ZZ'
+                      from dual
+                    )
+         );
 
 select *
   from pr_num_ot

@@ -1,6 +1,9 @@
-select * from planilla10.t_cargo;
+select *
+  from planilla10.t_cargo;
 
-select * from planilla10.t_area order by c_area;
+select *
+  from planilla10.t_area
+ order by c_area;
 
 select *
   from proceso_bono_oa
@@ -11,9 +14,9 @@ select *
   from planilla10.personal
  where apellido_paterno = 'CONTRERAS'
    and situacion not in (
-   select *
-     from planilla10.t_situacion_cesado
-   );
+     select *
+       from planilla10.t_situacion_cesado
+     );
 
 select *
   from planilla10.ingre_fijo
@@ -28,5 +31,9 @@ select *
   from planilla10.doc_per
  where c_codigo = 'E532';
 
+select *
+  from planilla10.vw_utilidades_correos;
 
-select * from planilla10.vw_utilidades_correos;
+begin
+    puntualidad.automatico(2023, 4);
+end;

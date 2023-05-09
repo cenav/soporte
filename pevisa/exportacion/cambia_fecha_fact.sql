@@ -5,25 +5,11 @@ select rowid, s.*
 --    tomar nota de una factura
 
 -- ejecutar:
-begin
-  p_yanina_cambia_fechas_expo();
-end;
---
---
--- validar el cambio
+call p_yanina_cambia_fechas_expo();
 
 select rowid, s.*
   from exfacturas s
- where numero = 55015273;
-
-select *
-  from exfacturas
- where serie = 'F056';
-
-select *
-  from factcob
- where serie_num = 'F056'
-   and numero = 3645;
+ where numero = 55015447;
 
 --                    ahora debe tener fecha  30 abril
 select rowid, s.*
@@ -80,6 +66,7 @@ select rowid, s.*
 --
 -- validar el cambio
 --
+
 select rowid, s.*
   from exfacturas s
  where numero = 55014718;

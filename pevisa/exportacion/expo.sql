@@ -15,39 +15,6 @@ select *
    );
 
 
-select p.secuencia, o.prioridad, d.numero, d.nro, f.fecha, f.cod_cliente, f.nombre, d.cod_eqi
-     , d.cod_art, d.canti, d.preuni, o.numero numero_ot, o.cant_prog
-     , o.cant_prog * d.preuni valor_art, o.nuot_tipoot_codigo tipo_ot, o.estado estado_ot
-     , 'T' temporal
-  from pr_prioridad_htmp_30 p, pr_ot o, expedidos f, expedido_d d
----WHERE P.ANO = :P_ANO     ---- 07/01/09
----  AND P.MES <= :P_MES
- where o.prioridad = p.prioridad
-   and o.estado < '3'
-   and o.abre01 = f.numero
-   and o.abre01 = d.numero
-   and nvl(d.id, '0') = '0'
-   and d.cod_art = o.formu_art_cod_art
-   and nvl(f.zona, '0') <> '99'
-   and o.per_env = d.nro ---- 26/04/2008
-   and f.estado not in ('8', '9')
- union
-select p.secuencia, o.prioridad, d.numero, d.nro, f.fecha, f.cod_cliente
-     , f.nombre || ' ' || f.referencia nombre, d.cod_eqi, d.cod_art, d.canti, d.preuni
-     , o.numero numero_ot, o.cant_prog, o.cant_prog * d.preuni valor_art
-     , o.nuot_tipoot_codigo tipo_ot, o.estado estado_ot, 'N' temporal
-  from pr_prioridad_htmp_30 p, pr_ot o, vexpednac f, vexpednac_d d
----WHERE P.ANO <= :P_ANO   --- 07/01/09
----  AND P.MES <= :P_MES
- where o.prioridad = p.prioridad
-   and o.estado < '3'
-   and o.abre01 = f.numero
-   and o.abre01 = d.numero
-   and o.per_env = d.nro ------26/04/2008
-   and f.estado not in ('8', '9')
-   and d.cod_art = o.formu_art_cod_art
- order by 1, 2, 3, 4;
-
 select * from pr_prioridad_htmp_30;
 
 select *
@@ -56,8 +23,36 @@ select *
 
 select *
   from exbooking
- where numero_booking = 'AER-113';
+ where numero_booking = '69890254';
 
 select *
   from exbooking_d
- where numero_booking = 'AER-113';
+ where numero_booking = '69890254';
+
+select * from view_cli_para_booking;
+
+select *
+  from exfacturas_his
+ where numero in (
+                  55014940, 55015020, 55015065, 55015168
+   )
+   and accion in ('70', '71', '72');
+
+select *
+  from vw_fac_para_booking
+ where numero in (
+                  55014940, 55015020, 55015065, 55015168
+   )
+   and fecha_despacho is null;
+
+select *
+  from exfacturas
+ where numero in (
+                  55014940, 55015020, 55015065, 55015168
+   );
+
+select *
+  from pk_gnumero
+ where pk_numero in (
+                     53610, 53675, 53837, 53943
+   );

@@ -22,3 +22,5 @@ select * from planeamiento_compras;
 select *
   from vendedores
  where cod_vendedor = '38';
+
+select * from orden_de_compra;

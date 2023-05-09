@@ -1,9 +1,9 @@
 select *
-  from pevisa.movglos
- where ano = 2023
-   and mes = 4
-   and libro = '05'
-   and voucher = 40009;
+  from movglos
+ where ano = 2022
+   and mes = 10
+   and libro = '10'
+   and voucher like '%100023%';
 
 select *
   from pevisa.movdeta
@@ -32,7 +32,8 @@ select *
   from plancta
  where descripcion like '%cambio%';
 
-select sign(-7000) as negativo, sign(0) as cero, sign(3000) as positivo from dual;
+select sign(-7000) as negativo, sign(0) as cero, sign(3000) as positivo
+  from dual;
 
 select *
   from cominac_concepto
@@ -45,11 +46,14 @@ select *
  where cod_vende = '20'
    and fecha > to_date('01/12/2022', 'dd/mm/yyyy');
 
-select * from proceso_cominac;
+select *
+  from proceso_cominac;
 
-select * from proceso_cominac_concepto;
+select *
+  from proceso_cominac_concepto;
 
-select * from proceso_cominac_venta_det;
+select *
+  from proceso_cominac_venta_det;
 
 -- select case :p_moneda when 'S' then nvl(sum(total_soles), 0) else nvl(sum(total_dolares), 0) end
 --   from vw_venta_detalle
@@ -135,7 +139,8 @@ select *
   from movdeta
  where tipo_referencia = '91';
 
-select * from pla_control;
+select *
+  from pla_control;
 
 
 select *
@@ -187,37 +192,83 @@ select *
  where cod_prestamo = '0003CM5';
 
 insert into prestamo_banco
-select cod_banco, '0003CM5', fecha, estado, importe_prestamo, moneda, tasa_interes
-     , cod_tipo_prestamo, ano, mes, tipo, voucher, item, asiento_generado_quien
-     , asiento_generado_cuando, cod_derivado, debito_auto, contrato, cod_proveedor, tipdoc
-     , importe_neto, tasa_igv, contrato_derivado, cod_penalidad, estructuracion, cod_interes_leasing
-     , cod_motivo, nombre_archivo, cod_unidad_negocio
+select cod_banco
+     , '0003CM5'
+     , fecha
+     , estado
+     , importe_prestamo
+     , moneda
+     , tasa_interes
+     , cod_tipo_prestamo
+     , ano
+     , mes
+     , tipo
+     , voucher
+     , item
+     , asiento_generado_quien
+     , asiento_generado_cuando
+     , cod_derivado
+     , debito_auto
+     , contrato
+     , cod_proveedor
+     , tipdoc
+     , importe_neto
+     , tasa_igv
+     , contrato_derivado
+     , cod_penalidad
+     , estructuracion
+     , cod_interes_leasing
+     , cod_motivo
+     , nombre_archivo
+     , cod_unidad_negocio
   from prestamo_banco
  where cod_prestamo = '0001CM5';
 
 insert into prestamo_banco_cuota
-select cod_banco, '0003CM5', nro_cuota, fecha_vcto, importe_saldo_capital, importe_capital
-     , importe_interes, importe_cuota, serie_num, numero, importe_portes, importe_igv
-     , importe_comision, importe_gastos, importe_valor_cuota, tipdoc_cp, serie_cp, numero_cp
-     , fecha_debito_banco, importe_capital_real, importe_interes_real, importe_valor_cuota_real
-     , importe_portes_real, importe_igv_real, importe_comision_real, importe_gastos_real
-     , importe_cuota_real, opcion_de_compra
+select cod_banco
+     , '0003CM5'
+     , nro_cuota
+     , fecha_vcto
+     , importe_saldo_capital
+     , importe_capital
+     , importe_interes
+     , importe_cuota
+     , serie_num
+     , numero
+     , importe_portes
+     , importe_igv
+     , importe_comision
+     , importe_gastos
+     , importe_valor_cuota
+     , tipdoc_cp
+     , serie_cp
+     , numero_cp
+     , fecha_debito_banco
+     , importe_capital_real
+     , importe_interes_real
+     , importe_valor_cuota_real
+     , importe_portes_real
+     , importe_igv_real
+     , importe_comision_real
+     , importe_gastos_real
+     , importe_cuota_real
+     , opcion_de_compra
   from prestamo_banco_cuota
  where cod_prestamo = '0001CM5';
 
 select *
   from movfigl
- where ano = 2023
-   and mes = 4
-   and tipo = '2'
-   and voucher = 43035;
+ where ano = 2022
+   and mes = 10
+   and tipo = '3'
+   and voucher = 100023;
 
 select *
   from movfide
- where ano = 2023
-   and mes = 3
-   and tipo = '2'
-   and voucher = 33021;
+ where ano = 2022
+   and mes = 10
+   and tipo = '3'
+   and voucher = 100023;
 
 select *
   from factpag
@@ -269,7 +320,8 @@ select *
 
 select codigo, descripcion, indicador1
   from tablas_auxiliares
- where tipo = '33' and codigo like 'F%';
+ where tipo = '33'
+   and codigo like 'F%';
 
 select codigo, descripcion, indicador1
   from tablas_auxiliares
@@ -281,9 +333,9 @@ select codigo, descripcion, indicador1
 select nro_sucur, direccion
   from sucursales
  where cod_cliente in (
-   select c_empleador
-     from pla_control
-   );
+     select c_empleador
+       from pla_control
+     );
 
 select *
   from sucursales
@@ -306,9 +358,11 @@ select *
   from pevisa.tab_grupos
  where grupo = '138';
 
-select * from vendedores;
+select *
+  from vendedores;
 
-select * from vw_cominac_consulta;
+select *
+  from vw_cominac_consulta;
 
 select *
   from lg_factura_comercial
@@ -325,17 +379,18 @@ select *
   from pevisa.proveed
  where nombre like '%HARTRIDGE%';
 
-select * from pevisa.paramin;
+select *
+  from pevisa.paramin;
 
 
 select f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3) abre
      , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero doc,
-    to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv,
-    f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia refe, f.fecha, f.f_vencto
+        to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv,
+        f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia refe, f.fecha, f.f_vencto
      , decode(f.moneda, 'S', 'S/.', 'US$') mon, f.pventa importf, f.tcam_sal, f.pventax,
-    f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) saldo_d, round(
-    ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
-    2) saldo_en_soles
+        f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) saldo_d, round(
+        ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
+        2) saldo_en_soles
      , f.moneda, f.tcam_sal, f.tipdoc, f.numero, f.ctactble
   from factpag f, cabfpag c, proveed l, tablas_auxiliares t
  where f.cod_proveedor like :PRO
@@ -354,8 +409,8 @@ having (f.pventa + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe
                                   decode(c.moneda, 'D', c.importe, c.importe_x))), 0)) <> 0
  group by f.ctactble, f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3)
         , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero,
-     to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher),
-     f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
+         to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
+        , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
         , decode(f.moneda, 'S', 'S/.', 'US$'), f.pventa, f.pventax, f.moneda, f.tcam_sal, f.tipdoc
         , f.numero
  order by f.ctactble, l.nombre, f.tipdoc || '-' || f.numero;
@@ -384,7 +439,7 @@ select *
         and c.banco like nvl(pagos_h.banco_de_cuenta_de_abono, '%')
         and p.id_cuenta = c.codigo
         and p.usuario = user
-   )
+     )
    and serie_planilla = 1
    and numero_planilla = 106;
 
@@ -415,4 +470,31 @@ select *
 
 alter user pevisa identified by "hdi4041";
 
-select * from pla_control;
+select *
+  from pla_control;
+
+select *
+  from kardex_g
+ where cod_alm = 'FB'
+   and tp_transac = '56'
+   and serie = 10
+   and numero = 20;
+
+select *
+  from paramin;
+
+select *
+  from gastos_de_viaje_motivos
+ order by cod_motivo;
+
+select *
+  from nrolibr
+ where ano = 2023
+   and mes = 1;
+
+select *
+  from nrolibr
+ where ano = 2022
+   and mes = 12;
+
+select * from vw_personal;

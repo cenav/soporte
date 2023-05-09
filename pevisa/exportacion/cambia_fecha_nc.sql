@@ -43,7 +43,6 @@ update factcob s
             and origen = 'EXPO'
          );
 
-
 select rowid, g.*
   from kardex_g g
  where cod_alm = '01'
@@ -75,7 +74,6 @@ update kardex_g g
       and origen = 'EXPO'
    );
 
-
 select rowid, s.*
   from docuvent s
  where tipodoc = '07'
@@ -84,7 +82,6 @@ select rowid, s.*
    and estado < 9
    and origen = 'EXPO'
  order by numero;
-
 
 update docuvent g
    set fecha    = to_date('28/02/2023', 'DD/MM/YYYY'),

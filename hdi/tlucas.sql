@@ -3,23 +3,27 @@ select *
  where ano = 2023
    and mes = 4
    and libro = '05'
-   and voucher in (40007);
+   and voucher in (40002);
 
 select *
   from movdeta
  where ano = 2023
    and mes = 4
    and libro = '05'
-   and voucher in (40007);
+   and voucher in (33115);
 
 select *
   from factpag
  where cod_proveedor = '156406309'
-   and numero = '0000077';
+   and numero = '0000076';
 
 select *
   from plancta
- where cuenta in ('44291100', '42122100');
+ where cuenta in ('47112101', '18941100');
+
+select *
+  from movdeta
+ where cuenta = '18941100';
 
 select *
   from nrolibr
@@ -28,7 +32,7 @@ select *
    and mes = 1;
 
 begin
-  pkg_cominac.genera_periodo(2022, 2, 'S');
+    pkg_cominac.genera_periodo(2022, 2, 'S');
 end;
 
 select cod_proceso, cod_concepto, cod_vendedor, tipodoc, nombre_doc, serie, numero, fecha
@@ -44,7 +48,7 @@ select *
    and libro = '08'
    and voucher in (
                    20398, 20399, 20400, 20401, 20402, 20403, 20405, 20406
-   );
+     );
 
 select *
   from gastos_de_viaje
@@ -72,10 +76,10 @@ select *
    and numero = 102;
 
 declare
-  l_cuenta varchar2(30);
+    l_cuenta varchar2(30);
 begin
-  l_cuenta := fn_cuenta_contable_viatico('02', '08');
-  dbms_output.put_line(l_cuenta);
+    l_cuenta := fn_cuenta_contable_viatico('02', '08');
+    dbms_output.put_line(l_cuenta);
 end;
 
 select *
@@ -86,23 +90,23 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 1
+   and mes = 4
    and tipo = '3'
-   and voucher = 10013;
+   and voucher = 40002;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 3
-   and tipo = '6'
-   and voucher = 30021;
+   and mes = 4
+   and tipo = '3'
+   and voucher = 40002;
 
 select *
   from factpag
- where cod_proveedor = '20111435473'
-   and tipdoc = '01'
-   and serie_num = 'E001'
-   and numero = '0001307';
+ where cod_proveedor = '20524801591'
+   and tipdoc = '26'
+   and serie_num = '001'
+   and numero = '3092351-1';
 
 select *
   from cabfpag
@@ -185,20 +189,6 @@ select *
  where cod_prestamo = '0057496';
 
 select *
-  from movfigl
- where ano = 2023
-   and mes = 3
-   and tipo = '2'
-   and voucher = 33115;
-
-select *
-  from movfide
- where ano = 2023
-   and mes = 3
-   and tipo = '2'
-   and voucher = 33115;
-
-select *
   from factpag
  where cod_proveedor = '20111435473'
    and tipdoc = '01'
@@ -218,46 +208,43 @@ select *
    and numero = '0000003';
 
 select *
-  from movfigl
- where ano = 2023
-   and mes = 3
-   and tipo = '6'
-   and voucher = 30024;
-
-select *
   from prestamo_banco
  where cod_prestamo = '3848548';
-
-select *
-  from movfigl
- where ano = 2023
-   and mes = 4
-   and tipo = '2'
-   and voucher = 43035;
-
-select *
-  from movfide
- where ano = 2023
-   and mes = 3
-   and tipo = '6'
-   and voucher = 30021;
-
-select *
-  from pevisa.movglos
- where ano = 2023
-   and mes = 3
-   and libro = '25'
-   and voucher = 30017;
-
-select *
-  from pevisa.movdeta
- where ano = 2023
-   and mes = 3
-   and libro = '25'
-   and voucher = 30017;
 
 select *
   from nrolibr
  where ano = 2023
    and mes = 3
    and libro = '25';
+
+select *
+  from gastos_de_viaje
+ where numero = 106
+   and id_vendedor = 'H15';
+
+
+select *
+  from gastos_de_viaje_m
+ where numero = 106
+   and id_vendedor = 'H15';
+
+
+select *
+  from gastos_de_viaje_d
+ where numero = 106
+   and id_vendedor = 'H15';
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 106
+   and id_vendedor = 'H15';
+
+select *
+  from gastos_de_viaje_habilitado_m
+ where numero = 106
+   and id_vendedor = 'H15';
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where numero = 106
+   and id_vendedor = 'H15';

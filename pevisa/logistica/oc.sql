@@ -1,16 +1,31 @@
 select *
   from orden_de_compra
- where serie = 12
+ where serie = 6
    and num_ped in (
-   15
+     2644
+     );
+
+select *
+  from orden_matriceria
+ where serie = 1
+   and num_ped in (
+   230076
    );
 
 select *
   from itemord
  where serie = 4
    and num_ped in (
-   60331
-   );
+     60390
+     );
+
+
+select *
+  from itemmatri
+ where serie = 1
+   and num_ped in (
+     230076
+     );
 
 select *
   from orden_de_compra
@@ -28,10 +43,10 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 4
-   and num_ped in (
-   60368
-   )
+where serie = 6
+  and num_ped in (
+    2644
+    )
    and glosa = 'APROBADO';
 
 select *
