@@ -15,8 +15,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-     458204
-     );
+   458204
+   );
 
 -- faucett
 select *
@@ -25,8 +25,8 @@ select *
    and tp_transac = '14'
    and serie = 10
    and numero in (
-     16403
-     )
+   16403
+   )
  order by numero;
 
 
@@ -38,7 +38,7 @@ select *
    and numero in (
                   1574783, 1574782, 1574781, 1574780, 1574779, 1574778, 1574777, 1574776, 1574775,
                   1574774
-     );
+   );
 
 
 select *
@@ -47,8 +47,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-     227677
-     );
+   227677
+   );
 
 select *
   from kardex_g_movglos
@@ -56,8 +56,8 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero in (
-     28961
-     );
+   28961
+   );
 
 select *
   from kardex_d
@@ -79,8 +79,8 @@ select *
    and tp_transac = '22'
    and serie = 1
    and numero in (
-     232242
-     );
+   232242
+   );
 
 select *
   from kardex_d_historia
@@ -88,8 +88,8 @@ select *
    and tp_transac = '18'
    and serie = 2
    and numero in (
-     492695
-     );
+   492695
+   );
 
 select *
   from kardex_d_otm
@@ -151,67 +151,67 @@ select *
    and id_personal = 'E110';
 
   with detalle as (
-      select v.cod_cliente
-           , v.nombre
-           , v.fch_pedido
-           , v.pedido
-           , v.pedido_item
-           , v.nuot_serie
-           , v.nuot_tipoot_codigo
-           , v.numero
-           , v.fecha
-           , v.formu_art_cod_art
-           , v.estado
-           , v.art_cod_art
-           , v.cant_formula
-           , v.rendimiento
-           , v.saldo
-           , v.despachar
-           , v.cod_lin
-           , v.abre02
-           , v.preuni
-           , v.valor
-           , v.stock
-           , v.tiene_stock
-           , v.tiene_stock_ot
-           , v.tiene_stock_item
-           , v.tiene_importado
-           , v.impreso
-           , v.fch_impresion
-           , v.es_juego
-           , v.es_importado
-           , v.es_prioritario
-           , v.es_sao
-           , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end oa
-           , dense_rank() over (
-          order by case when p.prioritario = 1 then v.es_prioritario end desc
+    select v.cod_cliente
+         , v.nombre
+         , v.fch_pedido
+         , v.pedido
+         , v.pedido_item
+         , v.nuot_serie
+         , v.nuot_tipoot_codigo
+         , v.numero
+         , v.fecha
+         , v.formu_art_cod_art
+         , v.estado
+         , v.art_cod_art
+         , v.cant_formula
+         , v.rendimiento
+         , v.saldo
+         , v.despachar
+         , v.cod_lin
+         , v.abre02
+         , v.preuni
+         , v.valor
+         , v.stock
+         , v.tiene_stock
+         , v.tiene_stock_ot
+         , v.tiene_stock_item
+         , v.tiene_importado
+         , v.impreso
+         , v.fch_impresion
+         , v.es_juego
+         , v.es_importado
+         , v.es_prioritario
+         , v.es_sao
+         , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end oa
+         , dense_rank() over (
+      order by case when p.prioritario = 1 then v.es_prioritario end desc
 --             , case when trunc(sysdate) - v.fch_pedido > p_dias then 1 else 0 end desc --> 25/08/22 solo filtre mayores a fecha
-              , case when v.valor > p.valor_item then 1 else 0 end desc
-              , v.es_juego
-              , v.valor desc
-              , v.pedido
-              , v.pedido_item
-          ) as                                                                                   ranking
-        from vw_ordenes_pedido_pendiente v
-             join param_surte p on p.id_param = 1
-       where (v.es_prioritario = 1
-           or ((v.pais = :p_pais or :p_pais is null)
-               and (v.vendedor = :p_vendedor or :p_vendedor is null)
-               and (v.empaque = :p_empaque or :p_empaque is null)
-               and (trunc(sysdate) - v.fch_pedido > :p_dias or :p_dias is null)
-               and (v.es_juego = :p_es_juego or :p_es_juego is null)
-               and (exists(
-                   select * from tmp_selecciona_cliente t where v.cod_cliente = t.cod_cliente
-                   ) or
-                    not exists(
-                        select *
-                          from tmp_selecciona_cliente
-                        )))
-           )
-         and v.impreso = 'NO'
+        , case when v.valor > p.valor_item then 1 else 0 end desc
+        , v.es_juego
+        , v.valor desc
+        , v.pedido
+        , v.pedido_item
+      ) as ranking
+      from vw_ordenes_pedido_pendiente v
+           join param_surte p on p.id_param = 1
+     where (v.es_prioritario = 1
+       or ((v.pais = :p_pais or :p_pais is null)
+         and (v.vendedor = :p_vendedor or :p_vendedor is null)
+         and (v.empaque = :p_empaque or :p_empaque is null)
+         and (trunc(sysdate) - v.fch_pedido > :p_dias or :p_dias is null)
+         and (v.es_juego = :p_es_juego or :p_es_juego is null)
+         and (exists(
+           select * from tmp_selecciona_cliente t where v.cod_cliente = t.cod_cliente
+           ) or
+              not exists(
+                select *
+                  from tmp_selecciona_cliente
+                )))
+       )
+       and v.impreso = 'NO'
 --            and pedido = 14660
 --            and pedido_item = 135
-      )
+    )
 select *
   from detalle
  order by ranking;
@@ -225,14 +225,14 @@ select user
      , b.nuot_tipoot_codigo
      , a.estado
      , a.estado_old
-     , trunc(a.fecha) as                           fecha
+     , trunc(a.fecha) as fecha
      , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
      , b.cod_lin
      , b.formu_art_cod_art
      , b.cant_prog
-     , b.abre02                                    cliente
-     , b.abre01                                    pedido
-     , b.per_env                                   item
+     , b.abre02 cliente
+     , b.abre01 pedido
+     , b.per_env item
      , b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total
      , a.usuario
@@ -254,16 +254,16 @@ select user
    and a.usuario not in ('BETY')
    and b.cod_lin not in ('1970', '1971', '1972')
    and a.fecha = (
-     select max(fecha)
-       from pr_trasab_estado p
-      where p.numero = a.numero
-        and p.serie = a.serie
-        and p.tipo = a.tipo
-        and p.estado = a.estado
-        and p.estado_old in ('0', '1')
+   select max(fecha)
+     from pr_trasab_estado p
+    where p.numero = a.numero
+      and p.serie = a.serie
+      and p.tipo = a.tipo
+      and p.estado = a.estado
+      and p.estado_old in ('0', '1')
 --       and p.estado_old in ('1', '2', '3')
-        and p.usuario not in ('BETY')
-     )
+      and p.usuario not in ('BETY')
+   )
 --    and exists(
 --      select 1
 --        from vw_ordenes_impresas_pendientes i
@@ -272,12 +272,12 @@ select user
 --         and b.numero = i.numero
 --    )
    and exists(
-     select 1
-       from pr_ot_impresion i
-      where b.nuot_tipoot_codigo = i.nuot_tipoot_codigo
-        and b.nuot_serie = i.nuot_serie
-        and b.numero = i.numero
-     )
+   select 1
+     from pr_ot_impresion i
+    where b.nuot_tipoot_codigo = i.nuot_tipoot_codigo
+      and b.nuot_serie = i.nuot_serie
+      and b.numero = i.numero
+   )
    and nvl(f_grupo_formu(b.formu_art_cod_art), 99) like :x_grupo;
 
 select *
@@ -300,15 +300,15 @@ select *
   from itemord
  where serie = 3
    and num_ped in (
-     42673
-     );
+   42673
+   );
 
 select *
   from orden_de_compra_historia
  where serie = 20
    and num_ped in (
-     982
-     )
+   982
+   )
    and glosa = 'APROBADO'
    and creacion_quien = 'JAIME';
 
@@ -316,8 +316,8 @@ select sum(cantidad * precio) as total
   from itemord
  where serie = 4
    and num_ped in (
-     58332
-     );
+   58332
+   );
 
 select *
   from itemmatri
@@ -418,7 +418,7 @@ select *
    and serie = 1
    and numero in (
                   1573059, 1573061, 1573062, 1573064, 1573066
-     );
+   );
 
 select *
   from kardex_g_historia
@@ -426,11 +426,11 @@ select *
    and tp_transac = '27'
    and serie = 1
    and numero in (
-     1278250
-     );
+   1278250
+   );
 
 begin
-    dbms_output.put_line(api_kardex_g_historia.mas_antiguo('03', '18', 2, 496189).usuario);
+  dbms_output.put_line(api_kardex_g_historia.mas_antiguo('03', '18', 2, 496189).usuario);
 end;
 
 select *
@@ -443,8 +443,8 @@ select sum(total)
   from itemord
  where serie = 6
    and num_ped in (
-     1468
-     );
+   1468
+   );
 
 
 select *
@@ -521,16 +521,16 @@ select cant_ped, factor_uc, cantidad * factor_uc, 637, cantidad
   from itemord
  where serie = 1
    and num_ped in (
-     83659
-     );
+   83659
+   );
 
 
 select cantidad, cant_ped, factor_uc, cantidad * precio * factor_uc as calculado
   from itemord
  where serie = 1
    and num_ped in (
-     83659
-     );
+   83659
+   );
 
 
 -- APROBADO	ACTUALIZACION ESTADO	JAIME
@@ -538,8 +538,8 @@ select *
   from orden_de_compra_historia
  where serie = 6
    and num_ped in (
-     1464
-     );
+   1464
+   );
 
 
 -- saldo anterior 48200
@@ -548,8 +548,8 @@ select cod_art, saldo, precio, round(saldo * precio, 2) as total_calc, total
   from itemord
  where serie = 1
    and num_ped in (
-     83925
-     );
+   83925
+   );
 
 select *
   from usuario_modulo
@@ -583,8 +583,8 @@ select precio * cant_ped
   from itemord
  where serie = 1
    and num_ped in (
-     84265
-     );
+   84265
+   );
 
 
 select *
@@ -598,8 +598,8 @@ select precio * 548.790, 3700.4
   from itemord
  where serie = 1
    and num_ped in (
-     84426
-     );
+   84426
+   );
 
 
 select *
@@ -619,16 +619,16 @@ select precio * 546.1, 2.48227272727272727272727272727272727273
   from itemord
  where serie = 1
    and num_ped in (
-     84453
-     );
+   84453
+   );
 
 
 select total, precio * 1.09481287127158555729984301412872841444
   from itemord
  where serie = 1
    and num_ped in (
-     83659
-     );
+   83659
+   );
 
 
 select *
@@ -780,11 +780,11 @@ select *
 merge into itemord i
 using orden_de_compra o
 on (i.serie = o.serie
-    and i.num_ped = o.num_ped
-    and o.id_maquina is not null)
+  and i.num_ped = o.num_ped
+  and o.id_maquina is not null)
 when matched then
-    update
-       set i.cod_maquina = o.id_maquina;
+  update
+     set i.cod_maquina = o.id_maquina;
 
 
 ---------------------------------------------------------
@@ -911,8 +911,8 @@ select *
   from extablas_expo
  where tipo = '13';
 
-select nvl(t.abreviada, 'OFICINA')                              p_vende
-     , nvl(e.cod_vende, '00')                                   vende
+select nvl(t.abreviada, 'OFICINA') p_vende
+     , nvl(e.cod_vende, '00') vende
      , sum(decode(to_char(e.fecha, 'MM'), '01', e.imp_neto, 0)) ene
      , sum(decode(to_char(e.fecha, 'MM'), '02', e.imp_neto, 0)) feb
      , sum(decode(to_char(e.fecha, 'MM'), '03', e.imp_neto, 0)) mar
@@ -928,7 +928,7 @@ select nvl(t.abreviada, 'OFICINA')                              p_vende
   from docuvent e, clientes c, extablas_expo t
  where to_char(e.fecha, 'YYYY') = :P_ANO
    and nvl(e.estado, '0') <> '9'
-     --AND  E.TIPODOC = '01'
+   --AND  E.TIPODOC = '01'
    and e.origen = 'EXPO'
    and c.cod_cliente = e.cod_cliente
    and t.tipo = '13'
@@ -940,7 +940,7 @@ select *
   from lg_itemjam
  where cod_art in (
                    'ELEVADOR DXTT48', 'ELEVADOR FOP3-45'
-     );
+   );
 
 select *
   from lg_itemjam
@@ -1022,10 +1022,10 @@ select *
        join articul a on f.cod_for = a.cod_art
  where a.tp_art in ('P', 'M')
    and not exists(
-     select 1
-       from pcmasters m
-      where f.cod_art = m.cod_art
-     );
+   select 1
+     from pcmasters m
+    where f.cod_art = m.cod_art
+   );
 
 select *
   from pcmasters
@@ -1036,10 +1036,10 @@ select *
  where a.tp_art in ('P')
    and a.cod_lin != 'ZZ'
    and not exists(
-     select 1
-       from pcformulas f
-      where a.cod_art = f.cod_for
-     );
+   select 1
+     from pcformulas f
+    where a.cod_art = f.cod_for
+   );
 
 select *
   from pcformulas
@@ -1067,16 +1067,16 @@ select *
    and g.serie_pguia = '3'
    and g.numero_pguia = '804609'
    and ((:estado = '3' and exists(
-     select 1
-       from kardex_d d
-            join articul a on d.cod_art = a.cod_art
-      where g.cod_alm = d.cod_alm
-        and g.tp_transac = d.tp_transac
-        and g.serie = d.serie
-        and g.numero = d.numero
-        and ((length(a.cod_lin) = 3 and a.cod_lin between '800' and '833')
-          or (length(a.cod_lin) = 3 and a.cod_lin between '850' and '854'))
-     )) or
+   select 1
+     from kardex_d d
+          join articul a on d.cod_art = a.cod_art
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+      and ((length(a.cod_lin) = 3 and a.cod_lin between '800' and '833')
+      or (length(a.cod_lin) = 3 and a.cod_lin between '850' and '854'))
+   )) or
         :estado != '3')
  order by ing_sal desc, numero_pguia;
 
@@ -1114,7 +1114,7 @@ select *
    and t2 = 'PLANEAMIENTO';
 
 begin
-    surte.por_item();
+  surte.por_item();
 end;
 
 create public synonym surte for pevisa.surte;
@@ -1146,14 +1146,14 @@ select user
      , b.nuot_tipoot_codigo
      , a.estado
      , a.estado_old
-     , trunc(a.fecha) as                           fecha
+     , trunc(a.fecha) as fecha
      , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
      , b.cod_lin
      , b.formu_art_cod_art
      , b.cant_prog
-     , b.abre02                                    cliente
-     , b.abre01                                    pedido
-     , b.per_env                                   item
+     , b.abre02 cliente
+     , b.abre01 pedido
+     , b.per_env item
      , b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total
      , a.usuario
@@ -1174,22 +1174,22 @@ select user
    and b.per_env = e.nro(+)
    and a.estado_old in ('0', '1')
    and a.fecha = (
-     select max(fecha)
-       from pr_trasab_estado p
-      where p.numero = a.numero
-        and p.serie = a.serie
-        and p.tipo = a.tipo
-        and p.estado = a.estado
-        and p.estado_old in ('0', '1')
-     )
+   select max(fecha)
+     from pr_trasab_estado p
+    where p.numero = a.numero
+      and p.serie = a.serie
+      and p.tipo = a.tipo
+      and p.estado = a.estado
+      and p.estado_old in ('0', '1')
+   )
    and exists
-     (
-         select 1
-           from orden_impresa_surtimiento i
-          where b.nuot_tipoot_codigo = i.ot_tpo
-            and b.nuot_serie = i.ot_ser
-            and b.numero = i.ot_nro
-         )
+   (
+     select 1
+       from orden_impresa_surtimiento i
+      where b.nuot_tipoot_codigo = i.ot_tpo
+        and b.nuot_serie = i.ot_ser
+        and b.numero = i.ot_nro
+     )
    and nvl(f_grupo_formu(b.formu_art_cod_art), 99) like :x_grupo;
 
 select *
@@ -1214,7 +1214,13 @@ select *
    and serie = 1
    and numero = 99685;
 
-select kd.cod_alm, kd.tp_transac, kd.serie, kd.numero, kd.fch_transac, kd.cod_art, kd.cantidad
+select kd.cod_alm
+     , kd.tp_transac
+     , kd.serie
+     , kd.numero
+     , kd.fch_transac
+     , kd.cod_art
+     , kd.cantidad
   from kardex_d kd
  where kd.cod_art in ('UPENTRENTM', 'UPENTRENTS', 'UPENTRENTL')
    and extract(year from kd.fch_transac) = 2023
@@ -1265,19 +1271,19 @@ select *
 select p.c_codigo
      , p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
      , p.c_cargo
-     , c.descripcion                                                        as desc_cargo
+     , c.descripcion as desc_cargo
      , p.seccion
-     , s.nombre                                                             as desc_seccion
-     , g.c_codigo                                                           as encargado
+     , s.nombre as desc_seccion
+     , g.c_codigo as encargado
      , p.sexo
-     , g.nombre                                                             as desc_encargado
+     , g.nombre as desc_encargado
      , h.local
-     , l.descripcion                                                        as desc_local
+     , l.descripcion as desc_local
      , p.f_ingreso
      , p.fnatal
-     , d.num_doc                                                            as dni
-     , trunc(months_between(sysdate, p.fnatal) / 12)                        as edad
-     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años'          as tiempo_empresa
+     , d.num_doc as dni
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
   from planilla10.personal p
        left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
        left join planilla10.tar_secc s on p.seccion = s.codigo
@@ -1287,21 +1293,21 @@ select p.c_codigo
        left join planilla10.pla_local l on h.local = l.local
  where p.situacion not in ('8', '9')
    and (upper(g.usuario) = (
-     select usuario
-       from usuario_modulo
-      where usuario = :user
-        and modulo = :modulo
-      union
-     select id_usuario
-       from usuario_modulo_alterno
-      where id_alterno = :user
-        and id_modulo = :modulo
-     ) or :user in (
-     select usuario
-       from usuario_modulo
-      where modulo = :modulo
-        and maestro = 'SI'
-     ));
+   select usuario
+     from usuario_modulo
+    where usuario = :user
+      and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user
+      and id_modulo = :modulo
+   ) or :user in (
+   select usuario
+     from usuario_modulo
+    where modulo = :modulo
+      and maestro = 'SI'
+   ));
 
 select *
   from usuario_modulo
@@ -1326,7 +1332,7 @@ select *
   from pk_gnumero
  where pk_numero in (
                      52018, 52084, 52255, 52363, 52569, 52721, 53002, 53188, 53274, 53300, 53308
-     );
+   );
 
 select *
   from pr_prioridad
@@ -1390,15 +1396,15 @@ select *
 select *
   from campana
  where cod_campana in (
-     'ND2023-1'
-     );
+   'ND2023-1'
+   );
 
 -- revisar importes
 select *
   from campana
  where cod_campana in (
-     'ND2023-2'
-     );
+   'ND2023-2'
+   );
 
 select *
   from estado_campana;
@@ -1464,7 +1470,7 @@ select c_codigo
      , desc_cargo
      , desc_doc
      , num_doc
-     , to_char(fnatal, 'dd/mm/yyyy')    as nacimiento
+     , to_char(fnatal, 'dd/mm/yyyy') as nacimiento
      , to_char(f_ingreso, 'dd/mm/yyyy') as ingreso
   from vw_personal
  where c_codigo = 'E730';
@@ -1516,10 +1522,10 @@ select *
 select *
   from pr_forsec
  where cod_art in (
-     select cod_art
-       from solicita_emision_det
-      where numero = 595
-     )
+   select cod_art
+     from solicita_emision_det
+    where numero = 595
+   )
    and codigo_proceso is null;
 
 select *
@@ -1563,16 +1569,16 @@ select *
 select nf.cod_cliente
      , nf.nombre
      , sum(nf.total_mercaderia) as total_mercaderia
-     , min(fecha)                  fecha_factura_mas_antigua
+     , min(fecha) fecha_factura_mas_antigua
   from vw_fac_para_booking nf
 --  where 1 = 1
  where nf.fecha_despacho is null
    and nf.numero not in (
-     select h.numero
-       from exfacturas_his h
-      where h.numero = nf.numero
-        and h.accion in ('70', '71', '72')
-     )
+   select h.numero
+     from exfacturas_his h
+    where h.numero = nf.numero
+      and h.accion in ('70', '71', '72')
+   )
    and nf.numero = '55014185'
  group by nf.cod_cliente, nf.nombre
  order by 1;
@@ -1701,7 +1707,7 @@ select *
   from pk_gnumero
  where pk_numero in (
                      53529, 53564, 53949
-     );
+   );
 
 select *
   from pedido
@@ -1712,3 +1718,64 @@ select *
   from analisis_consumo
  where ano = 2023
    and mes = 4;
+
+select *
+  from pedido
+ where num_ped = 219816;
+
+select *
+  from docuvent
+ where cod_cliente = '';
+
+select *
+  from exfacturas
+ where numero = 55015050;
+
+select *
+  from exfacturas
+ where numero = 55015261;
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'F055'
+   and numero = 15261;
+
+select *
+  from factcob
+ where tipdoc = '01'
+   and numero = '15261';
+
+select *
+  from factcob
+ where tipdoc = '03'
+   and serie_num = 'B053'
+   and numero = '309';
+
+insert into pevisa.factcob ( cod_cliente, tipdoc, serie_num, numero, fecha, f_vencto, f_aceptacion
+                           , f_transfe, ano, mes, libro, voucher, item, tipo_referencia, serie_ref
+                           , nro_referencia, concepto, sistema_origen, vended, banco, l_agencia
+                           , l_refbco, l_condle, moneda, importe, tcam_imp, saldo, tcam_sal
+                           , numero_canje, estado, ctactble, importex, saldox, numero_factura_unix
+                           , cobrador, f_cobranza, cond_pag, fecha_origen, igv, gasban, f_incobrable
+                           , vended_origen, unidad_negocio, situacion, origen, imp_percep
+                           , por_percep, factor_dist)
+values ( '20601933056', '01', 'F053', '337', date '2023-04-25', date '2023-04-25', null, null, 2023
+       , 4, null, null, null, 'P2', '24', '5506', 'DISTRIBUIDOR ELECTRO INVERSIONES CASTILL', 'VENT'
+       , '32', null, null, null, null, 'S', 1089.99, 3.7610, 1089.99, 3.7610, null, '0', '12110102'
+       , 0.00, 0.00, null, null, null, 'W', date '2023-04-25', null, null, null, null, null, null
+       , null, 0.00, 0.00, 1.000000);
+
+insert into pevisa.factcob ( cod_cliente, tipdoc, serie_num, numero, fecha, f_vencto, f_aceptacion
+                           , f_transfe, ano, mes, libro, voucher, item, tipo_referencia, serie_ref
+                           , nro_referencia, concepto, sistema_origen, vended, banco, l_agencia
+                           , l_refbco, l_condle, moneda, importe, tcam_imp, saldo, tcam_sal
+                           , numero_canje, estado, ctactble, importex, saldox, numero_factura_unix
+                           , cobrador, f_cobranza, cond_pag, fecha_origen, igv, gasban, f_incobrable
+                           , vended_origen, unidad_negocio, situacion, origen, imp_percep
+                           , por_percep, factor_dist)
+values ( '72846359', '03', 'B053', '309', date '2023-04-10', null, null, null, 2023, 4, null, null
+       , null, '03', 'B053', '309', 'TAIPE HUAMAN EDITH KARINA', 'VENT', '50', null, null, null
+       , null, 'S', 193.79, 3.7740, 193.79, 3.7740, null, '0', '12110102', 0.00, 0.00, null, null
+       , null, 'W', date '2023-04-10', null, null, null, null, null, null, null, 0.00, 0.00
+       , 1.000000);

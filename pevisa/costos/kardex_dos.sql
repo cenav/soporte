@@ -657,3 +657,7 @@ select *
    and motivo = '1'
    and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 
+select *
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (4);

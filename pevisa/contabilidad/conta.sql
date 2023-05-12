@@ -2,10 +2,10 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 4
+   and mes = 3
    and libro = '10'
    and voucher in (
-   24307601
+                   33512
    );
 
 select *
@@ -13,14 +13,13 @@ select *
  where numero = '0000008'
    and cod_proveedor = '10417784417';
 
-
 select *
   from movdeta
  where ano = 2023
    and mes = 1
    and libro = '08'
    and voucher in (
-   11865
+   33512
    );
 
 select *
@@ -76,16 +75,16 @@ select *
    and mes = 4
    and tipo = '2'
    and voucher in (
-                   43077, 43078, 43080
+                   43079, 43081
    );
 
 select *
   from movfide
  where ano = 2023
-   and mes = 4
+   and mes = 3
    and tipo = '2'
    and voucher in (
-   43076
+   33512
    );
 
 select *
@@ -145,16 +144,26 @@ select *
  where emb_ano = 2022;
 
   with costo as (
-    select tip_doc, ser_doc, nro_doc
+    select tip_doc
+         , ser_doc
+         , nro_doc
          , sum(canti * costo_d) as costo_total
          , sum(canti * costo) as costo_total_s
       from tmp_moviart_dos
      group by tip_doc, ser_doc, nro_doc
     )
      , facturas as (
-    select pn.tipo, pn.serie, pn.numero, e.numero as nro_expo, e.cod_cliente, e.nombre
+    select pn.tipo
+         , pn.serie
+         , pn.numero
+         , e.numero as nro_expo
+         , e.cod_cliente
+         , e.nombre
          , e.fecha as fch_factura
-         , pn.total, pn.saldo, e.fecemb as fch_embarque, pn.fch_pago
+         , pn.total
+         , pn.saldo
+         , e.fecemb as fch_embarque
+         , pn.fch_pago
          , extract(year from e.fecemb) as emb_ano
          , extract(month from e.fecemb) as emb_mes
       from pagoimp_noemb pn
@@ -167,9 +176,19 @@ select *
                        and pn.serie = d.serie
                        and pn.numero = d.numero
     )
-select f.tipo, f.serie, f.numero, f.nro_expo, f.cod_cliente, f.nombre, f.fch_factura, f.total
+select f.tipo
+     , f.serie
+     , f.numero
+     , f.nro_expo
+     , f.cod_cliente
+     , f.nombre
+     , f.fch_factura
+     , f.total
      , f.saldo
-     , f.fch_embarque, f.fch_pago, f.emb_ano, f.emb_mes
+     , f.fch_embarque
+     , f.fch_pago
+     , f.emb_ano
+     , f.emb_mes
   from facturas f
        left join costo c
                  on f.tipo = c.tip_doc
@@ -230,12 +249,15 @@ select c_codigo, nombre
  where ((situacion not in ('8', '9') and :activo = 1) or situacion in ('8', '9') and :activo = 0)
  order by nombre;
 
-select cod_activo_fijo, descripcion from activo_fijo order by cod_activo_fijo;
+select cod_activo_fijo, descripcion
+  from activo_fijo
+ order by cod_activo_fijo;
 
 select *
   from prevencionista;
 
-select * from prevencionista;
+select *
+  from prevencionista;
 
 select *
   from activo_fijo
@@ -280,9 +302,11 @@ select *
   from activo_fijo_asiento
  where cod_activo_fijo = 'MQ2GEN-011';
 
-select * from activo_fijo_estado;
+select *
+  from activo_fijo_estado;
 
-select centro_costo, nombre from planilla10.centro_de_costos;
+select centro_costo, nombre
+  from planilla10.centro_de_costos;
 
 select *
   from instrumento_asigna
@@ -353,7 +377,9 @@ select *
    and libro = '05';
 
 
-select * from serie_caja order by id_serie;
+select *
+  from serie_caja
+ order by id_serie;
 
 select *
   from planilla10.personal
@@ -391,7 +417,8 @@ select *
    and serie = 1
    and numero = 1237655;
 
-select * from paramaf;
+select *
+  from paramaf;
 
 select *
   from gastos_de_viaje
@@ -436,9 +463,12 @@ select *
  where serie = 7
    and numero = 22174;
 
-select * from vendedores where cod_vendedor = 'M1';
+select *
+  from vendedores
+ where cod_vendedor = 'M1';
 
-select * from transacciones_almacen;
+select *
+  from transacciones_almacen;
 
 select *
   from kardex_g
@@ -510,7 +540,9 @@ select *
  where nro_referencia = '1285173'
    and relacion = '24022';
 
-select * from logger_logs order by id desc;
+select *
+  from logger_logs
+ order by id desc;
 
 select descripcion, codigo
   from tablas_auxiliares
@@ -560,7 +592,11 @@ select *
    and voucher = '20015';
 
   with vouchers as (
-    select ano, mes, libro, voucher, fecha
+    select ano
+         , mes
+         , libro
+         , voucher
+         , fecha
          , case libro
              when '08' then 1
              when '05' then 2
@@ -614,14 +650,17 @@ select *
  where id_serie = 1
    and id_numero = 28;
 
-select * from estado_caja order by id_estado;
+select *
+  from estado_caja
+ order by id_estado;
 
 select *
   from caja_chica
  where serie = 1
    and numero = 20236;
 
-select sysdate from dual;
+select sysdate
+  from dual;
 
 select *
   from ctabnco
@@ -638,9 +677,12 @@ select *
  where id_serie = 1
    and id_numero = 22;
 
-select * from estado_caja order by id_estado;
+select *
+  from estado_caja
+ order by id_estado;
 
-select * from ruta_docvirtual;
+select *
+  from ruta_docvirtual;
 
   with kx as (
     select costo_s, costo_d
@@ -757,9 +799,11 @@ select *
    and serie = 'F055'
    and nro_referencia = '13207';
 
-select costo_sol, cod_art from tmp_carga_data;
+select costo_sol, cod_art
+  from tmp_carga_data;
 
-select replace(trim(cod_art), '14-', '') from tmp_carga_data;
+select replace(trim(cod_art), '14-', '')
+  from tmp_carga_data;
 
 -- actualiza tipo cambio
 declare
@@ -794,9 +838,15 @@ select *
   from cambdol_historia
  where trunc(fecha) = to_date('31/08/2022', 'dd/mm/yyyy');
 
-select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num
+select cod_relacion as cod_proveedor
+     , tipdoc_cp as tipdoc
+     , serie_cp as serie_num
      , numero_cp as numerodoc
-     , cod_art, ano, mes, libro, voucher
+     , cod_art
+     , ano
+     , mes
+     , libro
+     , voucher
   from view_kardex_reg_compras
  where ano = 2022
    and mes = 7
@@ -808,7 +858,8 @@ select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num
 
 select *
   from saldosc_tmp
- where fecha_dif = to_date('31/08/2022', 'dd/mm/yyyy') and ctactble = '131302';
+ where fecha_dif = to_date('31/08/2022', 'dd/mm/yyyy')
+   and ctactble = '131302';
 
 select *
   from activo_fijo
@@ -960,7 +1011,8 @@ select *
    and id_serie = 2
    and id_numero = 520;
 
-select * from caja_chica;
+select *
+  from caja_chica;
 
 select *
   from sistabgen
@@ -1005,7 +1057,8 @@ select *
 
 -- pkg_activo_fijo.nuevo_codigo
 
-select * from nroafijo;
+select *
+  from nroafijo;
 
 --990216
 
@@ -1039,11 +1092,14 @@ select 20 + row_number() over (order by centro_costo) as id
    )
  order by centro_costo;
 
-select * from proceso_cominac;
+select *
+  from proceso_cominac;
 
-select * from proceso_cominac_concepto;
+select *
+  from proceso_cominac_concepto;
 
-select * from proceso_cominac_venta_det;
+select *
+  from proceso_cominac_venta_det;
 
 select *
   from movfide_situacion_banco
@@ -1060,7 +1116,8 @@ select *
   from planilla10.tar_secc
  where c_area = '010';
 
-select * from planilla10.t_area;
+select *
+  from planilla10.t_area;
 
 select distinct sector
   from planilla10.personal
@@ -1071,12 +1128,35 @@ select *
  where seccion = '05'
    and situacion not in ('8', '9');
 
-select c_codigo, nombre, sexo, c_cargo, desc_cargo, f_ingreso, fnatal, desc_doc, num_doc, email
-     , email_p, edad
-     , anos_empresa, anos_aniversario, desc_seccion, c_area, dsc_area, c_encargado, desc_encargado
-     , usuario_encargado, email_encargado, desc_local, f_cese, sector, desc_sector, situacion
+select c_codigo
+     , nombre
+     , sexo
+     , c_cargo
+     , desc_cargo
+     , f_ingreso
+     , fnatal
+     , desc_doc
+     , num_doc
+     , email
+     , email_p
+     , edad
+     , anos_empresa
+     , anos_aniversario
+     , desc_seccion
+     , c_area
+     , dsc_area
+     , c_encargado
+     , desc_encargado
+     , usuario_encargado
+     , email_encargado
+     , desc_local
+     , f_cese
+     , sector
+     , desc_sector
+     , situacion
      , horario
-     , desc_horario, turno
+     , desc_horario
+     , turno
   from vw_personal
  where flg_planta = 1
    and situacion not in ('8', '9')
@@ -1096,9 +1176,12 @@ select *
   from activo_fijo
  where cod_activo_fijo in ('MQ1PMET-001', 'MQ2FERR-004');
 
-select * from activo_fijo_estado;
+select *
+  from activo_fijo_estado;
 
-select * from planilla10.tar_encarga order by codigo;
+select *
+  from planilla10.tar_encarga
+ order by codigo;
 
 select *
   from planilla10.personal
@@ -1222,7 +1305,11 @@ select *
    and libro = '38'
    and voucher = 10011;
 
-select f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble
+select f.cod_cliente
+     , f.tipdoc
+     , f.serie_num
+     , f.numero
+     , f.ctactble
      , nvl(p.col_compras, 0) as col_compras
      , decode(p.auto_mas, null, 'N', 'O') genera
      , (
@@ -1232,7 +1319,9 @@ select f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble
           :icambio, 2)) as saldo
      , f.tcam_sal
   from factcob f, cabfcob c, plancta p
- where f.moneda = 'D' and f.ctactble = :p_cuenta and
+ where f.moneda = 'D'
+   and f.ctactble = :p_cuenta
+   and
 ------  f.tipdoc = :selecciona.tipdoc and
 -----    f.fecha <= :selecciona.fecha   and
    ((f.mes is null and f.fecha <= :fecha)
@@ -1240,13 +1329,21 @@ select f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble
          f.ano || lpad(f.mes, 2, '0') <= to_char(:fecha, 'YYYY') || to_char(:fecha, 'MM')))
 --    and f.tcam_sal <> :icambio
    and c.tipdoc(+) = f.tipdoc
-   and c.serie_num(+) = f.serie_num and c.numero(+) = f.numero
-   and c.fecha(+) <= :fecha and p.cuenta = f.ctactble
+   and c.serie_num(+) = f.serie_num
+   and c.numero(+) = f.numero
+   and c.fecha(+) <= :fecha
+   and p.cuenta = f.ctactble
 having f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) <> 0
  group by f.cod_cliente, f.tipdoc, f.serie_num, f.numero, f.ctactble, p.col_compras
         , decode(p.auto_mas, null, 'N', 'O'), f.importe, f.moneda, f.tcam_sal;
 
-select cod_cliente, tipdoc, serie_num, numero, ctactble, col_compras, generado
+select cod_cliente
+     , tipdoc
+     , serie_num
+     , numero
+     , ctactble
+     , col_compras
+     , generado
      , saldo saldox
   from saldosc_tmp
  where saldo < 0
@@ -1301,7 +1398,8 @@ select *
    and moneda = 'S'
  order by fecha;
 
-select * from orden_de_compra_calificacion;
+select *
+  from orden_de_compra_calificacion;
 
 select cod_proveed, nombre, email
   from proveed
@@ -1350,7 +1448,9 @@ select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
    and n.tipodoc = t.obs
    and n.serie = 6;
 
-select * from nrodoc where tipodoc = 'IL';
+select *
+  from nrodoc
+ where tipodoc = 'IL';
 
 select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
   from tablas_auxiliares t, nrodoc n
@@ -1363,7 +1463,8 @@ select *
   from movdeta
  where cuenta = '129301010';
 
-select * from comiacc_contrato;
+select *
+  from comiacc_contrato;
 
 select *
   from analisis_consumo

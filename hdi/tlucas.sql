@@ -10,7 +10,7 @@ select *
  where ano = 2023
    and mes = 4
    and libro = '05'
-   and voucher in (33115);
+   and voucher in (40009);
 
 select *
   from factpag
@@ -32,13 +32,35 @@ select *
    and mes = 1;
 
 begin
-    pkg_cominac.genera_periodo(2022, 2, 'S');
+  pkg_cominac.genera_periodo(2022, 2, 'S');
 end;
 
-select cod_proceso, cod_concepto, cod_vendedor, tipodoc, nombre_doc, serie, numero, fecha
-     , cod_cliente, nombre_cliente, item, cod_art, cod_lin, neto, soles, dolares, total_soles
-     , total_dolares, cambio, total_cambio, porc_comision, comision, total_sin_igv, costo_soles
-     , costo_dolares, cantidad
+select cod_proceso
+     , cod_concepto
+     , cod_vendedor
+     , tipodoc
+     , nombre_doc
+     , serie
+     , numero
+     , fecha
+     , cod_cliente
+     , nombre_cliente
+     , item
+     , cod_art
+     , cod_lin
+     , neto
+     , soles
+     , dolares
+     , total_soles
+     , total_dolares
+     , cambio
+     , total_cambio
+     , porc_comision
+     , comision
+     , total_sin_igv
+     , costo_soles
+     , costo_dolares
+     , cantidad
   from proceso_cominac_venta_det;
 
 select *
@@ -48,7 +70,7 @@ select *
    and libro = '08'
    and voucher in (
                    20398, 20399, 20400, 20401, 20402, 20403, 20405, 20406
-     );
+   );
 
 select *
   from gastos_de_viaje
@@ -66,9 +88,12 @@ select *
  where cod_centro_costo = '02'
    and cod_motivo = '01';
 
-select * from pla_control;
+select *
+  from pla_control;
 
-select * from plancta where cuenta = '69321104';
+select *
+  from plancta
+ where cuenta = '69321104';
 
 select *
   from gastos_de_viaje_habilitado_d
@@ -76,10 +101,10 @@ select *
    and numero = 102;
 
 declare
-    l_cuenta varchar2(30);
+  l_cuenta varchar2(30);
 begin
-    l_cuenta := fn_cuenta_contable_viatico('02', '08');
-    dbms_output.put_line(l_cuenta);
+  l_cuenta := fn_cuenta_contable_viatico('02', '08');
+  dbms_output.put_line(l_cuenta);
 end;
 
 select *
@@ -99,7 +124,7 @@ select *
  where ano = 2023
    and mes = 4
    and tipo = '3'
-   and voucher = 40002;
+   and voucher = 40009;
 
 select *
   from factpag
@@ -154,7 +179,8 @@ select *
   from factpag_canje
  where nrocanje = '0000036';
 
-select * from canjedoc_cpag;
+select *
+  from canjedoc_cpag;
 
 select *
   from factpag
@@ -248,3 +274,9 @@ select *
   from gastos_de_viaje_habilitado_d
  where numero = 106
    and id_vendedor = 'H15';
+
+
+select *
+  from kardex_d
+ where extract(year from fch_transac) = 2023
+   and cantidad = 0;

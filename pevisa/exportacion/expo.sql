@@ -23,11 +23,11 @@ select *
 
 select *
   from exbooking
- where numero_booking = '69890254';
+ where numero_booking = 'PAROD23017J';
 
 select *
   from exbooking_d
- where numero_booking = '69890254';
+ where numero_booking = 'PAROD23017J';
 
 select * from view_cli_para_booking;
 

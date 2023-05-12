@@ -24,11 +24,11 @@ select *
    and ing_sal = 'I'
 --    and cod_relacion = '20100084768' and nro_sucur in ('04', '05', '06', '11', '03')
    and cod_alm in (
-   select cod_alm_transito
-     from almacenes
-    where cod_alm_transito is not null
-      and cod_alm_transito = kardex_g.cod_alm
-   );
+     select cod_alm_transito
+       from almacenes
+      where cod_alm_transito is not null
+        and cod_alm_transito = kardex_g.cod_alm
+     );
 
 select *
   from kardex_d
@@ -67,3 +67,9 @@ select *
 
 -- 2022 11 39 110004
 -- 2022 12 39 120004
+
+select cod_art
+     , sum(case ing_sal when 'I' then cantidad when 'S' then cantidad * -1 else 0 end) as total
+  from kardex_d
+ where cod_art = 'SLIM380.1092SIL'
+ group by cod_art;

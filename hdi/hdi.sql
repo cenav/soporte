@@ -6,10 +6,10 @@ select *
    and voucher like '%100023%';
 
 select *
-  from pevisa.movdeta
+  from movdeta
  where ano = 2023
    and mes = 4
-   and libro = '05'
+   and libro = '3'
    and voucher = 40009;
 
 select *
@@ -258,17 +258,17 @@ select cod_banco
 
 select *
   from movfigl
- where ano = 2022
-   and mes = 10
+ where ano = 2023
+   and mes = 4
    and tipo = '3'
-   and voucher = 100023;
+   and voucher = 40009;
 
 select *
   from movfide
- where ano = 2022
-   and mes = 10
+ where ano = 2023
+   and mes = 4
    and tipo = '3'
-   and voucher = 100023;
+   and voucher = 40009;
 
 select *
   from factpag
@@ -383,15 +383,28 @@ select *
   from pevisa.paramin;
 
 
-select f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3) abre
-     , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero doc,
-        to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv,
-        f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia refe, f.fecha, f.f_vencto
-     , decode(f.moneda, 'S', 'S/.', 'US$') mon, f.pventa importf, f.tcam_sal, f.pventax,
-        f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) saldo_d, round(
+select f.cod_proveedor
+     , l.nombre
+     , f.concepto
+     , substr(t.abreviada, 1, 3)                                                              abre
+     , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero                                      doc
+     , to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv
+     , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia                     refe
+     , f.fecha
+     , f.f_vencto
+     , decode(f.moneda, 'S', 'S/.', 'US$')                                                    mon
+     , f.pventa                                                                               importf
+     , f.tcam_sal
+     , f.pventax
+     , f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)                  saldo_d
+     , round(
         ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
-        2) saldo_en_soles
-     , f.moneda, f.tcam_sal, f.tipdoc, f.numero, f.ctactble
+        2)                                                                                    saldo_en_soles
+     , f.moneda
+     , f.tcam_sal
+     , f.tipdoc
+     , f.numero
+     , f.ctactble
   from factpag f, cabfpag c, proveed l, tablas_auxiliares t
  where f.cod_proveedor like :PRO
    and ((f.ano * 100) + f.mes) <= ((:P_ANO * 100) + :P_MES)
@@ -457,15 +470,15 @@ select *
  where codigo_unidad_negocio = '01';
 
 select *
-  from pevisa.orden_de_venta
+  from orden_de_venta
  where numero = 6738;
 
 select *
-  from pevisa.orden_de_venta_historia
+  from orden_de_venta_historia
  where numero = 6738;
 
 select *
-  from pevisa.lg_factura_comercial
+  from lg_factura_comercial
  where numero_embarque = 54;
 
 alter user pevisa identified by "hdi4041";
@@ -497,4 +510,86 @@ select *
  where ano = 2022
    and mes = 12;
 
-select * from vw_personal;
+select *
+  from vw_personal;
+
+select *
+  from lg_factura_comercial
+ where numero_embarque = 54;
+
+select *
+  from articul
+ where cod_art in (
+     'HDI-01-01-01-06-02-07'
+     );
+
+select *
+  from pcarticul
+ where cod_art in (
+     'HDI-01-01-01-06-02-07'
+     );
+
+select *
+  from pcarticul
+ where cod_art like 'HDI-01%';
+
+select *
+  from tmp_inve_val
+ where cod_art in (
+     'HDI-01-01-01-06-02-07'
+     );
+
+select nvl(a.cta, '20')                cta
+     , l.descripcion                   des_cuenta
+     , t.cod_lin                       cod_lin
+     , t.cod_art
+     , sum(decode(tipo, 0, totalr, 0)) stk_ini
+     , sum(decode(tipo, 1, totalr, 0)) compras
+     , sum(decode(tipo, 2, totalr, 0)) ot_ingre
+     , sum(decode(tipo, 3, totalr, 0)) sal_vta
+     , sum(decode(tipo, 4, totalr, 0)) sal_consu
+     , sum(decode(tipo, 5, totalr, 0)) devol
+     , sum(decode(tipo, 6, totalr, 0)) transfer
+     , sum(decode(tipo, 7, totalr, 0)) mermas
+     , sum(decode(tipo, 8, totalr, 0)) ot_salidas
+     , sum(decode(tipo, 0, totalr, 0)) +
+       sum(decode(tipo, 1, totalr, 0)) +
+       sum(decode(tipo, 2, totalr, 0)) -
+       sum(decode(tipo, 3, totalr, 0)) -
+       sum(decode(tipo, 4, totalr, 0)) +
+       sum(decode(tipo, 5, totalr, 0)) -
+       sum(decode(tipo, 6, totalr, 0)) -
+       sum(decode(tipo, 7, totalr, 0)) -
+       sum(decode(tipo, 8, totalr, 0)) total
+     , descri_linea
+  from tmp_inve_val t, pcarticul a, plancta l
+ where usuario = user
+   and a.cod_art(+) = t.cod_art
+   and l.cuenta(+) = a.cta
+ group by nvl(a.cta, '20'), l.descripcion, t.cod_lin, t.cod_art, descri_linea
+ order by 1, 2, 3;
+
+select *
+  from plancta
+ where cuenta like '335%';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'HDI-01-01-01-06-02-07';
+
+select *
+  from usuario_modulo
+ where usuario = 'EMESTANZA';
+
+select *
+  from cotizacion;
+
+select *
+  from pedido
+ where num_ped = 2361
+   and serie = 20;
+
+select *
+  from kardex_d
+ where extract(year from fch_transac) = 2023
+   and cantidad = 0;
