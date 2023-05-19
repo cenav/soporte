@@ -1,9 +1,9 @@
 select *
   from orden_de_compra
- where serie = 6
+ where serie = 13
    and num_ped in (
-     2644
-     );
+   4423
+   );
 
 select *
   from orden_matriceria
@@ -16,16 +16,16 @@ select *
   from itemord
  where serie = 4
    and num_ped in (
-     60390
-     );
+   60390
+   );
 
 
 select *
   from itemmatri
  where serie = 1
    and num_ped in (
-     230076
-     );
+   230076
+   );
 
 select *
   from orden_de_compra
@@ -43,10 +43,10 @@ select *
 
 select *
   from orden_de_compra_historia
-where serie = 6
-  and num_ped in (
-    2644
-    )
+ where serie = 6
+   and num_ped in (
+   2644
+   )
    and glosa = 'APROBADO';
 
 select *
@@ -108,8 +108,17 @@ select *
    and numero = 104
    and id_motivo = '06';
 
-select oc.cod_proveed, p.nombre, oc.serie, oc.num_ped, oc.fecha, oc.codigo_grupo_compra
-     , g.descripcion, oc.moneda, oc.tot_valvta, oc.tot_impu, oc.tot_orden
+select oc.cod_proveed
+     , p.nombre
+     , oc.serie
+     , oc.num_ped
+     , oc.fecha
+     , oc.codigo_grupo_compra
+     , g.descripcion
+     , oc.moneda
+     , oc.tot_valvta
+     , oc.tot_impu
+     , oc.tot_orden
   from orden_de_compra oc
        join proveed p on oc.cod_proveed = p.cod_proveed
        join lg_grupos_compras g on oc.codigo_grupo_compra = g.codigo_grupo_compra
@@ -133,5 +142,5 @@ select *
    and numero = 22191;
 
 select *
-  from pevisa.lg_factura_comercial
+  from lg_factura_comercial
  where total < 0;

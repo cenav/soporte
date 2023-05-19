@@ -14,9 +14,9 @@ select *
   from planilla10.personal
  where apellido_paterno = 'CONTRERAS'
    and situacion not in (
-     select *
-       from planilla10.t_situacion_cesado
-     );
+   select *
+     from planilla10.t_situacion_cesado
+   );
 
 select *
   from planilla10.ingre_fijo
@@ -35,5 +35,10 @@ select *
   from planilla10.vw_utilidades_correos;
 
 begin
-    puntualidad.automatico(2023, 4);
+  puntualidad.automatico(2023, 4);
 end;
+
+select * from planilla10.plcontrol;
+
+select * from planilla10.personal
+where apellido_paterno like 'ZA%';

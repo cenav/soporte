@@ -2,10 +2,10 @@
 alter user cmarcelo account unlock;
 
 
-alter user apastrana account lock;
+alter user hcalle account lock;
 
 
-alter user wcoronel identified by "patg10$vt";
+alter user jquispe identified by "jq10$vt";
 
 
 alter user jquispeb password expire;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'PEVISA';
+ where username like 'JQUISPE';
 
 select *
   from dba_users
@@ -35,10 +35,10 @@ select owner, object_type, object_name, status
    and owner = user;
 
 -- Looping chain of synonyms
-select s.owner                                                    as syn_owner
-     , s.synonym_name                                             as syn_name
-     , s.table_owner                                              as obj_owner
-     , s.table_name                                               as obj_name
+select s.owner as syn_owner
+     , s.synonym_name as syn_name
+     , s.table_owner as obj_owner
+     , s.table_name as obj_name
      , case when o.owner is null then 'MISSING' else o.status end as obj_status
   from dba_synonyms s
        left join dba_objects o on s.table_owner = o.owner and s.table_name = o.object_name
@@ -60,7 +60,7 @@ select *
 -- busca procedimineto
 select *
   from dba_source
- where upper(text) like upper('%asiscont3@pevisa.com.pe%')
+ where upper(text) like upper('%INS_DETALLE%')
    and owner = 'PEVISA';
 
 
@@ -250,13 +250,13 @@ select *
  where sistema = 'M_RECLAMOS'
    and cod_menu in (
                     '4018', '401802'
-     )
+   )
    and usuario in (
                    'ALBERTO', 'HOLIVARES', 'BULISES', 'JMENDEZ', 'MCASTILLA', 'DCONTRERAS',
                    'CFERNANDEZ',
                    'RGONZALES', 'MGARCIA', 'IVEGA', 'EJACHO', 'EVALIENTE', 'PEVISA', 'JCABEZAS',
                    'DTIRAVANTI'
-     );
+   );
 
 
 select *
@@ -282,11 +282,11 @@ select 'ALBERTO', modulo, maestro, supermaestro
   from usuario_modulo u1
  where usuario in ('JCABEZAS')
    and not exists(
-     select *
-       from usuario_modulo u2
-      where u2.usuario in ('ALBERTO')
-        and u2.modulo = u1.modulo
-     )
+   select *
+     from usuario_modulo u2
+    where u2.usuario in ('ALBERTO')
+      and u2.modulo = u1.modulo
+   )
  order by modulo;
 
 select *
@@ -537,7 +537,8 @@ select *
  where co_usrusr = 'SARA';
 
 select a.tp_transac as tp_transac, b.descripcion as descripcion
-  from usuarios_almacenes_perfil a, transacciones_almacen b
+  from usuarios_almacenes_perfil a
+     , transacciones_almacen b
  where a.usuario = 'MFERNANDEZ'
    and a.cod_alm = '03'
    and a.tp_transac = b.tp_transac
@@ -589,13 +590,13 @@ select per.c_codigo
  where per.c_codigo = enc.c_codigo
    and per.situacion not in ('8', '9')
    and upper(enc.usuario) like (case
-                                    when :usuario in (
-                                        select usuario
-                                          from usuario_modulo
-                                         where modulo = 'EVALUACION'
-                                           and maestro = 'SI'
-                                        ) then '%'
-                                    else upper(:usuario)
+                                  when :usuario in (
+                                    select usuario
+                                      from usuario_modulo
+                                     where modulo = 'EVALUACION'
+                                       and maestro = 'SI'
+                                    ) then '%'
+                                  else upper(:usuario)
                                 end)
  order by per.apellido_paterno;
 
@@ -621,7 +622,8 @@ select per.c_codigo
  order by per.apellido_paterno;
 
 select a.cod_alm, t.descripcion, a.nombre
-  from pr_usualma a, tablas_auxiliares t
+  from pr_usualma a
+     , tablas_auxiliares t
  where a.cod_alm = t.codigo
    and t.tipo = '33'
    and a.usuario = 'JNEYRA'
@@ -638,21 +640,24 @@ select *
    and cod_alm = '41';
 
 select a.cod_alm, t.descripcion, a.nombre
-  from pr_usualma a, tablas_auxiliares t
+  from pr_usualma a
+     , tablas_auxiliares t
  where a.cod_alm = t.codigo
    and t.tipo = '33'
    and a.usuario = 'MFERNANDEZ'
  order by a.cod_alm;
 
 select ua.cod_alm as cod_alm, a.descripcion as descripcion
-  from usuarios_almacenes ua, almacenes a
+  from usuarios_almacenes ua
+     , almacenes a
  where usuario = 'AVULCANO'
    and ua.cod_alm = a.cod_alm
    and nvl(ua.estado, 0) = 1
  order by 1;
 
 select ap.tp_transac as tp_trasac, ta.descripcion as descripcion
-  from almacenes_perfil ap, transacciones_almacen ta
+  from almacenes_perfil ap
+     , transacciones_almacen ta
  where ap.tp_transac = ta.tp_transac
    and cod_alm = '41'
    and ta.ingreso_salida = 'S'
@@ -692,14 +697,14 @@ select t.codigo, t.descripcion
  where t.tipo = 33
    and t.codigo <> '....'
    and exists
-     (
-         select *
-           from usuarios_almacenes_perfil uap
-          where uap.usuario = user
-            and uap.cod_alm = t.codigo
-            and uap.tp_transac = '51'
-            and nvl(uap.estado, 0) = 1
-         )
+   (
+     select *
+       from usuarios_almacenes_perfil uap
+      where uap.usuario = user
+        and uap.cod_alm = t.codigo
+        and uap.tp_transac = '51'
+        and nvl(uap.estado, 0) = 1
+     )
  order by t.codigo;
 
 select *
@@ -712,14 +717,14 @@ select t.codigo, t.descripcion
  where t.tipo = 33
    and t.codigo <> '....'
    and exists
-     (
-         select *
-           from usuarios_almacenes_perfil uap
-          where uap.usuario = user
-            and uap.cod_alm = t.codigo
-            and uap.tp_transac = :tp_transac_ing
-            and nvl(uap.estado, 0) = 1
-         )
+   (
+     select *
+       from usuarios_almacenes_perfil uap
+      where uap.usuario = user
+        and uap.cod_alm = t.codigo
+        and uap.tp_transac = :tp_transac_ing
+        and nvl(uap.estado, 0) = 1
+     )
  order by t.codigo;
 
 
@@ -748,41 +753,41 @@ select per.c_codigo
  where per.c_codigo = enc.c_codigo
    and per.situacion not in ('8', '9')
    and (upper(enc.usuario) = (
-     select usuario
-       from usuario_modulo
-      where usuario = :user
-        and modulo = :modulo
-      union
-     select id_usuario
-       from usuario_modulo_alterno
-      where id_alterno = :user
-        and id_modulo = :modulo
-     ) or :user in (
-     select usuario
-       from usuario_modulo
-      where modulo = :modulo
-        and maestro = 'SI'
-     ))
+   select usuario
+     from usuario_modulo
+    where usuario = :user
+      and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user
+      and id_modulo = :modulo
+   ) or :user in (
+   select usuario
+     from usuario_modulo
+    where modulo = :modulo
+      and maestro = 'SI'
+   ))
  order by per.apellido_paterno;
 
 select *
   from evaluacion
  where (:user in (
-     select usuario
-       from usuario_modulo
-      where modulo = :modulo
-        and maestro = 'SI'
-     ) or id_evaluador = (
-     select c_codigo
-       from planilla10.tar_encarga
-      where (upper(usuario) = upper(:user) or
-             upper(usuario) = (
-                 select id_usuario
-                   from usuario_modulo_alterno
-                  where id_alterno = :user
-                    and id_modulo = :modulo
-                 ))
-     ));
+   select usuario
+     from usuario_modulo
+    where modulo = :modulo
+      and maestro = 'SI'
+   ) or id_evaluador = (
+   select c_codigo
+     from planilla10.tar_encarga
+    where (upper(usuario) = upper(:user) or
+           upper(usuario) = (
+             select id_usuario
+               from usuario_modulo_alterno
+              where id_alterno = :user
+                and id_modulo = :modulo
+             ))
+   ));
 
 select *
   from serie_caja
@@ -984,4 +989,3 @@ select *
 select *
   from packing_agrupar
  order by 1;
-

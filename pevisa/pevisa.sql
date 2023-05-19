@@ -106,7 +106,8 @@ select *
  where numero_oa = 829026;
 
 select ta.cod_alm_destino, a.descripcion
-  from traslados_almacenes ta, almacenes a
+  from traslados_almacenes ta
+     , almacenes a
  where ta.cod_alm_destino = a.cod_alm
    and ta.cod_alm_origen = '35'
  order by 1;
@@ -191,7 +192,7 @@ select *
         , v.valor desc
         , v.pedido
         , v.pedido_item
-      ) as ranking
+      ) as                                                                                     ranking
       from vw_ordenes_pedido_pendiente v
            join param_surte p on p.id_param = 1
      where (v.es_prioritario = 1
@@ -225,19 +226,22 @@ select user
      , b.nuot_tipoot_codigo
      , a.estado
      , a.estado_old
-     , trunc(a.fecha) as fecha
+     , trunc(a.fecha) as                           fecha
      , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
      , b.cod_lin
      , b.formu_art_cod_art
      , b.cant_prog
-     , b.abre02 cliente
-     , b.abre01 pedido
-     , b.per_env item
+     , b.abre02                                    cliente
+     , b.abre01                                    pedido
+     , b.per_env                                   item
      , b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total
      , a.usuario
      , 'ALMACEN'
-  from pr_trasab_estado a, pr_ot b, expedido_d c, expednac_d e
+  from pr_trasab_estado a
+     , pr_ot b
+     , expedido_d c
+     , expednac_d e
  where a.fecha between :x_fecha_del and :x_fecha_al + 1
    and a.tipo = 'AR'
    and a.numero = b.numero
@@ -911,8 +915,8 @@ select *
   from extablas_expo
  where tipo = '13';
 
-select nvl(t.abreviada, 'OFICINA') p_vende
-     , nvl(e.cod_vende, '00') vende
+select nvl(t.abreviada, 'OFICINA')                              p_vende
+     , nvl(e.cod_vende, '00')                                   vende
      , sum(decode(to_char(e.fecha, 'MM'), '01', e.imp_neto, 0)) ene
      , sum(decode(to_char(e.fecha, 'MM'), '02', e.imp_neto, 0)) feb
      , sum(decode(to_char(e.fecha, 'MM'), '03', e.imp_neto, 0)) mar
@@ -925,7 +929,9 @@ select nvl(t.abreviada, 'OFICINA') p_vende
      , sum(decode(to_char(e.fecha, 'MM'), '10', e.imp_neto, 0)) oct
      , sum(decode(to_char(e.fecha, 'MM'), '11', e.imp_neto, 0)) nov
      , sum(decode(to_char(e.fecha, 'MM'), '12', e.imp_neto, 0)) dic
-  from docuvent e, clientes c, extablas_expo t
+  from docuvent e
+     , clientes c
+     , extablas_expo t
  where to_char(e.fecha, 'YYYY') = :P_ANO
    and nvl(e.estado, '0') <> '9'
    --AND  E.TIPODOC = '01'
@@ -1146,14 +1152,14 @@ select user
      , b.nuot_tipoot_codigo
      , a.estado
      , a.estado_old
-     , trunc(a.fecha) as fecha
+     , trunc(a.fecha) as                           fecha
      , nvl(f_grupo_formu(b.formu_art_cod_art), 99) grupo
      , b.cod_lin
      , b.formu_art_cod_art
      , b.cant_prog
-     , b.abre02 cliente
-     , b.abre01 pedido
-     , b.per_env item
+     , b.abre02                                    cliente
+     , b.abre01                                    pedido
+     , b.per_env                                   item
      , b.destino
      , decode(b.destino, 1, c.totlin, 2, e.totlin) total
      , a.usuario
@@ -1271,19 +1277,19 @@ select *
 select p.c_codigo
      , p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
      , p.c_cargo
-     , c.descripcion as desc_cargo
+     , c.descripcion                                                        as desc_cargo
      , p.seccion
-     , s.nombre as desc_seccion
-     , g.c_codigo as encargado
+     , s.nombre                                                             as desc_seccion
+     , g.c_codigo                                                           as encargado
      , p.sexo
-     , g.nombre as desc_encargado
+     , g.nombre                                                             as desc_encargado
      , h.local
-     , l.descripcion as desc_local
+     , l.descripcion                                                        as desc_local
      , p.f_ingreso
      , p.fnatal
-     , d.num_doc as dni
-     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
-     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+     , d.num_doc                                                            as dni
+     , trunc(months_between(sysdate, p.fnatal) / 12)                        as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años'          as tiempo_empresa
   from planilla10.personal p
        left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
        left join planilla10.tar_secc s on p.seccion = s.codigo
@@ -1470,7 +1476,7 @@ select c_codigo
      , desc_cargo
      , desc_doc
      , num_doc
-     , to_char(fnatal, 'dd/mm/yyyy') as nacimiento
+     , to_char(fnatal, 'dd/mm/yyyy')    as nacimiento
      , to_char(f_ingreso, 'dd/mm/yyyy') as ingreso
   from vw_personal
  where c_codigo = 'E730';
@@ -1569,7 +1575,7 @@ select *
 select nf.cod_cliente
      , nf.nombre
      , sum(nf.total_mercaderia) as total_mercaderia
-     , min(fecha) fecha_factura_mas_antigua
+     , min(fecha)                  fecha_factura_mas_antigua
   from vw_fac_para_booking nf
 --  where 1 = 1
  where nf.fecha_despacho is null
@@ -1779,3 +1785,17 @@ values ( '72846359', '03', 'B053', '309', date '2023-04-10', null, null, null, 2
        , null, 'S', 193.79, 3.7740, 193.79, 3.7740, null, '0', '12110102', 0.00, 0.00, null, null
        , null, 'W', date '2023-04-10', null, null, null, null, null, null, null, 0.00, 0.00
        , 1.000000);
+
+
+select *
+  from permiso
+ where numero = 18083;
+
+select *
+  from estado_permiso;
+
+select *
+  from vacaciones
+ where numero = 18083;
+
+select * from pla_control;

@@ -565,3 +565,51 @@ select *
   from analisis_consumo as of timestamp to_timestamp('18-04-2023 09:00:00', 'DD-MM-YYYY HH24:MI:SS')
  where ano = 2023
    and mes = 2;
+
+select *
+  from movglos as of timestamp to_timestamp('16-05-2023 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 4
+   and libro = '08'
+   and voucher in (40182);
+
+
+select *
+  from movdeta as of timestamp to_timestamp('16-05-2023 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 4
+   and libro = '08'
+   and voucher in (40182);
+
+insert into pevisa.movglos ( ano, mes, libro, voucher, glosa, fecha, tipo_cambio, estado
+                           , tipo_referencia, nro_referencia, sistema, pase_ctacte, tipo_operacion
+                           , relacion, usuario, fec_reg, tipo_mov, serie, numliq, fecliq
+                           , pase_cta_cte_pro, cod_proveed, moneda, item, serie_orden, numero_order
+                           , c_resp, nro_planilla)
+values ( 2023, 4, '08', 40182, 'NI19 FCI2300016 JIANGSU EASYLAND', date '2023-04-26', 'V', '1', '01'
+       , '0000246', 'CONT', 'S', '10', null, 'GJARAMILLO', date '2023-04-25', 'CRE', 'E001', null
+       , null, 'S', '20510942559', 'D', '30', null, null, null, '25/04/2023');
+
+
+insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+                           , serie, f_vencto, cambio, file_cta_cte)
+values ( 2023, 4, '08', 40182, '42122000', 'V', 'P', '20510942559', '01', '0000246'
+       , date '2023-02-10', 'TALLERES LUCAS PERÚ S.A.C.', 0.00, 327.73, 0.00, 85.19, '1', 6, 'N'
+       , 'GJARAMILLO', timestamp '2023-05-03 17:05:41', 'MOD', 'E001', date '2023-05-25', 3.8690
+       , 'P');
+insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+                           , serie, f_vencto, cambio, file_cta_cte)
+values ( 2023, 4, '08', 40182, '28111002', 'V', 'P', '20510942559', '01', '0000246'
+       , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 211.47, 0.00, 54.97, 0.00, '1', 1, 'N'
+       , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
+insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+                           , serie, f_vencto, cambio, file_cta_cte)
+values ( 2023, 4, '08', 40182, '28111003', 'V', 'P', '20510942559', '01', '0000246'
+       , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 116.26, 0.00, 30.22, 0.00, '1', 1, 'N'
+       , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');

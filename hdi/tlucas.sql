@@ -2,15 +2,15 @@ select *
   from movglos
  where ano = 2023
    and mes = 4
-   and libro = '05'
-   and voucher in (40002);
+   and libro = '46'
+   and voucher in (40010);
 
 select *
   from movdeta
  where ano = 2023
    and mes = 4
-   and libro = '05'
-   and voucher in (40009);
+   and libro = '46'
+   and voucher in (40010);
 
 select *
   from factpag
@@ -116,8 +116,8 @@ select *
   from movfigl
  where ano = 2023
    and mes = 4
-   and tipo = '3'
-   and voucher = 40002;
+   and tipo = '5'
+   and voucher = 40051;
 
 select *
   from movfide
@@ -275,8 +275,28 @@ select *
  where numero = 106
    and id_vendedor = 'H15';
 
-
 select *
   from kardex_d
  where extract(year from fch_transac) = 2023
    and cantidad = 0;
+
+select * from paramin;
+
+select *
+  from factpag
+ where tipdoc = '26'
+   and numero = '19012023';
+
+select *
+  from factpag
+ where tipdoc = '01'
+   and serie_num = 'FQQ1'
+   and numero = '0000427';
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 5610550;
+
+select *
+  from factpag
+ where numero = '0192521-1';

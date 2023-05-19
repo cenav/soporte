@@ -2,10 +2,10 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 3
-   and libro = '10'
+   and mes = 4
+   and libro = '08'
    and voucher in (
-                   33512
+   40137
    );
 
 select *
@@ -1311,14 +1311,16 @@ select f.cod_cliente
      , f.numero
      , f.ctactble
      , nvl(p.col_compras, 0) as col_compras
-     , decode(p.auto_mas, null, 'N', 'O') genera
+     , decode(p.auto_mas, null, 'N', 'O') as genera
      , (
     round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal,
           2) -
     round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) *
           :icambio, 2)) as saldo
      , f.tcam_sal
-  from factcob f, cabfcob c, plancta p
+  from factcob f
+     , cabfcob c
+     , plancta p
  where f.moneda = 'D'
    and f.ctactble = :p_cuenta
    and
@@ -1344,7 +1346,7 @@ select cod_cliente
      , ctactble
      , col_compras
      , generado
-     , saldo saldox
+     , saldo as saldox
   from saldosc_tmp
  where saldo < 0
    and fecha_dif = to_date('31/01/2023', 'dd/mm/yyyy')
@@ -1421,7 +1423,8 @@ select *
    and numero = 251188;
 
 select n.tipodoc, t.descripcion, n.serie, n.ctaconts, n.ctacontd, automatico
-  from nrodoc n, tablas_auxiliares t
+  from nrodoc n
+     , tablas_auxiliares t
  where t.tipo = '40'
    and n.tipodoc = t.codigo
  order by n.tipodoc, n.serie;
@@ -1442,7 +1445,8 @@ select *
  where tipodoc = 'L1';
 
 select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
-  from tablas_auxiliares t, nrodoc n
+  from tablas_auxiliares t
+     , nrodoc n
  where tipo = '2'
    and codigo = 'L1'
    and n.tipodoc = t.obs
@@ -1453,7 +1457,8 @@ select *
  where tipodoc = 'IL';
 
 select n.tipodoc, decode('S', 'S', n.ctaconts, n.ctacontd)
-  from tablas_auxiliares t, nrodoc n
+  from tablas_auxiliares t
+     , nrodoc n
  where tipo = '2'
    and codigo = 'L1'
    and n.tipodoc = t.obs
@@ -1528,7 +1533,6 @@ select *
    and serie = 39
    and numero = 2234;
 
-
 select *
   from kardex_d
  where cod_alm = '63'
@@ -1536,10 +1540,16 @@ select *
    and serie = 39
    and numero = 2674;
 
-
 select *
   from kardex_d
  where cod_alm = 'D3'
    and tp_transac = '35'
    and serie = 39
    and numero = 2674;
+
+select *
+  from ubigeo
+ where nom_dpt = 'PUNO'
+   and nom_pvc = 'SAN ROMAN';
+
+select * from transacciones_almacen;

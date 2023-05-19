@@ -11,7 +11,7 @@ declare
      where id_tipo = 'MQ'
        and id_serie = 4
        and id_numero in (
-       544
+       545
        );
 
   cursor cr_activos_anular(p_tipo varchar2, p_serie number, p_numero number) is

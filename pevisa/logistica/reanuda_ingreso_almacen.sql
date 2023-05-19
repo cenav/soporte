@@ -1,9 +1,11 @@
-select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda moneda_factura
+select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda as moneda_factura
               , o.por_desc1
-              , o.por_desc2, c.descripcion descripcion_pago, o.fecha, p.ruc, o.impsto, o.tot_valvta
+              , o.por_desc2, c.descripcion as descripcion_pago, o.fecha, p.ruc, o.impsto
+              , o.tot_valvta
               , o.tot_impu
-              , o.tot_orden, c.v01, decode(o.moneda, 'D', 'US$', 'S', 'S/.', 'XXX') simbolo_moneda
-              , o.tot_valvta tot_valvta_back, o.total_facturado
+              , o.tot_orden, c.v01
+              , decode(o.moneda, 'D', 'US$', 'S', 'S/.', 'XXX') as simbolo_moneda
+              , o.tot_valvta as tot_valvta_back, o.total_facturado
   from orden_de_compra o
      , itemord i
      , proveed p
@@ -71,10 +73,10 @@ select *
 
 select *
   from kardex_g
- where cod_alm = 'A3'
+ where cod_alm = '30'
    and tp_transac = '11'
    and serie = 1
-   and numero = 30245;
+   and numero = 30342;
 
 select *
   from kardex_d
@@ -98,7 +100,6 @@ select *
    and serie_cp = '0001'
    and numero_cp = '4437';
 
-
 select *
   from factpag
  where cod_proveedor = '20252370481'
@@ -112,7 +113,6 @@ select *
    and serie = 1
    and numero = 27630;
 
-
 select *
   from kardex_d
  where cod_alm = '02'
@@ -120,14 +120,12 @@ select *
    and serie = 1
    and numero = 27608;
 
-
 select *
   from oc_registro_facturas
  where cod_proveedor = '20382072023'
    and tipdoc_cp = '01'
    and serie_cp = 'F010'
    and numero_cp = '119260';
-
 
 select *
   from lg_pedjam

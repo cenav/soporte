@@ -7,10 +7,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '42'
-   and tp_transac = '18'
-   and serie = 2
-   and numero = 520585;
+ where cod_alm = '03'
+   and tp_transac = '28'
+   and serie = 1
+   and numero = 719;
 
 -- descarga almacen de transito
 select *
@@ -24,11 +24,11 @@ select *
    and ing_sal = 'I'
 --    and cod_relacion = '20100084768' and nro_sucur in ('04', '05', '06', '11', '03')
    and cod_alm in (
-     select cod_alm_transito
-       from almacenes
-      where cod_alm_transito is not null
-        and cod_alm_transito = kardex_g.cod_alm
-     );
+   select cod_alm_transito
+     from almacenes
+    where cod_alm_transito is not null
+      and cod_alm_transito = kardex_g.cod_alm
+   );
 
 select *
   from kardex_d
@@ -73,3 +73,15 @@ select cod_art
   from kardex_d
  where cod_art = 'SLIM380.1092SIL'
  group by cod_art;
+
+select *
+  from pr_for_ins
+ where formu_art_cod_art = '95037/22TG';
+
+select *
+  from solimat_g
+ where numero = 181100;
+
+select *
+  from solimat_d
+ where numero = 181100;

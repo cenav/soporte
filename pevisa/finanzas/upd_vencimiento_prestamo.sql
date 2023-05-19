@@ -2,13 +2,12 @@ declare
   upd pls_integer := 0;
 
   cursor cur_prestamo is
-    select p.cod_prestamo, p.cod_proveedor, p.tipdoc, c.serie_num, c.numero
-         , c.fecha_vcto
+    select p.cod_prestamo, p.cod_proveedor, p.tipdoc, c.serie_num, c.numero, c.fecha_vcto
       from prestamo_banco_cuota c
            join prestamo_banco p
                 on c.cod_banco = p.cod_banco
                   and c.cod_prestamo = p.cod_prestamo
-     where p.cod_prestamo = '0001CM8';
+     where p.cod_prestamo = '0192521-1';
 begin
   for rec in cur_prestamo loop
     update factpag

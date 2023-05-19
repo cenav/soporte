@@ -1,16 +1,20 @@
 select *
   from movglos
- where ano = 2022
-   and mes = 10
-   and libro = '10'
-   and voucher like '%100023%';
+ where ano = 2023
+   and mes = 5
+   and libro = '08'
+   and voucher in (
+   50040
+   );
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 4
-   and libro = '3'
-   and voucher = 40009;
+   and mes = 5
+   and libro = '08'
+   and voucher in (
+   50040
+   );
 
 select *
   from factpag
@@ -333,9 +337,9 @@ select codigo, descripcion, indicador1
 select nro_sucur, direccion
   from sucursales
  where cod_cliente in (
-     select c_empleador
-       from pla_control
-     );
+   select c_empleador
+     from pla_control
+   );
 
 select *
   from sucursales
@@ -386,26 +390,30 @@ select *
 select f.cod_proveedor
      , l.nombre
      , f.concepto
-     , substr(t.abreviada, 1, 3)                                                              abre
-     , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero                                      doc
-     , to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) amlv
-     , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia                     refe
+     , substr(t.abreviada, 1, 3) as abre
+     , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero as doc
+     ,
+    to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) as amlv
+     , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia as refe
      , f.fecha
      , f.f_vencto
-     , decode(f.moneda, 'S', 'S/.', 'US$')                                                    mon
-     , f.pventa                                                                               importf
+     , decode(f.moneda, 'S', 'S/.', 'US$') as mon
+     , f.pventa as importf
      , f.tcam_sal
      , f.pventax
-     , f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)                  saldo_d
+     , f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0) as saldo_d
      , round(
-        ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
-        2)                                                                                    saldo_en_soles
+    ((f.pventa + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal),
+    2) as saldo_en_soles
      , f.moneda
      , f.tcam_sal
      , f.tipdoc
      , f.numero
      , f.ctactble
-  from factpag f, cabfpag c, proveed l, tablas_auxiliares t
+  from factpag f
+     , cabfpag c
+     , proveed l
+     , tablas_auxiliares t
  where f.cod_proveedor like :PRO
    and ((f.ano * 100) + f.mes) <= ((:P_ANO * 100) + :P_MES)
    and f.tipdoc like :PROV
@@ -422,7 +430,7 @@ having (f.pventa + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe
                                   decode(c.moneda, 'D', c.importe, c.importe_x))), 0)) <> 0
  group by f.ctactble, f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3)
         , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero,
-         to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
+     to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
         , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
         , decode(f.moneda, 'S', 'S/.', 'US$'), f.pventa, f.pventax, f.moneda, f.tcam_sal, f.tipdoc
         , f.numero
@@ -444,15 +452,17 @@ select *
         (estado = 2 and documentos_con_detraccion = 0))
    and forma_de_pago = 'TRAN'
    and exists(
-     select distinct -1
-       from ctabnco_unidad_de_negocio x, ctabnco_parametros p, ctabnco c
-      where x.codigo = c.codigo
-        and x.codigo_unidad_negocio = nvl(pagos_h.codigo_unidad_negocio, '00')
-        and c.moneda = pagos_h.moneda
-        and c.banco like nvl(pagos_h.banco_de_cuenta_de_abono, '%')
-        and p.id_cuenta = c.codigo
-        and p.usuario = user
-     )
+   select distinct -1
+     from ctabnco_unidad_de_negocio x
+        , ctabnco_parametros p
+        , ctabnco c
+    where x.codigo = c.codigo
+      and x.codigo_unidad_negocio = nvl(pagos_h.codigo_unidad_negocio, '00')
+      and c.moneda = pagos_h.moneda
+      and c.banco like nvl(pagos_h.banco_de_cuenta_de_abono, '%')
+      and p.id_cuenta = c.codigo
+      and p.usuario = user
+   )
    and serie_planilla = 1
    and numero_planilla = 106;
 
@@ -520,14 +530,14 @@ select *
 select *
   from articul
  where cod_art in (
-     'HDI-01-01-01-06-02-07'
-     );
+   'HDI-01-01-01-06-02-07'
+   );
 
 select *
   from pcarticul
  where cod_art in (
-     'HDI-01-01-01-06-02-07'
-     );
+   'HDI-01-01-01-06-02-07'
+   );
 
 select *
   from pcarticul
@@ -536,22 +546,22 @@ select *
 select *
   from tmp_inve_val
  where cod_art in (
-     'HDI-01-01-01-06-02-07'
-     );
+   'HDI-01-01-01-06-02-07'
+   );
 
-select nvl(a.cta, '20')                cta
-     , l.descripcion                   des_cuenta
-     , t.cod_lin                       cod_lin
+select nvl(a.cta, '20') as cta
+     , l.descripcion as des_cuenta
+     , t.cod_lin as cod_lin
      , t.cod_art
-     , sum(decode(tipo, 0, totalr, 0)) stk_ini
-     , sum(decode(tipo, 1, totalr, 0)) compras
-     , sum(decode(tipo, 2, totalr, 0)) ot_ingre
-     , sum(decode(tipo, 3, totalr, 0)) sal_vta
-     , sum(decode(tipo, 4, totalr, 0)) sal_consu
-     , sum(decode(tipo, 5, totalr, 0)) devol
-     , sum(decode(tipo, 6, totalr, 0)) transfer
-     , sum(decode(tipo, 7, totalr, 0)) mermas
-     , sum(decode(tipo, 8, totalr, 0)) ot_salidas
+     , sum(decode(tipo, 0, totalr, 0)) as stk_ini
+     , sum(decode(tipo, 1, totalr, 0)) as compras
+     , sum(decode(tipo, 2, totalr, 0)) as ot_ingre
+     , sum(decode(tipo, 3, totalr, 0)) as sal_vta
+     , sum(decode(tipo, 4, totalr, 0)) as sal_consu
+     , sum(decode(tipo, 5, totalr, 0)) as devol
+     , sum(decode(tipo, 6, totalr, 0)) as transfer
+     , sum(decode(tipo, 7, totalr, 0)) as mermas
+     , sum(decode(tipo, 8, totalr, 0)) as ot_salidas
      , sum(decode(tipo, 0, totalr, 0)) +
        sum(decode(tipo, 1, totalr, 0)) +
        sum(decode(tipo, 2, totalr, 0)) -
@@ -560,9 +570,11 @@ select nvl(a.cta, '20')                cta
        sum(decode(tipo, 5, totalr, 0)) -
        sum(decode(tipo, 6, totalr, 0)) -
        sum(decode(tipo, 7, totalr, 0)) -
-       sum(decode(tipo, 8, totalr, 0)) total
+       sum(decode(tipo, 8, totalr, 0)) as total
      , descri_linea
-  from tmp_inve_val t, pcarticul a, plancta l
+  from tmp_inve_val t
+     , pcarticul a
+     , plancta l
  where usuario = user
    and a.cod_art(+) = t.cod_art
    and l.cuenta(+) = a.cta
@@ -593,3 +605,185 @@ select *
   from kardex_d
  where extract(year from fch_transac) = 2023
    and cantidad = 0;
+
+select h.*
+  from planilla_cobranzas_h h
+ where numero_planilla in (
+   5610388
+   )
+   and voucher_c is null;
+
+select h.*
+  from planilla_cobranzas_d h
+ where numero_planilla in (
+   5610388
+   );
+
+select *
+  from factpag
+ where tipdoc = '01'
+   and serie_num = 'F052'
+   and numero = '0000596';
+
+select *
+  from gastos_de_viaje
+ where numero = 102
+   and id_vendedor = 'C2';
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 102
+   and id_vendedor = 'C2';
+
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 102
+   and id_vendedor = 'C2'
+--    and trunc(fecha_cierre) >= :BLOCK_SELECCION.del
+--    and trunc(fecha_cierre) <= :BLOCK_SELECCION.al
+   and estado = 8
+   and moneda = 'S'
+   and exists
+   (
+     select 1
+       from vendedores
+      where cod_vendedor =
+            gastos_de_viaje_habilitado.id_vendedor
+        and indicador1 = 1
+     )
+   and not exists
+   (
+     select 1
+       from pagos_i i
+      where i.serie_planilla in (21, 22)
+        and i.serie_num =
+            gastos_de_viaje_habilitado.id_vendedor
+        and i.numero = gastos_de_viaje_habilitado.numero
+        and nvl(i.estado, 0) < 9
+     )
+   and exists (
+   select f_vendedores_codigo_trabajador(gastos_de_viaje_habilitado.id_vendedor)
+     from planilla10.personal p
+        , tablas_auxiliares t
+    where p.c_codigo = f_vendedores_codigo_trabajador(gastos_de_viaje_habilitado.id_vendedor)
+      and p.c_banco like :BLOCK_SELECCION.banco_de_cuenta_de_abono
+   );
+
+select *
+  from vendedores
+ where cod_vendedor = 'C2';
+
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 4
+   and libro = '08'
+   and voucher in (40183);
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 4
+   and libro = '08'
+   and voucher in (40183);
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 5610550;
+
+select *
+  from nrodoc
+ where tipodoc = 'DT';
+
+select *
+  from plancta
+ where cuenta = '12121003';
+
+select *
+  from factpag
+ where numero = '00216831-1';
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'F081'
+   and numero = '1752';
+
+select *
+  from itemdocu
+ where tipodoc = '01'
+   and serie = 'F081'
+   and numero = '1752';
+
+select *
+  from factcob
+ where tipdoc = '01'
+   and serie_num = 'F081'
+   and numero = '1752';
+
+select *
+  from factpag
+ where serie_num = 'E001'
+   and numero = '0000011';
+
+select *
+  from movdeta
+ where tipo_referencia = '01'
+   and serie = 'F081'
+   and nro_referencia = '1752';
+
+select col_compras, auto_mas
+  from plancta
+ where cuenta = '12212300';
+
+select decode(j.moneda, 'S', ctaconts, decode(x_zona, '900', ctaexpo, ctacontd))
+  from nrodoc
+ where tipodoc = 'A1'
+   and serie = 1;
+
+select *
+  from nrodoc
+ where tipodoc = 'DT'
+   and serie = 2;
+
+select *
+  from plancta
+ where cuenta = '12122003';
+
+select *
+  from plancta
+ where descripcion like '%traccion%';
+
+-- 12121003
+select *
+  from factcob
+ where tipdoc = 'DT'
+   and serie_num = 2
+   and numero = 19;
+
+
+
+select moneda
+  from plancta
+ where cuenta = :new.cuenta;
+
+select *
+  from ctabnco
+ where codigo = 53;
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 4
+   and tipo = '5'
+   and voucher = 40463;
+
+select *
+  from planilla_cobranzas_d
+ where numero_planilla = 5610799;
+
+select *
+  from vendedores
+ where cod_vendedor = '24';

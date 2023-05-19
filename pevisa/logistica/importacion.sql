@@ -1,5 +1,6 @@
 select p.id_programa, p.descripcion
-  from pr_programas_compras p, planeamiento_compras c
+  from pr_programas_compras p
+     , planeamiento_compras c
  where p.id_programa = c.programa
    and c.codigo = 'IMPORTADO'
    and p.cierre_cuando is null
@@ -24,3 +25,11 @@ select *
  where cod_vendedor = '38';
 
 select * from orden_de_compra;
+
+select *
+  from lg_dua
+ where numero_embarque = 4175;
+
+select *
+  from pr_ot_cambios_piezas
+ where numero = 914943;

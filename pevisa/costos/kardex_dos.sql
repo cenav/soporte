@@ -59,8 +59,8 @@ select *
    and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 
 update tmp_moviart_dos
-   set libro   = '05',
-       voucher = '30148'
+   set libro   = '05'
+     , voucher = '30148'
  where ano = 2022
    and mes in (3)
    and id = 'S'
@@ -171,7 +171,8 @@ select *
 
 
 -- Extrae los ultimos digitos del numero de factura
-select distinct docto, regexp_substr(docto, '^F\d{3}-0*') as match
+select distinct docto
+              , regexp_substr(docto, '^F\d{3}-0*')                       as match
               , replace(docto, regexp_substr(docto, '^F\d{3}-0*'), null) as replace
   from tmp_moviart_dos
  where ano = 2019
@@ -323,7 +324,14 @@ select *
    and cod_art = 'RT 158 PLUS';
 
 
-select g.cod_alm, g.tp_transac, g.serie, g.numero, d.cod_art, g.fch_transac, o.otm_tipo, o.otm_serie
+select g.cod_alm
+     , g.tp_transac
+     , g.serie
+     , g.numero
+     , d.cod_art
+     , g.fch_transac
+     , o.otm_tipo
+     , o.otm_serie
      , o.otm_numero
   from kardex_d_otm o
        join kardex_d d
@@ -661,3 +669,10 @@ select *
   from tmp_moviart_dos
  where ano = 2023
    and mes in (4);
+
+select *
+  from kardex_d
+ where numero = 914943
+   and cod_art = '8ASX-10-271 W/O';
+
+select * from kardex_g;
