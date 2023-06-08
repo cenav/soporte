@@ -717,11 +717,6 @@ select col_compras, auto_mas
   from plancta
  where cuenta = '12212300';
 
-select decode(j.moneda, 'S', ctaconts, decode(x_zona, '900', ctaexpo, ctacontd))
-  from nrodoc
- where tipodoc = 'A1'
-   and serie = 1;
-
 select *
   from nrodoc
  where tipodoc = 'DT'
@@ -743,10 +738,6 @@ select *
    and numero = 19;
 
 
-
-select moneda
-  from plancta
- where cuenta = :new.cuenta;
 
 select *
   from ctabnco
@@ -814,42 +805,6 @@ select *
 select *
   from movdeta
  where cuenta = '10412002';
---
--- insert into pevisa.movglos ( ano, mes, libro, voucher, glosa, fecha, tipo_cambio, estado
---                            , tipo_referencia, nro_referencia, sistema, pase_ctacte, tipo_operacion
---                            , relacion, usuario, fec_reg, tipo_mov, serie, numliq, fecliq
---                            , pase_cta_cte_pro, cod_proveed, moneda, item, serie_orden, numero_order
---                            , c_resp, nro_planilla)
--- values ( 2023, 3, '60', 30233, 'DEPOSITO NO IDEN.IBK DOL MARZ2023', date '2023-03-17', 'V', '1'
---        , null, null, 'CONT', 'N', null, null, 'RORELLANA', date '2023-05-15', 'CRE', null, null
---        , null, 'N', null, null, null, null, null, null, null);
---
---
--- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
---                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
---                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
---                            , serie, f_vencto, cambio, file_cta_cte)
--- values ( 2023, 3, '60', 30233, '10412002', 'V', null, null, null, null, date '2023-03-17'
---        , 'DEP NIDENTIFICADO IBK DOL MARZ2023', 14842.91, 0.00, 3905.00, 0.00, '1', 0, 'N'
---        , 'RORELLANA', date '2023-05-15', 'CRE', null, null, 3.8010, 'N');
--- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
---                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
---                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
---                            , serie, f_vencto, cambio, file_cta_cte)
--- values ( 2023, 3, '60', 30233, '46112000', 'V', null, null, null, null, date '2023-03-17'
---        , 'DEP NIDENTIFICADO IBK DOL MARZ2023', 0.00, 14842.91, 0.00, 3905.00, '1', 0, 'N'
---        , 'RORELLANA', date '2023-05-15', 'CRE', null, null, 3.8010, 'N');
---
--- insert into pevisa.ctabnco ( codigo, descripcion, cuenta, moneda, banco, tipo_cuenta, ind
---                            , sectorista, telefono, numchei, numchef, voucher, n_cta_cte, ind_cb
---                            , cod_proveedor, egresos_numero_de_cuenta, codigo_unidad_negocio)
--- values ( '09', 'INTERBANK MN. 164-3001186315', '10411004', 'S', '04', 'CC', 'B', '1111111111111'
---        , null, null, null, null, '111111111111', null, '20100053455', null, null);
--- insert into pevisa.ctabnco ( codigo, descripcion, cuenta, moneda, banco, tipo_cuenta, ind
---                            , sectorista, telefono, numchei, numchef, voucher, n_cta_cte, ind_cb
---                            , cod_proveedor, egresos_numero_de_cuenta, codigo_unidad_negocio)
--- values ( '10', 'INTERBANK ME. 164-3001186322', '10412002', 'D', '04', 'CC', 'B', '1111111111111'
---        , null, null, null, null, '1111111111111', null, '20100053455', null, null);
 
 select *
   from factcob
