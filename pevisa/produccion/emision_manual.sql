@@ -1,7 +1,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('MET 67002SR', 150, false, op);
+  emite.op('NI 2900 0.8-138', 129 , false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;

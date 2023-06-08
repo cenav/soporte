@@ -1,24 +1,22 @@
 select *
   from orden_de_compra
- where serie = 13
+ where serie = 2
    and num_ped in (
-   4423
-   );
-
-select *
-  from orden_matriceria
- where serie = 1
-   and num_ped in (
-   230076
+   22822
    );
 
 select *
   from itemord
  where serie = 4
    and num_ped in (
-   60390
+   60526
    );
 
+select *
+  from orden_matriceria
+ where num_ped in (
+   230093
+   );
 
 select *
   from itemmatri
@@ -144,3 +142,18 @@ select *
 select *
   from lg_factura_comercial
  where total < 0;
+
+select * from vendedores;
+
+select *
+  from orden_de_compra
+ where num_ped = 137
+ order by fecha desc;
+
+select *
+  from proveed
+ where cod_proveed = '20251505111';
+
+select * from solicita_emision;
+
+select * from cierre_caja;

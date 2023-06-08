@@ -4,7 +4,7 @@ select *
    and mes = 5
    and libro = '08'
    and voucher in (
-   50040
+   50057
    );
 
 select *
@@ -13,8 +13,35 @@ select *
    and mes = 5
    and libro = '08'
    and voucher in (
-   50040
+   50057
    );
+
+select *
+  from factpag
+ where cod_proveedor = '20100053455'
+   and numero = '20126815-1';
+
+-- 2023	5	08	50057	42121000	V		20606109343	01	0005465	2023-05-11	EVENTO DIA DE LA MADRE	0.00	66.00	0.00	17.94	0	5	N	CCALLE	2023-05-19 14:00:09	TRAN	F041		3.6780
+
+select *
+  from movdeta
+ where ano = 2023
+   and libro = '60'
+   and tipo_referencia = '07'
+   and nro_referencia in (
+   '90'
+   )
+   and relacion = '20510990448';
+
+select *
+  from factcob
+ where cod_cliente = '20510990448'
+   and nro_referencia = '953';
+
+select *
+  from factcob
+ where cod_cliente = '20510990448'
+   and nro_referencia = '90';
 
 select *
   from factpag
@@ -189,7 +216,15 @@ select *
 
 select *
   from prestamo_banco
- where cod_prestamo = '0003CM5';
+ where cod_prestamo = '20126815-1';
+
+select *
+  from tab_bancos
+ where codigo_banco = '04';
+
+select *
+  from ctabnco
+ where banco = '04';
 
 select *
   from prestamo_banco_cuota
@@ -270,9 +305,9 @@ select *
 select *
   from movfide
  where ano = 2023
-   and mes = 4
-   and tipo = '3'
-   and voucher = 40009;
+   and mes = 6
+   and tipo = '5'
+   and voucher = 60001;
 
 select *
   from factpag
@@ -438,38 +473,10 @@ having (f.pventa + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe
 
 select *
   from pevisa.factpag
- where numero = '3848548'
-   and serie_num = '007';
-
-select *
-  from lg_pedjam
- where num_importa = 'PH2023/061';
-
-select *
-  from pevisa.pagos_h
- where serie_planilla in (1, 2)
-   and (estado = 6 or
-        (estado = 2 and documentos_con_detraccion = 0))
-   and forma_de_pago = 'TRAN'
-   and exists(
-   select distinct -1
-     from ctabnco_unidad_de_negocio x
-        , ctabnco_parametros p
-        , ctabnco c
-    where x.codigo = c.codigo
-      and x.codigo_unidad_negocio = nvl(pagos_h.codigo_unidad_negocio, '00')
-      and c.moneda = pagos_h.moneda
-      and c.banco like nvl(pagos_h.banco_de_cuenta_de_abono, '%')
-      and p.id_cuenta = c.codigo
-      and p.usuario = user
-   )
-   and serie_planilla = 1
-   and numero_planilla = 106;
-
-select *
-  from pevisa.pagos_h
- where serie_planilla = 1
-   and numero_planilla = 106;
+ where cod_proveedor = '20524801591'
+   and numero = '0000213';
+--    and serie_num = '001';
+--    and tipdoc = '03';
 
 select *
   from ctabnco_parametros
@@ -609,14 +616,13 @@ select *
 select h.*
   from planilla_cobranzas_h h
  where numero_planilla in (
-   5610388
-   )
-   and voucher_c is null;
+   1009325
+   );
 
-select h.*
-  from planilla_cobranzas_d h
+select d.*
+  from planilla_cobranzas_d d
  where numero_planilla in (
-   5610388
+   5610641
    );
 
 select *
@@ -636,39 +642,6 @@ select *
    and id_vendedor = 'C2';
 
 
-select *
-  from gastos_de_viaje_habilitado
- where numero = 102
-   and id_vendedor = 'C2'
---    and trunc(fecha_cierre) >= :BLOCK_SELECCION.del
---    and trunc(fecha_cierre) <= :BLOCK_SELECCION.al
-   and estado = 8
-   and moneda = 'S'
-   and exists
-   (
-     select 1
-       from vendedores
-      where cod_vendedor =
-            gastos_de_viaje_habilitado.id_vendedor
-        and indicador1 = 1
-     )
-   and not exists
-   (
-     select 1
-       from pagos_i i
-      where i.serie_planilla in (21, 22)
-        and i.serie_num =
-            gastos_de_viaje_habilitado.id_vendedor
-        and i.numero = gastos_de_viaje_habilitado.numero
-        and nvl(i.estado, 0) < 9
-     )
-   and exists (
-   select f_vendedores_codigo_trabajador(gastos_de_viaje_habilitado.id_vendedor)
-     from planilla10.personal p
-        , tablas_auxiliares t
-    where p.c_codigo = f_vendedores_codigo_trabajador(gastos_de_viaje_habilitado.id_vendedor)
-      and p.c_banco like :BLOCK_SELECCION.banco_de_cuenta_de_abono
-   );
 
 select *
   from vendedores
@@ -708,8 +681,14 @@ select *
 select *
   from docuvent
  where tipodoc = '01'
-   and serie = 'F081'
-   and numero = '1752';
+   and serie = 'F091'
+   and numero = '336';
+
+select *
+  from itemdocu
+ where tipodoc = '01'
+   and serie = 'F091'
+   and numero = '336';
 
 select *
   from itemdocu
@@ -719,9 +698,9 @@ select *
 
 select *
   from factcob
- where tipdoc = '01'
-   and serie_num = 'F081'
-   and numero = '1752';
+ where tipdoc = 'A1'
+   and serie_num = '1'
+   and numero = '0000009';
 
 select *
   from factpag
@@ -787,3 +766,357 @@ select *
 select *
   from vendedores
  where cod_vendedor = '24';
+
+
+select *
+  from movfide_situacion_banco
+ where p_ano = 2023
+   and p_mes = 4
+   and cta_cte_banco = '200-3004851371'
+   and descripcion = 'ITF';
+
+select estado
+  from salcaj
+ where ano = 2023
+   and mes = 5
+   and cuenta = '19';
+
+
+select *
+  from salcaj
+ where ano = 2023
+   and mes = 3
+   and cuenta = '19';
+
+select *
+  from ctabnco
+ where codigo in ('09', '10');
+
+select *
+  from saldo_banco
+ where cod_ctabnco in ('09', '10')
+ order by fecha;
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 3
+   and libro = '60'
+   and voucher = 30233;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 3
+   and libro = '60'
+   and voucher = 30233;
+
+select *
+  from movdeta
+ where cuenta = '10412002';
+--
+-- insert into pevisa.movglos ( ano, mes, libro, voucher, glosa, fecha, tipo_cambio, estado
+--                            , tipo_referencia, nro_referencia, sistema, pase_ctacte, tipo_operacion
+--                            , relacion, usuario, fec_reg, tipo_mov, serie, numliq, fecliq
+--                            , pase_cta_cte_pro, cod_proveed, moneda, item, serie_orden, numero_order
+--                            , c_resp, nro_planilla)
+-- values ( 2023, 3, '60', 30233, 'DEPOSITO NO IDEN.IBK DOL MARZ2023', date '2023-03-17', 'V', '1'
+--        , null, null, 'CONT', 'N', null, null, 'RORELLANA', date '2023-05-15', 'CRE', null, null
+--        , null, 'N', null, null, null, null, null, null, null);
+--
+--
+-- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+--                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+--                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+--                            , serie, f_vencto, cambio, file_cta_cte)
+-- values ( 2023, 3, '60', 30233, '10412002', 'V', null, null, null, null, date '2023-03-17'
+--        , 'DEP NIDENTIFICADO IBK DOL MARZ2023', 14842.91, 0.00, 3905.00, 0.00, '1', 0, 'N'
+--        , 'RORELLANA', date '2023-05-15', 'CRE', null, null, 3.8010, 'N');
+-- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+--                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+--                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+--                            , serie, f_vencto, cambio, file_cta_cte)
+-- values ( 2023, 3, '60', 30233, '46112000', 'V', null, null, null, null, date '2023-03-17'
+--        , 'DEP NIDENTIFICADO IBK DOL MARZ2023', 0.00, 14842.91, 0.00, 3905.00, '1', 0, 'N'
+--        , 'RORELLANA', date '2023-05-15', 'CRE', null, null, 3.8010, 'N');
+--
+-- insert into pevisa.ctabnco ( codigo, descripcion, cuenta, moneda, banco, tipo_cuenta, ind
+--                            , sectorista, telefono, numchei, numchef, voucher, n_cta_cte, ind_cb
+--                            , cod_proveedor, egresos_numero_de_cuenta, codigo_unidad_negocio)
+-- values ( '09', 'INTERBANK MN. 164-3001186315', '10411004', 'S', '04', 'CC', 'B', '1111111111111'
+--        , null, null, null, null, '111111111111', null, '20100053455', null, null);
+-- insert into pevisa.ctabnco ( codigo, descripcion, cuenta, moneda, banco, tipo_cuenta, ind
+--                            , sectorista, telefono, numchei, numchef, voucher, n_cta_cte, ind_cb
+--                            , cod_proveedor, egresos_numero_de_cuenta, codigo_unidad_negocio)
+-- values ( '10', 'INTERBANK ME. 164-3001186322', '10412002', 'D', '04', 'CC', 'B', '1111111111111'
+--        , null, null, null, null, '1111111111111', null, '20100053455', null, null);
+
+select *
+  from factcob
+ where serie_num = '2'
+   and numero = '106';
+
+select * from tab_grupos;
+
+select *
+  from tab_lineas
+ where linea like 'D53%';
+
+select *
+  from lpred_fam;
+
+select *
+  from vendedores
+ where cod_vendedor = '27';
+
+select *
+  from nrodoc
+ where tipodoc = 'J1';
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '3848548';
+
+select *
+  from kardex_g_historia
+ where serie = 91
+   and numero = 398;
+
+select *
+  from pedido
+ where num_ped = 2762;
+
+select *
+  from kardex_g
+ where serie = 91
+   and numero = 390;
+
+select *
+  from relacion
+ where serie = 91
+   and numero = 390;
+
+select *
+  from kardex_g
+ where estado not in ('6', '9')
+   and tip_doc_ref = 'P2'
+   and ser_doc_ref = '20'
+   and nro_doc_ref = '2763';
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 91
+   and numero = 399;
+
+select *
+  from kardex_g
+ where ser_doc_ref = '20'
+   and nro_doc_ref = '2763';
+
+
+select *
+  from kardex_g_historia
+ where glosa like '%ESTADO%';
+
+
+select *
+  from kardex_g_historia
+ where tipo_evento like '%ESTADO%';
+
+
+select *
+  from kardex_g_historia
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 91
+   and numero = 399;
+
+select *
+  from kardex_g_historia
+ where glosa is not null;
+
+select *
+  from error_log
+ order by id_log desc;
+
+select *
+  from usuarios_libros
+ where usuario = 'RORELLANA';
+
+select * from nrolibr;
+
+select * from nrolibr;
+
+select *
+  from letras
+ where nrolet = 1198;
+
+select *
+  from factcob
+ where numero = 1198
+   and cod_cliente = '20607365351';
+
+select pag.cod_proveedor, pag.tipdoc
+     , pag.serie_num, pag.numero
+     , pag.moneda, nvl(mvf.banco, '01') as banco
+     , bco.cod_banco, pag.tcam_sal
+     , pag.ctactble, bco.ano
+     , bco.mes, bco.tipo
+     , bco.voucher, nvl(cuo.importe_interes, 0) + nvl(cuo.importe_comision, 0) +
+                    nvl(cuo.importe_gastos, 0) as interes
+     , abs(pag.saldo) as saldo
+     , bco.cod_unidad_negocio
+  from prestamo_banco bco
+     , prestamo_banco_cuota cuo
+     , factpag pag
+     , movfigl mvf
+ where bco.cod_banco = cuo.cod_banco
+   and bco.cod_prestamo = cuo.cod_prestamo
+   and bco.cod_proveedor = pag.cod_proveedor
+   and bco.tipdoc = pag.tipdoc
+   and cuo.serie_num = pag.serie_num
+   and cuo.numero = pag.numero
+   and bco.ano = mvf.ano(+)
+   and bco.mes = mvf.mes(+)
+   and bco.tipo = mvf.tipo(+)
+   and bco.voucher = mvf.voucher(+)
+   and pag.f_vencto = to_date('15/05/2023', 'dd/mm/yyyy')
+   and bco.cod_tipo_prestamo not in ('LS', 'TR')
+   and pag.saldo != 0;
+
+select *
+  from plancta
+ where cuenta = '93941000';
+
+select *
+  from unidad_negocio_cuenta
+ where cod_tipo = 'OTRAS_CARGAS_FINANCIERAS';
+
+select cuenta
+  from ctabnco
+ where banco = '02'
+   and moneda = 'D'
+   and cod_proveedor is not null;
+
+select *
+  from ctabnco
+ where banco = '02'
+   and moneda = 'D';
+
+select * from ctabnco where cod_proveedor is not null;
+
+select *
+  from proveed
+ where nombre like '%CREDITO%';
+
+select *
+  from usuarios_tipos
+ where usuario = 'SCASTRO';
+
+select operacion, tipdoc, codigo, operacion_ant
+  from tipo_operacion_h
+ where tipdoc = 'L1'
+   and codigo = '13'
+ order by operacion, tipdoc;
+
+select descripcion, indicador1
+  from tablas_auxiliares
+ where tipo = 90
+   and codigo = 'CC';
+
+select *
+  from usuarios_libros
+ where usuario = 'VCHIPANA';
+
+select *
+  from factpag
+ where numero = '35466026-1'
+   and serie_num = '001';
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '35466026-1';
+
+select *
+  from error_log
+ order by id_log desc;
+
+select *
+  from ctabnco
+ where banco = '04';
+
+select *
+  from ctabnco
+ where codigo = '19';
+
+select *
+  from plancta
+ where cuenta = '10412207';
+
+select cuenta
+  from ctabnco
+ where banco = '11'
+   and moneda = 'D'
+   and cod_proveedor is not null;
+
+select *
+  from proveed
+ where cod_proveed = '20100053455';
+
+select pag.cod_proveedor, pag.tipdoc
+     , pag.serie_num, pag.numero
+     , pag.moneda, nvl(mvf.banco, '01') as banco
+     , bco.cod_banco, pag.tcam_sal
+     , pag.ctactble, bco.ano
+     , bco.mes, bco.tipo
+     , bco.voucher, nvl(cuo.importe_interes, 0) + nvl(cuo.importe_comision, 0) +
+                    nvl(cuo.importe_gastos, 0) as interes
+     , abs(pag.saldo) as saldo
+     , bco.cod_unidad_negocio
+  from prestamo_banco bco
+     , prestamo_banco_cuota cuo
+     , factpag pag
+     , movfigl mvf
+ where bco.cod_banco = cuo.cod_banco
+   and bco.cod_prestamo = cuo.cod_prestamo
+   and bco.cod_proveedor = pag.cod_proveedor
+   and bco.tipdoc = pag.tipdoc
+   and cuo.serie_num = pag.serie_num
+   and cuo.numero = pag.numero
+   and bco.ano = mvf.ano(+)
+   and bco.mes = mvf.mes(+)
+   and bco.tipo = mvf.tipo(+)
+   and bco.voucher = mvf.voucher(+)
+   and pag.f_vencto >= to_date('01/06/2023', 'dd/mm/yyyy')
+   and bco.cod_tipo_prestamo not in ('LS', 'TR')
+   and pag.saldo != 0;
+
+select *
+  from unidad_negocio_cuenta
+ where cod_unidad_negocio = '02';
+
+select *
+  from plancta
+ where cuenta like '7%';
+
+select *
+  from plancta
+ where cuenta = '77611001';
+
+select * from cuenta_asiento_auto;
+
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 50000197;
+
+select *
+  from orden_de_compra
+ where serie = 14
+   and num_ped = 295;
+
+select * from pla_control;
+
+select * from cuenta_asiento_auto;

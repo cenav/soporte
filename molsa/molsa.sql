@@ -1,26 +1,33 @@
 select *
   from movglos
- where ano = 2023
-   and mes = 4
-   and libro = '08'
-   and voucher in (40010, 40012);
+ where ano = 2022
+   and mes = 12
+   and libro = '39'
+   and voucher in (120006);
 
 select *
   from movdeta
- where ano = 2023
-   and mes = 1
-   and libro = '08'
-   and voucher = 10018;
+ where ano = 2022
+   and mes = 12
+   and libro = '39'
+   and voucher in (120006);
 
 select *
   from factpag
- where cod_proveedor = '20100047218'
-   and numero = '2724333';
+ where cod_proveedor = '20182246078'
+   and numero = '0021607';
 
 select *
   from cabfpag
- where cod_proveedor = '20418896915'
-   and numero = '0065104';
+ where cod_proveedor = '20182246078'
+   and numero = '0021845';
+
+select *
+  from cabfpag
+ where ano = 2022
+   and mes = 12
+   and libro = '39'
+   and voucher = 120006;
 
 select * from activo_fijo_depreciacion;
 
@@ -99,3 +106,4 @@ select *
 select *
   from prestamo_banco_cuota
  where cod_prestamo = '3479350';
+

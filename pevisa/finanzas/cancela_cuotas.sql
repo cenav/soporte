@@ -2,7 +2,7 @@
 declare
   cursor vencimientos is
        with fechas as (
-         select date'2023-04-01' as desde, date'2023-04-05' as hasta
+         select date'2023-06-01' as desde, date'2023-06-30' as hasta
            from dual
          )
      select f.desde + level - 1 as dia
@@ -11,8 +11,8 @@ declare
     connect by level <= (f.hasta - f.desde + 1);
 begin
   for vcto in vencimientos loop
---     pkg_finanzas_pagares.cancela_cuotas(vcto.dia);
-    pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
+    pkg_finanzas_pagares.cancela_cuotas(vcto.dia);
+--     pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
   end loop;
 end;
 
@@ -64,6 +64,5 @@ select *
 select cuenta
   from ctabnco
  where cod_proveedor is not null;
-
 
 select * from ctabnco;

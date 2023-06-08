@@ -1,21 +1,31 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 4
-   and libro = '46'
-   and voucher in (40010);
+   and mes = 5
+   and libro = '10'
+   and voucher in (
+   50096
+   );
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 4
-   and libro = '46'
-   and voucher in (40010);
+   and mes = 5
+   and libro = '10'
+   and voucher in (
+   33118
+   );
+
+select *
+  from nrolibr
+ where libro = '25'
+   and ano = 2023
+   and mes = 4;
 
 select *
   from factpag
- where cod_proveedor = '156406309'
-   and numero = '0000076';
+ where cod_proveedor = '99000038'
+   and numero = '0000068-P1';
 
 select *
   from plancta
@@ -82,7 +92,6 @@ select *
  where id_vendedor = 'S3'
    and numero = 102;
 
-
 select *
   from centro_costo_motivo_viatico
  where cod_centro_costo = '02'
@@ -111,27 +120,26 @@ select *
   from prestamo_banco
  where cod_prestamo = '20123459';
 
-
 select *
   from movfigl
  where ano = 2023
-   and mes = 4
+   and mes = 5
    and tipo = '5'
-   and voucher = 40051;
+   and voucher = 50096;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 4
-   and tipo = '3'
-   and voucher = 40009;
+   and mes = 3
+   and tipo = '2'
+   and voucher = 33118;
 
 select *
   from factpag
- where cod_proveedor = '20524801591'
+ where cod_proveedor = '20100047218'
    and tipdoc = '26'
    and serie_num = '001'
-   and numero = '3092351-1';
+   and numero = '3894990';
 
 select *
   from cabfpag
@@ -295,8 +303,106 @@ select *
 
 select *
   from planilla_cobranzas_h
- where numero_planilla = 5610550;
+ where numero_planilla = 1009325;
 
 select *
   from factpag
  where numero = '0192521-1';
+
+select *
+  from logger_logs
+ order by id desc;
+
+select *
+  from nrodoc
+ where tipodoc in ('J1', 'J2');
+
+select * from canjedoc_cpag;
+
+select *
+  from plancta
+ where cuenta = '123104';
+
+begin
+  enviar_correo(
+      msg_from => 'sistemas@pevisa.com.pe'
+    , msg_to => 'cnavarro@pevisa.com.pe'
+    , msg_subject => 'prueba talleres'
+    , msg_text => 'pruebas'
+    );
+end;
+
+select *
+  from factpag
+ where cod_proveedor = '99000038'
+--    and tipdoc = '97'
+   and numero = '0000053-P1';
+
+select *
+  from factpag
+ where numero = '0000053-P1';
+
+select *
+  from plancta
+ where cuenta = '1892';
+
+select *
+  from error_log
+ order by id_log desc;
+
+select pag.cod_proveedor, pag.tipdoc, pag.serie_num, pag.numero, pag.moneda
+     , bco.cod_banco, bco.cod_prestamo, cuo.nro_cuota, pag.tcam_sal, pag.ctactble
+     , bco.ano, bco.mes, bco.tipo, bco.voucher, cuo.fecha_vcto
+     , pag.f_vencto, bco.cuenta_interes, cuo.importe_valor_cuota, cuo.importe_capital
+     , cuo.importe_interes
+     , abs(pag.saldo) as saldo
+  from prestamo_banco bco
+     , prestamo_banco_cuota cuo
+     , factpag pag
+ where bco.cod_banco = cuo.cod_banco
+   and bco.cod_prestamo = cuo.cod_prestamo
+   and bco.cod_proveedor = pag.cod_proveedor
+   and bco.tipdoc = pag.tipdoc
+   and cuo.serie_num = pag.serie_num
+   and cuo.numero = pag.numero
+   and pag.saldo * -1 > 0.01
+   and bco.estado != '9'
+   and bco.cod_tipo_prestamo = 'LS'
+   and bco.cod_prestamo = '0057496'
+   and cuo.nro_cuota = 39
+--    and pag.f_vencto = p_fecha
+   --AND      pag.f_vencto = TO_DATE('04/01/2021', 'DD/MM/YYYY')
+ order by pag.f_vencto, pag.numero;
+
+select *
+  from prestamo_banco
+ where cod_tipo_prestamo = 'LS'
+   and cod_prestamo = '0057496';
+
+select *
+  from usuarios_libros
+ where usuario = 'VCHIPANA';
+
+select *
+  from prestamo_banco
+ where cod_prestamo = 'C-QUILLIN85K';
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 1009155;
+
+select *
+  from caja_chica
+ where serie = 4
+   and numero = 23017;
+
+select *
+  from caja_chica_d
+ where serie = 4
+   and numero = 23017;
+
+select *
+  from factcob
+ where numero = 960
+   and tipdoc = '01'
+   and serie_num = 'F060';

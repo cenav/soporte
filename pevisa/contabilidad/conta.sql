@@ -2,25 +2,23 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 4
+   and mes = 5
    and libro = '08'
-   and voucher in (
-   40137
-   );
-
-select *
-  from factpag
- where numero = '0000008'
-   and cod_proveedor = '10417784417';
+   and voucher = 50099;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 1
+   and mes = 5
    and libro = '08'
    and voucher in (
-   33512
+   51124
    );
+
+select *
+  from factpag
+ where numero = '0470850'
+   and cod_proveedor = '20467534026';
 
 select *
   from gastos_de_viaje
@@ -72,10 +70,10 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 4
+   and mes = 5
    and tipo = '2'
    and voucher in (
-                   43079, 43081
+   50001
    );
 
 select *
@@ -284,9 +282,10 @@ select *
 
 select *
   from factcob
- where tipdoc = 'LV'
+ where tipdoc = '07'
+   and serie_num = 'F055'
    and numero in (
-   18428
+   97
    );
 
 select *
@@ -460,8 +459,13 @@ select *
 
 select *
   from caja_chica
- where serie = 7
-   and numero = 22174;
+ where serie = 4
+   and numero = 230068;
+
+select *
+  from caja_chica_d
+ where serie = 4
+   and numero = 230068;
 
 select *
   from vendedores
@@ -507,9 +511,9 @@ select *
  order by codigo;
 
 select *
-  from pevisa.gastos_de_viaje
- where id_vendedor = 'Z2'
-   and numero = 123;
+  from pevisa.gastos_de_viaje_habilitado_m
+ where id_vendedor = '20'
+   and numero = 220;
 
 select *
   from docuvent
@@ -531,9 +535,14 @@ select *
    and fecha_referencia > to_date('01/01/2022', 'dd/mm/yyyy');
 
 select *
+  from caja_chica
+ where serie = 4
+   and numero = 23016;
+
+select *
   from caja_chica_d
- where serie = 1
-   and numero = 20199;
+ where serie = 4
+   and numero = 23016;
 
 select *
   from movdeta
@@ -590,32 +599,6 @@ select *
  where ano = 2022
    and mes = 1
    and voucher = '20015';
-
-  with vouchers as (
-    select ano
-         , mes
-         , libro
-         , voucher
-         , fecha
-         , case libro
-             when '08' then 1
-             when '05' then 2
-             when '40' then 3
-             else 99
-           end as orden
-      from movdeta
-     where relacion = '20543236978'
-       and tipo_referencia = '01'
-       and serie = 'E001'
-       and nro_referencia = lpad('40', 7, '0')
-       and libro not in ('10')
-       and ano = 2022
-       and mes = 1
-     order by orden
-    )
-select v.ano, v.mes, v.libro, v.voucher, v.fecha
-  from vouchers v
- where rownum = 1;
 
 select *
   from kardex_g_movglos
@@ -684,20 +667,6 @@ select *
 select *
   from ruta_docvirtual;
 
-  with kx as (
-    select costo_s, costo_d
-      from kardex_d
-     where cod_alm = 'A3'
-       and tp_transac in ('11', '16')
-       and cod_art = '02LAPT17'
-       and costo_s != 0
-       and costo_d != 0
-     order by fch_transac desc
-    )
-select *
-  from kx
- where rownum = 1;
-
 select *
   from caja
  where id_serie = 1;
@@ -710,16 +679,6 @@ select p.c_codigo, p.nombre
    )
  order by nombre;
 
-
-declare
-  l_caja  caja%rowtype;
-  l_param caja_asiento.t_paramc;
-begin
-  l_caja := api_caja.onerow(1, 10);
-  l_param.fecha := to_date('31/08/2022', 'dd/mm/yyyy');
-  l_param.glosa := 'GTS REPRESENTACION JHONY FIGUEROA';
---   caja_asiento.contabilidad(l_caja, l_param);
-end;
 
 select *
   from movdeta
@@ -1553,3 +1512,140 @@ select *
    and nom_pvc = 'SAN ROMAN';
 
 select * from transacciones_almacen;
+
+select * from canjedoc_cpag;
+
+select *
+  from factcob
+ where tipdoc = 'LV'
+   and numero = '20668';
+
+select *
+  from canjedoc
+ where tpodoc = 'LV'
+   and nrodoc = 20660;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 2
+   and relacion is not null
+   and tipo_relacion is null
+   and nvl(estado, '0') <> '9';
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 2
+   and libro = '05'
+   and voucher = 20072
+   and relacion = '20610114041';
+
+select *
+  from proveed
+ where cod_proveed = '20610114041';
+
+select *
+  from clientes
+ where cod_cliente = '20610114041';
+
+select distinct k.cod_relacion as cod_proveed, p.nombre
+  from kardex_g k
+     , proveed p
+ where k.cod_relacion = p.cod_proveed
+   and k.tp_transac = '11'
+   and nvl(k.estado, 0) < 8
+   and exists (
+   select 1
+     from kardex_g_movglos
+    where cod_alm = k.cod_alm
+      and tp_transac = k.tp_transac
+      and serie = k.serie
+      and numero = k.numero
+      and nvl(voucher, 0) = 0
+      and serie_oc in (
+      30
+      )
+   )
+ order by p.nombre;
+
+select *
+  from kardex_g_movglos
+ where cod_proveedor = '20467534026'
+   and tp_transac = '11'
+   and nvl(estado, 0) < 8
+   and nvl(voucher, 0) = 0
+   and exists (
+   select 1
+     from kardex_g x
+    where x.cod_alm = kardex_g_movglos.cod_alm
+      and x.tp_transac = kardex_g_movglos.tp_transac
+      and x.serie = kardex_g_movglos.serie
+      and x.numero = kardex_g_movglos.numero
+      and nvl(x.estado, 0) < 9
+   )
+   and serie_oc in (30);
+
+select *
+  from kardex_d
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 30399;
+
+select *
+  from kardex_g_movglos
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 30399;
+
+select *
+  from kardex_d
+ where cod_art = '04LAPT45';
+
+select *
+  from kardex_g_movglos
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 29402;
+
+select *
+  from activo_fijo_compra
+ where cod_activo_fijo = 'PIST12';
+
+select *
+  from activo_fijo_compra
+ where cod_activo_fijo = '04LAPT45';
+
+select *
+  from kardex_g_movglos
+ where ano = 2023
+   and mes = 5
+--    and libro = '08'
+   and voucher = 51124;
+
+select *
+  from proveed
+ where nombre like '%REPLICA%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20251505111'
+ order by fecha desc;
+
+select *
+  from kardex_g_movglos
+ where ano = 2023
+   and mes = 5
+--    and libro = '08'
+   and voucher = 50099;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'MQ1ACAB-064';
+
+select *
+  from pr_tabmaq
+ where codigo = 'MQ1ACAB-064';

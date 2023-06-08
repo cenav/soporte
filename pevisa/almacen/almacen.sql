@@ -85,3 +85,34 @@ select *
 select *
   from solimat_d
  where numero = 181100;
+
+select *
+  from kardex_g
+ where num_importa = 'SM 1 179926';
+
+select *
+  from kardex_d d
+ where exists(
+   select *
+     from kardex_g g
+    where d.cod_alm = g.cod_alm
+      and d.tp_transac = g.tp_transac
+      and d.serie = g.serie
+      and d.numero = g.numero
+      and g.num_importa = 'SM 1 179922'
+   );
+
+select *
+  from kardex_g
+ where cod_alm = 'A1'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 249660;
+
+select *
+  from kardex_d
+ where cod_art = 'PARALELA 850X70X30MM 40-45HRC';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '22';

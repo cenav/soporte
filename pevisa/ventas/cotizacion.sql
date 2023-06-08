@@ -20,7 +20,7 @@ select c.serie
        join vendedores v on c.cod_vende = v.cod_vendedor
        join pedido p on c.refe_pedido = p.num_ped
  where extract(year from c.fecha) = 2023
-   and extract(month from c.fecha) = 4
+   and extract(month from c.fecha) = 5
  order by fecha;
 
 select *

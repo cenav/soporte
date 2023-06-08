@@ -613,3 +613,25 @@ insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo
 values ( 2023, 4, '08', 40182, '28111003', 'V', 'P', '20510942559', '01', '0000246'
        , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 116.26, 0.00, 30.22, 0.00, '1', 1, 'N'
        , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
+
+select *
+  from kardex_d as of timestamp to_timestamp('19-05-2023 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 91
+   and numero = 298;
+
+
+select *
+  from kardex_g as of timestamp to_timestamp('18-05-2023 16:45:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 91
+   and numero = 298;
+
+select *
+  from kardex_d as of timestamp to_timestamp('19-05-2023 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 91
+   and numero = 298;

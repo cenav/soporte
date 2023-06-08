@@ -7,7 +7,7 @@ declare
            join prestamo_banco p
                 on c.cod_banco = p.cod_banco
                   and c.cod_prestamo = p.cod_prestamo
-     where p.cod_prestamo = '0192521-1';
+     where p.cod_prestamo = '20126815-1';
 begin
   for rec in cur_prestamo loop
     update factpag

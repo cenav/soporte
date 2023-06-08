@@ -2,15 +2,15 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-     730438
-     );
+   492121
+   );
 
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'VA'
    and numero in (
-     9933
-     );
+   9938
+   );
 
 select *
   from kardex_g
@@ -25,6 +25,7 @@ select *
    and tp_transac = '18'
    and serie = 2
    and numero = 525055;
+
 
 select *
   from proveed
@@ -41,7 +42,7 @@ select cod_cliente, nombre
  where cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-     )
+   )
  minus
 select cod_cliente, nombre
   from clientes
@@ -53,7 +54,7 @@ select *
    and cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-     );
+   );
 
 select cod_cliente, nombre
   from clientes
@@ -61,7 +62,7 @@ select cod_cliente, nombre
    and cod_cliente in (
                        '20273061526', '20455719390', '20600574907', '20600637372', '20600711335',
                        '20600898214', '20601014956', '20601041163', '20608545591', '20602035906'
-     );
+   );
 
 select *
   from planilla10.personal
@@ -88,28 +89,28 @@ select *
    and numero between 505341 and 505419;
 
   with op_curso as (
-      select cod_art
-           , sum(saldo) as saldo_op
-           , listagg(numero || '(' || estado || ',' || cant_prog || ')', ' | ')
-                     within group ( order by estado, numero) as numero_op
-        from vw_ordenes_curso
-       where nuot_tipoot_codigo = 'PR'
-       group by cod_art
-      )
+    select cod_art
+         , sum(saldo) as saldo_op
+         , listagg(numero || '(' || estado || ',' || cant_prog || ')', ' | ')
+                   within group ( order by estado, numero) as numero_op
+      from vw_ordenes_curso
+     where nuot_tipoot_codigo = 'PR'
+     group by cod_art
+    )
      , requerimiento as (
-      select cod_art
-           , sum(cant_requerida) as cant_requerida
-           , sum(cant_separado) as cant_separado
-           , sum(faltante) as cant_faltante
-           , sum(stock) as stock_requerida
-        from vw_requerimiento_articulo
-       group by cod_art
-      )
+    select cod_art
+         , sum(cant_requerida) as cant_requerida
+         , sum(cant_separado) as cant_separado
+         , sum(faltante) as cant_faltante
+         , sum(stock) as stock_requerida
+      from vw_requerimiento_articulo
+     group by cod_art
+    )
      , stock_art as (
-      select cod_art, sum(stock) as stock
-        from almacen
-       group by cod_art
-      )
+    select cod_art, sum(stock) as stock
+      from almacen
+     group by cod_art
+    )
 select a.cod_art, a.descripcion, a.cod_lin, g.id_grupo, g.dsc_grupo
      , r.cant_requerida, r.cant_separado, r.cant_faltante
      , nvl(s.stock, 0) as stock, r.stock_requerida, o.numero_op, o.saldo_op
@@ -139,9 +140,9 @@ select *
  where cod_art = '300.506SR';
 
 declare
-    orden pr_ot%rowtype;
+  orden pr_ot%rowtype;
 begin
-    emite.op('65000S', 1, false, orden);
+  emite.op('65000S', 1, false, orden);
 end;
 
 select *
@@ -191,8 +192,10 @@ select *
 select pa.numero, pa.nuot_serie, pa.nuot_tipoot_codigo, pa.cant_prog, pa.receta
      , pa.formu_art_cod_art, pa.plazo, pa.fecha_plazo, pa.per_env, pa.abre01, pa.abre02, pa.destino
      , pa.cod_eqi, pa.empaque, pa.embalaje, pa.prioridad, pa.cod_lin, pa.pais
-     , get_grupo_ventas_marcas(pa.formu_art_cod_art) marca
-  from pr_ot pa, articul a, pr_formu f
+     , get_grupo_ventas_marcas(pa.formu_art_cod_art) as marca
+  from pr_ot pa
+     , articul a
+     , pr_formu f
  where pa.origen = 'PLANEADA'
    and pa.nuot_tipoot_codigo = 'PA'
    and pa.destino in ('1', '2')
@@ -202,23 +205,24 @@ select pa.numero, pa.nuot_serie, pa.nuot_tipoot_codigo, pa.cant_prog, pa.receta
    and pa.abre01 = '15758'
    and pa.nuot_tipoot_codigo = 'PA'
    and not exists
-     (
-         select distinct 1
-           from pr_for_ins i, articul a
-          where i.formu_art_cod_art = pa.formu_art_cod_art
-            and i.art_cod_art = a.cod_art
-            and a.cod_lin in
-                (
-                    select cod_lin
-                      from pr_grupos_lineas_desarrollo
-                     union
-                    select '1980'
-                      from dual
-                     union
-                    select 'ZZ'
-                      from dual
-                    )
-         );
+   (
+     select distinct 1
+       from pr_for_ins i
+          , articul a
+      where i.formu_art_cod_art = pa.formu_art_cod_art
+        and i.art_cod_art = a.cod_art
+        and a.cod_lin in
+            (
+              select cod_lin
+                from pr_grupos_lineas_desarrollo
+               union
+              select '1980'
+                from dual
+               union
+              select 'ZZ'
+                from dual
+              )
+     );
 
 select *
   from pr_num_ot
@@ -234,3 +238,71 @@ select max(numero)
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and nuot_serie = 3;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and fecha >= to_date('01/06/2023', 'dd/mm/yyyy')
+ order by cant_prog desc;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 513326;
+
+select *
+  from solicita_emision_det
+ where numero = 513326;
+
+select *
+  from solicita_emision_ot
+ where numero = 513326;
+
+select *
+  from solicita_cambio_ot
+ where ot_nro = 513326;
+
+select *
+  from emite_op_log
+ where numero = 513326;
+
+  with estado_inicial as (
+    select tipo, serie, numero, fecha
+      from pr_trasab_estado
+     where tipo = 'PR'
+       and serie = 8
+       and numero = 512106
+       and estado = 1
+    )
+select o.numero, o.fecha, o.estado
+  from pr_ot o
+       join estado_inicial i
+            on o.nuot_tipoot_codigo = i.tipo
+              and o.nuot_serie = i.serie
+              and o.numero = i.numero
+ where o.nuot_tipoot_codigo = 'PR'
+   and i.fecha >= sysdate - 16
+   and o.estado != '9'
+ order by o.fecha;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'PR'
+   and serie = 8
+   and numero = 512106
+   and estado = 1;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'PR'
+   and serie = 8
+   and numero = 513298
+   and estado = 1;
+
+-- ordenes emitidas hace 15 dias
+select o.numero, o.fecha, o.formu_art_cod_art, o.cod_lin, o.estado, o.cant_prog, o.usuario
+  from pr_ot o
+ where o.nuot_tipoot_codigo = 'PR'
+   and o.fecha >= sysdate - 16
+   and o.estado != '9'
+ order by cant_prog desc, o.fecha;

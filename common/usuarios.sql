@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user cmarcelo account unlock;
+alter user ksiguenas account unlock;
 
 
-alter user hcalle account lock;
+alter user gfalcon account lock;
 
 
-alter user jquispe identified by "jq10$vt";
+alter user mmiranda identified by "mamalucy9+";
 
 
 alter user jquispeb password expire;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'JQUISPE';
+ where username like 'KSIGUENAS';
 
 select *
   from dba_users
@@ -96,7 +96,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = '';
+ where co_usrusr = 'DCONTRERAS';
 
 select *
   from seccrus
@@ -110,14 +110,6 @@ select *
 select *
   from usuarios
  where usuario = 'ADELA';
-
-select *
-  from planilla10.hr_personal
- where c_codigo = 'E840';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'QUISPE';
 
 select distinct co_ctrctr
   from seccrus
@@ -163,11 +155,6 @@ select *
   from usuarios
  where usuario = 'MVILLANUEVA';
 
-select *
-  from planilla10.personal
- where apellido_paterno = 'VILLANUEVA'
- order by f_ingreso desc;
-
 -- BRAMOS
 
 select *
@@ -192,15 +179,6 @@ select *
   from usuario_modulo
  where usuario = 'APASTRANA'
    and modulo like 'CAJA%';
-
-select *
-  from serie_caja_usuario
- where usuario = 'APASTRANA';
-
-insert into serie_caja_usuario
-select id_serie, 'APASTRANA', maestro, supermaestro
-  from serie_caja_usuario
- where usuario = 'PEVISA';
 
 select *
   from usuario_modulo
@@ -260,10 +238,6 @@ select *
 
 
 select *
-  from planilla10.tar_encarga
- where estado = 1;
-
-select *
   from usuario_modulo
  where usuario in ('BRAMOS')
  order by modulo;
@@ -305,37 +279,9 @@ select *
  where id_modulo = 'CONTROL_COVID';
 
 select *
-  from serie_caja
- order by id_serie;
-
-select *
-  from serie_caja_usuario
- where usuario = 'RBARRIENTOS';
-
-select *
   from usuario_modulo
  where usuario in ('CFERNANDEZ')
  order by usuario, modulo;
-
-select *
-  from serie_caja_usuario
- where usuario in ('EFLORES', 'PEGUILUZ');
-
-select *
-  from serie_caja_usuario
- where usuario = 'RBARRIENTOS';
-
-select *
-  from serie_caja
- order by id_serie;
-
-select *
-  from caja;
-
-select *
-  from planilla10.personal
- where apellido_paterno like '%BARRIENTOS%';
-
 select *
   from usuario_modulo_alterno
  where id_usuario = 'NBELANDRIA';
@@ -370,10 +316,6 @@ select *
 select *
   from seccrus
  where co_usrusr = 'MGUIELAC';
-
-select *
-  from planilla10.tar_encarga
- where upper(usuario) = 'LARANIBAR';
 
 -- ORACLE
 
@@ -451,29 +393,8 @@ select *
  order by modulo;
 
 select *
-  from serie_caja;
-
-select *
-  from serie_caja_usuario
- where id_serie = 1;
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'RAMOS'
-   and situacion not in ('8', '9');
-
-select *
   from usuarios
  where usuario in ('BRAMOS', 'EFLORES', 'PEVISA');
-
-select *
-  from caja
- where id_serie = 1
-   and id_numero = 5;
-
-select *
-  from planilla10.personal
- where c_codigo = 'E42421';
 
 select *
   from usuarios_almacenes
@@ -546,446 +467,11 @@ select a.tp_transac as tp_transac, b.descripcion as descripcion
    and a.tp_transac <> '11'
    and a.estado = 1;
 
-
 select *
   from usuarios_almacenes_perfil
  where usuario = 'CFERNANDEZ'
    and cod_alm = 'D2';
 
 select *
-  from pr_usualma
- where usuario = 'CFERNANDEZ';
-
-select *
-  from activo_fijo
- where cod_activo_fijo = 'MAQ4GEN-003';
-
-select *
-  from pr_for_ins;
-
--- codigo prueba 30015MLS
-
--- jneira
-
-select *
-  from planilla10.tar_encarga
- order by nombre;
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'NEYRA';
-
-select *
-  from planilla10.t_cargo
- where c_cargo = 'JADT';
-
-select *
-  from planilla10.personal
- where encargado = '044';
-
-select per.c_codigo
-     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
-  from planilla10.personal per
-     , planilla10.tar_encarga enc
- where per.c_codigo = enc.c_codigo
-   and per.situacion not in ('8', '9')
-   and upper(enc.usuario) like (case
-                                  when :usuario in (
-                                    select usuario
-                                      from usuario_modulo
-                                     where modulo = 'EVALUACION'
-                                       and maestro = 'SI'
-                                    ) then '%'
-                                  else upper(:usuario)
-                                end)
- order by per.apellido_paterno;
-
-select *
-  from usuario_modulo
- where usuario = 'JCABEZAS'
- order by modulo;
-
-select *
-  from usuario_modulo
- where usuario = 'JNEYRA';
-
-select per.c_codigo
-     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
-     , per.conini
-     , per.confin
-     , per.clase
-  from planilla10.personal per
-     , planilla10.tar_encarga enc
- where per.encargado = enc.codigo
-   and enc.c_codigo = 'E961'
-   and per.situacion not in ('8', '9')
- order by per.apellido_paterno;
-
-select a.cod_alm, t.descripcion, a.nombre
-  from pr_usualma a
-     , tablas_auxiliares t
- where a.cod_alm = t.codigo
-   and t.tipo = '33'
-   and a.usuario = 'JNEYRA'
- order by a.cod_alm;
-
-select *
-  from pr_usualma
- where usuario = 'MFERNANDEZ'
- order by cod_alm;
-
-select *
-  from usuarios_almacenes_perfil
- where usuario = 'AVULCANO'
-   and cod_alm = '41';
-
-select a.cod_alm, t.descripcion, a.nombre
-  from pr_usualma a
-     , tablas_auxiliares t
- where a.cod_alm = t.codigo
-   and t.tipo = '33'
-   and a.usuario = 'MFERNANDEZ'
- order by a.cod_alm;
-
-select ua.cod_alm as cod_alm, a.descripcion as descripcion
-  from usuarios_almacenes ua
-     , almacenes a
- where usuario = 'AVULCANO'
-   and ua.cod_alm = a.cod_alm
-   and nvl(ua.estado, 0) = 1
- order by 1;
-
-select ap.tp_transac as tp_trasac, ta.descripcion as descripcion
-  from almacenes_perfil ap
-     , transacciones_almacen ta
- where ap.tp_transac = ta.tp_transac
-   and cod_alm = '41'
-   and ta.ingreso_salida = 'S'
-   and nvl(ap.estado, 0) = '1'
- order by 1;
-
-select *
-  from almacenes_perfil
- where cod_alm = '41';
-
-select *
-  from otm_serie_usuario
- where usuario = 'HOLIVARES';
-
--- 01
-
-select *
-  from kardex_d;
-
-select *
-  from seccrus
- where co_usrusr = 'MPRIMA';
-
-select *
-  from seccrus
- where co_ctrctr = 'M_PLANEAMIENTO_M';
-
-select *
-  from sistemas;
-
-select *
-  from pr_ot_impresion;
-
-
-select t.codigo, t.descripcion
-  from tablas_auxiliares t
- where t.tipo = 33
-   and t.codigo <> '....'
-   and exists
-   (
-     select *
-       from usuarios_almacenes_perfil uap
-      where uap.usuario = user
-        and uap.cod_alm = t.codigo
-        and uap.tp_transac = '51'
-        and nvl(uap.estado, 0) = 1
-     )
- order by t.codigo;
-
-select *
-  from usuarios_almacenes_perfil
- where usuario = 'HOLIVARES';
-
-
-select t.codigo, t.descripcion
-  from tablas_auxiliares t
- where t.tipo = 33
-   and t.codigo <> '....'
-   and exists
-   (
-     select *
-       from usuarios_almacenes_perfil uap
-      where uap.usuario = user
-        and uap.cod_alm = t.codigo
-        and uap.tp_transac = :tp_transac_ing
-        and nvl(uap.estado, 0) = 1
-     )
- order by t.codigo;
-
-
-select *
-  from orden_de_compra_historia
- where serie = 22
-   and num_ped = 19
- order by creacion_cuando;
-
-select *
-  from ruta_docvirtual;
-
--- 6434
-
-select *
-  from otm_serie_usuario
- where usuario = 'JNEYRA'
- order by id_serie;
---
-
-
-select per.c_codigo
-     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
-  from planilla10.personal per
-     , planilla10.tar_encarga enc
- where per.c_codigo = enc.c_codigo
-   and per.situacion not in ('8', '9')
-   and (upper(enc.usuario) = (
-   select usuario
-     from usuario_modulo
-    where usuario = :user
-      and modulo = :modulo
-    union
-   select id_usuario
-     from usuario_modulo_alterno
-    where id_alterno = :user
-      and id_modulo = :modulo
-   ) or :user in (
-   select usuario
-     from usuario_modulo
-    where modulo = :modulo
-      and maestro = 'SI'
-   ))
- order by per.apellido_paterno;
-
-select *
-  from evaluacion
- where (:user in (
-   select usuario
-     from usuario_modulo
-    where modulo = :modulo
-      and maestro = 'SI'
-   ) or id_evaluador = (
-   select c_codigo
-     from planilla10.tar_encarga
-    where (upper(usuario) = upper(:user) or
-           upper(usuario) = (
-             select id_usuario
-               from usuario_modulo_alterno
-              where id_alterno = :user
-                and id_modulo = :modulo
-             ))
-   ));
-
-select *
-  from serie_caja
- order by id_serie;
-
-select *
-  from serie_caja_usuario
- where usuario = 'BRAMOS';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'MIRANDA';
-
-select *
-  from caja
- where id_serie = 1
- order by id_numero desc;
-
-select *
-  from usuarios
- where usuario = 'MBONDY';
-
-select *
-  from grupo_cliente;
-
-select *
-  from grupo_cliente_cliente;
-
-select *
-  from usuario_modulo
- where modulo = 'CAMBIO_OT';
-
-select *
-  from planilla10.personal
- where c_codigo = 'E42660';
-
-select *
-  from planilla10.personal
- where c_codigo = 'E42660';
-
-select *
-  from planilla10.tar_secc
- where codigo = '17';
-
-select *
-  from kardex_g_historia
- where cod_alm = '03'
-   and tp_transac = '08'
-   and serie = 1
-   and numero = 21495;
-
-select *
-  from usuarios
- where usuario = 'ECHINCHA';
-
-select *
-  from tmp_imprime_ot;
-
--- 80275CS-2
-
--- DDIAZ
--- FURTEAGA
-
-select *
-  from planilla10.personal
- where encargado = '006'
-   and situacion not in ('8', '9');
-
-select *
-  from planilla10.tar_encarga
- where codigo = '006';
-
-select *
-  from usuario_modulo
- where usuario = 'MGUIELAC'
-   and modulo = 'EVALUACION';
-
-select *
-  from usuario_modulo_alterno
- where id_alterno = 'MGUIELAC';
-
-select *
-  from usuario_modulo_alterno
- where id_usuario = 'MGUIELAC';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'GARCIA';
-
-select *
-  from planilla10.t_cargo
- where c_cargo = 'CTH';
-
-select *
-  from usuario_modulo
- where modulo like 'CAMPANA%';
-
-select *
-  from usuario_modulo
- where usuario = 'HOCANA';
-
-select *
-  from usuario_modulo
- where usuario = 'LSALCEDO';
-
-select *
-  from usuario_modulo
- where usuario = 'RRODRIGUEZ';
-
-select *
-  from usuario_modulo_alterno
- where id_usuario = 'RRODRIGUEZ';
-
-select *
-  from permiso
- where numero = 56161;
-
-select *
-  from proceso_puntualidad_pers
- where id_personal = 'E42964';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'VASQUEZ'
-   and apellido_materno = 'FLORES';
-
-select *
-  from usuarios
- where nombres like '%ROMERO%';
-
-select *
-  from motivo_hallazgo_cliente;
-
-select *
-  from usuarios
- where usuario = 'DARENAS';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'ARENAS'
-   and nombres like '%DIEGO%';
-
-select *
-  from planilla10.t_cargo
- where c_cargo = 'AMKT';
-
--- matrices corte
-select cod_art, descripcion, cod_lin
-  from vw_articulo
- where cod_art like '%MATRIZ DE CORTE%';
-
-select *
-  from planilla10.personal
- where apellido_paterno = 'HERMOZA';
-
-select *
-  from planilla10.tar_encarga;
-
-select *
-  from planilla10.personal
- where encargado = '049';
-
-select *
-  from personal_mantto;
-
-select *
-  from usuario_modulo_alterno
- where id_modulo = 'ACCIDENTES'
-   and id_alterno = 'NBELANDRIA';
-
-select *
-  from usuario_modulo
- where usuario = 'NBELANDRIA';
-
-select *
-  from planilla10.tar_encarga;
-
-select *
-  from planilla10.personal
- where encargado = '042';
-
-select *
-  from caja_chica_d
- where serie = 7
-   and numero = 22184;
-
-select *
-  from cese_personal
- where id_personal = 'E42736';
-
-select *
-  from usuario_modulo
- where modulo = 'EMBARQUES';
-
-select *
-  from expedidos
- where numero = 15501;
-
-select *
-  from packing_agrupar
- order by 1;
+  from usuarios_libros
+ where usuario = 'SCASTRO';

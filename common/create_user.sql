@@ -3,12 +3,14 @@ select rowid, u.*
   from usuarios u
  where usuario in ('IVEGA', 'DAYALA');
 
-create user dayala
-    identified by "PEVISA.123"
-    default tablespace pevisad
-    temporary tablespace temp
+create user powerbi
+  identified by "sistemas.pevisa768"
+  default tablespace pevisad
+  temporary tablespace temp
 --     profile profile_usuario_sig
-    account unlock;
+  account unlock;
+
+grant create session to powerbi;
 
 -- 1 Role for DAYALA
 grant privilegios_usuarios_sig to dayala;
@@ -34,10 +36,10 @@ select rowid, u.*
   from tab_menu u
  where usuario = 'IVEGA'
    and sistema in (
-     select co_ctrctr
-       from seccrus s
-      where co_usrusr = 'IVEGA'
-     );
+   select co_ctrctr
+     from seccrus s
+    where co_usrusr = 'IVEGA'
+   );
 
 
 select rowid, u.*

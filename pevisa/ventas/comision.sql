@@ -271,7 +271,7 @@ select *
    and mes = 3;
 
 begin
-  pkg_bono_obreros.elimina(82);
+  pkg_bono_obreros.elimina(84);
 end;
 
 select * from param_bono_obrero;

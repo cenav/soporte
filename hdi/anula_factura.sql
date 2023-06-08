@@ -3,5 +3,5 @@
 select *
   from docuvent
  where tipodoc = '01'
-   and serie = 'F054'
-   and numero = 1;
+   and serie = 'F055'
+   and numero = 2;

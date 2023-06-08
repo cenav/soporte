@@ -6,7 +6,7 @@ declare
     select distinct ano, mes, libro, voucher
       from movdeta
      where ano = 2023
-       and mes = 1
+       and mes = 4
        and libro = '08'
        and length(relacion) = c_longitud;
 begin
