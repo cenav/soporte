@@ -71,20 +71,24 @@ select *
 
 -- 97	11	1	27077
 
+-- 15	11	2	7378
 select *
   from kardex_g
- where cod_alm = '30'
+ where cod_alm = '15'
    and tp_transac = '11'
-   and serie = 1
-   and numero = 30342;
+   and serie = 2
+   and numero = 7378;
 
 select *
   from kardex_d
- where cod_alm = 'AD'
+ where cod_alm = '15'
    and tp_transac = '11'
-   and serie = 11
-   and numero = 6718;
+   and serie = 2
+   and numero = 7378
+   and cod_art = 'SLIM400.141';
 
+select * from almacen
+where cod_art = 'SLIM400.141';
 
 select *
   from kardex_g_movglos
@@ -92,7 +96,6 @@ select *
    and tp_transac = '11'
    and serie = 1
    and numero in (28386);
-
 
 select *
   from kardex_g_movglos

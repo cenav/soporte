@@ -9,9 +9,9 @@ declare
     select *
       from ot_mantto
      where id_tipo = 'MQ'
-       and id_serie = 4
+       and id_serie = 7
        and id_numero in (
-       545
+      6929
        );
 
   cursor cr_activos_anular(p_tipo varchar2, p_serie number, p_numero number) is
@@ -28,7 +28,8 @@ declare
     select count(*)
       into l_anulado
       from activo_fijo_asiento a
-           join movglos m on a.ano = m.ano and a.mes = m.mes and a.libro = m.libro and a.voucher = m.voucher
+           join movglos m
+                on a.ano = m.ano and a.mes = m.mes and a.libro = m.libro and a.voucher = m.voucher
      where a.cod_activo_fijo = p_codactivo
        and a.cod_tipo = c_tipo_asiento
        and m.estado = '9';
@@ -36,7 +37,8 @@ declare
     select count(*)
       into l_eliminado
       from activo_fijo_asiento a
-           join movglos m on a.ano = m.ano and a.mes = m.mes and a.libro = m.libro and a.voucher = m.voucher
+           join movglos m
+                on a.ano = m.ano and a.mes = m.mes and a.libro = m.libro and a.voucher = m.voucher
      where a.cod_activo_fijo = p_codactivo
        and a.cod_tipo = c_tipo_asiento
        and m.estado != '9';
@@ -76,8 +78,8 @@ declare
   end;
 
   procedure actualiza_estado(
-    p_tipo   varchar2
-  , p_serie  number
+    p_tipo varchar2
+  , p_serie number
   , p_numero number
   ) is
   begin
@@ -103,38 +105,36 @@ begin
     ot := api_ot_mantto.onerow(rc.id_tipo, rc.id_serie, rc.id_numero);
 
     case ot.registro_contable
-      when 'ACTIVO' then
-        for r in cr_activos_anular(rc.id_tipo, rc.id_serie, rc.id_numero) loop
-          if not voucher_anulado(r.cod_activo_fijo) then
-            raise_application_error(-20001, 'anular voucher de activacion ' || r.cod_activo_fijo);
-          end if;
+      when 'ACTIVO' then for r in cr_activos_anular(rc.id_tipo, rc.id_serie, rc.id_numero) loop
+        if not voucher_anulado(r.cod_activo_fijo) then
+          raise_application_error(-20001, 'anular voucher de activacion ' || r.cod_activo_fijo);
+        end if;
 
-          es_activo_instalado := ot.id_activo_fijo = r.cod_activo_fijo;
+        es_activo_instalado := ot.id_activo_fijo = r.cod_activo_fijo;
 
-          if es_activo_instalado then
-            api_activo_fijo_asiento.del(r.cod_activo_fijo, c_tipo_asiento);
-            anula_salida_almacen(r.activacion_almacen, r.activacion_tp_transac, r.activacion_serie,
-                                 r.activacion_numero);
-          else
-            api_activo_fijo.del(r.cod_activo_fijo);
-            api_pcarticul.del(r.cod_activo_fijo);
-          end if;
-
-          actualiza_estado(rc.id_tipo, rc.id_serie, rc.id_numero);
-        end loop;
-      when 'GASTO' then
-        if not voucher_anulado(ot) and ot.cierre_voucher is not null then
-          raise_application_error(-20002, 'anular voucher gasto '
-            || ot.cierre_ano
-            || '-'
-            || ot.cierre_mes
-            || '-'
-            || ot.cierre_libro
-            || '-'
-            || ot.cierre_voucher);
+        if es_activo_instalado then
+          api_activo_fijo_asiento.del(r.cod_activo_fijo, c_tipo_asiento);
+          anula_salida_almacen(r.activacion_almacen, r.activacion_tp_transac, r.activacion_serie,
+                               r.activacion_numero);
+        else
+          api_activo_fijo.del(r.cod_activo_fijo);
+          api_pcarticul.del(r.cod_activo_fijo);
         end if;
 
         actualiza_estado(rc.id_tipo, rc.id_serie, rc.id_numero);
+      end loop;
+      when 'GASTO' then if not voucher_anulado(ot) and ot.cierre_voucher is not null then
+        raise_application_error(-20002, 'anular voucher gasto '
+          || ot.cierre_ano
+          || '-'
+          || ot.cierre_mes
+          || '-'
+          || ot.cierre_libro
+          || '-'
+          || ot.cierre_voucher);
+                        end if;
+
+                        actualiza_estado(rc.id_tipo, rc.id_serie, rc.id_numero);
     end case;
   end loop;
 

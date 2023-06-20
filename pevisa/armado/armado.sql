@@ -1,7 +1,10 @@
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
-   and numero = 730438;
+   and numero in (
+                  963780, 972088, 963578, 964360, 965275, 963622, 964247, 972324, 964411, 963613,
+                  964155, 970177, 964267, 963100, 965101, 970500, 964269, 966703
+   );
 
 select *
   from pr_ot_det
@@ -11,13 +14,6 @@ select *
 select *
   from pr_ot
  where nuot_tipoot_codigo = 7304398;
-
-select *
-  from pr_ot
- where numero in (
-     334
-     )
-   and nuot_tipoot_codigo = 'FC';
 
 select *
   from view_oa_cambio_de_piezas

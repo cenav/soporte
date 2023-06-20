@@ -1,19 +1,19 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 5
-   and libro = '10'
+   and mes = 6
+   and libro = '08'
    and voucher in (
-   50096
+   60072
    );
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 5
-   and libro = '10'
+   and mes = 6
+   and libro = '08'
    and voucher in (
-   33118
+   60072
    );
 
 select *
@@ -130,16 +130,30 @@ select *
 select *
   from movfide
  where ano = 2023
-   and mes = 3
-   and tipo = '2'
-   and voucher = 33118;
+   and mes = 5
+   and tipo = '5'
+   and voucher = 50096;
+
+select *
+  from factcob
+ where cod_cliente = '20601149631'
+   and tipdoc = '01'
+   and serie_num = 'F051'
+   and numero = '2487';
+
+select *
+  from factcob
+ where cod_cliente = '20601149631'
+   and tipdoc = 'A1'
+   and serie_num = '1'
+   and numero = '5600342';
 
 select *
   from factpag
- where cod_proveedor = '20100047218'
-   and tipdoc = '26'
-   and serie_num = '001'
-   and numero = '3894990';
+ where cod_proveedor = '20601149631'
+   and tipdoc = '01'
+   and serie_num = 'F051'
+   and numero = '2278';
 
 select *
   from cabfpag
@@ -147,6 +161,16 @@ select *
    and tipdoc = '01'
    and serie_num = 'E001'
    and numero = '0001307';
+
+select *
+  from factcob
+ where serie_num = 'F051'
+   and numero = '2278';
+
+select *
+  from cabfcob
+ where serie_num = 'F051'
+   and numero = '2278';
 
 select *
   from movdeta
@@ -343,66 +367,60 @@ select *
  where numero = '0000053-P1';
 
 select *
-  from plancta
- where cuenta = '1892';
+  from movfide_situacion_banco
+ where p_ano = 2023
+   and p_mes = 5
+   and cta_cte_banco = '0011-0949-01-00004585';
 
 select *
-  from error_log
- order by id_log desc;
-
-select pag.cod_proveedor, pag.tipdoc, pag.serie_num, pag.numero, pag.moneda
-     , bco.cod_banco, bco.cod_prestamo, cuo.nro_cuota, pag.tcam_sal, pag.ctactble
-     , bco.ano, bco.mes, bco.tipo, bco.voucher, cuo.fecha_vcto
-     , pag.f_vencto, bco.cuenta_interes, cuo.importe_valor_cuota, cuo.importe_capital
-     , cuo.importe_interes
-     , abs(pag.saldo) as saldo
-  from prestamo_banco bco
-     , prestamo_banco_cuota cuo
-     , factpag pag
- where bco.cod_banco = cuo.cod_banco
-   and bco.cod_prestamo = cuo.cod_prestamo
-   and bco.cod_proveedor = pag.cod_proveedor
-   and bco.tipdoc = pag.tipdoc
-   and cuo.serie_num = pag.serie_num
-   and cuo.numero = pag.numero
-   and pag.saldo * -1 > 0.01
-   and bco.estado != '9'
-   and bco.cod_tipo_prestamo = 'LS'
-   and bco.cod_prestamo = '0057496'
-   and cuo.nro_cuota = 39
---    and pag.f_vencto = p_fecha
-   --AND      pag.f_vencto = TO_DATE('04/01/2021', 'DD/MM/YYYY')
- order by pag.f_vencto, pag.numero;
+  from usuarios_almacenes_perfil
+ where usuario = 'JGARDOIS';
 
 select *
-  from prestamo_banco
- where cod_tipo_prestamo = 'LS'
-   and cod_prestamo = '0057496';
+  from recprov
+ where tipodoc = 'RP'
+   and numero = 2553;
 
 select *
-  from usuarios_libros
- where usuario = 'VCHIPANA';
+  from itemrec
+ where tipodoc = 'RP'
+   and numero = 2553;
+
+select r.tipodoc || '-' || r.serie || '-' || r.numero as recibo, r.fecha
+     , r.tip_doc_ref || '-' || ser_doc_ref || '-' || nro_doc_ref as referencia
+     , decode(f.moneda, 'S', 'S/.', 'US$') as moneda, f.importe as pventa
+     , sum(decode(r.moneda, 'S', i.importe, 0)) as importe_s
+     , sum(decode(r.moneda, 'S', 0, i.importe)) as importe_d
+     , sum(decode(r.moneda, 'S', i.imp_condona, 0)) as condona_s
+     , sum(decode(r.moneda, 'S', 0, i.imp_condona)) as condona_d, t.descripcion as descvend
+     , f.cod_cliente, r.tip_doc_canje || '-' || r.ser_doc_canje || '-' || r.nro_doc_canje as canje
+  from recprov r
+     , itemrec i
+     , factcob f
+     , tablas_auxiliares t
+ where r.estado <> '9'
+   and i.tipodoc = r.tipodoc
+   and i.serie = r.serie
+   and i.numero = r.numero
+   and f.tipdoc = r.tip_doc_ref
+   and f.serie_num = r.ser_doc_ref
+   and f.numero = r.nro_doc_ref
+   and t.tipo = 29
+   and t.codigo = f.vended
+   and r.tipodoc = 'RP'
+   and r.numero = 2553
+ group by r.tipodoc, r.serie, r.numero, r.fecha, f.moneda, f.importe, f.f_vencto, r.tip_doc_ref
+        , r.ser_doc_ref, r.nro_doc_ref, r.dias_libre, f.vended, t.descripcion, f.cod_cliente
+        , r.tip_doc_canje, r.ser_doc_canje, r.nro_doc_canje;
+
+
+-- INSERT INTO PEVISA.ITEMREC (TIPODOC, SERIE, NUMERO, COD_ART, IMPORTE, IMP_CONDONA, CHECK_CONDONA, ULT_CALC_INT, PORVAL, VALOR, CREACION_QUIEN, CREACION_CUANDO, CREACION_DONDE) VALUES ('RP', 1, 2553, 'ND1', 93.7900, 0.0000, 'N', DATE '2023-06-15', 'P', 0.0006, 'RORELLANA', TIMESTAMP '2023-04-12 08:33:07', '25.0.3.85');
+-- INSERT INTO PEVISA.ITEMREC (TIPODOC, SERIE, NUMERO, COD_ART, IMPORTE, IMP_CONDONA, CHECK_CONDONA, ULT_CALC_INT, PORVAL, VALOR, CREACION_QUIEN, CREACION_CUANDO, CREACION_DONDE) VALUES ('RP', 1, 2553, 'ND2', 94.4700, 0.0000, 'N', null, 'V', 0.0000, 'RORELLANA', TIMESTAMP '2023-04-12 08:33:07', '25.0.3.85');
+-- INSERT INTO PEVISA.ITEMREC (TIPODOC, SERIE, NUMERO, COD_ART, IMPORTE, IMP_CONDONA, CHECK_CONDONA, ULT_CALC_INT, PORVAL, VALOR, CREACION_QUIEN, CREACION_CUANDO, CREACION_DONDE) VALUES ('RP', 1, 2553, 'ND3', 10.0000, 0.0000, 'N', null, 'V', 10.0000, 'RORELLANA', TIMESTAMP '2023-04-12 08:33:07', '25.0.3.85');
 
 select *
-  from prestamo_banco
- where cod_prestamo = 'C-QUILLIN85K';
+  from movfide_situacion_banco
+ where ano = 2023
+   and mes = 5
+   and voucher = 50240;
 
-select *
-  from planilla_cobranzas_h
- where numero_planilla = 1009155;
-
-select *
-  from caja_chica
- where serie = 4
-   and numero = 23017;
-
-select *
-  from caja_chica_d
- where serie = 4
-   and numero = 23017;
-
-select *
-  from factcob
- where numero = 960
-   and tipdoc = '01'
-   and serie_num = 'F060';

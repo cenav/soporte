@@ -1,8 +1,14 @@
 select *
   from orden_de_compra
- where serie = 2
+ where serie = 3
    and num_ped in (
-   22822
+   43538
+   );
+
+select *
+  from orden_de_compra
+ where num_ped in (
+   22831
    );
 
 select *
@@ -68,8 +74,8 @@ select *
 
 select *
   from caja_chica
- where serie = 2
-   and numero = 230013;
+ where serie = 1
+   and numero = 23335;
 
 select *
   from gastos_de_viaje_habilitado_m

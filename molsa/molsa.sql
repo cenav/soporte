@@ -1,16 +1,16 @@
 select *
   from movglos
- where ano = 2022
-   and mes = 12
-   and libro = '39'
-   and voucher in (120006);
+ where ano = 2023
+   and mes = 5
+   and libro = '40'
+   and voucher in (50001);
 
 select *
   from movdeta
- where ano = 2022
-   and mes = 12
-   and libro = '39'
-   and voucher in (120006);
+ where ano = 2023
+   and mes = 5
+   and libro = '05'
+   and voucher in (50027);
 
 select *
   from factpag
@@ -63,10 +63,10 @@ select sum(cantidad * precio * factor_uc) as total_item
 
 select *
   from movfide
- where ano = 2022
-   and mes = 4
-   and tipo = '2'
-   and voucher = 43029;
+ where ano = 2023
+   and mes = 5
+   and tipo = '5'
+   and voucher = 50027;
 
 select *
   from prestamo_banco_cuota
@@ -107,3 +107,7 @@ select *
   from prestamo_banco_cuota
  where cod_prestamo = '3479350';
 
+select *
+  from caja_chica
+ where serie = 1
+   and numero = 189;

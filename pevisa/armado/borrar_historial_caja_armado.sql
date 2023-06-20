@@ -1,16 +1,24 @@
 declare
-  c_numero_orden simple_integer := 915421;
+  cursor cr_ordenes is
+    select numero
+      from pr_ot
+     where numero in (
+                      970500, 963100
+       )
+       and nuot_tipoot_codigo = 'AR';
 begin
-  delete produccion_armado where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
-  delete produccion_armado_log where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
-  delete produccion_armado_his where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
-  delete produccion_armado_cajas_his where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
-  delete produccion_armado_cajas_det where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
-  delete produccion_armado_rev where numero_oa in (c_numero_orden);
-  dbms_output.put_line(sql%rowcount);
+  for r in cr_ordenes loop
+    delete produccion_armado where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+    delete produccion_armado_log where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+    delete produccion_armado_his where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+    delete produccion_armado_cajas_his where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+    delete produccion_armado_cajas_det where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+    delete produccion_armado_rev where numero_oa in (r.numero);
+    dbms_output.put_line(sql%rowcount);
+  end loop;
 end;

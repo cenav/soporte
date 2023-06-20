@@ -7,10 +7,17 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '28'
+ where cod_alm = 'TA'
+   and tp_transac = '35'
+   and serie = 29
+   and numero = 28;
+
+select *
+  from kardex_d
+ where cod_alm = '17'
+   and tp_transac = '10'
    and serie = 1
-   and numero = 719;
+   and numero = 27;
 
 -- descarga almacen de transito
 select *
@@ -32,10 +39,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = 'D5'
+ where cod_alm = 'D2'
    and tp_transac = '18'
    and serie = 2
-   and numero = 520707;
+   and numero = 532531;
 
 select *
   from kardex_g_movglos
@@ -104,14 +111,17 @@ select *
 
 select *
   from kardex_g
- where cod_alm = 'A1'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 249660;
+ where cod_alm = 'D2'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 525055;
 
 select *
   from kardex_d
- where cod_art = 'PARALELA 850X70X30MM 40-45HRC';
+ where cod_alm = 'D2'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 525055;
 
 select *
   from transacciones_almacen

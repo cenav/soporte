@@ -2,14 +2,14 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   492121
+   462392
    );
 
 select *
-  from pr_ot
- where nuot_tipoot_codigo = 'VA'
-   and numero in (
-   9938
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+   514563
    );
 
 select *
@@ -306,3 +306,12 @@ select o.numero, o.fecha, o.formu_art_cod_art, o.cod_lin, o.estado, o.cant_prog,
    and o.fecha >= sysdate - 16
    and o.estado != '9'
  order by cant_prog desc, o.fecha;
+
+select *
+  from emite_op_log
+ where creacion_quien = 'JCABEZAS'
+ order by creacion_cuando desc;
+
+select *
+  from emite_op_log
+ where numero = 514563;

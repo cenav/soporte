@@ -1,12 +1,12 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('NI 2900 0.8-138', 129 , false, op);
+  emite.op('CL-O 200.4169', 294, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
 
-select * from articul where cod_art = '400.2240SIL';
+select * from articul where cod_art = 'CL-O 200.4169';
 
 -- emite listado desde tabla temporal
 declare

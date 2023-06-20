@@ -63,411 +63,6 @@ select *
    and serie = 1
    and numero = 1573778;
 
-select *
-  from kardex_d
- where cod_art = 'CAJA RP-75'
-   and tp_transac = '22'
-   and cod_alm = 'FT'
- order by fch_transac desc;
-
-select *
-  from kardex_g_historia
- where cod_alm = '92'
-   and tp_transac = '22'
-   and serie = 1
-   and numero in (
-   232242
-   );
-
-select *
-  from kardex_d_historia
- where cod_alm = 'D5'
-   and tp_transac = '18'
-   and serie = 2
-   and numero in (
-   492695
-   );
-
-select *
-  from kardex_d_otm
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 225859;
-
-select *
-  from paramin;
-
-select *
-  from produccion_armado
- where numero_oa = 829026;
-
-select ta.cod_alm_destino, a.descripcion
-  from traslados_almacenes ta
-     , almacenes a
- where ta.cod_alm_destino = a.cod_alm
-   and ta.cod_alm_origen = '35'
- order by 1;
-
-select *
-  from traslados_almacenes
- where cod_alm_origen = '35';
-
-select *
-  from cargo_trabajador;
-
-select *
-  from vw_personal
- where situacion = '9';
-
-select count(*)
-  from vw_personal p
-     , planilla10.t_situacion_cesado c
- where p.situacion = c.codigo
-   and p.c_codigo = 'E567';
-
-select *
-  from cargo_trabajador
- where fch_seleccion is not null
-    or file_name is not null;
-
-select *
-  from ruta_docvirtual;
-
-select sum(hasta - desde + 1) as total_dias
-  from permiso
- where id_concepto = 'DME'
-   and id_estado != 9
-   and extract(year from desde) = 2022
-   and id_personal = 'E110';
-
-select *
-  from permiso
- where id_concepto = 'DME'
-   and id_estado != 9
-   and extract(year from desde) = 2022
-   and id_personal = 'E110';
-
-  with detalle as (
-    select v.cod_cliente
-         , v.nombre
-         , v.fch_pedido
-         , v.pedido
-         , v.pedido_item
-         , v.nuot_serie
-         , v.nuot_tipoot_codigo
-         , v.numero
-         , v.fecha
-         , v.formu_art_cod_art
-         , v.estado
-         , v.art_cod_art
-         , v.cant_formula
-         , v.rendimiento
-         , v.saldo
-         , v.despachar
-         , v.cod_lin
-         , v.abre02
-         , v.preuni
-         , v.valor
-         , v.stock
-         , v.tiene_stock
-         , v.tiene_stock_ot
-         , v.tiene_stock_item
-         , v.tiene_importado
-         , v.impreso
-         , v.fch_impresion
-         , v.es_juego
-         , v.es_importado
-         , v.es_prioritario
-         , v.es_sao
-         , case when lag(v.numero) over (order by null) = v.numero then null else v.numero end as oa
-         , dense_rank() over (
-      order by case when p.prioritario = 1 then v.es_prioritario end desc
---             , case when trunc(sysdate) - v.fch_pedido > p_dias then 1 else 0 end desc --> 25/08/22 solo filtre mayores a fecha
-        , case when v.valor > p.valor_item then 1 else 0 end desc
-        , v.es_juego
-        , v.valor desc
-        , v.pedido
-        , v.pedido_item
-      ) as ranking
-      from vw_ordenes_pedido_pendiente v
-           join param_surte p on p.id_param = 1
-     where (v.es_prioritario = 1
-       or ((v.pais = :p_pais or :p_pais is null)
-         and (v.vendedor = :p_vendedor or :p_vendedor is null)
-         and (v.empaque = :p_empaque or :p_empaque is null)
-         and (trunc(sysdate) - v.fch_pedido > :p_dias or :p_dias is null)
-         and (v.es_juego = :p_es_juego or :p_es_juego is null)
-         and (exists(
-           select * from tmp_selecciona_cliente t where v.cod_cliente = t.cod_cliente
-           ) or
-              not exists(
-                select *
-                  from tmp_selecciona_cliente
-                )))
-       )
-       and v.impreso = 'NO'
---            and pedido = 14660
---            and pedido_item = 135
-    )
-select *
-  from detalle
- order by ranking;
-
-select *
-  from vw_ordenes_impresas_pendientes;
-
-select user
-     , b.numero
-     , b.nuot_serie
-     , b.nuot_tipoot_codigo
-     , a.estado
-     , a.estado_old
-     , trunc(a.fecha) as fecha
-     , nvl(f_grupo_formu(b.formu_art_cod_art), 99) as grupo
-     , b.cod_lin
-     , b.formu_art_cod_art
-     , b.cant_prog
-     , b.abre02 as cliente
-     , b.abre01 as pedido
-     , b.per_env as item
-     , b.destino
-     , decode(b.destino, 1, c.totlin, 2, e.totlin) as total
-     , a.usuario
-     , 'ALMACEN'
-  from pr_trasab_estado a
-     , pr_ot b
-     , expedido_d c
-     , expednac_d e
- where a.fecha between :x_fecha_del and :x_fecha_al + 1
-   and a.tipo = 'AR'
-   and a.numero = b.numero
---    and a.estado in ('4')
-   and a.serie = b.nuot_serie
-   and a.tipo = b.nuot_tipoot_codigo
-   and b.abre01 = c.numero(+)
-   and b.per_env = c.nro(+)
-   and b.abre01 = e.numero(+)
-   and b.abre02 not like 'PC1%'
-   and b.per_env = e.nro(+)
-   and a.estado_old in ('0', '1')
---    and a.estado_old in ('1', '2', '3')
-   and a.usuario not in ('BETY')
-   and b.cod_lin not in ('1970', '1971', '1972')
-   and a.fecha = (
-   select max(fecha)
-     from pr_trasab_estado p
-    where p.numero = a.numero
-      and p.serie = a.serie
-      and p.tipo = a.tipo
-      and p.estado = a.estado
-      and p.estado_old in ('0', '1')
---       and p.estado_old in ('1', '2', '3')
-      and p.usuario not in ('BETY')
-   )
---    and exists(
---      select 1
---        from vw_ordenes_impresas_pendientes i
---       where b.nuot_tipoot_codigo = i.nuot_tipoot_codigo
---         and b.nuot_serie = i.nuot_serie
---         and b.numero = i.numero
---    )
-   and exists(
-   select 1
-     from pr_ot_impresion i
-    where b.nuot_tipoot_codigo = i.nuot_tipoot_codigo
-      and b.nuot_serie = i.nuot_serie
-      and b.numero = i.numero
-   )
-   and nvl(f_grupo_formu(b.formu_art_cod_art), 99) like :x_grupo;
-
-select *
-  from pr_ot_impresion
- where trunc(fecha) = to_date('07/10/2022', 'dd/mm/yyyy')
-   and nuot_tipoot_codigo = 'AR';
-
-select *
-  from caja_chica
- where serie = 2
- order by numero desc;
-
-
-select *
-  from caja_chica
- where serie = 2
-   and numero = 220099;
-
-select *
-  from itemord
- where serie = 3
-   and num_ped in (
-   42673
-   );
-
-select *
-  from orden_de_compra_historia
- where serie = 20
-   and num_ped in (
-   982
-   )
-   and glosa = 'APROBADO'
-   and creacion_quien = 'JAIME';
-
-select sum(cantidad * precio) as total
-  from itemord
- where serie = 4
-   and num_ped in (
-   58332
-   );
-
-select *
-  from itemmatri
- where num_ped = 220169;
-
-select *
-  from articul
- where cod_art = 'VLC140';
-
-select *
-  from tab_grupos
- where descripcion like '%NEUMATICOS CHAOYANG - MOTOCICLETA%';
-
-select *
-  from tab_grupos
- where descripcion like '%MOTOC%';
-
-select *
-  from tab_lineas
- where grupo = '38';
-
-select *
-  from tab_lineas
- where grupo = ?;
-
-
-select *
-  from orden_de_compra_historia
- where serie = 30
-   and num_ped = 282;
-
-
-select *
-  from articul
- where cod_art like 'GASTO%';
-
-select *
-  from articul
- where cod_art = 'CCLOR 363';
-
---20131312955
-select *
-  from embarques_g
- where numero_embarque = 3486;
-
-select *
-  from lg_detalle_gastos
- where numero_embarque = 3486;
-
-select *
-  from lg_dua
- where numero_embarque = 3486;
-
-select *
-  from orden_matriceria
- where num_ped = 220051;
-
-
-select *
-  from itemmatri
- where num_ped = 220010;
-
-select sum(cantidad * precio)
-  from itemmatri
- where num_ped = 210078;
-
-select *
-  from orden_de_compra
- where serie = 4
-   and num_ped = 58095;
-
-
-select *
-  from kardex_g
- where cod_alm = '03'
-   and tp_transac = '29'
-   and serie = 1
-   and numero in (1573777);
-
-select *
-  from kardex_d
- where cod_alm = '03'
-   and tp_transac = '27'
-   and serie = 2
-   and numero in (760471);
-
-
-select *
-  from kardex_d
- where cod_art = '92045GR'
- order by fch_transac desc;
-
-
-select *
-  from kardex_g
- where cod_alm = '14'
-   and tp_transac = '29'
-   and serie = 1
-   and numero in (
-                  1573059, 1573061, 1573062, 1573064, 1573066
-   );
-
-select *
-  from kardex_g_historia
- where cod_alm = 'D2'
-   and tp_transac = '27'
-   and serie = 1
-   and numero in (
-   1278250
-   );
-
-begin
-  dbms_output.put_line(api_kardex_g_historia.mas_antiguo('03', '18', 2, 496189).usuario);
-end;
-
-select *
-  from cambdol
- where fecha = to_date('16,06,2021', 'DD,MM,YYYY')
-   and tipo_cambio = 'V';
-
-
-select sum(total)
-  from itemord
- where serie = 6
-   and num_ped in (
-   1468
-   );
-
-
-select *
-  from artiprov
- where proveedor = '10086427481'
-   and cod_art = 'LIMPIEZA GRANDE';
-
-
-select *
-  from orden_de_compra_historia
- where serie = 20
-   and num_ped = 916;
-
-
-select *
-  from itemord
- where cod_maquina = 'CAMA VIGIL021';
-
-
-select *
-  from lg_condpag;
-
 
 select *
   from instrumento_asigna;
@@ -1937,16 +1532,150 @@ select *
  where serie_planilla = 21
    and numero_planilla = 1053;
 
-select kxd.*
-  from kardex_g kx
-       join kardex_d kxd
-            on (kx.cod_alm = kxd.cod_alm
-              and kx.tp_transac = kxd.tp_transac
-              and kx.serie = kxd.serie
-              and kx.numero = kxd.numero)
- where kx.tipo_pguia = 'PR'
---    and kx.serie_pguia = p_serie
-   and kx.numero_pguia = 513172
-   and kx.tp_transac = '18'
-   and kx.estado != '9'
-   and to_number(to_char(kx.fch_transac, 'yyyymm')) <= 2023 * 100 + 5;
+select *
+  from solimat_g
+ where numero = 254870;
+
+select *
+  from solimat_d
+ where numero = 182123;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '22';
+
+select cod_art, consumo_mensual
+  from vw_articulo
+ where cod_art = 'FOR3202';
+
+select *
+  from emite_op_log
+ order by creacion_cuando desc;
+
+-- :solicita_emision_det.cantidad > :x_promedio_anual - :x_stock - :x_ordenes + :x_requerida
+
+select cod_art, consumo_mensual, stock, saldo_op, cant_requerida
+     , (consumo_mensual * 2) - stock - saldo_op + cant_requerida as maximo_emitir
+  from vw_articulo
+ where cod_art = 'FOR3202';
+
+select *
+  from cotizacion
+ where num_ped = 198566;
+
+select *
+  from itemcot
+ where num_ped = 198566
+ order by item;
+
+select *
+  from itemcot
+ where num_ped = 198367
+   and item in (1, 2, 11, 12)
+ order by item;
+
+select *
+  from itemcot
+ where num_ped = 198566;
+
+select *
+  from cambdol
+ where extract(year from fecha) = 2023
+   and extract(month from fecha) = 6
+ order by fecha;
+
+select cod_art, descripcion, unidad, tp_art, cod_alm
+  from articul a
+ where exists (
+   select 1
+     from almacen l
+    where l.cod_art = a.cod_art
+      and l.cod_alm = '30'
+   )
+   and exists (
+   select 1
+     from linea_solicitud_material s
+    where s.tipo = 'MATRICERIA'
+      and a.cod_lin = s.cod_lin
+   )
+ order by cod_art;
+
+select *
+  from articul
+ where cod_art = 'MATRIZ DE CORTE 30015CS-2';
+
+select *
+  from linea_solicitud_material
+ where tipo = 'MATRICERIA'
+   and cod_lin = '9000';
+
+select *
+  from articul
+ where cod_lin = '1620';
+
+select *
+  from articul
+ where cod_art = 'NI 2900 0.4-300';
+
+
+declare
+  l_max_emitir number := 0;
+  l_art        articul%rowtype;
+
+  function max_emitir(
+    p_articulo varchar2
+  ) return number is
+    l_cant_max number := 0;
+  begin
+    select (nvl(consumo_mensual, 0) * 2) - nvl(stock, 0) - nvl(saldo_op, 0) +
+           nvl(cant_requerida, 0) as maximo_emitir
+      into l_cant_max
+      from vw_articulo
+     where cod_art = p_articulo;
+
+    return greatest(round(l_cant_max, 2), 0);
+  end;
+begin
+  l_max_emitir := max_emitir(:p_cod_art);
+  l_art := api_articul.onerow(:p_cod_art);
+  if :p_cantidad > l_max_emitir and
+     ((l_art.cod_lin not between '1620' and '1623' and length(l_art.cod_lin) = 4) and
+      (l_art.cod_lin not between '1628' and '1629' and length(l_art.cod_lin) = 4))
+  then
+    dbms_output.put_line('Maxima cantidad a emitir ' || l_max_emitir);
+  else
+    dbms_output.put_line('no');
+  end if;
+end;
+
+begin
+  if (:cod_lin not between '1628' and '1629' and length(:cod_lin) = 4) then
+    dbms_output.put_line('si');
+  else
+    dbms_output.put_line('no');
+  end if;
+end ;
+
+select *
+  from solimat_d
+ where ot_mantto_tipo = 'MQ'
+   and ot_mantto_serie = 7
+   and ot_mantto_numero = 6720
+   and nvl(estado, '0') != '9'
+   and saldo > 0;
+
+select *
+  from articul
+ where cod_art = 'MANGUERA FLEXIBLE 3/8';
+
+select *
+  from solimat_g
+ where numero = 181599;
+
+begin
+  if otcomun.solicitud_pendiente('MQ', 7, 6728) then
+    dbms_output.put_line('true');
+  else
+    dbms_output.put_line('false');
+  end if;
+end;

@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user ksiguenas account unlock;
+alter user wquispe account unlock;
 
 
-alter user gfalcon account lock;
+alter user pgarby account lock;
 
 
 alter user mmiranda identified by "mamalucy9+";
 
 
-alter user jquispeb password expire;
+alter user pgarby password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -16,7 +16,7 @@ grant select any table, insert any table, delete any table, update any table to 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'KSIGUENAS';
+ where username like 'APASTRANA';
 
 select *
   from dba_users
@@ -96,7 +96,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'DCONTRERAS';
+ where co_usrusr = 'APASTRANA';
 
 select *
   from seccrus
@@ -356,6 +356,8 @@ select u.usuario, u.nombres
  where d.account_status = 'OPEN'
  order by usuario;
 
+select * from usuarios;
+
 select *
   from seccrus
  where co_usrusr = 'GCORDOVA';
@@ -386,10 +388,10 @@ select *
  where usuario in ('MBONDY', 'APASTRANA')
  order by usuario, modulo;
 
-
+-- CAMBIO_OT
 select *
   from usuario_modulo
- where usuario = 'CFERNANDEZ'
+ where usuario = 'NBELANDRIA'
  order by modulo;
 
 select *
@@ -475,3 +477,17 @@ select *
 select *
   from usuarios_libros
  where usuario = 'SCASTRO';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'PABLO';
+
+select *
+  from usuarios
+ where nombres like '%PA%';
+
+select * from pcarticul;
+
+select *
+  from usuario_modulo
+ where modulo like 'CAMBIO_OT';

@@ -4,16 +4,26 @@ select *
    and mes = 5
    and libro = '08'
    and voucher in (
-   50057
+                   50057, 50048
    );
 
+-- 11/05/2023
 select *
   from movdeta
  where ano = 2023
    and mes = 5
    and libro = '08'
    and voucher in (
-   50057
+                   50057, 50048
+   );
+
+select *
+  from movglos_anexos
+ where ano = 2023
+   and mes = 5
+   and libro = '08'
+   and voucher in (
+                   50057, 50048
    );
 
 select *
@@ -35,8 +45,8 @@ select *
 
 select *
   from factcob
- where cod_cliente = '20510990448'
-   and nro_referencia = '953';
+ where cod_cliente = '20430500521'
+   and numero = '0029';
 
 select *
   from factcob
@@ -398,7 +408,8 @@ select *
  where grupo = '138';
 
 select *
-  from vendedores;
+  from vendedores
+ where cod_vendedor = 'H14';
 
 select *
   from vw_cominac_consulta;
@@ -1062,10 +1073,9 @@ select *
 
 select * from cuenta_asiento_auto;
 
-
 select *
   from planilla_cobranzas_h
- where numero_planilla = 50000197;
+ where numero_planilla = 5611064;
 
 select *
   from orden_de_compra
@@ -1075,3 +1085,93 @@ select *
 select * from pla_control;
 
 select * from cuenta_asiento_auto;
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'F055'
+   and numero = 2;
+
+select *
+  from itemdocu
+ where tipodoc = '01'
+   and serie = 'F055'
+   and numero = 2;
+
+select *
+  from factcob
+ where cod_cliente = '00000990019';
+
+select *
+  from docuvent
+ where serie = 'F055'
+   and numero in (2, 3);
+
+select *
+  from itemdocu
+ where serie = 'F055'
+   and numero in (2, 3);
+
+select cod_alm, descripcion
+  from almacenes
+ where cod_alm in (
+   select distinct cod_alm
+     from usuarios_almacenes_perfil
+    where usuario = user
+      and cod_alm like 'F%'
+       or cod_alm like 'R%' or cod_alm like 'H%' or cod_alm like 'A%'
+   )
+ order by cod_alm;
+
+-- insert into usuarios_almacenes_perfil
+
+insert into usuarios_almacenes_perfil( usuario, cod_alm, tp_transac, insertar_registros, consulta
+                                     , estado)
+select 'ABAILON', cod_alm, tp_transac, insertar_registros, consulta, estado
+  from usuarios_almacenes_perfil
+ where usuario = 'JGARDOIS';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'DESPACHO';
+
+
+select *
+  from factcob
+ where cod_cliente = '20602006761' and saldo <> 0 and estado not in ('3', '9')
+   and moneda = 'D' and vended like '65' and tipdoc not in ('LC', 'LD')
+   and ((tipdoc = 'L1' and l_condle is null) or (tipdoc <> 'L1'));
+
+select *
+  from factcob
+ where tipdoc = 'LP'
+   and serie_num = 1
+   and numero = 57211;
+
+select *
+  from factcob
+ where cod_cliente = '20602006761';
+
+-- cod_cliente = :cabe.cod_cliente and saldo <> 0 and estado not in ('3','9')
+--  and moneda = :cabe.moneda and vended like :cabe.vendedor and tipdoc not in ('LC','LD')
+-- AND ((TIPDOC = 'L1' AND L_CONDLE is null) or (tipdoc <> 'L1'))
+
+-- recibos provisionales
+select *
+  from recprov
+ where tip_doc_ref = 'LP'
+   and nro_doc_ref = '1093';
+
+select *
+  from recprov
+ where numero = 2520;
+
+select *
+  from itemrec
+ where numero = 2538;
+
+select i.*
+  from recprov r
+       join itemrec i on r.tipodoc = i.tipodoc and r.serie = i.serie and r.numero = i.numero
+ where r.tip_doc_ref = 'LP'
+   and r.nro_doc_ref = '1093';

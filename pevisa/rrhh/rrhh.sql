@@ -12,7 +12,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'CONTRERAS'
+ where apellido_paterno = 'ALVITES'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -21,7 +21,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E820';
+   and c_codigo = 'E1072';
 
 select *
   from planilla10.personal

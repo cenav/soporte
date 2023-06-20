@@ -6,7 +6,7 @@ select c.serie
      , e.nombre
      , c.cond_pag
      , c.cod_vende
-     , v.nombre       as nom_vendedor
+     , v.nombre as nom_vendedor
      , c.refe_pedido
      , p.estado
      , c.moneda

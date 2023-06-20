@@ -49,7 +49,8 @@ select *
  where fecha_bl is null
  order by fecha_salida desc, numero_booking;
 
-select b.numero_booking, b.fecha, b.fecha_salida, b.nombre_nave, b.naviera, b.numero_factura, b.fecha_factura
+select b.numero_booking, b.fecha, b.fecha_salida, b.nombre_nave, b.naviera, b.numero_factura
+     , b.fecha_factura
      , b.cod_cliente
      , b.nombre_cliente, b.cond_pago
      , (
@@ -135,7 +136,8 @@ select *
  order by id desc;
 
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente, cond_pago
      , fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
   from vw_booking_facturas
@@ -262,12 +264,14 @@ select *
    and accion in ('73', '74', '75', '76', '82', '83', '84', '85');
 
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente
      , cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
   from vw_booking_facturas
  where numero_booking in
-       ('ILS-000316', '1699A00804', '1699A00799', '0112-19', '06207-0919', '087LIM334548', 'ILS-000315',
+       ('ILS-000316', '1699A00804', '1699A00799', '0112-19', '06207-0919', '087LIM334548',
+        'ILS-000315',
         'ELL0002132/2019', 'PAMIT19041E')
  order by fecha_salida desc, numero_booking;
 
@@ -296,12 +300,14 @@ select *
 select *
   from exfacturas_his
  where numero in
-       (55006014, 55005776, 55006012, 55006011, 55006013, 55005679, 55005997, 55005994, 55005998, 55005999,
+       (55006014, 55005776, 55006012, 55006011, 55006013, 55005679, 55005997, 55005994, 55005998,
+        55005999,
         55005996, 55005995)
    and accion = '94';
 
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente
      , cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
   from vw_booking_facturas
@@ -312,18 +318,22 @@ select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura
 
 select f.numero, c.nrodoc, e.numero as exnumero
   from canjedoc c
-       join factcob_canje f on c.doccanje = f.doccanje and c.sercanje = f.sercanje and c.nrocanje = f.nrocanje
+       join factcob_canje f
+            on c.doccanje = f.doccanje and c.sercanje = f.sercanje and c.nrocanje = f.nrocanje
        left join exfacturas e on e.tipodoc = f.tipdoc
       and e.serie = f.serie_num
       and replace(e.numero, regexp_substr(e.numero, '^550+'), null) = f.numero
  where c.tpodoc = 'LV'
    and c.serdoc = '2'
    and c.nrodoc in (
-                    '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825', '11826', '11827',
+                    '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825', '11826',
+                    '11827',
                     '11828', '11829', '11830',
-                    '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838', '11839', '11840',
+                    '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838', '11839',
+                    '11840',
                     '11841', '11842', '11803',
-                    '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811', '11812', '11813',
+                    '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811', '11812',
+                    '11813',
                     '11814', '11815', '11816',
                     '11817'
    );
@@ -343,13 +353,16 @@ declare
      where c.tpodoc = 'LV'
        and c.serdoc = '2'
        and c.nrodoc in (
-                        '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825', '11826',
+                        '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825',
+                        '11826',
                         '11827', '11828', '11829',
                         '11830',
-                        '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838', '11839',
+                        '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838',
+                        '11839',
                         '11840', '11841', '11842',
                         '11803',
-                        '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811', '11812',
+                        '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811',
+                        '11812',
                         '11813', '11814', '11815',
                         '11816',
                         '11817'
@@ -369,11 +382,14 @@ select tipdoc, serie_num, numero, vended, voucher
  where tipdoc = 'LV'
    and serie_num = '2'
    and numero in (
-                  '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825', '11826', '11827',
+                  '11818', '11819', '11820', '11821', '11822', '11823', '11824', '11825', '11826',
+                  '11827',
                   '11828', '11829', '11830',
-                  '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838', '11839', '11840',
+                  '11831', '11832', '11833', '11834', '11835', '11836', '11837', '11838', '11839',
+                  '11840',
                   '11841', '11842', '11803',
-                  '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811', '11812', '11813',
+                  '11804', '11805', '11806', '11807', '11808', '11809', '11810', '11811', '11812',
+                  '11813',
                   '11814', '11815', '11816',
                   '11817'
    );
@@ -383,10 +399,12 @@ select distinct relacion
   from movdeta
  where ano = 2019
    and voucher in
-       (80983, 80987, 80987, 80988, 80989, 80990, 80991, 80992, 80993, 80994, 80995, 80996, 80997, 80998,
+       (80983, 80987, 80987, 80988, 80989, 80990, 80991, 80992, 80993, 80994, 80995, 80996, 80997,
+        80998,
         80999,
         81001, 81002, 81003, 81004,
-        81005, 81006, 81007, 81008, 81009, 81010, 81011, 81012, 81013, 81014, 81015, 81016, 81017, 81018,
+        81005, 81006, 81007, 81008, 81009, 81010, 81011, 81012, 81013, 81014, 81015, 81016, 81017,
+        81018,
         81019,
         81020, 81021, 81022, 81023,
         81024, 81025
@@ -472,7 +490,8 @@ select *
 
 -- 2019-11-16 00:00:00
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente
      , cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
      , facturas_despachadas
@@ -484,7 +503,8 @@ select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura
  order by fecha_salida desc, numero_booking;
 
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente
      , cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
   from vw_booking_facturas
@@ -499,7 +519,8 @@ select *
  where numero_booking = 'COU-9';
 
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
      , nombre_cliente, cond_pago, fecha_bl, estado, facturas_despachadas
      , packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
   from vw_booking_facturas
@@ -607,16 +628,23 @@ select distinct numero_booking
    and estado != '4'
    and facturas_despachadas = total_facturas;
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
-     , nombre_cliente
-     , cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente, nombre_cliente, cond_pago, fecha_bl, packing, fecha_despacho, total_facturas
+     , facturas_sin_bl, saldo, estado
   from vw_booking_facturas
  where saldo > 0
    and estado != '4'
    and facturas_despachadas = total_facturas
---    and numero_booking in ('107230')
+   and numero_booking in ('AER-113')
  order by fecha_salida desc, numero_booking;
 
+select *
+  from exbooking
+ where numero_booking = 'AER-113';
+
+select *
+  from exbooking_d
+ where numero_factura = '55015261';
 
 select distinct numero_booking
   from vw_booking_facturas
@@ -633,8 +661,10 @@ select *
   from exbooking
  where numero_booking = 'CRPTC23001H';
 
-select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura, cod_cliente
-     , nombre_cliente, cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl, saldo
+select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura, fecha_factura
+     , cod_cliente
+     , nombre_cliente, cond_pago, fecha_bl, packing, fecha_despacho, total_facturas, facturas_sin_bl
+     , saldo
      , estado
   from vw_booking_facturas
  where numero_factura = '55011276'
