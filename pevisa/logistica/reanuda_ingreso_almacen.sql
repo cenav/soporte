@@ -47,6 +47,7 @@ select *
  where serie_oc = :serie_oc
    and numero_oc = :numero_oc;
 
+
 -- ELIMINA APROBACION PEVISA
 select *
   from orden_de_compra_historia
@@ -69,8 +70,6 @@ select *
    and serie = 1
    and numero = 26838;
 
--- 97	11	1	27077
-
 -- 15	11	2	7378
 select *
   from kardex_g
@@ -79,23 +78,25 @@ select *
    and serie = 2
    and numero = 7378;
 
+-- costo correcto dolares
+-- 3.645000883
 select *
   from kardex_d
- where cod_alm = '15'
+ where cod_alm = '02'
    and tp_transac = '11'
-   and serie = 2
-   and numero = 7378
-   and cod_art = 'SLIM400.141';
+   and serie = 1
+   and numero = 30550;
 
-select * from almacen
-where cod_art = 'SLIM400.141';
+select *
+  from almacen
+ where cod_art = 'SLIM400.141';
 
 select *
   from kardex_g_movglos
  where cod_alm = 'A3'
    and tp_transac = '11'
    and serie = 1
-   and numero in (28386);
+   and numero in (60861);
 
 select *
   from kardex_g_movglos
@@ -121,7 +122,7 @@ select *
  where cod_alm = '02'
    and tp_transac = '11'
    and serie = 1
-   and numero = 27608;
+   and numero = 30550;
 
 select *
   from oc_registro_facturas
@@ -146,3 +147,22 @@ select *
 
 select *
   from activo_fijo;
+
+select *
+  from kardex_g_movglos
+ where guia_remision_serie = 'T001';
+
+select a.tp_transac as tp_transac, b.descripcion as descripcion
+  from usuarios_almacenes_perfil a
+     , transacciones_almacen b
+ where a.usuario = 'DCONTRERAS'
+   and a.cod_alm = '02'
+   and a.tp_transac = b.tp_transac
+   and b.ingreso_salida = 'I'
+   and a.estado = 1
+   and nvl(b.ingreso_compras, '0') = 'S';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'DCONTRERAS'
+   and cod_alm = '01';

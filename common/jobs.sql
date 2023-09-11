@@ -1,13 +1,13 @@
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_BONO_ANIVERSARIO'
+      job_name => 'JOB_FACT_NO_EMB1'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'bonoaniv.tarea'
-    , start_date => to_date('01/03/2022 07:00:00', 'DD/MM/YYYY HH24:MI:SS')
+    , job_action => 'FACTURAS_NO_EMBARCADAS_XLS.LISTADO_PARA_VENDEDORES'
+    , start_date => to_date('25/08/2023 07:00:00', 'DD/MM/YYYY HH24:MI:SS')
     , repeat_interval => 'FREQ=MONTHLY;INTERVAL=1'
     , auto_drop => false
     , enabled => true
-    , comments => 'Relacion de trabajadores que ganan el bono aniversario'
+    , comments => 'reporte facturas no embarcadas'
     );
 end;
 
@@ -32,9 +32,15 @@ begin
     );
 end;
 
--- call dbms_scheduler.drop_job('JOB_PREMIO_PUNTUALIDAD');
+call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
+
+-- call dbms_scheduler.drop_job('JOB_FACT_NO_EMB1');
 
 --call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
+
+call dbms_scheduler.enable('JOB_CANCELACION_LEASING');
+
+call dbms_scheduler.enable('JOB_CANCELACION_PAGARES');
 
 select *
   from dba_scheduler_jobs
@@ -50,7 +56,6 @@ select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
    and job_name = 'JOB_BONO_ANIVERSARIO';
-
 
 select *
   from dba_scheduler_jobs

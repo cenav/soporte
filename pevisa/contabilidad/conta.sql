@@ -2,18 +2,16 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 5
-   and libro = '08'
-   and voucher = 50099;
+   and mes = 6
+   and libro = '11'
+   and voucher = 60065;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 5
-   and libro = '08'
-   and voucher in (
-   51124
-   );
+   and mes = 6
+   and libro = '11'
+   and voucher = 60065;
 
 select *
   from factpag
@@ -70,19 +68,19 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 5
+   and mes = 6
    and tipo = '2'
    and voucher in (
-   50001
+   63316
    );
 
 select *
   from movfide
  where ano = 2023
-   and mes = 3
+   and mes = 6
    and tipo = '2'
    and voucher in (
-   33512
+   63316
    );
 
 select *
@@ -213,10 +211,22 @@ select *
 
 select *
   from kardex_g_movglos
- where cod_alm = '30'
+ where cod_alm = 'A3'
    and tp_transac = '11'
    and serie = 1
-   and numero = 29163;
+   and numero = 30533;
+
+select *
+  from itemord
+ where serie = 30
+   and num_ped = 520;
+
+select *
+  from kardex_d
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 30533;
 
 select *
   from caja_chica_d
@@ -225,9 +235,19 @@ select *
    and serie_referencia = 'F051'
    and nro_referencia = '2036356';
 
+select * from caja_chica_serie;
+
 select *
   from activo_fijo
- where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
+ where cod_activo_fijo = 'MQ1ACAB-037';
+
+select *
+  from pr_tabmaq
+ where codigo = 'MQ1ACAB-037';
+
+select *
+  from orden_de_compra
+ where id_maquina = 'MQ1ACAB-037';
 
 select *
   from itemord
@@ -260,9 +280,7 @@ select *
 select *
   from activo_fijo
  where cod_activo_fijo in (
-                           'MQ1ACAB-024-INST1', 'MQ1COR-004-MEJ1', 'MQ1RET-013', 'AC1PAF-002',
-                           'MQ2MATR-017', 'MQ1PAF-006', 'MQ1ACAB-024', 'MQ1COR-004', 'MQ1RET-012',
-                           'MQ1ARMPT-011', 'MQ1METP-007'
+                           '02ESCR14', '02ESCR13', '01ARCH59', '01ARCH58'
    );
 
 select *
@@ -561,13 +579,18 @@ select descripcion, codigo
  order by codigo;
 
 declare
-  l_caja  caja%rowtype;
-  l_param caja_asiento.t_paramc;
+  l_caja caja%rowtype;
+  l_param
+         caja_asiento.t_paramc;
 begin
-  l_caja := api_caja.onerow(1, 10);
-  l_param.fecha := to_date('01/08/2022', 'dd/mm/yyyy');
-  l_param.glosa := 'GTS REPRESENTACIION JHONY FIGUEROA';
-  caja_asiento.contabilidad(l_caja, l_param);
+  l_caja
+    := api_caja.onerow(1, 10);
+  l_param.fecha
+    := to_date('01/08/2022', 'dd/mm/yyyy');
+  l_param.glosa
+    := 'GTS REPRESENTACIION JHONY FIGUEROA';
+  caja_asiento.contabilidad
+    (l_caja, l_param);
 end;
 
 
@@ -896,8 +919,13 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = '20'
-   and numero = 216;
+ where id_vendedor = '05'
+   and numero = 229;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = '05'
+   and numero = 229;
 
 select *
   from transacciones_almacen
@@ -1038,7 +1066,7 @@ select *
  order by cod_grupo;
 
 insert into grupo_edificacion(cod_grupo, descripcion, estado, cod_local)
-select 20 + row_number() over (order by centro_costo) as id
+select 20 + row_number() as over (order by centro_costo) as id
      , nombre
      , '1'
      , 'DES'
@@ -1155,12 +1183,17 @@ select *
 
 declare
   l_ano simple_integer := 2022;
-  l_mes simple_integer := 11;
+  l_mes
+        simple_integer := 11;
 begin
-  utilconta.asiento_sin_detalle(l_ano, l_mes);
-  utilconta.completa_cero(l_ano, l_mes);
-  utilconta.elimina_relacion(l_ano, l_mes);
-  utilconta.agrega_relacion(l_ano, l_mes);
+  utilconta.asiento_sin_detalle
+    (l_ano, l_mes);
+  utilconta.completa_cero
+    (l_ano, l_mes);
+  utilconta.elimina_relacion
+    (l_ano, l_mes);
+  utilconta.agrega_relacion
+    (l_ano, l_mes);
 end;
 
 
@@ -1397,7 +1430,7 @@ select *
 
 select *
   from plancta
- where cuenta = '12930101';
+ where cuenta in ('10410209', '10410208');
 
 select *
   from nrodoc
@@ -1518,7 +1551,7 @@ select * from canjedoc_cpag;
 select *
   from factcob
  where tipdoc = 'LV'
-   and numero = '20668';
+   and numero = '21527';
 
 select *
   from canjedoc
@@ -1649,3 +1682,240 @@ select *
 select *
   from pr_tabmaq
  where codigo = 'MQ1ACAB-064';
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '78'
+   and numero = 195;
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '78'
+   and numero = 195;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = '78'
+   and numero = 195;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '78'
+   and numero = 195;
+
+select *
+  from cambdol
+ where fecha = to_date('10/07/2023', 'dd/mm/yyyy');
+
+select *
+  from kardex_g_movglos
+ where cod_proveedor = '20108026104'
+   and numero_oc = '502';
+
+select *
+  from orden_de_compra
+ where serie = 30
+   and num_ped = 502;
+
+select *
+  from itemord
+ where cod_art = 'EQ DIV404';
+
+select distinct o.serie, o.num_ped
+  from orden_de_compra o
+       join itemord i
+            on o.serie = i.serie
+              and o.num_ped = i.num_ped
+ where i.cod_art = 'EQ DIV404'
+   and o.estado != '9';
+
+
+select fecha_cp
+  from kardex_g_movglos
+ where serie_oc = 30
+   and numero_oc = to_char(498);
+
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 22218;
+
+select * from nroafijo;
+
+select * from paramaf;
+
+select * from activo_fijo_subclase;
+
+select cod_transp, nombre, domicilio, ruc_transp
+  from transporte
+ where estado is null
+ order by nombre;
+
+select *
+  from transporte
+ where estado != '9';
+
+select distinct estado
+  from transporte
+ where estado != '9';
+
+select *
+  from transporte
+ where cod_transp = '20100084768';
+
+select *
+  from caja_chica
+ where serie = 5
+   and numero = 20444;
+
+select *
+  from canjedoc
+ where tpodoc = 'LV'
+   and nrodoc = 21527;
+
+select *
+  from factcob_canje
+ where doccanje = 'J1'
+   and nrocanje = 87928;
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 6
+   and libro = '05'
+ order by voucher desc;
+
+select *
+  from activo_fijo_asigna
+ where cod_empleado = 'E861'
+ order by fecha_entrega desc;
+
+select direccion, nro_sucur, cod_cliente
+  from sucursales
+ where cod_cliente = '20100084768';
+
+begin
+  select s.nro_sucur, s.direccion, u.cod_ubc, u.nom_dpt, u.nom_pvc, u.nom_dtt
+       , u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+       , nvl(s.codigo_establecimiento_sunat, '0000') as codigo_establecimiento_sunat
+    from ubigeo u
+       , sucursales s
+   where s.cod_cliente = '20100084768'
+     and u.nacional_internacional = 'N'
+     and s.cod_ubc = u.cod_ubc
+------and s.nro_sucur <> '04'
+   order by u.nom_dtt;
+exception
+  when no_data_found then null;
+end;
+
+select *
+  from solimat_g
+ where numero = 183988;
+
+select *
+  from kardex_g
+ where nro_doc_ref = '183988'
+   and tip_doc_ref = 'P2';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo in ('MQ1ACAB-037', 'EQ MEDIC42');
+
+select * from grupo_edificacion;
+
+
+select *
+  from nrolibr
+ where ano = 2023
+   and mes = 2;
+
+select * from activo_fijo where cod_activo_fijo like '35976710240%';
+
+select *
+  from almacen
+ where cod_art = '359767102408201';
+
+select *
+  from kardex_d
+ where cod_art = '359767102408201';
+
+select *
+  from vw_almacen_activo_fijo
+ where cod_art in (
+                   '02LAPT10', '02LAPT9', '04COMP0151', '04LAPT25'
+   );
+
+select *
+  from vw_almacen_activo_fijo l
+       join activo_fijo a on l.cod_art = a.cod_activo_fijo
+ where cod_alm = 'A3'
+   and a.cod_subclase in ('EQL')
+   and not exists(
+   select * from almacen n where l.cod_alm = n.cod_alm and l.cod_art = n.cod_art
+   );
+
+insert into almacen(cod_art, cod_alm, stock, ubic, inv_fis, fch_inve)
+select cod_art, cod_alm, stock, null, 0, null
+  from vw_almacen_activo_fijo l
+       join activo_fijo a on l.cod_art = a.cod_activo_fijo
+ where cod_alm = 'A3'
+   and a.cod_subclase in ('CEL')
+   and not exists(
+   select * from almacen n where l.cod_alm = n.cod_alm and l.cod_art = n.cod_art
+   );
+
+select *
+  from almacen
+ where cod_art in (
+                   '04LAPT25', '02LAPT9', '02LAPT10', '04COMP0151'
+   )
+   and cod_alm = 'A3';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = '04COMP0151';
+
+select *
+  from produccion_armado
+ where id_linea_prod = '03'
+   and estado <> 5
+   and nvl((
+             select estado
+               from pr_ot
+              where numero = produccion_armado.numero_oa
+                and nuot_tipoot_codigo = 'AR'
+             ), 0) = 4;
+
+select count(*)
+  from activo_fijo_asiento a
+       join movglos m
+            on a.ano = m.ano and a.mes = m.mes and a.libro = m.libro and a.voucher = m.voucher
+ where a.cod_activo_fijo = 'AC2GEN-002'
+   and a.cod_tipo = 'GASTO'
+   and m.estado != '9';
+
+select *
+  from activo_fijo_asigna
+ where cod_activo_fijo = 'CEL913333838';
+
+select *
+  from kardex_d
+ where cod_art = 'CEL913333838';
+
+select * from almacen_activo_fijo;
+
+select *
+  from tablas_auxiliares
+ where tipo = 33
+ order by codigo;
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm like 'A%';
+
+select *
+  from pr_usualma
+ where usuario = 'JJUAREZ';

@@ -25,3 +25,11 @@ select *
   from lpred_fam
  where cod_lin like 'D4%'
    and length(cod_lin) = 4;
+
+select *
+  from lpred_fam
+ where cod_lin = 'D257';
+
+select *
+  from tab_lineas
+ where grupo = 111;

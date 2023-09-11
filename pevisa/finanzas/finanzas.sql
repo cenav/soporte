@@ -1,16 +1,18 @@
 select *
   from movfigl
  where ano = 2023
-   and mes = 5
-   and tipo = '9'
-   and voucher = 50030;
+   and mes = 7
+   and tipo = '5'
+   and voucher = 70128;
+
+-- 2023	7	5	70128
 
 select *
   from movfide
  where ano = 2023
-   and mes = 5
-   and tipo = '2'
-   and voucher = 53388;
+   and mes = 7
+   and tipo = '5'
+   and voucher = 70128;
 
 select *
   from factpag
@@ -147,7 +149,45 @@ select *
  where fecha_pago between to_date('01/06/2023', 'dd/mm/yyyy') and to_date('30/06/2023', 'dd/mm/yyyy');
 
 
-select * from nrotipo
-where ano = 2023
-and mes = 5
-and tipo = '9';
+select *
+  from nrotipo
+ where ano = 2023
+   and mes = 5
+   and tipo = '9';
+
+
+-- c_porc_igv             CONSTANT NUMBER := 0.16;
+-- c_porc_promo_muni      CONSTANT NUMBER := 0.02;
+-- c_servicio_despacho    CONSTANT NUMBER := 9;
+
+select (sum(round(d.precio * d.cantidad_packing * (ep.factor / 100), 2))
+  + sum(round(d.precio * d.cantidad_packing * 0.16))
+  + sum(round(d.precio * d.cantidad_packing * 0.02))
+  + 9)
+         * pkg_contabilidad.get_importe_cambio(fn_fecha_numeracion_dua(4288))
+         as derechos
+  from packing_g g
+     , embarques_d d
+     , pcarticul a
+     , expartidas ep
+ where d.numero_embarque = 4288
+   and g.num_importa = d.num_importa
+   and g.numero_embarque = d.numero_embarque
+   and nvl(d.cantidad_packing, 0) > 0
+   and d.cod_art = a.cod_art
+   and ep.partida = a.partida;
+
+select * from expartidas;
+
+select d.*
+  from packing_g g
+     , embarques_d d
+     , pcarticul a
+     , expartidas ep
+ where g.num_importa = d.num_importa
+   and g.numero_embarque = d.numero_embarque
+   and d.numero_embarque = 4288;
+
+select * from packing_g;
+
+select * from embarques_d;

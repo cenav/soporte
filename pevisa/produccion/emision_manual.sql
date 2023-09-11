@@ -1,7 +1,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('CL-O 200.4169', 294, false, op);
+  emite.op('FOR3178N', 20.45, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -24,10 +24,10 @@ declare
   l_ordenes api_pr_ot.aat;
 begin
   emite.standard('NPC 330.605-2', 30, l_ordenes);
-  commit;
   for i in 1 .. l_ordenes.count loop
     dbms_output.put_line(
-          l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' || l_ordenes(i).numero
+          l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
+          l_ordenes(i).numero
       );
   end loop;
   commit;
@@ -42,7 +42,8 @@ begin
     commit;
     for i in 1 .. l_ordenes.count loop
       dbms_output.put_line(
-            l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' || l_ordenes(i).numero
+            l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
+            l_ordenes(i).numero
         );
     end loop;
   end loop;
@@ -89,19 +90,3 @@ select *
   from pagos_i
  where serie_num = '03'
    and numero = 154;
-
-select *
-  from gastos_de_viaje_habilitado
- where estado = 8
-   and moneda = 'S'
-   and trunc(fecha_cierre) >= to_date('30/01/2022', 'dd/mm/yyyy')
-   and trunc(fecha_cierre) <= to_date('05/02/2022', 'dd/mm/yyyy')
-   and not exists
-   (
-     select 1
-       from pagos_i i
-      where i.serie_planilla in (21, 22)
-        and i.serie_num = gastos_de_viaje_habilitado.id_vendedor
-        and i.numero = gastos_de_viaje_habilitado.numero
-        and nvl(i.estado, 0) < 9
-   );

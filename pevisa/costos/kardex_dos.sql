@@ -54,9 +54,18 @@ select *
 select *
   from tmp_moviart_dos
  where ano = 2023
-   and mes in (1)
+   and mes in (7)
    and id = 'I'
    and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
+
+
+select *
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (7)
+   and id = 'S'
+   and docto in ('55016080', '55016081', '55016082')
+   and motivo = '5';
 
 update tmp_moviart_dos
    set libro   = '05'
@@ -70,10 +79,13 @@ update tmp_moviart_dos
 
 select *
   from tmp_moviart_dos
- where ano = 2021
-   and mes = 5
-   and tp_transac = '11';
-
+ where ano = 2023
+   and mes between 1 and 6
+   and id = 'I'
+   and (cta like '20%' or cta like '21%' or cta like '23%' or
+        cta like '24%' or cta like '25%' or cta like '26%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
 
 select *
   from tmp_moviart_dos
@@ -90,28 +102,31 @@ select *
    and docto = 'FCI22000117'
    and cta = '20120203';
 
-select docto, replace(docto, ':', '')
-  from tmp_moviart_dos
- where ano = 2022
-   and mes in (6)
-   and id in ('I', 'S');
 
+select docto, replace(docto, '/', '-')
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('I', 'S')
+   and instr(docto, '/') != 0;
 
 update tmp_moviart_dos
    set docto = replace(docto, '/', '-')
- where ano = 2022
-   and mes between 7 and 12
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
    and id in ('I', 'S');
+
 
 -- copiar la columna docto a nrodoc
 update tmp_moviart_dos
    set nro_doc = docto
- where ano = 2022
-   and mes between 7 and 12
+ where ano = 2023
+   and mes between 1 and 6
    and id = 'S'
-   and (cta like '20%' or cta like '21%' or cta like '23%' or
-        cta like '24%' or cta like '25%' or cta like '26%')
-   and cod_ope in ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81');
+   and (cta like '23%' or cta like '24%' or cta like '26%' or
+        cta like '20%' or cta like '25%' or cta like '21%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
 
 select *
   from linea_solicitud_material
@@ -172,7 +187,7 @@ select *
 
 -- Extrae los ultimos digitos del numero de factura
 select distinct docto
-              , regexp_substr(docto, '^F\d{3}-0*')                       as match
+              , regexp_substr(docto, '^F\d{3}-0*') as match
               , replace(docto, regexp_substr(docto, '^F\d{3}-0*'), null) as replace
   from tmp_moviart_dos
  where ano = 2019
@@ -676,3 +691,94 @@ select *
    and cod_art = '8ASX-10-271 W/O';
 
 select * from kardex_g;
+
+-- INGRESOS
+
+select cod_art, secuencia, ano, mes, docto
+  from tmp_carga_data;
+
+-- insert into tmp_carga_data(cod_art, secuencia, ano, mes, docto)
+select distinct cod_art, secuencia, ano, mes, docto
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('I')
+--    and motivo = '1'
+--    AND ordtra IS NULL;
+--    and (cta like '26%')
+   and (cta like '20%' or cta like '21%' or cta like '23%' or cta like '24%' or cta like '25%' or
+        cta like '26%')
+--    and tp_transac in ('26%')
+   and cod_ope in
+       ('20', '19', '96', '28');
+
+select *
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('I')
+   and (cta like '20%' or cta like '21%' or cta like '23%' or cta like '24%' or cta like '25%' or
+        cta like '26%')
+   and cod_ope in ('20', '19', '96', '28');
+
+update tmp_moviart_dos t
+   set docto = (
+     select docto
+       from tmp_carga_data b
+      where t.cod_art = b.cod_art
+        and t.secuencia = b.secuencia
+        and t.ano = b.ano
+        and t.mes = b.mes
+     )
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('I')
+   and (cta like '20%' or cta like '21%' or cta like '23%' or cta like '24%' or cta like '25%' or
+        cta like '26%')
+   and cod_ope in ('20', '19', '96', '28');
+
+-- SALIDAS
+
+select cod_art, secuencia, ano, mes, docto
+  from tmp_carga_data;
+
+-- insert into tmp_carga_data(cod_art, secuencia, ano, mes, docto)
+select distinct cod_art, secuencia, ano, mes, docto
+  from pruebas.tmp_moviart_dos
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('S')
+   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
+        cta like '21%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48')
+   and docto is null;
+
+
+select *
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('S')
+   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
+        cta like '21%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48')
+   and docto is null;
+
+update tmp_moviart_dos t
+   set docto = (
+     select docto
+       from tmp_carga_data b
+      where t.cod_art = b.cod_art
+        and t.secuencia = b.secuencia
+        and t.ano = b.ano
+        and t.mes = b.mes
+     )
+ where ano = 2023
+   and mes in (1, 2, 3, 4, 5, 6)
+   and id in ('S')
+   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
+        cta like '21%')
+   and cod_ope in
+       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');

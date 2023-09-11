@@ -1,16 +1,16 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 5
-   and libro = '40'
-   and voucher in (50001);
+   and mes = 8
+   and libro = '07'
+   and voucher in (80001);
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 5
-   and libro = '05'
-   and voucher in (50027);
+   and mes = 8
+   and libro = '07'
+   and voucher in (80001);
 
 select *
   from factpag
@@ -111,3 +111,7 @@ select *
   from caja_chica
  where serie = 1
    and numero = 189;
+
+select *
+  from plancta
+ where cuenta = '442902';

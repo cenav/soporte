@@ -11,7 +11,7 @@ declare
      where id_tipo = 'MQ'
        and id_serie = 7
        and id_numero in (
-      6929
+       6842
        );
 
   cursor cr_activos_anular(p_tipo varchar2, p_serie number, p_numero number) is
@@ -49,10 +49,11 @@ declare
   function voucher_anulado(
     p_ot ot_mantto%rowtype
   ) return boolean is
-    c pls_integer := 0;
+    l_anulado   pls_integer := 0;
+    l_eliminado pls_integer := 0;
   begin
     select count(*)
-      into c
+      into l_anulado
       from movglos
      where ano = p_ot.cierre_ano
        and mes = p_ot.cierre_mes
@@ -60,7 +61,16 @@ declare
        and voucher = p_ot.cierre_voucher
        and estado = '9';
 
-    return c > 0;
+    select count(*)
+      into l_eliminado
+      from movglos
+     where ano = p_ot.cierre_ano
+       and mes = p_ot.cierre_mes
+       and libro = p_ot.cierre_libro
+       and voucher = p_ot.cierre_voucher
+       and estado != '9';
+
+    return l_anulado > 0 or l_eliminado = 0;
   end;
 
   procedure anula_salida_almacen(
@@ -78,8 +88,8 @@ declare
   end;
 
   procedure actualiza_estado(
-    p_tipo varchar2
-  , p_serie number
+    p_tipo   varchar2
+  , p_serie  number
   , p_numero number
   ) is
   begin

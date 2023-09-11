@@ -1,20 +1,20 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 5
+   and mes = 6
    and libro = '08'
    and voucher in (
-                   50057, 50048
+   80002
    );
 
 -- 11/05/2023
 select *
   from movdeta
  where ano = 2023
-   and mes = 5
-   and libro = '08'
+   and mes = 3
+   and libro = '25'
    and voucher in (
-                   50057, 50048
+   30027
    );
 
 select *
@@ -183,7 +183,6 @@ select *
 select *
   from pla_control;
 
-
 select *
   from pevisa.gastos_de_viaje_habilitado
  where id_vendedor = '65'
@@ -212,7 +211,7 @@ select *
 select *
   from pevisa.gastos_de_viaje
  where id_vendedor = '65'
-   and numero = 171;
+   and numero = 179;
 
 select *
   from pevisa.gastos_de_viaje_m
@@ -308,16 +307,23 @@ select cod_banco
 select *
   from movfigl
  where ano = 2023
-   and mes = 4
-   and tipo = '3'
-   and voucher = 40009;
+   and mes = 8
+   and tipo = '9'
+   and voucher = 80002;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 6
-   and tipo = '5'
-   and voucher = 60001;
+   and mes = 8
+   and tipo = '9'
+   and voucher = 80002;
+
+select *
+  from factcob
+ where cod_cliente = '20511623660'
+   and tipdoc = 'LC'
+   and numero = '57278';
+
 
 select *
   from factpag
@@ -331,7 +337,11 @@ select *
 
 select *
   from caja_chica
- where numero = 23012;
+ where numero = 23029;
+
+select *
+  from caja_chica_d
+ where numero = 23029;
 
 select *
   from pevisa.gastos_de_viaje
@@ -516,10 +526,17 @@ select *
 
 select *
   from kardex_g
- where cod_alm = 'FB'
-   and tp_transac = '56'
-   and serie = 10
-   and numero = 20;
+ where cod_alm = 'FQ'
+   and tp_transac = '21'
+   and serie = 81
+   and numero = 864;
+
+select *
+  from kardex_d
+ where cod_alm = 'FQ'
+   and tp_transac = '21'
+   and serie = 81
+   and numero = 864;
 
 select *
   from paramin;
@@ -773,9 +790,8 @@ select *
 select *
   from movfide_situacion_banco
  where p_ano = 2023
-   and p_mes = 4
-   and cta_cte_banco = '200-3004851371'
-   and descripcion = 'ITF';
+   and p_mes = 6
+   and cta_cte_banco = '191-7394276-1-64';
 
 select estado
   from salcaj
@@ -1164,7 +1180,7 @@ select *
 
 select *
   from recprov
- where numero = 2520;
+ where numero = 2540;
 
 select *
   from itemrec
@@ -1175,3 +1191,297 @@ select i.*
        join itemrec i on r.tipodoc = i.tipodoc and r.serie = i.serie and r.numero = i.numero
  where r.tip_doc_ref = 'LP'
    and r.nro_doc_ref = '1093';
+
+select *
+  from pevisa.factcob
+ where numero = '57211'
+   and tipdoc = 'LP';
+
+select * from letras;
+
+select *
+  from factcob
+ where numero = '399'
+   and tipdoc = 'RT';
+
+select *
+  from movdeta
+ where nro_referencia = '399'
+   and tipo_referencia = 'RT';
+
+select * from cuenta_asiento_auto;
+
+select *
+  from unidad_negocio_cuenta
+ where cod_tipo = 'DIFERENCIA_CAMBIO_PREVEEDOR_9';
+
+select * from modulo where id_modulo like 'ANULA_RECIBO';
+
+select * from usuario_modulo where usuario = 'YYOVERA';
+
+select * from pla_control;
+
+select *
+  from ctabnco
+ where banco = '24';
+
+select * from tipo_prestamo_banco;
+
+select *
+  from pedido
+ where num_ped = 3251;
+
+select *
+  from clientes
+ where cod_cliente = '20604187941';
+
+select *
+  from docuvent
+ where tipodoc = '08'
+   and serie = 'F091'
+   and numero = 8;
+
+select *
+  from factcob
+ where tipdoc = '08'
+   and serie_num = 'F091'
+   and numero = '8';
+
+select *
+  from vendedores
+ where cod_vendedor = '00';
+
+select *
+  from usuario_modulo
+ where usuario = 'YYOVERA';
+
+select distinct flag_impre from cotizacion;
+
+select *
+  from docuvent
+ where tipodoc = '08'
+   and serie = 'F091'
+   and numero = 8;
+
+select *
+  from docuvent
+ where tipodoc = '08'
+   and estado = '9';
+
+select *
+  from pedido
+ where serie = 'F091'
+   and num_ped = 28;
+
+select *
+  from cambdol
+ where fecha = to_date('10/07/2023', 'dd/mm/yyyy');
+
+-- facturacion licencia
+select * from docuvent;
+
+select *
+  from gastos_de_viaje_habilitado
+ where nacional_internacional = 'I';
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 124
+   and id_vendedor = '62';
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 124
+   and id_vendedor = '62';
+
+select *
+  from gastos_de_viaje
+ where numero = 124
+   and id_vendedor = '62';
+
+select *
+  from gastos_de_viaje_d
+ where numero = 124
+   and id_vendedor = '62';
+
+select *
+  from gastos_de_viaje_habilitado
+ where nacional_internacional != 'N';
+
+select *
+  from factpag
+ where numero = '0001819';
+
+select tipo, codigo, descripcion
+  from tablas_auxiliares
+ where tipo = 32 and codigo <> '....' and indicador1 = 'S' and codigo in ('01', '03');
+
+select * from paramin;
+
+insert into cominac_concepto_linea
+select 369, linea
+  from tab_lineas
+ where grupo = 150;
+
+select *
+  from cominac_concepto_grupo
+ where cod_concepto = 369;
+
+select * from vw_saldo_banco_mail;
+
+select serie from nrodoc where tipodoc = '07' order by tipodoc, serie;
+
+select *
+  from nrodoc
+ where tipodoc = '07'
+   and serie like 'B%';
+
+select * from pla_control;
+
+select *
+  from factcob
+ where cod_cliente = '44444444'
+   and tipdoc = '07'
+   and numero = 1;
+
+select distinct p.serie
+  from pedido p
+ where p.tipo_docto in (2, 20, 21, 22, 23, 24) and p.estado = 5
+ order by p.serie;
+
+select serie, automatico from numdoc where tp_transac = '21';
+
+select *
+  from movfide_situacion_banco
+ where ano = 2023;
+
+select *
+  from orden_de_compra
+ where serie = 13
+   and num_ped = 319;
+
+select *
+  from plancta
+ where cuenta = '44291100';
+
+select *
+  from nrolibr
+ where ano = 2023
+   and mes = 2;
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10442310624'
+ order by fecha;
+
+select *
+  from movglos
+ where numero_order = '297'
+   and serie_orden = 13;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 8
+   and libro = '40'
+   and voucher = 80001;
+
+select *
+  from plancta
+ where cuenta = '40172000';
+
+select *
+  from nrodoc
+ where tipodoc = '07'
+   and serie in ('F055', 'F050');
+
+select *
+  from nrodoc
+ where tipodoc = '01'
+   and serie = 'F055';
+
+select *
+  from docuvent
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero = 1;
+
+select *
+  from itemdocu
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero = 1;
+
+select *
+  from clientes
+ where cod_cliente = '00000990019';
+
+select *
+  from exfacturas_enviados
+ where tipdoc = '07'
+   and serie = 'F055';
+
+select i.numero
+     , i.item as id_linea
+     , i.cod_art as codigo_producto_linea
+--                 , A.UNIDAD                             UNIDAD_LINEA
+     , tab_aux_obs(a.unidad, 36) as unidad_linea
+     , a.cod_igv
+     , p.valor
+     , a.descripcion
+     , get_deslinea(a.cod_lin) as descripcion_linea
+     , i.precio_de_lista
+     , abs(cantidad) as cantidad_linea
+     , abs(precio_de_lista) as valor_unitario_linea
+     , valor_unitario as precio_venta_linea
+     , round(abs(precio_de_lista) * p.valor, 2) as igv_unidad
+     , abs(neto) as valor_venta_linea
+     , round(abs(neto) * p.valor, 2) as subtotal_igv_linea
+     , abs(neto) + round(abs(neto) * p.valor, 2) as total_de_la_linea
+     , p.valor * 100 as porcentaje_igv_linea, i.descuento, i.por_desc1, i.por_desc2, i.por_desc3,
+    to_char(i.por_desc1) || '+' || to_char(i.por_desc2) || '+' ||
+    to_char(i.por_desc3) as x_pordes_ori
+     , d.nro_lista, d.cond_pag, i.observacion
+  from itemdocu i
+     , articul a
+     , impuesto p
+     , docuvent d
+ where i.tipodoc = :p_tipdoc
+   and i.serie = :p_serie
+   and i.numero = :p_numero
+   and i.cod_art = a.cod_art
+   and p.codigo = a.cod_igv
+   and d.tipodoc = :p_tipdoc
+   and d.serie = :p_serie
+   and d.numero = :p_numero
+ order by i.item;
+
+select * from impuesto;
+
+select *
+  from articul
+ where cod_art = 'NC7';
+
+select *
+  from articul
+ where cod_art like 'NC%';
+
+select *
+  from usuario_modulo
+ where modulo = 'COMISIONES';
+
+select *
+  from modulo
+ where id_modulo = 'ABRE_MES';
+
+select *
+  from modulo
+ where id_modulo = 'CIERRA_MES';
+
+select *
+  from usuario_modulo
+ where usuario = 'ABAILON';
+
+select * from orden_de_compra
+where serie =
+      and num_ped = ;

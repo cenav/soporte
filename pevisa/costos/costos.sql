@@ -156,3 +156,11 @@ select nvl(sum(d.cantidad), 0)
    and d.pr_tipot = 'PR'
    and d.pr_numot = 456384
    and d.cod_art = 'AX 1.0 C430-1219-2438';
+
+select *
+  from usuarios_tipos
+ where usuario = 'WPORTILLO';
+
+select *
+  from usuarios_libros
+ where usuario = 'WPORTILLO';

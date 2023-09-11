@@ -685,16 +685,16 @@ select numero_booking, fecha, fecha_salida, nombre_nave, naviera, numero_factura
   from vw_booking_facturas
  where saldo > 0
    and estado != '4'
-   and facturas_despachadas = total_facturas
-   and numero_booking = '63807886'
-   and numero_factura in ('55011644')
+--    and facturas_despachadas = total_facturas
+   and numero_booking = 'COU-76'
+   and numero_factura in ('55015049')
  order by fecha_salida desc, numero_booking;
 
 select * from exbooking_d where numero_factura = '55011644';
 
-select * from exbooking_d where numero_booking = '63807886';
+select * from exbooking_d where numero_booking = 'COU-76';
 
-select * from exbooking where numero_booking = '65098089';
+select * from exbooking where numero_booking = 'COU-76';
 
 select distinct numero_booking
   from vw_booking_facturas
@@ -702,17 +702,8 @@ select distinct numero_booking
    and estado != '4'
    and facturas_despachadas = total_facturas;
 
-select * from bono_obrero where estado = 1 order by id_bono_obrero;
-
-select * from bono_obrero_rango order by id_bono_obrero, id_item;
-
-select * from comision_ingeniero_grupo;
-
-select * from tab_grupos where descripcion like '%OSRAM%';
-
-select * from tab_lineas where descripcion like '%OSRAM%';
-
-select * from clientes where cod_cliente = '10468893881';
+select * from pk_gnumero
+where pk_numero = 53815;
 
 select *
   from factcob_canje
@@ -746,20 +737,16 @@ select distinct numero_booking
    and facturas_despachadas = total_facturas;
 
 select *
-  from solimat_g
- where numero = 177335;
+  from exfacturas
+ where numero in (
+   15049
+   );
 
 select *
-  from solimat_d
- where numero = 177335;
+  from exbooking
+ where numero_booking = 'COU-76';
 
 select *
-  from kardex_g
- where num_importa = 'M22495';
+  from exbooking_d
+ where numero_booking = 'COU-76';
 
-select *
-  from kardex_d
- where cod_alm = '02'
-   and tp_transac = '11'
-   and serie = 1
-   and numero = 29622;

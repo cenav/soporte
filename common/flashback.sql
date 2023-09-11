@@ -657,9 +657,94 @@ select *
    28
    );
 
-INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED) VALUES ('TA', '35', 29, 28, DATE '2023-03-22', '10', 29, 9021, null, 'C', '20100084768', '00', null, 1, 'D', null, null, 0.00, 0.00, '0', '3', '*', 'S', '0', null, null, null, null, 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN29-9021', null, null, null, null, null);
+insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
+values ( 'TA', '35', 29, 28, date '2023-03-22', '10', 29, 9021, null, 'C', '20100084768', '00', null
+       , 1, 'D', null, null, 0.00, 0.00, '0', '3', '*', 'S', '0', null, null, null, null
+       , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN29-9021', null
+       , null, null, null, null);
 
 
-INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('TA', '35', 29, 28, 'CAR 485', 20.0000, 0.000000, 0.000000, DATE '2023-03-22', 0.00, 0.00, 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('TA', '35', 29, 28, 'RES 733', 22.7000, 0.000000, 0.000000, DATE '2023-03-22', 0.00, 0.00, 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('TA', '35', 29, 28, 'SOL 831', 13.0000, 0.000000, 0.000000, DATE '2023-03-22', 0.00, 0.00, 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( 'TA', '35', 29, 28, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( 'TA', '35', 29, 28, 'RES 733', 22.7000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( 'TA', '35', 29, 28, 'SOL 831', 13.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null);
+
+select *
+  from kardex_d as of timestamp to_timestamp('21-07-2023 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'TA'
+   and tp_transac = '10'
+   and serie = 29
+   and numero = 9696
+   and cod_art = 'CAR 485';
+
+select *
+  from excomision_repre_fact as of timestamp to_timestamp('22-08-2023 09:25:00',
+                                                          'DD-MM-YYYY HH24:MI:SS')
+ where codigo = 170
+   and numero_factura not in (
+                              55012855, 55013440, 55013497, 55013606, 55012969, 55013072, 55013127,
+                              55013420, 55013659, 55013884, 55012854, 55013612, 55013534, 55013713,
+                              55013793, 55013855, 55013858, 55013921, 55013958, 55014032, 55014034,
+                              55014052, 55014078, 55014214, 55014241, 55014341, 55014354, 55014416,
+                              55014462, 55014463, 55013116, 55013297, 55013334, 55013425, 55013681,
+                              55013959, 55013966, 55013970, 55013976, 55013977, 55013989, 55014021,
+                              55014033, 55014039, 55014040, 55014045, 55014070, 55014071, 55014072,
+                              55014147, 55014154, 55014216, 55014236, 55014270, 55014327, 55014364,
+                              55014365, 55014366, 55014377, 55014414, 55014427, 55012633, 55013026,
+                              55013451, 55013957
+   );
+
+select *
+  from movfide_situacion_banco
+ where p_ano = 2023;
+
+select * from movfide_situacion_banco;
+
+
+select *
+  from produccion_armado
+ where numero_oa = 993912;
+
+select *
+  from produccion_armado
+ where estado = 2;
+
+select *
+  from movglos as of timestamp to_timestamp('07-09-2023 11:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 6
+   and libro = '11'
+   and voucher = 60065;
+
+select *
+  from movdeta as of timestamp to_timestamp('07-09-2023 11:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2023
+   and mes = 6
+   and libro = '11'
+   and voucher = 60065;

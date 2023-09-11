@@ -2,30 +2,36 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   462392
+   528930
    );
+
+select * from pr_estados;
+
+select * from pr_estadopr;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   514563
+   515055
    );
 
 select *
   from kardex_g
- where cod_alm = '18'
+ where cod_alm = '30'
    and tp_transac = '18'
    and serie = 2
-   and numero = 516713;
+   and numero = 544031 ;
 
 select *
   from kardex_d
- where cod_alm = 'D2'
+ where cod_alm = '30'
    and tp_transac = '18'
    and serie = 2
-   and numero = 525055;
+   and numero = 544031 ;
 
+-- parametro ano mes
+select * from pr_para_pro;
 
 select *
   from proveed
@@ -315,3 +321,141 @@ select *
 select *
   from emite_op_log
  where numero = 514563;
+
+select *
+  from emite_op_log
+ where cod_art = '400.973';
+
+select * from vw_ordenes_curso;
+
+-- cantidad en curso de op generadas por el modulo de emision max 100
+select c.cod_art, c.saldo, c.numero
+  from vw_ordenes_curso c
+ where c.nuot_tipoot_codigo = 'PR'
+   and c.cod_art = '400.973'
+   and exists(
+   select 1
+     from emite_op_log e
+    where c.nuot_tipoot_codigo = e.tipo
+      and c.numero = e.numero
+   );
+
+select p.numero, p.formu_art_cod_art, p.cant_prog, p.fecha, g.descripcion
+     , substr(to_char(100000000 + p.numero), 2, 8) as orden_etiqueta
+     , substr(to_char(100 + p.nuot_serie), 2, 2) as serie_etiqueta, p.nuot_tipoot_codigo
+     , p.nuot_serie, nvl(peso_por_bolsa, 0) as peso_por_bolsa
+  from pr_ot p
+     , articul a
+     , pr_grupos_lineas gl
+     , pr_grupos g
+     , pr_formu f
+ where p.nuot_tipoot_codigo = 'AR'
+   and p.nuot_serie = 3
+   and p.estado in ('1', '3')
+   and p.formu_art_cod_art = a.cod_art
+   and a.cod_lin = gl.cod_lin
+   and gl.id_grupo = g.id
+   and g.id = '11'
+   and p.formu_art_cod_art = f.art_cod_art
+ order by p.numero;
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = 'M1'
+   and numero = 123;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = 'M1'
+   and numero = 123;
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = 'M1'
+   and numero = 123;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = 'M1'
+   and numero = 123;
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = 'M1'
+   and numero = 123;
+
+select *
+  from kardex_d
+ where cod_alm = 'D2'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 536898;
+
+select *
+  from kardex_d
+ where pr_tipot = 'PR'
+   and pr_numot = 451073;
+
+select *
+  from kardex_g_historia
+ where cod_alm = 'D2'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1686257;
+
+select *
+  from lg_itemjam
+ where num_importa = 'PVM23025';
+
+select d.cod_art, d.cantidad, d.aprobado
+     , listagg(o.ot_numero, ' | ') within group ( order by o.ot_numero) as ordenes
+  from solicita_emision_det d
+       left join solicita_emision_ot o on d.numero = o.numero and d.item = o.item
+ where d.numero = 910
+ group by d.cod_art, d.cantidad, d.aprobado;
+
+select *
+  from solicita_emision_det
+ where numero = 910;
+
+select *
+  from solicita_emision_det
+ where ot_numero = 527657;
+
+select *
+  from solicita_emision_ot
+ where ot_numero = 527657;
+
+select *
+  from linea_cambio_cantidad
+ where cod_lin = '1615'
+ order by cod_lin;
+
+select to_char(pr_numot) as pr_numot, cod_art, cantidad
+     , to_char(fch_transac, 'DD/MM/YYYY') as fecha, fch_transac
+  from kardex_d
+ where tp_transac = '18'
+   and cod_alm = :xalmacen
+   and cod_art = :art_cod_art
+   and pr_tipot = :pr_tipo_orden
+ order by fch_transac desc;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR' and estado < '3' and formu_art_cod_art in (
+   select cod_art from articul where cod_lin not in ('1970', '1971', '1972')
+   );
+
+select *
+  from pr_ot
+ where abre01 = '370'
+   and per_env = '189'
+   and nuot_tipoot_codigo = 'AR';
+
+select *
+  from solicita_cambio_ot
+ where ot_nro = 451073;

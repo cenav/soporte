@@ -1,19 +1,20 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 6
-   and libro = '08'
+   and mes = 7
+   and libro = '46'
    and voucher in (
-   60072
+   70014
    );
+
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 6
-   and libro = '08'
+   and mes = 5
+   and libro = '48'
    and voucher in (
-   60072
+   50020
    );
 
 select *
@@ -123,23 +124,29 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 5
+   and mes = 6
    and tipo = '5'
-   and voucher = 50096;
+   and voucher = 60008;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 5
+   and mes = 6
    and tipo = '5'
-   and voucher = 50096;
+   and voucher = 60270;
+
+select *
+  from factcob
+ where tipdoc = '01'
+   and serie_num = 'E001'
+   and numero = '271';
 
 select *
   from factcob
  where cod_cliente = '20601149631'
    and tipdoc = '01'
    and serie_num = 'F051'
-   and numero = '2487';
+   and numero = '271';
 
 select *
   from factcob
@@ -157,10 +164,18 @@ select *
 
 select *
   from cabfpag
- where cod_proveedor = '20111435473'
+ where cod_proveedor = '20100084768'
    and tipdoc = '01'
    and serie_num = 'E001'
    and numero = '0001307';
+
+-- junio cancelacion
+select *
+  from cabfpag
+ where ano = 2023
+   and mes = 6
+   and libro = '39'
+   and voucher = 60001;
 
 select *
   from factcob
@@ -369,8 +384,9 @@ select *
 select *
   from movfide_situacion_banco
  where p_ano = 2023
-   and p_mes = 5
-   and cta_cte_banco = '0011-0949-01-00004585';
+   and p_mes = 6
+   and cta_cte_banco = '000-1820592'
+   and voucher = '60001';
 
 select *
   from usuarios_almacenes_perfil
@@ -423,4 +439,223 @@ select *
  where ano = 2023
    and mes = 5
    and voucher = 50240;
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 5600411;
+
+select *
+  from planilla_cobranzas_i
+ where numero_planilla = 5600411;
+
+select *
+  from planilla_cobranzas_d
+ where numero_planilla = 5600411;
+
+select *
+  from factcob
+ where tipdoc = 'A1'
+   and numero = '5600411';
+
+select codigo, descripcion
+  from tablas_auxiliares
+ where tipo = 40
+   and indicador3 = 'V'
+ order by codigo;
+
+select *
+  from tablas_auxiliares
+ where tipo = 40
+   and codigo in (
+                  'J1', 'LC', 'LD', 'L1', '01'
+   )
+ order by codigo;
+
+select *
+  from nrodoc
+ where tipodoc = 'FD';
+
+select operacion, tipdoc, codigo, operacion_ant
+  from tipo_operacion_h
+ where tipdoc = 'L1'
+--    and codigo = :cabe1.banco
+ order by operacion, tipdoc;
+
+select * from docuvent;
+
+select * from modulo where descripcion like '%COMISION%';
+
+select * from usuario_modulo where usuario = 'KJAUREGUI';
+
+select *
+  from vendedores
+ order by cod_vendedor;
+
+select * from modulo;
+
+select *
+  from usuario_modulo
+ where usuario = 'YYOVERA';
+
+select *
+  from movglos
+ where ano = 2023
+   and mes = 7;
+
+select * from kardex_g_guia_remision;
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 5600349;
+
+select p.numero_planilla, p.estado, p.voucher_c
+  from planilla_cobranzas_h p
+ where p.estado <> 9
+   and p.numero_planilla = 5600349
+   and (p.voucher_c is null or
+        exists(
+          select *
+            from movfigl g
+           where g.ano = p.aaaa_c
+             and g.mes = p.mm_c
+             and g.tipo = p.tipo_c
+             and g.voucher = p.voucher_c
+             and g.estado = '9'
+          )
+   )
+ order by numero_planilla desc;
+
+select *
+  from usuarios_libros
+ where usuario = 'YYOVERA';
+
+select *
+  from movfide_situacion_banco
+ where p_ano = 2023
+   and p_mes = 6
+   and cta_cte_banco = '191-7394276-1-64'
+   and voucher = '60065';
+
+select * from modulo;
+
+select *
+  from usuario_modulo
+ where modulo = 'COMISIONES';
+
+select *
+  from movglos
+ where ano = (
+   select ano_cont
+     from paramco
+   )
+   and mes in (
+   select distinct mes
+     from view_mes_libro_a_descont
+   )
+   and libro in (
+   select distinct v.libro
+     from view_mes_libro_a_descont v
+    where v.mes = movglos.mes
+   )
+   and estado = 1
+   and ano = 2023
+   and mes = 7
+   and voucher = 70014;
+
+select *
+  from movglos
+ where estado = '0'
+   and ((nvl(pase_cta_cte_pro, 'N') = 'N'
+   and nvl(pase_ctacte, 'N') = 'N'
+          )
+   or not exists (
+     select 1
+       from movdeta b
+      where b.ano = movglos.ano
+        and b.mes = movglos.mes
+        and b.libro = movglos.libro
+        and b.voucher = movglos.voucher
+     ))
+   and ((ano > to_number(:ano))
+   or (ano = to_number(:ano)
+     and mes >= to_number(:mes))
+   );
+
+select *
+  from nrodoc
+ where tipodoc = '01';
+
+select profile, limit
+  from dba_profiles
+ where resource_name = 'IDLE_TIME';
+
+select profile
+  from dba_users
+ where username = 'EMESTANZA';
+
+
+select *
+  from docuvent
+ where tipodoc = '07'
+--    and serie = 'F055'
+   and numero = 3153;
+
+select *
+  from modulo
+ where id_modulo = 'CIERRA_MES';
+
+select *
+  from usuario_modulo
+ where usuario = 'ABAILON';
+
+select *
+  from caja_chica
+ where serie = 4
+   and numero = 23034;
+
+select *
+  from exfacturas
+ where extract(year from fecha) = 2023;
+
+select *
+  from docuvent
+ where serie = 'F055'
+   and numero = '14556';
+
+select *
+  from factcob
+ where serie_num = 'F055'
+   and numero = '14556';
+
+select *
+  from docuvent
+ where tipodoc = '07'
+   and numero = '61240';
+
+select *
+  from saldo_banco
+ order by fecha desc;
+
+select * from vw_saldo_banco_mail;
+
+declare
+  l_fecha varchar2(30);
+begin
+  l_fecha := to_char(pkg_saldo_banco.ultima_fecha_carga(), 'DD/MM/YYYY');
+  dbms_output.put_line(l_fecha);
+end;
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 8
+   and tipo = '9'
+   and voucher = 80002;
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 8
+   and tipo = '9'
+   and voucher = 80002;
 

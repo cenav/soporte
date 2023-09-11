@@ -2,7 +2,7 @@ select *
   from ot_mantto
  where id_tipo = 'MQ'
    and id_serie = 7
-   and id_numero in (6870);
+   and id_numero in (6842);
 
 select *
   from solimat_d

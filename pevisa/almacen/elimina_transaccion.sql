@@ -6,10 +6,10 @@ declare
     select *
       from kardex_g
      where cod_alm = 'TA'
-       and tp_transac = '35'
+       and tp_transac = '10'
        and serie = 29
        and numero in (
-       25
+       9237
        )
      order by ing_sal desc, numero_pguia;
 begin

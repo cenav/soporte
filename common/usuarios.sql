@@ -1,22 +1,27 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user wquispe account unlock;
+alter user gpalomino account unlock;
 
 
-alter user pgarby account lock;
+alter user GPALOMINO account lock;
 
 
-alter user mmiranda identified by "mamalucy9+";
+alter user epapel identified by "papel$2023";
 
 
-alter user pgarby password expire;
+alter user epapel password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
+
+alter user epesado profile default;
+
+
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'APASTRANA';
+ where username like 'GPALOMINO';
+
 
 select *
   from dba_users
@@ -25,7 +30,7 @@ select *
 -- Dependencies
 select *
   from dba_dependencies
- where referenced_name = 'PKG_ANTIGUEDAD_INVENTARIO'
+ where referenced_name = 'VW_BONO_HE'
    and owner = user;
 
 -- Invalid Objects
@@ -60,15 +65,19 @@ select *
 -- busca procedimineto
 select *
   from dba_source
- where upper(text) like upper('%INS_DETALLE%')
+ where upper(text) like upper('%mguevara%')
+   and owner = 'PEVISA';
+
+select *
+  from dba_source
+ where upper(text) like upper('%Stock Minimo IQF%')
    and owner = 'PEVISA';
 
 
 select *
   from all_source
- where upper(text) like upper('%La comunidad de Colaboradores de%')
+ where upper(text) like upper('%Stock Minimo IQF%')
    and owner = 'PEVISA';
-
 
 select owner, table_name
   from all_tab_columns
@@ -96,7 +105,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'APASTRANA';
+ where co_usrusr = 'GPALOMINO';
 
 select *
   from seccrus
@@ -109,7 +118,7 @@ select *
 
 select *
   from usuarios
- where usuario = 'ADELA';
+ where usuario = 'EALVITES';
 
 select distinct co_ctrctr
   from seccrus
@@ -168,7 +177,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('EMBARQUES')
+ where modulo in ('PERMISO')
  order by usuario, modulo;
 
 select *
@@ -187,11 +196,11 @@ select *
 
 select *
   from usuario_modulo
- where usuario = 'KCASTILLO';
+ where usuario = 'NBELANDRIA';
 
 select *
   from usuario_modulo_alterno
- where id_alterno in ('KCASTILLO');
+ where id_alterno in ('NBELANDRIA');
 
 select *
   from usuario_modulo
@@ -420,7 +429,7 @@ select *
 
 select *
   from usuarios_almacenes_perfil
- where usuario = 'MROJAS';
+ where usuario = 'MPEREZ';
 
 select *
   from gastos_de_viaje_habilitado
@@ -480,7 +489,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'PABLO';
+ where apellido_paterno = 'ALVITES';
 
 select *
   from usuarios
@@ -491,3 +500,105 @@ select * from pcarticul;
 select *
   from usuario_modulo
  where modulo like 'CAMBIO_OT';
+
+select 'GRANT SELECT ON ' || object_name || ' TO USERNAME;'
+  from user_objects
+ where object_type = 'TABLE' and object_name != 'PLANILLA'
+ order by object_name;
+
+select *
+  from usuarios
+ where usuario = 'ECOMMERCE';
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'A1';
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '62';
+
+select *
+  from pr_usualma
+ where usuario = 'MPEREZ'
+   and cod_alm = 'A1';
+
+select *
+  from usuarios_almacenes
+ where usuario = 'MPEREZ'
+   and cod_alm in ('A1', '62');
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'MPEREZ'
+   and cod_alm in ('A1', '62');
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';
+
+create public synonym mxx_login for mxx_login;
+
+grant select any table to pruebas;
+
+select *
+  from otm_serie_usuario
+ where usuario = 'EALVITES';
+
+select *
+  from tab_menu
+ where usuario = 'EALVITES'
+   and sistema = 'M_LOGIST_M';
+
+select *
+  from tab_menu
+ where cod_menu = '6041'
+   and sistema = 'M_SOLIMAT_M';
+
+select * from menu_inventario;
+
+select * from kardex_g_movglos;
+
+select cod_alm, tp_transac, serie, numero
+  from kardex_g_movglos
+ where serie_oc = '30'
+   and numero_oc = '519';
+
+select a.cod_activo_fijo
+  from kardex_d k
+       join activo_fijo a on k.cod_art = a.cod_activo_fijo
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 30472;
+
+select * from activo_fijo_asiento;
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and numero = 15936
+   and serie = 'F055';
+
+select *
+  from itemdocu
+ where tipodoc = '01'
+   and numero = 15936
+   and serie = 'F055';
+
+select to_char(pr_numot) as pr_numot, cod_art, cantidad, to_char(fch_transac, 'DD/MM/YYYY') as fecha
+     , fch_transac
+  from kardex_d
+ where tp_transac = '18'
+   and cod_alm = :xalmacen
+   and cod_art = :art_cod_art
+   and pr_tipot = :pr_tipo_orden
+ order by fch_transac;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+select *
+  from tab_menu
+ where usuario = 'LDANIEL';

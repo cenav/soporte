@@ -40,5 +40,10 @@ end;
 
 select * from planilla10.plcontrol;
 
-select * from planilla10.personal
-where apellido_paterno like 'ZA%';
+select *
+  from planilla10.personal
+ where apellido_paterno like 'ZA%';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E41311';
