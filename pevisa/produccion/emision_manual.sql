@@ -1,7 +1,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('FOR3178N', 20.45, false, op);
+  emite.op('PL 86067-1NA', 36, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;

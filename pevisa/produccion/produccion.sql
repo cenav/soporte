@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   528930
+                  466577, 466380, 494570, 454261
    );
 
 select * from pr_estados;
@@ -21,14 +21,14 @@ select *
  where cod_alm = '30'
    and tp_transac = '18'
    and serie = 2
-   and numero = 544031 ;
+   and numero = 544031;
 
 select *
   from kardex_d
  where cod_alm = '30'
    and tp_transac = '18'
    and serie = 2
-   and numero = 544031 ;
+   and numero = 544031;
 
 -- parametro ano mes
 select * from pr_para_pro;
@@ -459,3 +459,37 @@ select *
 select *
   from solicita_cambio_ot
  where ot_nro = 451073;
+
+
+create or replace view vw_grupos_lineas_prod as
+select g.id as cod_grupo, g.descripcion as dsc_grupo, l.cod_lin, l.tp_art, f.cod_fam
+     , f.descripcion as dsc_fam
+  from pr_grupos g
+       join pr_grupos_lineas l on g.id = l.id_grupo
+       join tfamlin f on l.tp_art = f.tp_art and l.cod_fam = f.cod_fam and l.cod_lin = f.cod_lin;
+
+select cod_grupo, dsc_grupo, cod_lin, tp_art, cod_fam, dsc_fam
+  from vw_grupos_lineas_prod
+ where cod_grupo = '02';
+
+select *
+  from linea_sin_tope_emision
+ where cod_lin = '1604';
+
+select *
+  from articul
+ where cod_art = 'BATCH 3172N';
+
+select * from linea_cambio_cantidad;
+
+select *
+  from pr_ot
+ where formu_art_cod_art = 'PL 86067-1NA';
+
+select *
+  from vacaciones
+ where numero = 18403;
+
+select *
+  from pr_ot_sec
+ where cod_art = '180.1382ZN';

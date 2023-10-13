@@ -4,8 +4,8 @@ declare
   cursor cr_planillas is
     select *
       from pagos_h
-     where serie_planilla = 2
-       and numero_planilla in (3422);
+     where serie_planilla = 1
+       and numero_planilla in (7092);
 
   procedure anula_detalle(
     p_serie  pagos_h.serie_planilla%type

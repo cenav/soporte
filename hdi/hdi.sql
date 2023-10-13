@@ -4,7 +4,7 @@ select *
    and mes = 6
    and libro = '08'
    and voucher in (
-   80002
+   24
    );
 
 -- 11/05/2023
@@ -1482,6 +1482,140 @@ select *
   from usuario_modulo
  where usuario = 'ABAILON';
 
-select * from orden_de_compra
-where serie =
-      and num_ped = ;
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'E001'
+   and numero = '33';
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'E001'
+   and numero = '34';
+
+select *
+  from nrodoc
+ where tipodoc = '01'
+   and serie = 'E001';
+
+insert into pevisa.docuvent ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
+                            , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
+                            , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
+                            , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
+                            , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
+                            , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
+                            , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
+                            , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
+                            , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
+                            , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
+                            , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
+                            , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
+                            , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
+                            , unidad_negocio, tasa_percep, imp_percep, cod_notac)
+values ( '01', 'E001', 33, '9', date '2023-01-20', '10200188409', null, '10200188409', 'Y', '65'
+       , 'P', 'D', 1, 0.00, 0.00, null, 1644.12, 0.00, 1644.12, 0.00, null, 295.94, 1940.06, 0.00
+       , 0.00, '7410101', '7720101', null, '40111100', '12122000', '0', 'S', null, null, 'S', 'V'
+       , 3.8610, 'N', 'N', date '2023-02-19', 0.00, 'P2', '20', '10', '0', null
+       , 'MUERAS CONTRERAS FLORINDA', 'JR MIGUEL GRAU S/N ESQUINA CON JR SAN MARTIN', null, null
+       , null, null, null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-01-20 17:11:41'
+       , '30.0.0.215', null, 'F0', '21', 50, 3, null, null, 0.00, null, null, null, null, null, null
+       , 0.00, 0.00, null);
+
+
+insert into pevisa.docuvent ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
+                            , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
+                            , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
+                            , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
+                            , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
+                            , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
+                            , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
+                            , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
+                            , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
+                            , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
+                            , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
+                            , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
+                            , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
+                            , unidad_negocio, tasa_percep, imp_percep, cod_notac)
+values ( '01', 'E001', 34, '9', date '2023-09-13', '20520588486', null, '20520588486', 'i', '27'
+       , 'D', 'D', 1, 0.00, 0.00, null, 6121.11, 0.00, 6121.11, 0.00, 0.00, 1101.80, 7222.91, 0.00
+       , 0.00, '7410101', '7720101', null, '40111100', '12122000', '1', 'S', null, 'F0', 'S', 'V'
+       , 3.7080, 'N', 'N', date '2023-10-13', 0.00, '01', 'E001', '34', '0', null
+       , 'DIVECENTER S.A.C.', 'AV. CANADA NRO. 1160 URB. SANTA CATALINA', null, null, null, null
+       , null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-09-13 10:26:49', '30.0.1.45', null
+       , null, null, null, null, null, null, null, null, null, null, null, null, null, 0.00, 0.00
+       , null);
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'E001'
+   and numero = 33;
+
+select *
+  from itemdocu
+ where tipodoc = '01'
+   and serie = 'E001'
+   and numero = 33;
+
+-- INSERT INTO PEVISA.ITEMDOCU (TIPODOC, SERIE, NUMERO, COD_ART, CANTIDAD, PRECIO_DE_LISTA, VALOR_UNITARIO, POR_DESC1, POR_DESC2, POR_DESC3, BRUTO, DESCUENTO, NETO, IMPUESTO, TOTAL, P_ISC, P_IGV, CUENTA70, ORIGEN, PORCENTAJE_COMISION, IMP_VVTA, ITEM, COD_EQI, COD_LIN, INDICADOR, PRECIO_NETO, COD_GRUPO_VENTA, MONEDA_COMISION, IMPORTE_COMISION, P_PERCEP, OBSERVACION, FECHA_VTA, ESTADO_VTA, PORCEN_NC, COD_GRUPO, NETOR, REFE_PEDIDO) VALUES ('01', 'E001', 33, '35014', 4.0000, 21.1900, 25.0000, 0.00, 0.00, 0.00, null, 0.00, 84.76, null, null, 0.00, 0.18, ' 7010101', 'P', 0.00, 84.76, 1, null, 'F306', 'IN', null, null, null, null, 0.00, null, DATE '2023-01-20', '9', 0.00, 308, 0.00, null);
+-- INSERT INTO PEVISA.ITEMDOCU (TIPODOC, SERIE, NUMERO, COD_ART, CANTIDAD, PRECIO_DE_LISTA, VALOR_UNITARIO, POR_DESC1, POR_DESC2, POR_DESC3, BRUTO, DESCUENTO, NETO, IMPUESTO, TOTAL, P_ISC, P_IGV, CUENTA70, ORIGEN, PORCENTAJE_COMISION, IMP_VVTA, ITEM, COD_EQI, COD_LIN, INDICADOR, PRECIO_NETO, COD_GRUPO_VENTA, MONEDA_COMISION, IMPORTE_COMISION, P_PERCEP, OBSERVACION, FECHA_VTA, ESTADO_VTA, PORCEN_NC, COD_GRUPO, NETOR, REFE_PEDIDO) VALUES ('01', 'E001', 33, 'CONT-013', 1.0000, 6121.1100, 7222.9100, 0.00, 0.00, 0.00, null, 0.00, 6121.11, null, null, 0.00, 0.18, '7010101', 'D', 0.00, 6121.11, 1, null, 'Y002', 'EE', null, null, null, null, 0.00, null, DATE '2023-09-13', '0', 0.00, 900, 0.00, null);
+-- INSERT INTO PEVISA.ITEMDOCU (TIPODOC, SERIE, NUMERO, COD_ART, CANTIDAD, PRECIO_DE_LISTA, VALOR_UNITARIO, POR_DESC1, POR_DESC2, POR_DESC3, BRUTO, DESCUENTO, NETO, IMPUESTO, TOTAL, P_ISC, P_IGV, CUENTA70, ORIGEN, PORCENTAJE_COMISION, IMP_VVTA, ITEM, COD_EQI, COD_LIN, INDICADOR, PRECIO_NETO, COD_GRUPO_VENTA, MONEDA_COMISION, IMPORTE_COMISION, P_PERCEP, OBSERVACION, FECHA_VTA, ESTADO_VTA, PORCEN_NC, COD_GRUPO, NETOR, REFE_PEDIDO) VALUES ('01', 'E001', 33, '40954', 4.0000, 101.7000, 120.0100, 0.00, 0.00, 0.00, null, 0.00, 406.80, null, null, 0.00, 0.18, ' 7010101', 'P', 0.00, 406.80, 2, null, 'F304', 'IN', null, null, null, null, 0.00, null, DATE '2023-01-20', '9', 0.00, 308, 0.00, null);
+-- INSERT INTO PEVISA.ITEMDOCU (TIPODOC, SERIE, NUMERO, COD_ART, CANTIDAD, PRECIO_DE_LISTA, VALOR_UNITARIO, POR_DESC1, POR_DESC2, POR_DESC3, BRUTO, DESCUENTO, NETO, IMPUESTO, TOTAL, P_ISC, P_IGV, CUENTA70, ORIGEN, PORCENTAJE_COMISION, IMP_VVTA, ITEM, COD_EQI, COD_LIN, INDICADOR, PRECIO_NETO, COD_GRUPO_VENTA, MONEDA_COMISION, IMPORTE_COMISION, P_PERCEP, OBSERVACION, FECHA_VTA, ESTADO_VTA, PORCEN_NC, COD_GRUPO, NETOR, REFE_PEDIDO) VALUES ('01', 'E001', 33, '8T00-300-218E-0001', 4.0000, 288.1400, 340.0100, 0.00, 0.00, 0.00, null, 0.00, 1152.56, null, null, 0.00, 0.18, ' 7010101', 'P', 0.00, 1152.56, 3, null, 'D501', 'IN', null, null, null, null, 0.00, null, DATE '2023-01-20', '9', 0.00, 150, 0.00, null);
+
+select *
+  from cominac_concepto_venta_grupal
+ where cod_concepto = 397
+   and cod_vendedor = 'M1';
+
+select * from cominac_concepto_venta_grupal;
+
+select *
+  from vendedores
+ where estado = 1;
+
+select * from pla_control;
+
+select *
+  from numdoc
+ where tp_transac = '30'
+   and serie = 5;
+
+select *
+  from kardex_g
+ where tp_transac = '30'
+   and serie = 5;
+
+select * from vendedores;
+
+select *
+  from orden_de_venta o
+ where o.serie = substr(:x_orden_trabajo, 1, 2)
+   and to_char(o.numero) = rtrim(substr(:x_orden_trabajo, 3, 6))
+   and o.estado = '40';
+
+select *
+  from orden_de_venta
+ where serie = 'DI'
+   and numero = 6894;
+
+select *
+  from orden_de_venta_historia
+ where serie = 'DI'
+   and numero = 6894;
+
+select *
+  from embarques_d
+ where numero_embarque = 116;
+
+select *
+  from lg_detalle_gastos
+ where numero_embarque = 116;
+
+select p.id_programa, p.descripcion
+  from pr_programas_compras p
+     , planeamiento_compras c
+ where p.id_programa = c.programa
+   and c.codigo = 'NACIONAL'
+ group by p.id_programa, p.descripcion
+ order by id_programa;

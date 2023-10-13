@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   846367
+   998584
    );
 
 -- select * from prot;
@@ -225,11 +225,20 @@ select distinct pe.nombre
 
 select *
   from produccion_armado
- where numero_oa = 994118;
+ where abrev_ped = 15960;
+
+select *
+  from produccion_armado
+ where numero_oa = 996814;
+
+
+select cod_cliente, cod_sucursal
+  from expedidos
+ where numero = 15960;
 
 select *
   from produccion_armado_cajas_his
- where cod_caja = 266477;
+ where cod_caja = 266441;
 
 select distinct p.abrev_cli, p.abrev_ped, c.cod_caja, c.tipo_caja, p.dato_agrupa, c.nvl_contenido
   from produccion_armado_log l
@@ -283,47 +292,56 @@ select nombre as nombres, c_codigo
    );
 
 -- ordenes linea armado
-select * from pr_ot
-where abre01 = '435'
-and destino = 2
-and nuot_tipoot_codigo = 'AR'
-and estado = 4
-order by estado;
+select *
+  from pr_ot
+ where abre01 = '435'
+   and destino = 2
+   and nuot_tipoot_codigo = 'AR'
+   and estado = 4
+ order by estado;
 
 -- que no este programado
-select * from produccion_armado
+select *
+  from produccion_armado
  where numero_oa = 995309;
 
-SELECT DISTINCT O.NUMERO, O.FORMU_ART_COD_ART, O.CANT_PROG,
-  0 AS CANT_RESUL, O.ABRE02, O.ABRE01,
-  '<SIN LINEA>' AS LINEA_PROD,  '0' AS ESTADO,
-  DECODE((SELECT COUNT(PD.SALDO)
-            FROM PR_OT_DET PD
-           WHERE PD.OT_NUOT_SERIE = 3
-             AND PD.OT_NUOT_TIPOOT_CODIGO = 'AR'
-             AND LENGTH(PD.COD_LIN) = 3
-             AND (TO_NUMBER(PD.COD_LIN) BETWEEN 800 AND 831 OR TO_NUMBER(PD.COD_LIN) BETWEEN 850 AND 854)
-             AND SALDO = 0 AND PD.ESTADO <> '9'
-             AND OT_NUMERO = o.numero
-          ), 0, 'COMPLETO', 'INCOMPLETO') AS SURTIDO
-  FROM PR_OT O
- WHERE O.NUOT_TIPOOT_CODIGO ='AR'
-   AND O.ESTADO = 4
-   AND O.NUMERO NOT IN (SELECT P.NUMERO_OA FROM PRODUCCION_ARMADO P)
-   AND O.FORMU_ART_COD_ART NOT LIKE 'RPKN%'
-   AND O.FORMU_ART_COD_ART NOT LIKE 'ATZ%'
-   AND O.FORMU_ART_COD_ART NOT LIKE 'CVM%'
-   AND O.FORMU_ART_COD_ART NOT LIKE 'PFB%'
+select distinct o.numero, o.formu_art_cod_art, o.cant_prog, 0 as cant_resul, o.abre02, o.abre01
+              , '<SIN LINEA>' as linea_prod, '0' as estado, decode((
+                                                                     select count(pd.saldo)
+                                                                       from pr_ot_det pd
+                                                                      where pd.ot_nuot_serie = 3
+                                                                        and pd.ot_nuot_tipoot_codigo = 'AR'
+                                                                        and length(pd.cod_lin) = 3
+                                                                        and (
+                                                                          to_number(pd.cod_lin) between 800 and 831 or
+                                                                          to_number(pd.cod_lin) between 850 and 854)
+                                                                        and saldo = 0
+                                                                        and pd.estado <> '9'
+                                                                        and ot_numero = o.numero
+                                                                     ), 0, 'COMPLETO',
+                                                                   'INCOMPLETO') as surtido
+  from pr_ot o
+ where o.nuot_tipoot_codigo = 'AR'
+   and o.estado = 4
+   and o.numero not in (
+   select p.numero_oa
+     from produccion_armado p
+   )
+   and o.formu_art_cod_art not like 'RPKN%'
+   and o.formu_art_cod_art not like 'ATZ%'
+   and o.formu_art_cod_art not like 'CVM%'
+   and o.formu_art_cod_art not like 'PFB%'
 --    AND O.ABRE02 NOT LIKE 'PJ%'
- UNION ALL
-SELECT P.NUMERO_OA, P.FORMU_ART_COD_ART, P.CANT_PROG, P.CANT_RESUL,
-  P.ABREV_CLI, P.ABREV_PED, P.ID_LINEA_PROD AS LINEA_PROD, P.ESTADO,
-  'COMPLETO' AS SURTIDO
-  FROM PRODUCCION_ARMADO P
- WHERE P.ESTADO = 6
-   AND P.ID_LINEA_PROD <> '05'
-   AND NVL((SELECT ESTADO
-              FROM PR_OT
-             WHERE NUMERO = P.NUMERO_OA
-               AND NUOT_TIPOOT_CODIGO = 'AR'), 0) = 4
- ORDER BY 8 DESC, 5, 6;
+ union all
+select p.numero_oa, p.formu_art_cod_art, p.cant_prog, p.cant_resul, p.abrev_cli, p.abrev_ped
+     , p.id_linea_prod as linea_prod, p.estado, 'COMPLETO' as surtido
+  from produccion_armado p
+ where p.estado = 6
+   and p.id_linea_prod <> '05'
+   and nvl((
+             select estado
+               from pr_ot
+              where numero = p.numero_oa
+                and nuot_tipoot_codigo = 'AR'
+             ), 0) = 4
+ order by 8 desc, 5, 6;

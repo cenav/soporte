@@ -84,13 +84,29 @@ select serie, num_ped, item, cod_art, cantidad, cod_lin
  order by item;
 
 select *
-  from pedido
- where num_ped = 201499;
+  from histped
+ where serie = 21
+   and num_ped = 486;
 
+select *
+  from pedido
+ where serie = 21
+   and num_ped = 486;
+
+select *
+  from itemped
+ where serie = 21
+   and num_ped = 486;
 
 select *
   from cotizacion
- where num_ped = 201499;
+ where serie = 21
+   and num_ped = 456;
+
+select *
+  from itemcot
+ where serie = 21
+   and num_ped = 456;
 
 select *
   from cotizacion
@@ -139,7 +155,7 @@ select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moned
           where x.num_ped = c.num_ped
             and x.serie = c.serie
             and x.precio_sugerido > 0
-         ) = 0
+         ) = 0;
 --  union
 -- select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moneda
 --      , v.nombre as vendedor, c.numero_ref, c.nro_sucur, s.nombre_sucursal
@@ -152,3 +168,15 @@ select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moned
 --    and s.cod_cliente(+) = c.cod_cliente
 --    and s.nro_sucur(+) = c.nro_sucur
 --  order by 1, 2 desc;
+
+select *
+  from cotizacion
+ where num_ped = 206298;
+
+select *
+  from itemcot
+ where num_ped = 206298;
+
+select *
+  from clientes
+ where cod_cliente = '10479286430';

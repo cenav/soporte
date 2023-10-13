@@ -75,7 +75,12 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 702;
+   and num_ped = 789;
+
+select *
+  from itemord
+ where serie = 3
+   and num_ped = 789;
 
 select *
   from movdeta d

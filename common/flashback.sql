@@ -748,3 +748,8 @@ select *
    and mes = 6
    and libro = '11'
    and voucher = 60065;
+
+select *
+  from orden_de_compra as of timestamp to_timestamp('15-09-2023 11:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where serie = 30
+   and num_ped = 24;

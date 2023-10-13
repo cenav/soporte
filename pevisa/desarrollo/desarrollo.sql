@@ -6,8 +6,6 @@ select * from tipos_pedido_master;
 
 select * from grupo_unidad_tipopedido;
 
-select * from pr_programas_compras;
-
 select a.cod_art, a.descripcion, a.tp_c_stck, a.unidad, m.stock, a.tp_art, a.cod_fam, a.cod_lin
   from almacen m
      , articul a
@@ -46,7 +44,6 @@ select *
    and serie = 1
    and numero = 1371033;
 
-select * from pr_programas_compras;
 
 insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
@@ -58,4 +55,20 @@ values ( 'TA', '10', 29, 9696, 'CAR 485', 40.0000, 0.000000, 0.000000, date '202
        , null, null, 40.0000, null, null, null);
 
 
-select * from menu_inventario;
+select *
+  from cambdol
+ where fecha = to_date('21/09/2023', 'dd/mm/yyyy');
+
+select *
+  from kardex_g
+ where cod_alm = 'A4'
+   and tp_transac = '21'
+   and serie = 1
+   and numero = 34773;
+
+select *
+  from kardex_d
+ where cod_alm = 'A4'
+   and tp_transac = '21'
+   and serie = 1
+   and numero = 34773;

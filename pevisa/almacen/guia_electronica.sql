@@ -59,10 +59,10 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256852;
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 5851;
 
 select *
   from kardex_g_guia_remision
@@ -118,3 +118,70 @@ select *
   from kardex_g_guia_remision
  where cod_alm = '62'
    and serie = 160;
+
+
+/*
+
+██╗   ██╗██╗   ██╗███████╗██╗    ██╗   ██╗███████╗     █████╗
+██║   ██║██║   ██║██╔════╝██║    ██║   ██║██╔════╝    ██╔══██╗
+██║   ██║██║   ██║█████╗  ██║    ██║   ██║█████╗      ███████║
+╚██╗ ██╔╝██║   ██║██╔══╝  ██║    ╚██╗ ██╔╝██╔══╝      ██╔══██║
+ ╚████╔╝ ╚██████╔╝███████╗███████╗╚████╔╝ ███████╗    ██║  ██║
+  ╚═══╝   ╚═════╝ ╚══════╝╚══════╝ ╚═══╝  ╚══════╝    ╚═╝  ╚═╝
+
+ ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ██████╗      ██████╗ ██╗   ██╗██╗ █████╗
+██╔════╝ ██╔════╝████╗  ██║██╔════╝██╔══██╗██╔══██╗██╔══██╗    ██╔════╝ ██║   ██║██║██╔══██╗
+██║  ███╗█████╗  ██╔██╗ ██║█████╗  ██████╔╝███████║██████╔╝    ██║  ███╗██║   ██║██║███████║
+██║   ██║██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗██╔══██║██╔══██╗    ██║   ██║██║   ██║██║██╔══██║
+╚██████╔╝███████╗██║ ╚████║███████╗██║  ██║██║  ██║██║  ██║    ╚██████╔╝╚██████╔╝██║██║  ██║
+ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═╝
+
+ */
+
+--::::::::::::::::::::::::::::--
+-- query pantalla principal   --
+--::::::::::::::::::::::::::::--
+select *
+  from view_salidas_pre_guias_nac
+ where cod_alm in ('F0') and enviada = 0
+   and not exists (
+   select 1
+     from kardex_g_guia_remision r
+    where cod_alm = view_salidas_pre_guias_nac.cod_alm
+      and tp_transac = view_salidas_pre_guias_nac.tp_transac
+      and serie = view_salidas_pre_guias_nac.serie
+      and numero = view_salidas_pre_guias_nac.numero
+      and guia_serie like 'T%'
+   )
+   and cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 5851;
+
+
+--::::::::::::::::::::::::::::--
+--        tara_bo = 0         --
+--::::::::::::::::::::::::::::--
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 5885;
+
+--:::::::::::::::::::::::::::::::::::::::::--
+--    elimina de kardex_g_guia_remision    --
+--:::::::::::::::::::::::::::::::::::::::::--
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 5885;
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '11'
+   and fch_transac > to_date('01/10/2023', 'dd/mm/yyyy');
+

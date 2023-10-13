@@ -659,3 +659,32 @@ select *
    and tipo = '9'
    and voucher = 80002;
 
+select *
+  from docuvent
+ where tipodoc = '07'
+   and serie = 'F051'
+   and numero in (151, 152);
+
+
+select *
+  from itemdocu
+ where tipodoc = '07'
+   and serie = 'F051'
+   and numero in (151, 152);
+
+
+select *
+  from lotes_envio_sunat
+ where numero_lote between to_number(to_char(sysdate, 'RR')) * 10000 and to_number(to_char(sysdate, 'RR')) * 10000 + 9999
+   and usuario_confirma_pago is null;
+
+
+select *
+  from lotes_envio_sunat
+ where numero_lote = 230087;
+
+insert into pevisa.lotes_envio_sunat ( numero_lote, fecha_envio, usuario_genera
+                                     , numero_registros_lote, importe_total_lote, periodo_tributario
+                                     , usuario_confirma_pago, fecha_confirma_pago, serie_planilla
+                                     , numero_planilla)
+values (230087, timestamp '2023-10-05 10:17:18', 'ECHINCHA', 1, 17, 202309, null, null, 1, 7092);

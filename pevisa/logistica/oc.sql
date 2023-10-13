@@ -1,18 +1,25 @@
+-- cond. pag 46
 select *
   from orden_de_compra
- where serie = 30
+ where serie = 4
    and num_ped in (
-   556
+   61198
    );
-
-select * from proveed where cod_proveed = '20546450075';
 
 select *
   from itemord
+ where serie = 4
+   and num_ped in (
+   61064
+   );
+
+select *
+  from orden_de_compra_historia
  where serie = 30
    and num_ped in (
-   556
-   );
+   562
+   )
+ order by creacion_cuando;
 
 select *
   from factpag
@@ -51,7 +58,7 @@ select *
 select *
   from orden_matriceria
  where num_ped in (
-   230093
+   230145
    );
 
 select *
@@ -63,8 +70,8 @@ select *
 
 select *
   from orden_de_compra
- where cod_proveed = '10427461179'
- order by fecha;
+ where cod_proveed = '20600735668'
+ order by fecha desc;
 
 select *
   from orden_de_compra
@@ -75,12 +82,7 @@ select *
  where serie = 3
    and num_ped = 42672;
 
-select *
-  from orden_de_compra_historia
- where serie = 4
-   and num_ped in (
-   60932
-   );
+
 
 select *
   from oc_registro_facturas
@@ -194,6 +196,10 @@ select *
   from proveed
  where cod_proveed = '20251505111';
 
+select *
+  from proveed
+ where nombre like '%LINUX%';
+
 select * from solicita_emision;
 
 select * from cierre_caja;
@@ -287,3 +293,53 @@ select * from proveed where nombre like '%CIENCIAS APLICADAS%';
 
 select * from planilla10.personal where c_codigo = 'E253';
 
+select *
+  from orden_de_compra
+ where serie = 30
+   and num_ped = 24;
+
+select *
+  from tab_lineas
+ where linea between '800' and '899'
+   and length(linea) = 3;
+
+select * from planilla10.personal where apellido_paterno = 'CABEZAS';
+
+select *
+  from orden_de_compra
+ where c_resp = 'E230'
+   and fecha > to_date('01/01/2023', 'dd/mm/yyyy')
+   and estado in ('0', '1', '2');
+
+select * from pr_ot_sec;
+
+select * from pr_proceso;
+
+select *
+  from pr_forsec
+ where cod_art = '180.1382ZN';
+
+select *
+  from pr_for_ins
+ where formu_art_cod_art = '180.1382ZN';
+
+select *
+  from pr_forsec
+ where cod_art = 'FOR3555R';
+
+select *
+  from orden_de_compra
+ where c_resp = 'E172'
+   and serie = 3
+   and fecha >= to_date('01/01/2023', 'dd/mm/yyyy')
+ order by fecha;
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%CASTILLA%';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E017';
+
+select * from f_buen_contribuyente();

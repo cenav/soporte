@@ -2,7 +2,7 @@
 declare
   cursor vencimientos is
        with fechas as (
-         select date'2023-09-01' as desde, date'2023-09-08' as hasta
+         select date'2023-08-01' as desde, date'2023-09-18' as hasta
            from dual
          )
      select f.desde + level - 1 as dia
@@ -11,8 +11,8 @@ declare
     connect by level <= (f.hasta - f.desde + 1);
 begin
   for vcto in vencimientos loop
---     pkg_finanzas_pagares.cancela_cuotas(vcto.dia);
-    pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
+    pkg_finanzas_pagares.cancela_cuotas(vcto.dia);
+--     pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
   end loop;
 end;
 

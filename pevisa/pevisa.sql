@@ -1383,7 +1383,6 @@ values ( '72846359', '03', 'B053', '309', date '2023-04-10', null, null, null, 2
        , null, 'W', date '2023-04-10', null, null, null, null, null, null, null, 0.00, 0.00
        , 1.000000);
 
-
 select *
   from permiso
  where numero = 18083;
@@ -1393,7 +1392,7 @@ select *
 
 select *
   from vacaciones
- where numero = 18083;
+ where numero = 18343;
 
 select * from pla_control;
 
@@ -2278,3 +2277,68 @@ select *
  order by fecha desc;
 
 select * from moneda;
+
+select *
+  from permiso
+ where numero = 59296;
+
+select *
+  from kardex_d
+ where cod_art = 'AC1METP-045';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '22';
+
+select * from almacen_activo_fijo;
+
+select *
+  from almacenes
+ where cod_alm in ('A1', 'A4');
+
+select *
+  from expedidos
+ where numero = 15959;
+
+select * from packing_agrupar;
+
+select * from linea_sin_tope_emision;
+
+select *
+  from pk_gnumero
+ where pk_numero = 41517;
+
+select *
+  from docu_ag
+ where numero = 4561;
+
+select *
+  from item_ag
+ where numero in (4561, 4560);
+
+select * from responsabilidad_cargo;
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%AYUDANTE%';
+
+select * from exproforma_libre;
+
+select *
+  from caja
+ where id_serie = 1
+   and id_numero = 100;
+
+-- correos sede faucett
+select p.c_codigo, p.nombre, p.desc_cargo, h.email
+  from vw_personal p
+       join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+ where h.local = '0002'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E567';

@@ -1,26 +1,26 @@
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_FACT_NO_EMB1'
+      job_name => 'JOB_FACTURAS_PENDIENTES_EXPO'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'FACTURAS_NO_EMBARCADAS_XLS.LISTADO_PARA_VENDEDORES'
-    , start_date => to_date('25/08/2023 07:00:00', 'DD/MM/YYYY HH24:MI:SS')
-    , repeat_interval => 'FREQ=MONTHLY;INTERVAL=1'
+    , job_action => 'FACTURAS_PENDIENTES_EXPO_XLS.LISTADO_PARA_VENDEDORES'
+    , start_date => to_date('09/10/2023 16:30:00', 'DD/MM/YYYY HH24:MI:SS')
+    , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=9,10'
     , auto_drop => false
     , enabled => true
-    , comments => 'reporte facturas no embarcadas'
+    , comments => 'envio automatico correo facturas pendientes exportacion'
     );
 end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_PREMIO_PUNTUALIDAD'
+      job_name => 'JOB_FACTURAS_PENDIENTES_EXPO'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'puntualidad.automatico'
-    , start_date => timestamp '2022-04-28 23:59:00 -5:00'
-    , repeat_interval => 'FREQ=MONTHLY;INTERVAL=1'
+    , job_action => 'FACTURAS_PENDIENTES_EXPO_XLS.LISTADO_PARA_VENDEDORES'
+    , start_date => timestamp '2023-10-09 16:30:00 -5:00'
+    , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=9,10'
     , auto_drop => false
     , enabled => true
-    , comments => 'Relacion de trabajadores que ganan el premio por puntualidad'
+    , comments => 'envio automatico correo facturas pendientes exportacion'
     );
 end;
 
@@ -34,7 +34,7 @@ end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
--- call dbms_scheduler.drop_job('JOB_FACT_NO_EMB1');
+call dbms_scheduler.drop_job('JOB_FACTURAS_PENDIENTES_EXPO');
 
 --call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
 

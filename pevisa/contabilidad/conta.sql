@@ -2,9 +2,9 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 6
-   and libro = '11'
-   and voucher = 60065;
+   and mes = 8
+   and libro = '25'
+   and voucher = 80011;
 
 select *
   from movdeta
@@ -68,20 +68,26 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 6
+   and mes = 9
    and tipo = '2'
    and voucher in (
-   63316
+   94096
    );
 
 select *
   from movfide
  where ano = 2023
-   and mes = 6
+   and mes = 9
    and tipo = '2'
    and voucher in (
-   63316
+   94096
    );
+
+select *
+  from factpag
+ where tipdoc = 'AV'
+   and serie_num = '001'
+   and numero = 'PM2023056';
 
 select *
   from movglos_historia
@@ -239,7 +245,11 @@ select * from caja_chica_serie;
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'MQ1ACAB-037';
+ where cod_activo_fijo = '02LAPT18';
+
+select *
+  from activo_fijo_asiento
+ where cod_activo_fijo = '02LAPT18';
 
 select *
   from pr_tabmaq
@@ -477,13 +487,14 @@ select *
 
 select *
   from caja_chica
- where serie = 4
-   and numero = 230068;
+ where serie = 7
+   and numero = 22238;
 
 select *
   from caja_chica_d
- where serie = 4
-   and numero = 230068;
+ where serie = 7
+   and numero = 22238;
+
 
 select *
   from vendedores
@@ -590,7 +601,7 @@ begin
   l_param.glosa
     := 'GTS REPRESENTACIION JHONY FIGUEROA';
   caja_asiento.contabilidad
-    (l_caja, l_param);
+  (l_caja, l_param);
 end;
 
 
@@ -1187,13 +1198,13 @@ declare
         simple_integer := 11;
 begin
   utilconta.asiento_sin_detalle
-    (l_ano, l_mes);
+  (l_ano, l_mes);
   utilconta.completa_cero
-    (l_ano, l_mes);
+  (l_ano, l_mes);
   utilconta.elimina_relacion
-    (l_ano, l_mes);
+  (l_ano, l_mes);
   utilconta.agrega_relacion
-    (l_ano, l_mes);
+  (l_ano, l_mes);
 end;
 
 
@@ -1919,3 +1930,163 @@ select *
 select *
   from pr_usualma
  where usuario = 'JJUAREZ';
+
+
+select cuenta_gasto_mantto
+  from activo_fijo
+ where cod_activo_fijo = 'SECS ALM COMP Y PZS';
+
+select *
+  from activo_fijo_clase
+ where cod_clase = 'EDI';
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '61'
+   and numero = 252;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '61'
+   and numero = 252;
+
+select *
+  from factcob
+ where ano = 2023
+   and mes = 8
+   and libro = '25'
+   and voucher = 80011;
+
+select * from tmp_carga_data;
+
+select *
+  from caja_chica_d
+ where serie = 2
+   and numero = 230070;
+
+select *
+  from view_saldoped_embarque_ingreso
+ where cod_art = '400.3233SIL';
+
+select *
+  from ctabnco
+ where codigo = 53;
+
+select *
+  from ctabnco
+ where cuenta = '106201';
+
+select *
+  from itemrec
+ where tipodoc = 'RP'
+   and numero = 16341;
+
+select *
+  from activo_fijo_asiento
+ where cod_activo_fijo = 'EQLAB4';
+
+
+select *
+  from movfigl
+ where ano = 2022
+   and mes = 12
+   and tipo = '2'
+   and voucher in (
+   124031
+   );
+
+select *
+  from movfide
+ where ano = 2022
+   and mes = 12
+   and tipo = '2'
+   and voucher in (
+   124031
+   );
+
+insert into movfigl
+select ano, 9, tipo, 94097, item, fecha, glosa, fpaga, banco, numero, dfecha, importe, estado
+     , pase_cta_cte, pase_cta_cte_pro, a_la_orden, moneda, banco_destino, importe_destino
+     , estado_banco, usuario, fec_reg, tipo_mov, nro_voucher, cod_cliente, bco_cheq, tipo_cambio
+     , cobrador, nro_planilla, sistema
+  from movfigl
+ where ano = 2022
+   and mes = 12
+   and tipo = '2'
+   and voucher in (
+   124031
+   );
+
+insert into movfide
+select ano, 9, tipo, 94097, item, cuenta, etipor, ecodigo, etipo, eserie, enumero, fecha
+     , cargo_s, abono_s, cargo_d, abono_d, banco, file_cta_cte, detalle, estado, generado, usuario
+     , fec_reg, tipo_mov, estado_banco, ano_concil, mes_concil, cambio, cobrador, operacion
+     , cuenta_retencion, f_vencto, unidad_negocio, vendedor
+  from movfide
+ where ano = 2022
+   and mes = 12
+   and tipo = '2'
+   and voucher in (
+   124031
+   )
+   and cuenta not in (4223);
+
+insert into movfigl
+select 2023, mes, tipo, 94096, item, fecha, glosa, fpaga, banco, numero, dfecha, importe, estado
+     , pase_cta_cte, pase_cta_cte_pro, a_la_orden, moneda, banco_destino, importe_destino
+     , estado_banco, usuario, fec_reg, tipo_mov, nro_voucher, cod_cliente, bco_cheq, tipo_cambio
+     , cobrador, nro_planilla, sistema
+  from movfigl
+ where ano = 2022
+   and mes = 9
+   and tipo = '2'
+   and voucher in (
+   94097
+   );
+
+insert into movfide
+select 2023, mes, tipo, 94096, item, cuenta, etipor, ecodigo, etipo, eserie, enumero, fecha
+     , cargo_s, abono_s, cargo_d, abono_d, banco, file_cta_cte, detalle, estado, generado, usuario
+     , fec_reg, tipo_mov, estado_banco, ano_concil, mes_concil, cambio, cobrador, operacion
+     , cuenta_retencion, f_vencto, unidad_negocio, vendedor
+  from movfide
+ where ano = 2022
+   and mes = 9
+   and tipo = '2'
+   and voucher in (
+   94097
+   );
+
+select *
+  from movfigl
+ where ano = 2023
+   and mes = 9
+   and tipo = '2'
+   and voucher in (
+   94096
+   );
+
+select *
+  from movfide
+ where ano = 2023
+   and mes = 9
+   and tipo = '2'
+   and voucher in (
+   94096
+   );
+
+select *
+  from cabfpag
+ where ano = 2023
+   and mes = 9
+   and libro = '2'
+   and voucher in (
+   94096
+   );
+
+select *
+  from factcob
+ where tipdoc = 'L1'
+   and serie_num = '1'
+   and numero = '364722';
+

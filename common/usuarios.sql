@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user gpalomino account unlock;
+alter user powerbi account unlock;
 
 
-alter user GPALOMINO account lock;
+alter user gfalcon account lock;
 
 
-alter user epapel identified by "papel$2023";
+alter user powerbi identified by "pevisa.123";
 
 
 alter user epapel password expire;
@@ -20,8 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'GPALOMINO';
-
+ where username like 'POWERBI';
 
 select *
   from dba_users
@@ -50,6 +49,11 @@ select s.owner as syn_owner
  where o.owner is null
     or o.status != 'VALID';
 
+-- acceso MGVENTAS
+select *
+  from seccrus
+ where co_usrusr = 'PEVISA'
+   and co_ctrctr = 'M_RECLAMOS';
 
 select *
   from sig_conexiones
@@ -62,21 +66,16 @@ select *
  where comp_id = 'APEX';
 
 
--- busca procedimineto
-select *
-  from dba_source
- where upper(text) like upper('%mguevara%')
-   and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%Stock Minimo IQF%')
+ where upper(text) like upper('%ubevilacqua%')
    and owner = 'PEVISA';
 
 
 select *
   from all_source
- where upper(text) like upper('%Stock Minimo IQF%')
+ where upper(text) like upper('%Activación de código%')
    and owner = 'PEVISA';
 
 select owner, table_name
@@ -172,17 +171,22 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('GPALOMINO', 'DCONTRERAS')
+ where usuario in ('CNAVARRO', 'DCONTRERAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('PERMISO')
+ where usuario in ('CNAVARRO')
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where modulo in ('CAMBIO_ESTADO_OA')
  order by usuario, modulo;
 
 select *
   from modulo
- where id_modulo like '%HALLAZGO%';
+ where descripcion like '%ESTADO%';
 
 select *
   from usuario_modulo
@@ -602,3 +606,31 @@ select *
 select *
   from tab_menu
  where usuario = 'LDANIEL';
+
+select *
+  from usuario_modulo
+ where modulo = 'VACACIONES'
+   and usuario = 'JFIGUEROA';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E017';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%MESTANZA%';
+
+select *
+  from cobradores_recibos
+ where codigo_cobrador = 'G5';
+
+select *
+  from clientes
+ where grupo != 'S';
+
+select *
+  from notificacion
+ where sistema = 'ACTIVO_FIJO'
+   and proceso = 'ACTIVACION';
+
+select * from vw_proveed_volumen_compra;

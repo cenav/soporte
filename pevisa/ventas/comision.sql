@@ -1,8 +1,8 @@
 begin
-  --   pkg_cominac.genera_contrato(2022, 8, 'S',  51, 'SI');
+  pkg_cominac.genera_contrato(2023, 8, 'S', 61, 'SI');
   --     pkg_cominac.genera_periodo(2022, 5, 'S');
-  pkg_cominac.elimina_periodo(2023, 2);
---   pkg_cominac.elimina_proceso(01718);
+--   pkg_cominac.elimina_periodo(2023, 2);
+--   pkg_cominac.elimina_proceso(2003);
 end;
 
 -- Elimina comision en un intervalo de numeros de proceso
@@ -202,7 +202,7 @@ select l.linea, g.grupo, g.descripcion, g.id_mega_grupo, m.descripcion
        join tab_grupos g on l.grupo = g.grupo
        join tab_mega_grupos m on g.id_mega_grupo = m.id
  where g.id_mega_grupo = 1
-       --AND length(l.grupo) >= 3
+--AND length(l.grupo) >= 3
  order by g.grupo;
 
 
@@ -277,3 +277,8 @@ end;
 select * from param_bono_obrero;
 
 select * from cabfpag;
+
+select *
+  from comisiones_planilla
+ where ano = 2023
+   and mes = 8;

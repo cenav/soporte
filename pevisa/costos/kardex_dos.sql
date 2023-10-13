@@ -16,20 +16,6 @@ select *
 -- AND ordtra IN ('598272', '590102', '590174', '590178', '592854', '597853', '595823', '590104', '590103')
 --    AND cod_ope IN ('86');
 
-update tmp_moviart_dos
-   set nro_doc = docto
- where ano = 2022
-   and mes in (12)
-   and id in ('S')
---    and motivo = '1'
---    AND ordtra IS NULL;
---    and (cta like '26%')
-   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
-        cta like '21%')
---    and tp_transac in ('26%')
-   and cod_ope in
-       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
-
 -- reporte
 -- stock a la fecha
 -- indicador MP
@@ -315,14 +301,6 @@ select d.*
    and g.tp_transac = '22'
    and g.serie = 1
    and g.numero = 154486;
-
-select *
-  from kardex_g g
- where g.cod_alm = '23'
-   and g.tp_transac = '29'
-   and g.serie = 1
-   and g.numero = 1396728;
-
 
 select *
   from tmp_moviart_dos
@@ -758,27 +736,61 @@ select distinct cod_art, secuencia, ano, mes, docto
 select *
   from tmp_moviart_dos
  where ano = 2023
-   and mes in (1, 2, 3, 4, 5, 6)
+   and mes in (1)
    and id in ('S')
-   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
-        cta like '21%')
-   and cod_ope in
-       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48')
-   and docto is null;
+   and motivo = '4'
+   and cta like '20%';
 
-update tmp_moviart_dos t
-   set docto = (
-     select docto
-       from tmp_carga_data b
-      where t.cod_art = b.cod_art
-        and t.secuencia = b.secuencia
-        and t.ano = b.ano
-        and t.mes = b.mes
-     )
+
+select *
+  from tmp_moviart_dos
  where ano = 2023
-   and mes in (1, 2, 3, 4, 5, 6)
-   and id in ('S')
-   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
-        cta like '21%')
-   and cod_ope in
-       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
+   and mes in (8)
+   and motivo = '1'
+   and cta like '20%';
+
+
+select *
+  from kardex_g g
+ where g.cod_alm = '57'
+   and g.tp_transac = '27'
+   and g.serie = 2
+   and g.numero = 824224;
+
+
+select *
+  from kardex_d d
+ where d.cod_alm = '57'
+   and d.tp_transac = '27'
+   and d.serie = 2
+   and d.numero = 824224;
+
+insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
+values ( '57', '27', 2, 824224, date '2023-07-19', 'AR', 3, 915276, null, null, null, null, null
+       , null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', 'CUÑO', null, null, null, null
+       , null, null, 7777.0000, 0.0000, 0.0000, null, null, 0, '823665', 'AR', '3', 915276, 'ORDPR'
+       , null);
+
+
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '57', '27', 2, 824224, '30048MLS', 145.0000, 0.000000, 0.000000, date '2023-07-19', 0.00
+       , 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null
+       , null, 0.00, 0.0000, 0.0000, 'AR', 915276, null);
+
+
+select *
+from tmp_moviart_dos
+where ano = 2023
+ and mes in (8)
+ and tp_transac = '22'
+ and id in ('S');

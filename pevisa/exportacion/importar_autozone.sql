@@ -110,9 +110,17 @@ select *
    and cod_art = 'KIT AUT JD 1262-1'
  order by cantidad desc;
 
+select cod_art, cantidad from tmp_carga_data;
+
+-- limpia tabla tmp_ventas para explosion
+select *
+  from tmp_ventas
+ where usuario = 'PEVISA';
+
 -- carga data desde archivo
-select cod_art, cantidad
+select cod_art, sum(cantidad) as cantidad
   from tmp_carga_data
+ group by cod_art
  order by cantidad desc;
 
 -- corrige los espacios en blanco
@@ -121,8 +129,10 @@ update tmp_carga_data
 
 -- carga en tabla para la explosion
 insert into tmp_ventas(usuario, cod_art, cantidad, importe)
-select user, cod_art, cantidad, 0
-  from tmp_carga_data;
+select user, cod_art, sum(cantidad) as cantidad, 0
+  from tmp_carga_data
+ group by cod_art
+ order by cantidad desc;
 
 select *
   from tmp_ventas
@@ -130,12 +140,19 @@ select *
  order by cantidad desc;
 
 begin
-  pr_explosion_para_costear_1niv();
+  --     pr_explosion_para_costear_1niv();
+  sp_explosion();
+  --   pr_explosion_hasta_subpiezas();
+--   pr_explosion_hasta_subpiezas2();
+--   pr_explosion_para_costear();
+--   pr_explosion_1niv_olga();
+--   pr_explosion_para_costear_1n32();
+--   pr_explosion_para_costear_1n3a();
 end;
 
 select *
   from tmp_explosion_articulo
- where formula = 'KIT AUT VK 87860 R';
+ where formula = 'AUTUS OS 32241 AL R';
 
 -- reporte importar requerido detalle
   with stock_art as (
@@ -180,7 +197,7 @@ select e.formula, e.art_cod_art, e.cantidad, s.stock, cant_pedido, proveedor, d.
        left join proveedor p on e.art_cod_art = p.cod_art
        left join pedido d on e.art_cod_art = d.cod_art
  where (e.cod_lin between '900' and '999' and length(e.cod_lin) = 3)
-   and e.formula = 'KIT AUT VK 87860 R'
+--    and e.formula = 'KIT AUT VK 87860 R'
  order by e.cantidad desc;
 
 
@@ -225,15 +242,19 @@ select e.art_cod_art, s.stock, cant_pedido, proveedor, d.nro_pedido
      , greatest(nvl(a.cant_requerida, 0) - nvl(stock_requerida, 0), 0) as cantidad_requerida
      , sum(e.cantidad) as cantidad
   from tmp_explosion_articulo e
-       left join stock_art s on e.art_cod_art = s.cod_art
        left join proveedor p on e.art_cod_art = p.cod_art
+       left join stock_art s on e.art_cod_art = s.cod_art
        left join pedido d on e.art_cod_art = d.cod_art
        left join vw_articulo a on e.art_cod_art = a.cod_art
  where (e.cod_lin between '900' and '999' and length(e.cod_lin) = 3)
-   and e.formula = 'KIT AUT VK 87860 R'
+--    and e.formula = 'KIT AUT VK 87860 R'
  group by e.art_cod_art, s.stock, cant_pedido, proveedor, d.nro_pedido, a.cant_requerida
         , stock_requerida
  order by cantidad desc;
+
+select cant_requerida, stock_requerida
+  from vw_articulo
+ where cod_art = '400.2556';
 
 select *
   from tmp_explosion_articulo
@@ -256,3 +277,38 @@ select p.cod_art, sum(p.cant) as cant
 select nombre, ncomercial
   from proveed
  where nombre like '%FOSHAN%';
+
+
+-- detalle pedidos
+  with detalle as (
+    select p.numero, to_char(p.fecha, 'dd/mm/yyyy') as fecha, d.cod_eqi, d.cod_art, d.canti
+         , d.preuni, d.canti * preuni as importe
+      from expedidos p
+           join expedido_d d on p.numero = d.numero
+     where p.cod_cliente in (996057, 990937)
+       and p.fecha >= to_date('01/01/2022', 'dd/mm/yyyy')
+     order by p.fecha, p.numero
+    )
+select cod_art, sum(canti) as cantidad
+  from detalle
+ group by cod_art;
+
+select *
+  from lg_itemjam
+ where cod_art = 'SA VK10040-D';
+
+select *
+  from lg_pedjam
+ where num_importa = 'PVC22167';
+
+select *
+  from pcformulas
+ where cod_art = 'M 290.3569 ALR';
+
+select *
+  from pcformulas
+ where cod_art like '%290.3569ALR%';
+
+select *
+  from pcformulas
+ where cod_for = '290.3569ALR';

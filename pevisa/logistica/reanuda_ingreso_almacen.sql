@@ -47,7 +47,6 @@ select *
  where serie_oc = :serie_oc
    and numero_oc = :numero_oc;
 
-
 -- ELIMINA APROBACION PEVISA
 select *
   from orden_de_compra_historia
@@ -73,19 +72,19 @@ select *
 -- 15	11	2	7378
 select *
   from kardex_g
- where cod_alm = '15'
+ where cod_alm = 'A1'
    and tp_transac = '11'
-   and serie = 2
-   and numero = 7378;
+   and serie = 1
+   and numero = 31044;
 
 -- costo correcto dolares
 -- 3.645000883
 select *
   from kardex_d
- where cod_alm = '02'
+ where cod_alm = 'A1'
    and tp_transac = '11'
    and serie = 1
-   and numero = 30550;
+   and numero = 31044;
 
 select *
   from almacen
@@ -146,7 +145,8 @@ select *
  order by fch_transac desc;
 
 select *
-  from activo_fijo;
+  from activo_fijo
+ where cod_activo_fijo = 'EQAA1-031INST';
 
 select *
   from kardex_g_movglos

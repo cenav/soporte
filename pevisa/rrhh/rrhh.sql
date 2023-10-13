@@ -1,5 +1,6 @@
 select *
-  from planilla10.t_cargo;
+  from planilla10.t_cargo
+ where c_cargo = 'AP';
 
 select *
   from planilla10.t_area
@@ -12,7 +13,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'ALVITES'
+ where apellido_paterno = 'ROJAS'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -21,7 +22,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1072';
+   and c_codigo = 'E722';
 
 select *
   from planilla10.personal
@@ -47,3 +48,7 @@ select *
 select *
   from planilla10.personal
  where c_codigo = 'E41311';
+
+select *
+  from permiso
+ where numero = 59050;
