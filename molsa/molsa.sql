@@ -3,7 +3,7 @@ select *
  where ano = 2023
    and mes = 8
    and libro = '07'
-   and voucher in (80001);
+   and voucher in (3796);
 
 select *
   from movdeta
@@ -75,7 +75,12 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 789;
+   and num_ped = 796;
+
+select *
+  from orden_de_compra_historia
+ where serie = 3
+   and num_ped = 796;
 
 select *
   from itemord
@@ -120,3 +125,19 @@ select *
 select *
   from plancta
  where cuenta = '442902';
+
+
+select u.serie, s.nombres, cod_unidad_negocio
+  from usuarios_caja_chica u
+     , caja_chica_serie s
+ where u.usuario = user
+   and u.estado = '1'
+   and s.id_serie = u.serie
+   and s.tipo_caja = 'CAJA CHICA'
+   and not exists
+   (
+     select distinct ch.serie
+       from caja_chica ch
+      where ch.serie = u.serie and ch.estado = 1
+     )
+ order by 1

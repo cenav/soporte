@@ -2339,6 +2339,75 @@ select p.c_codigo, p.nombre, p.desc_cargo, h.email
      from planilla10.t_situacion_cesado
    );
 
+
 select *
   from planilla10.hr_personal
  where c_codigo = 'E567';
+
+
+
+select *
+  from expednac
+ where numero = '439';
+
+
+select *
+  from expednac_d
+ where numero = '439';
+
+select *
+  from pcart_precios
+ where cod_costo = '35'
+   and cod_art = '180.423GR';
+
+select *
+  from caja_chica
+ where serie = 2;
+
+
+select *
+  from caja_chica
+ where estado = '1'
+   and serie = 2;
+
+
+select del, al
+  from tab_semanas
+ where nvl(estado, 0) < 8
+   and trunc(sysdate) between del and al;
+
+select *
+  from tab_semanas
+ order by del;
+
+select *
+  from planilla10.personal
+ where encargado = '039'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '039';
+
+
+select * from tmp_carga_activo_fijo;
+
+select * from caja_estado_log;
+
+select * from caja;
+
+select cod_transp, nombre, domicilio, ruc_transp
+  from transporte
+ where estado is null
+ order by cod_transp;
+
+select * from exclientes;
+
+-- clientes exportacion
+select e.cod_cliente, e.nombre, e.direcc, e.direc2, ruc, e.pais, p.nombre as nom_pais, ciudad
+     , telefono, cod_vende, abrevia, e.estado
+  from exclientes e
+       left join expaises p on e.pais = p.pais;

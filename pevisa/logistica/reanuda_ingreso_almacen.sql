@@ -64,27 +64,30 @@ select *
 
 select *
   from oc_registro_facturas
- where cod_alm = '30'
+ where cod_alm = 'F0'
    and tp_transac = '11'
-   and serie = 1
-   and numero = 26838;
+   and serie = 11
+   and numero = 128;
+
 
 -- 15	11	2	7378
 select *
   from kardex_g
- where cod_alm = 'A1'
+ where cod_alm = 'F0'
    and tp_transac = '11'
-   and serie = 1
-   and numero = 31044;
+   and serie = 11
+   and numero = 128;
 
 -- costo correcto dolares
 -- 3.645000883
 select *
   from kardex_d
- where cod_alm = 'A1'
+ where cod_alm = 'F0'
    and tp_transac = '11'
-   and serie = 1
-   and numero = 31044;
+   and serie = 11
+   and numero = 128;
+
+
 
 select *
   from almacen

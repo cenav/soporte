@@ -1,16 +1,25 @@
 -- cond. pag 46
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 20
    and num_ped in (
-   61198
+   1107
    );
 
 select *
+  from proveed
+ where nombre like '%LINUX%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20600735668'
+ order by fecha desc;
+
+select *
   from itemord
- where serie = 4
+ where serie = 6
    and num_ped in (
-   61064
+   2766
    );
 
 select *

@@ -1619,3 +1619,31 @@ select p.id_programa, p.descripcion
    and c.codigo = 'NACIONAL'
  group by p.id_programa, p.descripcion
  order by id_programa;
+
+select *
+  from nrodoc
+ where tipodoc = '01';
+
+select *
+  from docuvent
+ where tipodoc = '01'
+   and serie = 'F071';
+
+select * from pla_control;
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 46
+   and saldo > 0;
+
+select *
+  from kardex_d
+ where cod_art = 'F026400221'
+ order by fch_transac desc;
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 46
+   and saldo = 0;

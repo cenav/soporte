@@ -1,21 +1,7 @@
 -- cotizacion
-select c.serie
-     , c.num_ped
-     , c.fecha
-     , c.cod_cliente
-     , e.nombre
-     , c.cond_pag
-     , c.cod_vende
-     , v.nombre as nom_vendedor
-     , c.refe_pedido
-     , p.estado
-     , c.moneda
-     , c.total_bruto
-     , c.total_descuento
-     , c.total_igv
-     , c.total_valvta
-     , c.total_pedido as total_cotizacion
-     , p.num_ped
+select c.serie, c.num_ped, c.fecha, c.cod_cliente, e.nombre, c.cond_pag, c.cod_vende
+     , v.nombre as nom_vendedor, c.refe_pedido, p.estado, c.moneda, c.total_bruto, c.total_descuento
+     , c.total_igv, c.total_valvta, c.total_pedido as total_cotizacion, p.num_ped
   from cotizacion c
        join clientes e on c.cod_cliente = e.cod_cliente
        join vendedores v on c.cod_vende = v.cod_vendedor
@@ -28,19 +14,9 @@ select *
   from pedido
  where num_ped = 222725;
 
-select c.serie
-     , c.num_ped
-     , c.fecha
-     , c.cod_cliente
-     , e.nombre
-     , c.cond_pag
-     , c.cod_vende
-     , v.nombre as nom_vendedor
-     , c.refe_pedido
-     , p.estado
-     , c.moneda
-     , c.total_pedido as total_cotizacion
-     , p.total_facturado
+select c.serie, c.num_ped, c.fecha, c.cod_cliente, e.nombre, c.cond_pag, c.cod_vende
+     , v.nombre as nom_vendedor, c.refe_pedido, p.estado, c.moneda
+     , c.total_pedido as total_cotizacion, p.total_facturado
   from cotizacion c
      , clientes e
      , vendedores v
@@ -60,7 +36,11 @@ select *
 
 select *
   from cotizacion
- where num_ped = 196170;
+ where num_ped = 207268;
+
+select *
+  from itemcot
+ where num_ped = 207268;
 
 select distinct estado
   from cotizacion
@@ -171,12 +151,37 @@ select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moned
 
 select *
   from cotizacion
- where num_ped = 206298;
+ where num_ped in (207180, 207179);
+
+select *
+  from itemcot
+ where num_ped = 207180;
+
+select *
+  from clientes
+ where cod_cliente = '10479286430';
 
 select *
   from itemcot
  where num_ped = 206298;
 
+-- no figura en cotizacion de netos
+-- tipo documento debe ser 20
 select *
-  from clientes
- where cod_cliente = '10479286430';
+  from cotizacion
+ where estado = '2'
+   and num_ped = 207180
+   and cod_vende in (
+   select cod_vendedor
+     from vendedores
+    where supervisor like '01'
+   );
+
+select *
+  from usuarios_cotizacion
+ where usuario = 'LSALCEDO';
+
+-- estado = '2' AND COD_VENDE IN (SELECT COD_VENDEDOR
+-- FROM VENDEDORES
+-- WHERE SUPERVISOR LIKE :GLOBAL.SUPERVISOR)
+

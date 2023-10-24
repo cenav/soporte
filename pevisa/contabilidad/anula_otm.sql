@@ -8,10 +8,10 @@ declare
   cursor cr_ot_anular is
     select *
       from ot_mantto
-     where id_tipo = 'MQ'
-       and id_serie = 3
+     where id_tipo = 'PY'
+       and id_serie = 2
        and id_numero in (
-       1870
+       726
        );
 
   function tiene_oc(
@@ -53,7 +53,7 @@ begin
     ot := api_ot_mantto.onerow(r.id_tipo, r.id_serie, r.id_numero);
 
     case
-      when r.estado = 8 then
+      when r.estado = c_estado_cerrado then
         raise_application_error(-20001, 'estado cerrado');
       when tiene_oc(r.id_tipo, r.id_serie, r.id_numero) then
         raise_application_error(-20002, 'tiene OC');

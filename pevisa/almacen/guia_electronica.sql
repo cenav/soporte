@@ -156,7 +156,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero = 5851;
+   and numero in (7066);
 
 
 --::::::::::::::::::::::::::::--
@@ -167,7 +167,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero = 5885;
+   and numero in (7066);
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
@@ -177,7 +177,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero = 5885;
+   and numero in (7066);
 
 select *
   from kardex_d
@@ -185,3 +185,32 @@ select *
    and tp_transac = '11'
    and fch_transac > to_date('01/10/2023', 'dd/mm/yyyy');
 
+
+select * from transporte;
+
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7033, 7041);
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7033, 7041);
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 6815;
+
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7033, 7041);

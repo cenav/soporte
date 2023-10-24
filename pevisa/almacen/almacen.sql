@@ -490,4 +490,78 @@ select *
  where cod_art in (
                    'RIMTGELTNCLP300M-002', 'RIMTGELTNCLP300M-003', 'RIMTGELTNCLP300M-004'
    )
-order by cod_art, fch_transac;
+ order by cod_art, fch_transac;
+
+select guia_serie || '-' || to_char(guia_numero)
+  from kardex_g_guia_remision
+ where tp_transac = 'F0'
+   and serie = 25
+   and numero = 6659;
+
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = 21
+   and serie = 25
+   and numero = 6658;
+
+select numero
+  from nrodoc
+ where tipodoc = '09'
+   and serie = 'T001'
+   for update of numero;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 6396;
+
+declare
+  x_numero_despacho number;
+begin
+  x_numero_despacho := pkg_guia_sunat.get_fnumero_guiad('09', 'T001');
+  dbms_output.put_line(x_numero_despacho);
+end;
+
+select * from view_oc_y_op_servicios_enviar;
+
+select *
+  from pr_ot_orden_de_servicio
+ where numero = 527802;
+
+select *
+  from pr_ot_orden_de_servicio
+ where kardex_cod_alm = '90'
+   and kardex_tp_transac = '27'
+   and kardex_serie = 180
+   and kardex_numero = 40;
+
+
+select *
+  from pk_gnumero
+ where pk_numero = 56112;
+
+select * from pk_glosa;
+
+select *
+  from numdoc
+ where tp_transac = '27'
+   and serie = 1;
+
+select *
+  from numdoc
+ where tp_transac = '27'
+   and serie = 1;
+
+select *
+  from numdoc
+ where tp_transac = '16'
+   and serie = 1;
+
+select *
+  from kardex_g
+ where tp_transac = '16'
+   and serie = 1
+ order by numero desc;
+
+

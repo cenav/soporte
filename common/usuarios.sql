@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user powerbi account unlock;
+alter user gfalcon account unlock;
 
 
 alter user gfalcon account lock;
 
 
-alter user powerbi identified by "pevisa.123";
+alter user emestanza identified by "rodrichx";
 
 
 alter user epapel password expire;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'POWERBI';
+ where username like 'EMESTANZA';
 
 select *
   from dba_users
@@ -66,10 +66,9 @@ select *
  where comp_id = 'APEX';
 
 
-
 select *
   from dba_source
- where upper(text) like upper('%ubevilacqua%')
+ where upper(text) like upper('%odominguez%')
    and owner = 'PEVISA';
 
 
@@ -176,8 +175,22 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('CNAVARRO')
+ where usuario in ('NBELANDRIA')
  order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where usuario = 'HOLIVARES'
+ order by modulo;
+
+select *
+  from usuario_modulo
+ where modulo like 'MATRIZ%'
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'NBELANDRIA';
 
 select *
   from usuario_modulo
@@ -633,4 +646,34 @@ select *
  where sistema = 'ACTIVO_FIJO'
    and proceso = 'ACTIVACION';
 
-select * from vw_proveed_volumen_compra;
+insert into usuario_modulo
+select 'JPOZO', modulo, maestro, supermaestro
+  from usuario_modulo
+ where usuario = 'PEVISA';
+
+select usuario, modulo, maestro, supermaestro
+  from usuario_modulo
+ where usuario = 'JPOZO';
+
+
+select * from usuarios
+where usuario = 'JPOZO';
+
+select * from usuarios_caja_chica;
+
+select * from caja_chica_serie;
+
+select u.serie, s.nombres, cod_unidad_negocio
+  from usuarios_caja_chica u
+     , caja_chica_serie s
+ where u.usuario = user
+   and u.estado = '1'
+   and s.id_serie = u.serie
+   and s.tipo_caja = 'CAJA CHICA'
+   and not exists
+   (
+     select distinct ch.serie
+       from caja_chica ch
+      where ch.serie = u.serie and ch.estado = 1
+     )
+ order by 1

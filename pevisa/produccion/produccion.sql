@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  466577, 466380, 494570, 454261
+                  522682, 532196, 515243, 522703, 525500, 532148
    );
 
 select * from pr_estados;

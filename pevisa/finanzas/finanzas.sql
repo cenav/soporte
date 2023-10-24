@@ -33,13 +33,12 @@ select * from pevisa.tab_semanas order by al;
 select *
   from pagos_h
  where serie_planilla = 1
-   and numero_planilla = 24718;
+   and numero_planilla = 26573;
 
 select *
   from pagos_i
- where serie_planilla = 2
-   and numero_planilla = 14108;
-
+ where serie_planilla = 1
+   and numero_planilla = 26573;
 
 select user as usuario, tpo.descripcion as tipo_pago,
     tpo.titulo || ' ' || dense_rank() over (order by der.fecha_pago) as descripcion
@@ -191,3 +190,26 @@ select d.*
 select * from packing_g;
 
 select * from embarques_d;
+
+select *
+  from docu_ag
+ where numero = 4603;
+
+select *
+  from item_ag
+ where numero = 4603;
+
+select *
+  from tab_lineas
+ where linea between '800' and '899'
+   and length(linea) = 3;
+
+select * from lg_monedas;
+
+select * from moneda;
+
+select *
+  from pagos_i
+ where numero_planilla = 26573;
+
+select * from cabfpag;

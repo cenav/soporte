@@ -40,7 +40,7 @@ select *
 select *
   from tmp_moviart_dos
  where ano = 2023
-   and mes in (7)
+   and mes in (9)
    and id = 'I'
    and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 
@@ -48,10 +48,10 @@ select *
 select *
   from tmp_moviart_dos
  where ano = 2023
-   and mes in (7)
-   and id = 'S'
-   and docto in ('55016080', '55016081', '55016082')
-   and motivo = '5';
+   and mes in (9)
+   and id = 'I'
+   and docto like 'SN%';
+
 
 update tmp_moviart_dos
    set libro   = '05'
@@ -788,9 +788,14 @@ values ( '57', '27', 2, 824224, '30048MLS', 145.0000, 0.000000, 0.000000, date '
        , null, 0.00, 0.0000, 0.0000, 'AR', 915276, null);
 
 
+delete
+  from tmp_moviart_dos
+ where ano = 2023
+   and mes in (9)
+   and cta like '20%';
+
 select *
-from tmp_moviart_dos
-where ano = 2023
- and mes in (8)
- and tp_transac = '22'
- and id in ('S');
+  from analisis_consumo
+ where ano = 2023
+   and mes = 9;
+

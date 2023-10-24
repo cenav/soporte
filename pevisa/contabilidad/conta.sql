@@ -2090,3 +2090,42 @@ select *
    and serie_num = '1'
    and numero = '364722';
 
+
+select * from activo_fijo;
+
+select c.cod_proveed as ruc_llegada, c.nombre as nombre_llegada
+  from ubigeo u
+     , proveed c
+ where u.nacional_internacional = 'N'
+   and length(c.cod_proveed) = 11
+   and c.origen = 'N'
+   and c.cod_ubc = u.cod_ubc
+   and nvl(c.estado, '0') <> '9'
+   and cod_proveed = '20607770621'
+ order by c.cod_proveed;
+
+select *
+  from proveed
+ where cod_proveed = '20607770621';
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '44'
+   and numero = 271;
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = '44'
+   and numero = 271;
+
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '44'
+   and numero = 271;
+
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = '44'
+   and numero = 271;
