@@ -1,5 +1,5 @@
 -- no debe tener voucher o que este anulado
--- toman nota cobrador 73
+-- toman nota cobrador C1
 select *
   from planilla_cobranzas_h
  where numero_planilla = :p_numero_planilla;
@@ -15,14 +15,14 @@ select *
 -- borrar importe, fecha, estado = 0, imported = 0
 select *
   from cobradores_recibos
- where codigo_cobrador = '73'
+ where codigo_cobrador = :p_cobrador
    and numero_recibo = :p_numero_planilla;
 
 -- colocar numero menos uno anterior para que le aparezca el mismo numero que pide
--- toma nota ultimo_recibo_trabajado  5002799
+-- toma nota ultimo_recibo_trabajado 5003100
 select *
   from cobradores_rango_recibos
- where codigo_cobrador = '73'
+ where codigo_cobrador = :p_cobrador
    and :p_numero_planilla between primer_recibo and ultimo_recibo;
 
 ------------------------------------

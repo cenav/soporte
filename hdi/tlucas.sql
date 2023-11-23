@@ -368,7 +368,7 @@ begin
     , msg_to => 'cnavarro@pevisa.com.pe'
     , msg_subject => 'prueba talleres'
     , msg_text => 'pruebas'
-    );
+  );
 end;
 
 select *
@@ -683,8 +683,91 @@ select *
   from lotes_envio_sunat
  where numero_lote = 230087;
 
+
 insert into pevisa.lotes_envio_sunat ( numero_lote, fecha_envio, usuario_genera
                                      , numero_registros_lote, importe_total_lote, periodo_tributario
                                      , usuario_confirma_pago, fecha_confirma_pago, serie_planilla
                                      , numero_planilla)
 values (230087, timestamp '2023-10-05 10:17:18', 'ECHINCHA', 1, 17, 202309, null, null, 1, 7092);
+
+
+select *
+  from orden_de_compra
+ where serie = 13
+   and num_ped = 7594;
+
+select f.cod_cliente
+     , l.nombre
+     , f.vended
+     , substr(abreviada, 1, 3) as destip
+     , f.tipdoc
+     , f.serie_num
+     , f.numero
+     , f.tcam_sal
+     ,
+    to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) as amlv
+     , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia as refe
+     , f.fecha
+     , f.f_vencto
+     , f.moneda
+     , decode(f.moneda, 'S', f.importe, 0) as imps
+     , decode(f.moneda, 'D', f.importe, 0) as impd
+     , nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe, c.importe_x),
+                      decode(c.moneda, 'D', c.importe, c.importe_x))), 0) as pago
+     , decode(f.moneda, 'S',
+              (f.importe + nvl(sum(decode(c.moneda, 'S', c.importe, c.importe_x)), 0)), 0) as sals
+     , decode(f.moneda, 'D',
+              (f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)), 0) as sald
+  from factcob f
+     , cabfcob c
+     , clientes l
+     , tablas_auxiliares t
+ where f.tipdoc = c.tipdoc(+)
+   and f.serie_num = c.serie_num(+)
+   and f.numero = c.numero(+)
+   --AND      f.fecha <= &p_fecha_fin1
+   and f.fecha <= to_date('20/06/2023', 'dd/mm/yyyy') --&p_fecha_fin1
+   --AND      c.fecha(+) <= &p_fecha_fin2
+   and c.fecha between to_date('21/08/2023', 'dd/mm/yyyy') and to_date('20/10/2023', 'dd/mm/yyyy')
+   and l.cod_cliente = f.cod_cliente
+   and f.tipdoc in ('01', '03', '07', '08', 'C2', 'C3', 'LP')
+   and t.tipo = 02
+   and t.codigo = f.tipdoc
+   and f.vended = '24'--&p_cod_vend
+   and not exists
+   (
+     select 1
+       from documento_excluido_bono exc
+      where exc.tipodoc = f.tipdoc
+        and exc.serie = f.serie_num
+        and exc.numero = f.numero
+        and exc.proceso_exclusion in ('COMISION', 'TODO')
+     )
+having (f.importe
+  + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe, c.importe_x),
+                   decode(c.moneda, 'D', c.importe, c.importe_x))), 0)) <>
+       0
+ group by f.cod_cliente, l.nombre, f.vended
+        , substr(abreviada, 1, 3), f.tipdoc, f.serie_num
+        , f.numero, f.tcam_sal,
+     to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
+        , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
+        , f.moneda, f.importe, f.tcam_imp
+ order by f.vended, f.tipdoc, f.fecha, f.f_vencto;
+
+
+select *
+  from pagos_h
+ where fecha = to_date('13/11/2023', 'dd/mm/yyyy');
+
+select *
+  from pagos_h
+ where serie_planilla = 3
+   and numero_planilla = 855;
+
+select *
+  from pagos_h
+ where serie_planilla = 3
+   and numero_planilla in (
+                           000855, 000763, 000745, 000727, 000678, 000670
+   );

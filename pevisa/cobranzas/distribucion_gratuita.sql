@@ -4,7 +4,7 @@ select f.cod_cliente, c.nombre, f.tipdoc, f.serie_num, f.numero, f.fecha, f.mone
   from factcob f
        left join clientes c on f.cod_cliente = c.cod_cliente
  where extract(year from f.fecha) = 2023
-   and extract(month from f.fecha) = 8
+   and extract(month from f.fecha) = 10
    and f.serie_num in ('F053', 'B053')
  order by tipdoc, numero;
 
@@ -12,6 +12,6 @@ select f.cod_cliente, c.nombre, f.tipdoc, f.serie_num, f.numero, f.fecha, f.mone
 select *
   from factcob f
  where extract(year from f.fecha) = 2023
-   and extract(month from f.fecha) = 9
+   and extract(month from f.fecha) = 11
    and f.serie_num in ('F053', 'B053')
  order by tipdoc, numero;

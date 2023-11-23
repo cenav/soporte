@@ -2,16 +2,24 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 8
-   and libro = '25'
-   and voucher = 80011;
+   and mes = 10
+   and libro = '33'
+   and voucher = 100007;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 6
-   and libro = '11'
-   and voucher = 60065;
+   and mes = 9
+   and libro = '33'
+   and voucher = 90022;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 9
+   and libro = '33'
+   and voucher = 90022
+   and cuenta in ('24120804', '6121020804');
 
 select *
   from factpag
@@ -68,26 +76,27 @@ select *
 select *
   from movfigl
  where ano = 2023
-   and mes = 9
-   and tipo = '2'
+   and mes = 10
+   and tipo = '6'
    and voucher in (
-   94096
+   100015
    );
 
 select *
   from movfide
  where ano = 2023
-   and mes = 9
-   and tipo = '2'
+   and mes = 10
+   and tipo = '6'
    and voucher in (
-   94096
+   100015
    );
 
 select *
   from factpag
  where tipdoc = 'AV'
-   and serie_num = '001'
-   and numero = 'PM2023056';
+--    and serie_num = '001'
+   and numero = 'PR23046';
+
 
 select *
   from movglos_historia
@@ -245,7 +254,11 @@ select * from caja_chica_serie;
 
 select *
   from activo_fijo
- where cod_activo_fijo = '02LAPT18';
+ where cod_activo_fijo = 'MQ1ARMPT-003';
+
+select *
+  from activo_fijo_estado
+ order by cod_estado;
 
 select *
   from activo_fijo_asiento
@@ -2129,3 +2142,100 @@ select *
   from gastos_de_viaje_d
  where id_vendedor = '44'
    and numero = 271;
+
+select *
+  from activo_fijo_asigna
+ where cod_activo_fijo = 'VH-HY-A5G885';
+
+select *
+  from usuarios
+ where codigo_trabajador = 'E961';
+
+select *
+  from factcob
+ where tipdoc = 'L1'
+   and numero = '367679';
+
+select *
+  from factcob
+ where numero = '367679';
+
+select *
+  from factcob
+ where numero = '367679';
+
+select *
+  from letras
+ where nrolet = 367679;
+
+select *
+  from itemord
+ where otm_tipo = 'PY'
+   and otm_serie = 2
+   and otm_numero = 488;
+
+select *
+  from ot_mantto
+ where id_tipo = 'PY'
+   and id_serie = 2
+   and id_numero = 489;
+
+select *
+  from itemord
+ where serie = 6
+   and num_ped = 2177;
+
+select *
+  from itemord
+ where serie = 6
+   and num_ped = 2343;
+
+select *
+  from ot_mantto
+ where id_tipo = 'PY'
+   and id_serie = 1
+   and id_numero = 17;
+
+select *
+  from estado_otm
+ order by id_estado;
+
+select * from marca_equipo;
+
+select *
+  from cambdol
+ where fecha = to_date('13/11/2023', 'dd/mm/yyyy');
+
+select *
+  from prestamo_banco
+ where cod_prestamo = '3981486';
+
+select *
+  from kardex_d
+ where cod_art = 'EQAA1-031';
+
+select *
+  from kardex_g
+ where cod_alm = 'A1'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 31044;
+
+select *
+  from kardex_d
+ where cod_alm = 'A1'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 31044;
+
+
+select *
+  from kardex_g_historia
+ where cod_alm = 'A1'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 31044;
+
+select *
+  from cambdol
+ where fecha = to_date('16/11/2023', 'dd/mm/yyyy');

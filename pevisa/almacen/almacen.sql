@@ -1,21 +1,54 @@
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '17'
+ where cod_alm = '15'
+   and tp_transac = '29'
    and serie = 1
    and numero in (
-   706782
+   1575238
    );
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '15'
+ where cod_alm = '15'
+   and tp_transac = '29'
    and serie = 1
    and numero in (
-   1311
-   )
-   and cod_art = '380.653';
+   1575238
+   );
+
+select *
+  from almacen
+ where cod_art = 'KIT AUT MS 5887 SR A';
+
+select *
+  from kardex_d
+ where cod_alm = 'F8'
+   and cod_art = 'FSP 95067 GR'
+   and estado != '9'
+ order by fch_transac desc;
+
+
+select *
+  from kardex_d
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 18
+   and numero = 4204
+   and cod_art = 'FSP 95067 GR';
+
+select *
+  from almacen
+ where cod_art = 'FSP 95067 GR';
+
+-- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+--                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+--                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+--                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+--                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+-- values ( 'F8', '10', 18, 4204, 'FSP 95067 GR', 35.0000, 0.000000, 0.000000, date '2022-11-10', 0.00
+--        , 0.00, 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null
+--        , null, null, null, null, null, null, null);
+
 
 select *
   from almacen
@@ -564,4 +597,171 @@ select *
    and serie = 1
  order by numero desc;
 
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '15'
+   and serie = 1
+   and numero = 1378
+   and cod_art = '380.912';
+
+
+select * from transacciones_almacen;
+
+
+select *
+  from kardex_g
+ where cod_alm = '03'
+   and tp_transac = '28'
+   and serie = 1
+   and numero = 885
+ order by fch_transac desc;
+
+
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '28'
+   and serie = 1
+   and numero = 885
+   and rownum = 1
+ order by fch_transac desc;
+
+
+select *
+  from numdoc
+ where tp_transac = '28'
+   and serie = 1;
+
+insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
+values ( '03', '28', 1, 886, date '2023-10-30', null, null, null, null, null, null, null, null, 1
+       , null, null, 'S', 0.00, 0.00, '1', '3', 'D', 'S', '0', null, null, null, null, null, null
+       , null, null, null, 1.0000, null, null, null, 'BD2310', null, null, null, null, null);
+
+
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '03', '28', 1, 886, '380.912', 59, 0.000000, 0.000000, date '2023-10-30', 0.00
+       , 0.00, 0.000, '0', '6910101', 'D', 'S', null, null, null, null, null, null, null
+       , 'SALIDA POR AJUSTE', null, null, null, null, null, null, null, null);
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '17'
+   and serie = 1
+   and numero in (712503, 712504, 712505, 712506, 712507, 712508, 712509, 712510, 712511, 712512);
+
+select * from docuvent;
+
+select * from kardex_d;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '30'
+   and cod_alm_destino = '62';
+
+select *
+  from almacen_punto_partida_llegada
+ where cod_alm = '62';
+
+select *
+  from almacenes
+ where cod_alm in ('03', '62');
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'RAMOS'
+   and nombres like '%ADAN%';
+
+
+select * from pagos_h;
+
+select *
+  from pagos_i
+ where detraccion = 1
+   and ano = 2023;
+-- and mes = 9;
+
+select g.numero_embarque, h.num_importa, lg.numero as factura, eg.bl_numero, h.cod_proveed, p.nombre
+     , lg.total, p.direccion, p.cod_proveed as ruc, g.estado, eg.fecha_recepcion_almacen
+  from lg_pedjam h
+     , proveed p
+     , embarques_g eg
+     , packing_g g
+     , lg_factura_comercial lg
+ where h.num_importa = g.num_importa
+   and p.cod_proveed = h.cod_proveed
+   and eg.numero_embarque = g.numero_embarque
+   and eg.estado >= 2
+   and eg.estado < 8
+   and nvl(h.estado, 0) > 0 and nvl(h.estado, 0) < 8
+   and lg.numero_embarque = eg.numero_embarque
+   and g.factura_comercial_numero = lg.numero
+   and exists
+   (
+     select 1
+       from embarques_d dd
+          , lg_itemjam ii
+      where dd.numero_embarque = g.numero_embarque
+        and dd.num_importa = g.num_importa
+        and dd.factura_comercial_numero =
+            g.factura_comercial_numero
+        and dd.num_importa = ii.num_importa
+        and nvl(dd.estado, 0) < 9
+        and dd.cod_art = ii.cod_art
+        and dd.saldo > 0
+     )
+ order by 1, 2;
+
+-- 252
+select *
+  from kardex_d
+ where cod_alm = '62'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 7345;
+
+select *
+  from embarques_d
+ where numero_embarque = 252
+   and cod_art in (
+                   'MAQ-SEMI-AUTO MOLDING PB14/017', 'RISHADOUPRESSCONTPB14/017'
+   );
+
+select g.numero_embarque, g.packing_numero, g.packing_fecha, d.cod_art, d.cod_prov
+     , d.num_importa, d.precio, d.cantidad_packing, d.unidad, d.cant_ped
+     , d.unidad_prv, d.factor_uc, d.saldo, d.cantidad_packing * d.factor_uc as cantidad_a_recibir
+  from packing_g g
+     , embarques_d d
+ where d.numero_embarque = 252
+   and d.num_importa = 'PB 14/017'
+   and d.factura_comercial_numero = 'SX1412003'
+   and g.num_importa = d.num_importa
+   and g.numero_embarque = d.numero_embarque
+   and g.factura_comercial_numero = d.factura_comercial_numero
+   and nvl(d.cantidad_packing, 0) > 0
+ order by d.num_importa, d.cod_art;
+
+select * from logger_logs;
+
+select *
+  from cambdol
+ where fecha = to_date('16/11/2023', 'dd/mm/yyyy');
+
+select *
+  from kardex_d
+ where cod_alm = '62'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 7346;
 

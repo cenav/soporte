@@ -80,14 +80,19 @@ select *
 
 -- costo correcto dolares
 -- 3.645000883
-select *
-  from kardex_d
- where cod_alm = 'F0'
+select d.*, costo_s / costo_d
+  from kardex_d d
+ where cod_alm = 'A1'
    and tp_transac = '11'
-   and serie = 11
-   and numero = 128;
+   and serie = 1
+   and numero = 31224;
 
-
+select *
+  from kardex_d d
+ where cod_alm = 'A1'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 31224;
 
 select *
   from almacen

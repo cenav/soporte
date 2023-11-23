@@ -77,7 +77,7 @@ select *
 
 select *
   from numdoc
- where serie = 160;
+ where serie = 183;
 
 select *
   from kardex_d
@@ -156,28 +156,35 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7066);
-
+   and numero in (7498);
 
 --::::::::::::::::::::::::::::--
 --        tara_bo = 0         --
 --::::::::::::::::::::::::::::--
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero in (7066);
+ where cod_alm = '99'
+   and tp_transac = 'T183'
+   and serie = 999
+   and numero in (13);
+
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
+ where cod_alm = '99'
+   and tp_transac = 'T183'
+   and serie = 999
+   and numero in (13);
+
+select *
+  from kardex_g_guia_remision
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7066);
+   and numero in (7481);
 
 select *
   from kardex_d
@@ -190,27 +197,109 @@ select * from transporte;
 
 
 select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7371);
+
+
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7371);
+
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T001', 7030, DATE '2023-10-26', '070101', '150115', 'AV. IQUITOS NRO. 353', '20566560900', 'F0', '21', 25, 7371, '01', '20100084768', '01', '12', 3.00, 42.3000, '03', '00', '02', null, null, null, 'F050-00185857', '01', 'FACTURA', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+
+select *
+  from kardex_d
+ where cod_alm = 'FR'
+   and tp_transac = '71'
+   and serie = 40
+   and numero in (206);
+
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T183'
+   and guia_numero = 13;
+
+select *
+  from clientes
+ where cod_cliente = '20566560900';
+
+
+select *
+  from clientes
+ where cod_cliente = '20516422018';
+
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7498);
+
+-- 7447
+
+select *
+  from kardex_g_guia_remision
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (7447);
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T040'
+   and numero in (206, 205, 197)
+ order by fecha_traslado desc;
+
+
+select *
   from kardex_g
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7033, 7041);
+   and numero in (7498);
+
 
 select *
   from kardex_d
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7033, 7041);
+   and numero in (7498);
 
 select *
   from kardex_g_guia_remision
  where guia_serie = 'T001'
-   and guia_numero = 6815;
+ order by guia_numero desc;
 
 select *
-  from kardex_g_guia_remision
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero in (7033, 7041);
+  from nrodoc
+ where serie = 'T001';
+
+select *
+  from kardex_g
+ where serie_pguia = 'F050'
+   and numero_pguia = '00186080';
+
+select * from view_salidas_pre_guias_nac;
+
+-- -Mal diseño.
+-- -Cambio muestra patrón.
+-- -Cambio de numero de cavidades.
+-- -Calado laser defectuoso.
+
+select * from pr_proceso;
+
+select prs.codigo_proceso, pr.descripcion
+  from pr_ot_sec prs
+     , pr_proceso pr
+ where prs.ot_numero = 10338
+   and prs.codigo_proceso = pr.codigo
+ order by prs.secuencia;

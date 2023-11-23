@@ -10,11 +10,16 @@ select *
 
 select *
   from exbooking
- where numero_booking = 'COU-76';
+ where numero_booking = 'PEEXM230171';
 
 select *
   from exbooking_d
  where numero_booking = 'COU-76';
+
+select *
+  from exproforma_d
+ where numero = 18878
+   and cod_art = 'MS 5739-2 A';
 
 select * from view_cli_para_booking;
 
@@ -180,3 +185,19 @@ select *
  where numero = 15526;
 
 select * from packing_agrupar;
+
+select cod_cliente, nombre, ruc, lista_precio, vendedor, cond_pag, dscto_1, dscto_2, cliente_afecto
+     , dscto_max, nivel_cp, direccion
+  from clientes
+ where nvl(estado, '0') in ('0', '4')
+   and zona = '900' and cod_cliente like '00000%'
+   and cod_cliente = '00000990559'
+ order by nombre;
+
+select *
+  from clientes
+ where cod_cliente = '00000990559';
+
+select *
+  from pk_gnumero
+ where pk_numero in (56366);

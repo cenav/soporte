@@ -30,3 +30,10 @@ select *
 select * from pr_tabmaq;
 
 select * from activo_fijo;
+
+select *
+  from pk_gnumero
+ where pk_numero in (
+                     54658, 55028, 55102, 55225, 55333, 55393, 55401, 55683, 55771, 55785, 55850,
+                     55981
+   );

@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   998584
+   279706
    );
 
 -- select * from prot;
@@ -10,7 +10,7 @@ select *
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
-   and ot_numero = 704793;
+   and ot_numero = 1007861;
 
 select *
   from pr_ot
@@ -345,3 +345,33 @@ select p.numero_oa, p.formu_art_cod_art, p.cant_prog, p.cant_resul, p.abrev_cli,
                 and nuot_tipoot_codigo = 'AR'
              ), 0) = 4
  order by 8 desc, 5, 6;
+
+select *
+  from expednac
+ where numero = 443;
+
+select *
+  from expednac_d
+ where numero = 443;
+
+----------------------------------
+
+select *
+  from produccion_armado
+ where numero_oa = 1011587;
+
+select *
+  from produccion_armado_log
+ where cod_caja = 279706;
+
+select *
+  from produccion_armado_his
+ where numero_oa = 1011587;
+
+select *
+  from produccion_armado_cajas_his
+ where cod_caja = 279706;
+
+select *
+  from produccion_armado_cajas
+ where cod_caja = 279706;

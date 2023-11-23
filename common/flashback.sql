@@ -753,3 +753,10 @@ select *
   from orden_de_compra as of timestamp to_timestamp('15-09-2023 11:30:00', 'DD-MM-YYYY HH24:MI:SS')
  where serie = 30
    and num_ped = 24;
+
+select *
+  from pagos_h as of timestamp to_timestamp('13-11-2023 18:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where serie_planilla = 3
+   and numero_planilla in (
+                           000855, 000763, 000745, 000727, 000678, 000670
+   );

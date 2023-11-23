@@ -75,12 +75,12 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 796;
+   and num_ped = 811;
 
 select *
   from orden_de_compra_historia
  where serie = 3
-   and num_ped = 796;
+   and num_ped = 811;
 
 select *
   from itemord
@@ -140,4 +140,9 @@ select u.serie, s.nombres, cod_unidad_negocio
        from caja_chica ch
       where ch.serie = u.serie and ch.estado = 1
      )
- order by 1
+ order by 1;
+
+
+select *
+  from cambdol
+ where fecha = to_date('03/11/2023', 'dd/mm/yyyy');

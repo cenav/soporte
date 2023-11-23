@@ -22,11 +22,26 @@ select *
 -- cuenta
 -- todos los almacenes donde tenga stock
 
+
+
+-- AÑO            2023
+--
+-- ID                 S
+--
+-- CTA              26%
+--
+-- MES             SETIEMBRE
+--
+--
+-- DOCTO             PK%
+--
+-- Poner en la columna ORDTRA   “ VENTA EX “  y en la columna OPE  “  80 “
+
 update tmp_moviart_dos
    set ordtra  = 'VENTA EX'
      , cod_ope = '80'
- where ano = 2022
-   and mes in (12)
+ where ano = 2023
+   and mes in (9)
    and id = 'S'
 --    and motivo = '1'
    and docto like 'PK%'

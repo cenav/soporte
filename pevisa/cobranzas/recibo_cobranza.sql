@@ -8,7 +8,7 @@
 --::::::::::::::::::::::::::::::::::::--
 --       cambia cuenta bancaria       --
 --::::::::::::::::::::::::::::::::::::--
-select *
+select cc_banco
   from planilla_cobranzas_d
  where numero_planilla = 4962013;
 
@@ -22,3 +22,11 @@ select *
 select *
   from itemrec
  where numero = 16397;
+
+select *
+  from planilla_cobranzas_h
+ where numero_planilla = 5251050;
+
+select *
+  from planilla_cobranzas_d
+ where numero_planilla = 5251050;

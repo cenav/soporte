@@ -1,18 +1,19 @@
 select *
   from movfigl
  where ano = 2023
-   and mes = 7
-   and tipo = '5'
-   and voucher = 70128;
+   and mes = 10
+   and tipo = '2'
+   and voucher = 103349;
 
 -- 2023	7	5	70128
 
 select *
   from movfide
  where ano = 2023
-   and mes = 7
-   and tipo = '5'
-   and voucher = 70128;
+   and mes = 10
+   and tipo = '2'
+   and voucher = 103349;
+
 
 select *
   from factpag
@@ -208,8 +209,18 @@ select * from lg_monedas;
 
 select * from moneda;
 
+
+select *
+  from pagos_h
+ where serie_planilla in (61, 62)
+   and numero_planilla = 826
+   and (estado = 6 or
+        (estado = 2 and documentos_con_detraccion = 0))
+   and forma_de_pago = 'TRAN';
+
 select *
   from pagos_i
- where numero_planilla = 26573;
+ where serie_planilla = 61
+   and numero_planilla = 826;
 
 select * from cabfpag;

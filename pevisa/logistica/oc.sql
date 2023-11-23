@@ -1,34 +1,42 @@
 -- cond. pag 46
 select *
   from orden_de_compra
- where serie = 20
+ where serie = 4
    and num_ped in (
-   1107
+                   61349, 61350, 61351, 61352, 61353, 61354
    );
 
 select *
+  from itemord
+ where serie = 30
+   and num_ped in (
+   575
+   );
+
+
+select *
   from proveed
- where nombre like '%LINUX%';
+ where nombre like '%REPLICA%';
 
 select *
   from orden_de_compra
- where cod_proveed = '20600735668'
+ where cod_proveed = '20251505111'
  order by fecha desc;
 
 select *
   from itemord
  where serie = 6
    and num_ped in (
-   2766
+   2762
    );
 
 select *
   from orden_de_compra_historia
- where serie = 30
+ where serie = 4
    and num_ped in (
-   562
+                   61349, 61350, 61351, 61352, 61353, 61354
    )
- order by creacion_cuando;
+   and glosa = 'APROBADO';
 
 select *
   from factpag
@@ -352,3 +360,53 @@ select *
  where c_codigo = 'E017';
 
 select * from f_buen_contribuyente();
+
+
+select codigo_grupo_compra, descripcion
+  from lg_grupos_compras
+ where nvl(estado, 0) = 0
+   and codigo_grupo_compra in (
+   select codigo_grupo_compra
+     from lg_grupos_compras_series
+    where serie_orden_de_compra = 22
+   )
+ order by descripcion;
+
+
+select sum(
+           decode(moneda,
+                  'S', (nvl(oc.tot_orden, 0) / c.import_cam),
+                  nvl(oc.tot_orden, 0)))
+  from orden_de_compra oc
+     , cambdol c
+     , lg_grupos_compras gc
+     , lg_grupos_compras_gerencial_d gd
+     , lg_grupos_compras_gerencial gh
+ where oc.estado > '0'
+   and oc.estado < '9'
+   and to_char(oc.fecha, 'YYYYMM') =
+       to_char(:p_fecha, 'YYYYMM')
+   and oc.fecha = c.fecha
+   and c.tipo_cambio = 'V'
+   and oc.codigo_grupo_compra = gc.codigo_grupo_compra
+   and gc.codigo_grupo_compra = gd.codigo_grupo_compra
+   and gd.codigo_grupo_compra_h = gh.codigo_grupo_compra_h
+   and gd.codigo_grupo_compra_d = gh.codigo_grupo_compra_d
+   and gh.codigo_grupo_compra_h >= '00'
+   and gh.codigo_grupo_compra_h <= '18';
+
+select *
+  from itemord
+ where serie = 30
+   and num_ped = 572;
+
+select *
+  from itemord
+ where serie = 6
+   and num_ped = 2238;
+
+select * from itemord;
+
+select *
+  from orden_de_compra
+ where fecha = to_date('10/11/2023', 'dd/mm/yyyy');

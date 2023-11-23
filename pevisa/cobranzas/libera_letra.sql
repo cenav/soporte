@@ -16,22 +16,25 @@ select a.*
 ---UPDATE LETRAS_ENVIO
 --SET L_REFBCO = NULL
 --SET L_CONDLE = 'EC', ESTADO =EC 2
- where numero in (--'47555'
-     '351212'
-     );
+ where numero in (
+                  '364431', '366510', '363899', '364291', '365933', '362765', '366383', '359467',
+                  '362722', '365415', '362915', '363856', '362926', '363848', '359442', '361452',
+                  '362989'
+   )
+and estado = '2';
 
 -- PARA LIBERAR LETRAS WALTER ---- PARTE 2
 -- SE BUSCA TODA LA PLANILLA PARA PODER VER SI ESTAN TODAS LAS LETRAS DE LA PLANILLA BUSCADA---
 -- EN BASE A LOS DATGOS OBTENIDOS  EN LA PARTE 1 --
 select a.*
   from letras_envio a
- where banco = '17'
-   and l_condle = 'EC'
+ where banco = '14'
+   and l_condle = 'CC'
    and estado = 2
 ----AND NRO_ENVIO = 1743
 --AND FECHA_ENVIO = '18/OCT/2022'
-   and fecha_recepcion = '21/OCT/2022'
-   and fecha_pago = '17/OCT/2022';
+   and fecha_recepcion = to_date('17/07/2023', 'dd/mm/yyyy')
+   and fecha_pago = to_date('04/11/2023', 'dd/mm/yyyy');
 
 
 
@@ -41,8 +44,8 @@ select a.*
 --- SITUACCION (2) : Si el campo ESTADO es igual a 3 se actualiza campo L_CONDLE   si dice CC a EC   ó si dioe CD a ED. y el cammpo ESTADO se pone a 2.
 update letras_envio
 --SET L_REFBCO = NULL, ESTADO = 1
-   set l_condle = 'EC',
-       estado   = 1
+   set l_condle = 'EC'
+     , estado   = 1
  where banco = '17'
    and l_condle = 'EC'
    and estado = 2

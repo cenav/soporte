@@ -1647,3 +1647,201 @@ select *
  where serie = 11
    and num_ped = 46
    and saldo = 0;
+
+select l.num_importa as pedido, replace(p.nombre, ',', ' ') as nombre, l.cod_proveed, to_char(
+    l.fecha, 'DD/MM/YYYY', 'NLS_DATE_LANGUAGE=Spanish') as fecha
+     , to_char(l.fecha_aduana,
+               'DD/MM/YYYY',
+               'NLS_DATE_LANGUAGE=Spanish') as fecha_aduana
+     , to_char(l.fecha_almacen, 'DD/MM/YYYY', 'NLS_DATE_LANGUAGE=Spanish') as fecha_almacen
+     , a.cod_lin, i.cod_art, a.descripcion, i.cantidad, i.cantidad - i.saldo as ingresado, i.saldo
+     , i.precio, round(i.cantidad * i.precio, 4) as total, round(i.saldo * i.precio, 4) as tot_saldo
+     , l.moneda, 1 as factor_moneda, i.estado, to_char(i.fecha_estimada_despacho, 'DD/MM/YYYY',
+                                                       'NLS_DATE_LANGUAGE=Spanish') as fecha_estimada_despacho
+     , to_char(i.nueva_fecha_estimada_despacho, 'DD/MM/YYYY',
+               'NLS_DATE_LANGUAGE=Spanish') as nueva_fecha_estimada_despacho
+     , l.cod_vende, l.cond_pago, l.tipo_pedido, l.pais_origen as cod_pais
+  from lg_pedjam l
+     , proveed p
+     , lg_itemjam i
+     , articul a
+--,LG_INFORME_PEDIDO M
+ where p.cod_proveed = l.cod_proveed
+   and i.num_importa = l.num_importa
+   and a.cod_art = i.cod_art
+   and nvl(l.estado, 0) < '6'
+   and nvl(i.estado, 0) < '6'
+   and ((p_op = '0' and i.saldo <> 0) or (p_op = '1'))
+   and l.fecha between :P_FECHA1 and :P_FECHA2
+--AND M.PEDIDO(+) = L.NUM_IMPORTA
+ order by l.num_importa, i.item;
+
+
+create or replace view vw_saldo_pedido_nacional as
+select g.descripcion as grupo_compra, o.serie, o.num_ped, p.nombre as proveedor, fecha, o.cond_pag
+     , c.descripcion as condicion_pago, a.cod_lin, i.cod_art, a.descripcion, am.marca, i.cantidad
+     , i.cantidad - i.saldo as ingresado, i.saldo, i.precio, o.moneda
+     , round(i.cantidad * i.precio, 4) as total, round(i.saldo * i.precio, 4) as tot_saldo
+  from orden_de_compra o
+       join itemord i on o.serie = i.serie and o.num_ped = i.num_ped
+       join articul a on i.cod_art = a.cod_art
+       join articul_pev am on a.cod_art = am.cod_art
+       join proveed p on o.cod_proveed = p.cod_proveed
+       left join lg_grupos_compras g on o.codigo_grupo_compra = g.codigo_grupo_compra
+       left join lg_condpag c on o.cond_pag = c.cond_pag
+ where o.estado != '9'
+   and i.saldo != 0
+   and o.estado < '8'
+   and o.serie = 11;
+
+select grupo_compra, serie, num_ped, proveedor, fecha, cond_pag, condicion_pago, cod_lin, cod_art
+     , descripcion, marca, cantidad, ingresado, saldo, precio, moneda, total, tot_saldo
+  from vw_saldo_pedido_nacional;
+
+select *
+  from lg_grupos_compras
+ where codigo_grupo_compra = '097';
+
+select *
+  from lg_condpag
+ where cond_pag = '10';
+
+
+select *
+  from articul_pev
+ where cod_art = '1554X9-A02';
+
+
+select * from vw_saldo_pedido_nacional;
+
+
+select * from almacen;
+
+
+select *
+  from kardex_d
+ where cod_alm like '%'
+   and tp_transac = '11'
+   and serie = 10
+   and numero = 686;
+
+
+select *
+  from packing_g
+ where numero_embarque = 152;
+
+
+select *
+  from embarques_d
+ where numero_embarque = 152;
+
+select *
+  from almacen
+ where cod_art = 'HARCR500';
+
+
+select *
+  from almacen
+ where cod_art = 'HARCR500-PROMO';
+
+
+select *
+  from orden_de_compra
+ where serie = 11
+   and num_ped = 63;
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 63
+   and saldo = 0;
+
+select *
+  from orden_de_compra_historia
+ where serie = 11
+   and num_ped = 63;
+
+select *
+  from movglos
+ where cod_proveed = '10442310624'
+ order by fecha desc;
+
+select *
+  from movdeta
+ where ano = 2023
+   and mes = 8
+   and libro = '40'
+   and voucher = 80006;
+
+select *
+  from lg_detalle_gastos
+ where numero_embarque = 123
+ order by item;
+
+select *
+  from orden_de_compra
+ where serie = 11
+   and num_ped = 63;
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 63
+   and saldo != 0;
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 63
+   and factor_uc != 1;
+
+select *
+  from cominac_concepto
+ where descripcion like '%V DIAZ%';
+
+select *
+  from cominac_concepto
+ where vigencia_del = to_date('01/01/2023', 'dd/mm/yyyy')
+   and vigencia_al = to_date('31/12/2023', 'dd/mm/yyyy')
+   and cod_periodo = 'TR';
+
+
+select c.*
+  from proceso_cominac p
+       join proceso_cominac_concepto c on p.cod_proceso = c.cod_proceso
+       left join cominac_concepto o on c.cod_concepto = o.cod_concepto
+ where c.cod_concepto in (
+                          361, 362, 363, 364, 365, 366
+   )
+   and p.periodo_ano = 2023
+   and p.periodo_mes > 3
+   and c.total > 0
+ order by p.cod_proceso;
+
+-- bono no corresponde
+select p.periodo_ano, p.periodo_mes, p.cod_vendedor, v.nombre
+     , o.descripcion as concepto, c.total
+  from proceso_cominac p
+       join proceso_cominac_concepto c on p.cod_proceso = c.cod_proceso
+       left join cominac_concepto o on c.cod_concepto = o.cod_concepto
+       left join vendedores v on p.cod_vendedor = v.cod_vendedor
+ where c.cod_concepto in (
+                          361, 362, 363, 364, 365, 366
+   )
+   and p.periodo_ano = 2023
+   and p.periodo_mes > 3
+   and c.total > 0
+ order by p.cod_proceso;
+
+select * from pla_control;
+
+select *
+  from vendedores
+ where cod_vendedor in ('D7', '77');
+
+
+select *
+  from tablas_auxiliares
+--  where tipo = '98'
+ where codigo = '....'
+ order by tipo;

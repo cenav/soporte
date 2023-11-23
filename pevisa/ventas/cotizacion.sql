@@ -70,8 +70,8 @@ select *
 
 select *
   from pedido
- where serie = 21
-   and num_ped = 486;
+ where serie = 23
+   and num_ped = 1899;
 
 select *
   from itemped
@@ -81,7 +81,7 @@ select *
 select *
   from cotizacion
  where serie = 21
-   and num_ped = 456;
+   and num_ped = 207785;
 
 select *
   from itemcot
@@ -151,11 +151,11 @@ select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moned
 
 select *
   from cotizacion
- where num_ped in (207180, 207179);
+ where num_ped in (207157);
 
 select *
   from itemcot
- where num_ped = 207180;
+ where num_ped = 207157;
 
 select *
   from clientes
@@ -185,3 +185,52 @@ select *
 -- FROM VENDEDORES
 -- WHERE SUPERVISOR LIKE :GLOBAL.SUPERVISOR)
 
+select *
+  from itemped
+ where num_ped = '230860';
+
+-- aprobacion de netos, cotizacion estado = 2
+select *
+  from cotizacion
+ where num_ped = 207389;
+
+select *
+  from itemcot
+ where num_ped = 207389;
+
+select *
+  from pedido
+ where num_ped = 231899;
+
+select *
+  from pedido
+ where num_ped = 231899;
+
+select cod_vendedor, abreviada
+  from vendedores
+ where cod_vendedor = '11';
+
+select *
+  from pedido
+ where unidad_negocio in ('01', '02') and cod_vende like '%';
+
+select * from view_art_ventas_nac;
+
+select *
+  from vendedores
+ where abreviada in ('DTIRAVANTI', 'LSALCEDO')
+   and estado = '1';
+
+select cod_vendedor, indicador1
+  from vendedores
+ where nombre like '%SALCEDO%';
+
+select *
+  from tablas_auxiliares
+ where tipo = '98'
+ order by tipo;
+
+select *
+  from view_art_ventas_nac
+ where cod_art = 'FS 93044 MLS'
+   and cod_vende = '14';

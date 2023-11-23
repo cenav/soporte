@@ -18,25 +18,27 @@ select *
 -- faucett
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '14'
-   and serie = 10
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
    and numero in (
-   16403
+   714126
    )
  order by numero;
 
 
 select *
-  from kardex_g
- where cod_alm = '15'
-   and tp_transac = '29'
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '17'
    and serie = 1
    and numero in (
-                  1574783, 1574782, 1574781, 1574780, 1574779, 1574778, 1574777, 1574776, 1574775,
-                  1574774
+   714126
    );
 
+select *
+  from almacen
+ where cod_art = 'R-4955665';
 
 select *
   from kardex_d_otm
@@ -1200,7 +1202,7 @@ select *
 
 select *
   from amonestacion
- where numero = 252;
+ where numero = 327;
 
 select *
   from factcob
@@ -2411,3 +2413,13 @@ select e.cod_cliente, e.nombre, e.direcc, e.direc2, ruc, e.pais, p.nombre as nom
      , telefono, cod_vende, abrevia, e.estado
   from exclientes e
        left join expaises p on e.pais = p.pais;
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%MALLA%';
+
+select *
+  from planilla10.personal
+ where c_cargo = 'RMQ';
+
+select * from ruta_docvirtual;

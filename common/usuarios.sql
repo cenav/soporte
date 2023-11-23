@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user gfalcon account unlock;
+alter user amunante account unlock;
 
 
-alter user gfalcon account lock;
+alter user caucho account lock;
 
 
-alter user emestanza identified by "rodrichx";
+alter user cnavarro identified by "pevi.84768";
 
 
-alter user epapel password expire;
+alter user lmuedas password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -20,7 +20,8 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'EMESTANZA';
+ where username like 'JHERMOZA';
+
 
 select *
   from dba_users
@@ -166,7 +167,7 @@ select *
 
 select *
   from modulo
- where id_modulo like 'CAMPANA_SEGUIMIENTO';
+ where id_modulo like 'ABRIR_FILE';
 
 select *
   from usuario_modulo
@@ -185,7 +186,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo like 'MATRIZ%'
+ where modulo like 'CAMBIO_OT'
  order by usuario, modulo;
 
 select *
@@ -208,7 +209,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('PERMISO')
+ where modulo in ('CAMBIO_ESTADO_OA')
  order by usuario, modulo;
 
 select *
@@ -656,14 +657,15 @@ select usuario, modulo, maestro, supermaestro
  where usuario = 'JPOZO';
 
 
-select * from usuarios
-where usuario = 'JPOZO';
+select *
+  from usuarios
+ where usuario = 'JPOZO';
 
 select * from usuarios_caja_chica;
 
 select * from caja_chica_serie;
 
-select u.serie, s.nombres, cod_unidad_negocio
+select u.serie, s.nombres
   from usuarios_caja_chica u
      , caja_chica_serie s
  where u.usuario = user
@@ -676,4 +678,28 @@ select u.serie, s.nombres, cod_unidad_negocio
        from caja_chica ch
       where ch.serie = u.serie and ch.estado = 1
      )
- order by 1
+ order by 1;
+
+
+select nvl(count(1), 0)
+  from vendedores p
+     , planilla10.personal h
+     , planilla10.doc_per d
+ where 'E931' = h.c_codigo
+   and h.c_codigo = p.cod_personal
+   and d.c_codigo = p.cod_personal
+   and d.c_doc in ('LE', 'CE')
+   and h.for_pago = 'C'
+   and h.c_banco in ('02');
+
+
+-- Salinas
+select *
+  from planilla10.personal
+ where c_codigo = 'E3469';
+
+begin
+  envia_email_cotiza_simula.envia_correo_coti_simu();
+end;
+
+grant execute on envia_email_cotiza_simula to

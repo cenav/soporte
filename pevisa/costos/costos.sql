@@ -90,10 +90,11 @@ select count(*)
  where ano = 2023
    and mes = 2;
 
+-- cantidad 0 error proceso victor
 select *
   from kardex_d
  where extract(year from fch_transac) = 2023
-   and extract(month from fch_transac) = 5
+   and extract(month from fch_transac) = 10
    and cantidad = 0;
 
 begin

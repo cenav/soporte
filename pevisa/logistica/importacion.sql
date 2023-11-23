@@ -30,17 +30,19 @@ select *
   from lg_dua
  where numero_embarque = 4175;
 
+
 select *
   from pr_ot_cambios_piezas
  where numero = 914943;
 
+
 select *
   from lg_pedjam
- where num_importa = 'PVM23022';
+ where num_importa = 'PR23046';
 
 select *
   from lg_itemjam
- where num_importa = 'PVM23022';
+ where num_importa = 'PR23046';
 
 
 select *
@@ -93,3 +95,5 @@ select *
 select *
   from lg_factura_comercial
  where numero_embarque = 4330;
+
+select * from embarques_d;

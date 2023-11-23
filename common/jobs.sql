@@ -13,14 +13,27 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_FACTURAS_PENDIENTES_EXPO'
+      job_name => 'JOB_COTIZACION_IMPORTACION'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'FACTURAS_PENDIENTES_EXPO_XLS.LISTADO_PARA_VENDEDORES'
-    , start_date => timestamp '2023-10-09 16:30:00 -5:00'
-    , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=9,10'
+    , job_action => 'envia_email_cotiza_simula.envia_correo_coti_simu'
+    , start_date => timestamp '2023-11-27 08:30:00 -5:00'
+    , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON'
     , auto_drop => false
     , enabled => true
-    , comments => 'envio automatico correo facturas pendientes exportacion'
+    , comments => 'cotizacion importacion(jgarcia)'
+  );
+end;
+
+begin
+  dbms_scheduler.create_job(
+      job_name => 'JOB_PLANEAMIENTO_SIN_COLOCAR'
+    , job_type => 'STORED_PROCEDURE'
+    , job_action => 'correo_planeamiento_sincolocar'
+    , start_date => timestamp '2023-11-14 08:30:00 -5:00'
+    , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=15'
+    , auto_drop => false
+    , enabled => true
+    , comments => 'planeamiento sin colocar (jpozo)'
     );
 end;
 
@@ -34,7 +47,7 @@ end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
-call dbms_scheduler.drop_job('JOB_FACTURAS_PENDIENTES_EXPO');
+call dbms_scheduler.drop_job('JOB_COTIZACION_IMPORTACION');
 
 --call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
 
