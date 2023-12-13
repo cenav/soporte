@@ -2,15 +2,15 @@ select *
   from movglos
  where ano = 2023
    and mes = 8
-   and libro = '07'
-   and voucher in (3796);
+   and libro = '40'
+   and voucher in (80003, 80004, 80005, 80006, 80007);
 
 select *
   from movdeta
  where ano = 2023
    and mes = 8
-   and libro = '07'
-   and voucher in (80001);
+   and libro = '40'
+   and voucher in (80003, 80004, 80005, 80006, 80007);
 
 select *
   from factpag
@@ -64,9 +64,9 @@ select sum(cantidad * precio * factor_uc) as total_item
 select *
   from movfide
  where ano = 2023
-   and mes = 5
-   and tipo = '5'
-   and voucher = 50027;
+   and mes = 10
+   and tipo = '2'
+   and voucher = 103005;
 
 select *
   from prestamo_banco_cuota

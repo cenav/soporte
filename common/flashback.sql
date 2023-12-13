@@ -760,3 +760,11 @@ select *
    and numero_planilla in (
                            000855, 000763, 000745, 000727, 000678, 000670
    );
+
+
+select *
+  from kardex_g_guia_remision as of timestamp to_timestamp('13-12-2023 08:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (9990);

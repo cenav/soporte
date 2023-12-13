@@ -1,10 +1,15 @@
 -- cond. pag 46
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 1
    and num_ped in (
-                   61349, 61350, 61351, 61352, 61353, 61354
+                  85576
    );
+
+select *
+  from orden_de_compra
+ where serie = 4
+   and num_ped between 61349 and 61354;
 
 select *
   from itemord
@@ -32,9 +37,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 4
+ where serie = 30
    and num_ped in (
-                   61349, 61350, 61351, 61352, 61353, 61354
+   583
    )
    and glosa = 'APROBADO';
 
@@ -410,3 +415,18 @@ select * from itemord;
 select *
   from orden_de_compra
  where fecha = to_date('10/11/2023', 'dd/mm/yyyy');
+
+select *
+  from vw_compra_otm
+ where serie = 6
+   and num_ped in (2735, 2775);
+
+select *
+  from ot_mantto
+ where id_tipo = 'PY'
+   and id_serie = 2
+   and id_numero = 728;
+
+select *
+  from transporte
+ where cod_transp = '20601166861';

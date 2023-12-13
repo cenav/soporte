@@ -24,8 +24,8 @@ select *
  where numero = 16397;
 
 select *
-  from planilla_cobranzas_h
- where numero_planilla = 5251050;
+  from planilla_cobranzas_d
+ where numero_planilla = 4963248;
 
 select *
   from planilla_cobranzas_d

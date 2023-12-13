@@ -36,11 +36,11 @@ select *
 
 select *
   from cotizacion
- where num_ped = 207268;
+ where num_ped = 210576;
 
 select *
   from itemcot
- where num_ped = 207268;
+ where num_ped = 210576;
 
 select distinct estado
   from cotizacion
@@ -234,3 +234,21 @@ select *
   from view_art_ventas_nac
  where cod_art = 'FS 93044 MLS'
    and cod_vende = '14';
+
+select *
+  from vendedores
+ where nombre like '%ZANABRIA%';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%ZANABRIA%';
+
+select *
+  from vendedores
+ where abreviada = 'ESALCEDO';
+
+select *
+  from cotizacion
+ where num_ped in (
+                   210416, 210573, 210581, 210582, 210497, 210497, 210550, 210553
+   );

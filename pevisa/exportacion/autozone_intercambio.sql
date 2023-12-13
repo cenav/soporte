@@ -43,8 +43,7 @@ begin
 end;
 
 select *
-  from tmp_explosion_articulo
- where formula = 'AUTUS OS 32241 AL R';
+  from tmp_explosion_articulo;
 
 
 -- autozone_usa_nacional

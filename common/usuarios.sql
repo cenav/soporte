@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user amunante account unlock;
+alter user scastro account unlock;
 
 
 alter user caucho account lock;
 
 
-alter user cnavarro identified by "pevi.84768";
+alter user gfalcon identified by "peru123.";
 
 
 alter user lmuedas password expire;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'JHERMOZA';
+ where username like 'KCIUDAD';
 
 
 select *
@@ -702,4 +702,45 @@ begin
   envia_email_cotiza_simula.envia_correo_coti_simu();
 end;
 
-grant execute on envia_email_cotiza_simula to
+
+-- imartinez
+
+select * from vendedores where abreviada = 'IMARTINEZ';
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = '35'
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = '05'
+   and n.serie = t.serie
+ order by 1;
+
+
+select cod_alm, tp_transac, serie
+  from almacen_trasaccion_serie
+ where tp_transac = '35'
+   and cod_alm = '05';
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = '05'
+ order by 1;
+
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '05';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'RAMOS'
+   and nombres like '%CESAR%';
+
+select * from usuario_modulo
+where modulo = 'CAMPANA_CARGA';
+
+select * from usuario_modulo
+where modulo like '%CAMPANA%';

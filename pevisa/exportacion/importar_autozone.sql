@@ -140,8 +140,8 @@ select *
  order by cantidad desc;
 
 begin
-  --     pr_explosion_para_costear_1niv();
-  sp_explosion();
+  pr_explosion_para_costear_1niv();
+  --   sp_explosion();
   --   pr_explosion_hasta_subpiezas();
 --   pr_explosion_hasta_subpiezas2();
 --   pr_explosion_para_costear();
@@ -312,3 +312,36 @@ select *
 select *
   from pcformulas
  where cod_for = '290.3569ALR';
+
+select *
+  from transporte
+ where cod_transp = '20601230268';
+
+
+select prioridad, color, descripcion_color, importe
+  from view_prioridad_colores_30
+ where prioridad = 6190
+   and color != '%';
+
+
+select prioridad, numero, nro, to_char(fecha, 'dd/mm/yyyy') as fecha, cod_art, cod_eqi, numero_ot
+     , cant_prog, valor_art, por_pza
+  from pr_prioridad_tmp_30
+ where prioridad = 6190
+--    and color = p_color
+   and numero = 16108
+ order by numero_ot;
+
+select *
+  from pr_prioridad_tmp_30
+ where numero = 16108;
+
+-- 354
+
+select *
+  from pr_embarques
+ where id_pedido = 16108;
+
+select *
+  from view_pedidos_pendientes_38
+ where id_pedido = 16108;

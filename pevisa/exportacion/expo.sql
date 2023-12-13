@@ -182,7 +182,9 @@ select *
 
 select *
   from expedidos
- where numero = 15526;
+ where numero in (
+                  15993, 15951
+   );
 
 select * from packing_agrupar;
 
@@ -201,3 +203,16 @@ select *
 select *
   from pk_gnumero
  where pk_numero in (56366);
+
+
+select *
+  from solicita_emision
+ where numero = 1228;
+
+select *
+  from solicita_emision_det
+ where numero = 1228;
+
+select *
+  from tab_lineas
+ where linea = '526';

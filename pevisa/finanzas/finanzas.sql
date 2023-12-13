@@ -1,18 +1,16 @@
 select *
   from movfigl
  where ano = 2023
-   and mes = 10
+   and mes = 11
    and tipo = '2'
-   and voucher = 103349;
-
--- 2023	7	5	70128
+   and voucher = 113124;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 10
+   and mes = 11
    and tipo = '2'
-   and voucher = 103349;
+   and voucher = 113124;
 
 
 select *

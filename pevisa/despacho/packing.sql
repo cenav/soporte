@@ -34,6 +34,23 @@ select * from activo_fijo;
 select *
   from pk_gnumero
  where pk_numero in (
-                     54658, 55028, 55102, 55225, 55333, 55393, 55401, 55683, 55771, 55785, 55850,
-                     55981
+   null
    );
+
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 21457;
+
+
+select *
+  from clientes
+ where cod_cliente = '992073';
+
+select *
+  from clientes
+ where cod_cliente like '%CNPJ 60.860.681/0014-04%';
+
+-- CNPJ 60.860.681/0014-04

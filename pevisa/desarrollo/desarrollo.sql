@@ -72,3 +72,79 @@ select *
    and tp_transac = '21'
    and serie = 1
    and numero = 34773;
+
+select *
+  from cambdol;
+
+select *
+  from kardex_d
+ where cod_art = '01ANDA10';
+
+select *
+  from transacciones_almacen
+ where descripcion like '%VENTA%';
+
+select *
+  from transacciones_almacen
+ order by lpad(tp_transac, 3, '0');
+
+select *
+  from tablas_auxiliares
+ where tipo = 32
+   and codigo != '....'
+ order by codigo;
+
+select *
+  from numdoc
+ where tp_transac = '21';
+
+select *
+  from numdoc
+ order by serie;
+
+insert into pevisa.numdoc ( tp_transac, serie, numero, automatico, tp_mov, tp_relacion, tipo_cambio
+                          , ing_costo, lineas)
+values ('73', 171, 0, 'S', 'S', null, 'V', 'N', 0);
+
+
+select *
+  from numdoc
+ where tp_transac = '73'
+   and serie = 171;
+
+select *
+  from kardex_g
+ where tp_transac = '73';
+
+
+select *
+  from kardex_d
+ where tp_transac = '73';
+
+
+select *
+  from view_salidas_pre_guias
+ where cod_transp is not null;
+
+
+select *
+  from view_salidas_pre_guias
+ where cod_alm = 'A2';
+
+
+select *
+  from view_salidas_pre_guias
+ where not exists (
+   select 1
+     from kardex_g_guia_remision r
+    where cod_alm = view_salidas_pre_guias.cod_alm
+      and tp_transac = view_salidas_pre_guias.tp_transac and serie = view_salidas_pre_guias.serie
+      and numero = view_salidas_pre_guias.numero
+   )
+   and cod_alm = 'A2';
+
+
+select *
+  from kardex_g
+ where cod_alm = 'A2'
+   and tp_transac = '73';

@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   279706
+                  1013345, 1013322, 1008122, 1012415
    );
 
 -- select * from prot;
@@ -375,3 +375,27 @@ select *
 select *
   from produccion_armado_cajas
  where cod_caja = 279706;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1014934;
+
+select *
+  from pr_embarques
+     , exparamexpo
+ where ano_embarque = to_char(sysdate, 'YYYY')
+   and mes_embarque = to_char(sysdate, 'MM')
+   and id_pedido = 16097;
+
+select * from pr_embarques;
+
+select *
+  from produccion_armado_cajas
+ where cod_caja = 281628;
+
+select *
+  from produccion_armado_cajas_his
+ where cod_caja = 281628
+ order by estado;
+

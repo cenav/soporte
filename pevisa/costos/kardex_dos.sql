@@ -41,7 +41,7 @@ update tmp_moviart_dos
    set ordtra  = 'VENTA EX'
      , cod_ope = '80'
  where ano = 2023
-   and mes in (9)
+   and mes in (10)
    and id = 'S'
 --    and motivo = '1'
    and docto like 'PK%'

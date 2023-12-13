@@ -1,19 +1,19 @@
 select *
   from kardex_g
- where cod_alm = '15'
-   and tp_transac = '29'
+ where cod_alm = '01'
+   and tp_transac = '17'
    and serie = 1
    and numero in (
-   1575238
+   718390
    );
 
 select *
   from kardex_d
- where cod_alm = '15'
-   and tp_transac = '29'
+ where cod_alm = '01'
+   and tp_transac = '17'
    and serie = 1
    and numero in (
-   1575238
+   718390
    );
 
 select *
@@ -765,3 +765,49 @@ select *
    and serie = 2
    and numero = 7346;
 
+select g.numero_embarque, h.num_importa, lg.numero as factura, eg.bl_numero, h.cod_proveed, p.nombre
+     , lg.total, p.direccion, p.cod_proveed as ruc, g.estado, eg.fecha_recepcion_almacen
+  from lg_pedjam h
+     , proveed p
+     , embarques_g eg
+     , packing_g g
+     , lg_factura_comercial lg
+ where h.num_importa = g.num_importa
+   and p.cod_proveed = h.cod_proveed
+   and eg.numero_embarque = g.numero_embarque
+   and eg.estado >= 2
+   and eg.estado < 8
+   and nvl(h.estado, 0) > 0 and nvl(h.estado, 0) < 8
+   and lg.numero_embarque = eg.numero_embarque
+   and g.factura_comercial_numero = lg.numero
+   and eg.numero_embarque = 4493
+   and exists
+   (
+     select 1
+       from embarques_d dd
+          , lg_itemjam ii
+      where dd.numero_embarque = g.numero_embarque
+        and dd.num_importa = g.num_importa
+        and dd.factura_comercial_numero =
+            g.factura_comercial_numero
+        and dd.num_importa = ii.num_importa
+        and nvl(dd.estado, 0) < 9
+        and dd.cod_art = ii.cod_art
+        and dd.saldo > 0
+     )
+ order by 1, 2;
+
+select *
+  from embarques_d
+ where numero_embarque = 4493;
+--    and cantidad_packing != cant_ped;
+
+select * from articul;
+
+select *
+  from expedidos
+ where numero = 16092;
+
+select *
+  from almacen
+ where cod_art = 'KIT';

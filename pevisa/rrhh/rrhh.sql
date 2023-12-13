@@ -22,7 +22,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E722';
+   and c_codigo = 'E41916';
 
 select *
   from planilla10.personal

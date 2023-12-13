@@ -2,12 +2,9 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  516765, 497233, 516734, 516745, 524874, 536554, 536560, 536125, 516701, 529528,
-                  516777, 535962, 535957, 535085, 516643, 529530, 531641, 496889, 516758, 516683,
-                  516704, 533903, 516800, 516706, 526931, 535985, 516798, 533765, 536687, 535082,
-                  516730, 497298, 503100, 496982, 528978, 497278, 524873, 516804, 529574
+                  498559, 498560, 498561, 498562, 498565, 498566, 498579, 498580, 498583, 498594,
+                  498595, 502586, 502587, 502593, 506501, 507671, 532140, 504702, 532139
    );
-
 
 select * from pr_estados;
 
@@ -498,5 +495,11 @@ select *
   from pr_ot_sec
  where cod_art = '180.1382ZN';
 
-select * from vendedores;
+select *
+  from vendedores
+ order by cod_vendedor;
 
+select *
+  from planilla10.personal
+ where apellido_paterno = 'QUISPE'
+   and nombres like '%JANETH%';

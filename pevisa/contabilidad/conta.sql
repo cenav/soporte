@@ -254,7 +254,7 @@ select * from caja_chica_serie;
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'MQ1ARMPT-003';
+ where cod_activo_fijo = 'RACK SELECT12';
 
 select *
   from activo_fijo_estado
@@ -2238,4 +2238,35 @@ select *
 
 select *
   from cambdol
- where fecha = to_date('16/11/2023', 'dd/mm/yyyy');
+ where fecha = to_date('04/12/2023', 'dd/mm/yyyy');
+
+select * from grupo_venta;
+
+select *
+  from transacciones_almacen
+ order by lpad(tp_transac, 3, '0');
+
+select *
+  from tablas_auxiliares
+ where tipo = 32
+   and codigo != '....'
+ order by codigo;
+
+select *
+  from numdoc
+ order by serie;
+
+select *
+  from numdoc
+ where tp_transac = '73'
+ order by serie;
+
+select *
+  from kardex_g
+ where serie = 171;
+
+select * from view_salidas_pre_guias;
+
+select *
+  from transacciones_almacen
+ order by lpad(tp_transac, 3, '0');

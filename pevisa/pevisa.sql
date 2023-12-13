@@ -2423,3 +2423,10 @@ select *
  where c_cargo = 'RMQ';
 
 select * from ruta_docvirtual;
+
+select cod_art, cantidad from tmp_carga_data;
+
+insert into tmp_carga_data(cod_art, cantidad)
+select cod_art, canti
+  from expedido_d
+ where numero = 16108;

@@ -14,7 +14,19 @@ select *
  where cod_caja = '275747'
  order by estado;
 
-
 select *
   from produccion_armado
  where numero_oa = 889984;
+
+select *
+  from produccion_armado_cajas
+ where cod_caja = 283179;
+
+
+select *
+  from produccion_armado
+ where abrev_ped = 15852;
+
+select *
+  from view_prodterm_pedidos
+ where pedido = 15692;

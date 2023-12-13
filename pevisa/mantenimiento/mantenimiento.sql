@@ -1,8 +1,8 @@
 select *
   from ot_mantto
- where id_tipo = 'MQ'
-   and id_serie = 7
-   and id_numero in (7451);
+ where id_tipo = 'VH'
+   and id_serie = 4
+   and id_numero in (33);
 
 select *
   from solimat_d
@@ -132,3 +132,5 @@ select *
 select *
   from planilla10.personal
  where apellido_paterno like '%NEYRA%';
+
+--hdi42559

@@ -19,5 +19,26 @@ select *
   from transacciones_almacen
  where tp_transac = '22';
 
-select * from almacen_activo_fijo
-where cod_alm = 'A2';
+select *
+  from almacen_activo_fijo
+ where cod_alm = 'A2';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = '02ESCA3';
+
+select *
+  from kardex_d
+ where cod_art = '02ESCA3';
+
+select *
+  from exfacturas
+ where fecha >= to_date('01/12/2023', 'dd/mm/yyyy');
+
+select *
+  from transacciones_almacen
+ where descripcion like '%ACTIVO%';
+
+select *
+  from kardex_d
+ where cod_alm = 'A2';

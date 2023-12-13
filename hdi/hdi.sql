@@ -43,6 +43,7 @@ select *
    )
    and relacion = '20510990448';
 
+
 select *
   from factcob
  where cod_cliente = '20430500521'
@@ -449,7 +450,7 @@ select f.cod_proveedor
      , substr(t.abreviada, 1, 3) as abre
      , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero as doc
      ,
-    to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) as amlv
+  to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher) as amlv
      , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia as refe
      , f.fecha
      , f.f_vencto
@@ -486,7 +487,7 @@ having (f.pventa + nvl(sum(decode(f.moneda, 'S', decode(c.moneda, 'S', c.importe
                                   decode(c.moneda, 'D', c.importe, c.importe_x))), 0)) <> 0
  group by f.ctactble, f.cod_proveedor, l.nombre, f.concepto, substr(t.abreviada, 1, 3)
         , f.tipdoc || ' ' || f.serie_num || ' ' || f.numero,
-     to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
+   to_char(f.ano) || ' ' || to_char(f.mes) || ' ' || f.libro || ' ' || to_char(f.voucher)
         , f.tipo_referencia || ' ' || f.serie_ref || ' ' || f.nro_referencia, f.fecha, f.f_vencto
         , decode(f.moneda, 'S', 'S/.', 'US$'), f.pventa, f.pventax, f.moneda, f.tcam_sal, f.tipdoc
         , f.numero
@@ -1095,8 +1096,8 @@ select *
 
 select *
   from orden_de_compra
- where serie = 14
-   and num_ped = 295;
+ where serie = 13
+   and num_ped = 475;
 
 select * from pla_control;
 
@@ -1439,8 +1440,8 @@ select i.numero
      , round(abs(neto) * p.valor, 2) as subtotal_igv_linea
      , abs(neto) + round(abs(neto) * p.valor, 2) as total_de_la_linea
      , p.valor * 100 as porcentaje_igv_linea, i.descuento, i.por_desc1, i.por_desc2, i.por_desc3,
-    to_char(i.por_desc1) || '+' || to_char(i.por_desc2) || '+' ||
-    to_char(i.por_desc3) as x_pordes_ori
+  to_char(i.por_desc1) || '+' || to_char(i.por_desc2) || '+' ||
+  to_char(i.por_desc3) as x_pordes_ori
      , d.nro_lista, d.cond_pag, i.observacion
   from itemdocu i
      , articul a
@@ -1805,7 +1806,6 @@ select *
    and vigencia_al = to_date('31/12/2023', 'dd/mm/yyyy')
    and cod_periodo = 'TR';
 
-
 select c.*
   from proceso_cominac p
        join proceso_cominac_concepto c on p.cod_proceso = c.cod_proceso
@@ -1839,9 +1839,21 @@ select *
   from vendedores
  where cod_vendedor in ('D7', '77');
 
-
 select *
   from tablas_auxiliares
 --  where tipo = '98'
  where codigo = '....'
  order by tipo;
+
+select *
+  from seccrus
+ where co_usrusr = 'AZAPATA';
+
+select *
+  from seccrus
+ where co_usrusr = 'AZAPATA'
+   and co_ctrctr = 'MAINMENU_HDI';
+
+select *
+  from seccrus
+ where co_ctrctr = 'MAINMENU_HDI';
