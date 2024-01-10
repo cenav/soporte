@@ -23,7 +23,6 @@ select *
 -- todos los almacenes donde tenga stock
 
 
-
 -- AÑO            2023
 --
 -- ID                 S
@@ -41,7 +40,7 @@ update tmp_moviart_dos
    set ordtra  = 'VENTA EX'
      , cod_ope = '80'
  where ano = 2023
-   and mes in (10)
+   and mes in (11)
    and id = 'S'
 --    and motivo = '1'
    and docto like 'PK%'
@@ -163,8 +162,8 @@ select nro_doc, replace(nro_doc, ':', '')
 
 select *
   from analisis_consumo
- where ano = 2022
-   and mes = 8;
+ where ano = 2023
+   and mes = 10;
 
 select *
   from tmp_moviart_dos
@@ -812,5 +811,4 @@ delete
 select *
   from analisis_consumo
  where ano = 2023
-   and mes = 9;
-
+   and mes = 11;

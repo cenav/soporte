@@ -19,3 +19,9 @@ using tmp_carga_data t
 on (c.cod_cliente = t.cod_proveedor)
 when matched then
   update set c.grupo_bateria = t.cod_alm;
+
+-- tabla de categorías
+select codigo, abreviada
+  from tablas_auxiliares
+ where tipo = 24
+ order by codigo;

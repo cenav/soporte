@@ -8,7 +8,7 @@ begin
     , auto_drop => false
     , enabled => true
     , comments => 'envio automatico correo facturas pendientes exportacion'
-    );
+  );
 end;
 
 begin
@@ -34,7 +34,7 @@ begin
     , auto_drop => false
     , enabled => true
     , comments => 'planeamiento sin colocar (jpozo)'
-    );
+  );
 end;
 
 begin
@@ -42,7 +42,7 @@ begin
       name => 'JOB_CORREO_SALDO_BANCOS'
     , attribute => 'JOB_ACTION'
     , value => 'saldobanco.mail'
-    );
+  );
 end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
@@ -77,6 +77,8 @@ select *
 select *
   from user_scheduler_jobs;
 
+select * from all_directories;
+
 select *
   from all_source
  where upper(text) like upper('%procede recojo de reclamo%');
@@ -95,3 +97,6 @@ select sysdate
   from dual;
 
 -- call puntualidad.automatico(2022, 5);
+
+select * from all_directories;
+-- \\10.0.0.125\powerbi-pevisa

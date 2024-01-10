@@ -123,22 +123,23 @@ select *
 -- eliminar las facturas que no deben aparacer en el listado
 select *
   from excomision_repre_fact
- where codigo = 174
+ where codigo = 179
    and numero_factura not in (
-                              55014660, 55014928, 55015016, 55015018, 55015379, 55015386, 55015410,
-                              55015411, 55015414, 55015551, 55015588, 55015614, 55015623, 55015636,
-                              55015719, 55014525, 55015166, 55015326, 55015327, 55015366, 55015367,
-                              55015543, 55015581, 55015582, 55015735, 55014131, 55014475, 55014645,
-                              55014753, 55014884, 55015012, 55015771, 55015817, 55015823, 55015824,
-                              55015825, 55015877, 55015880, 55015927, 55015928
-   );
+                              55015072, 55015082, 55015257, 55015285, 55015400, 55015513, 55015695,
+                              55015736, 55015820, 55015906, 55015948, 55015954, 55015981, 55015989,
+                              55015996, 55016002, 55016003, 55016004, 55016038, 55016039, 55016056,
+                              55016108, 55016174, 55016202, 55016203, 55016233, 55016240, 55016274,
+                              55016292, 55016294, 55016303
+;
 
 -- fecha de proceso de comision dejar en nulo
 select *
   from exfacturas
  where numero in (
-                  55014478, 55015072, 55015082, 55015257, 55015285, 55015400, 55015513, 55015695,
-                  55015736, 55015820, 55015989, 55016056, 55016108, 55016233
+                  55016333, 55016340, 55016362, 55016363, 55016374, 55016375, 55016391, 55016415,
+                  55016425, 55016469, 55016470, 55016520, 55016554, 55016555, 55016573, 55016581,
+                  55016591, 55016592, 55016596, 55016607, 55016622, 55016652, 55016683, 55016697,
+                  55016720, 55016726, 55016790, 55016791, 55016792, 55016793
    );
 
 select *
@@ -216,3 +217,48 @@ select *
 select *
   from tab_lineas
  where linea = '526';
+
+select *
+  from exproforma_d
+ where numero = 18961
+   and cod_art in (
+                   'CH 95234 TG', 'CHP 88087 GR', 'MS 80104 E', 'MS 80020 A', 'MS 95233 MLS E',
+                   'OS 88075 VM', 'FS 87796 MLS', 'MS 88087 A'
+   )
+ order by nro;
+
+select *
+  from exproforma_d
+ where cantidad_libre is not null;
+
+
+select *
+  from tablas_auxiliares
+ where codigo = '....';
+
+select *
+  from tablas_auxiliares
+ where tipo = 2
+ order by codigo;
+
+select *
+  from articul
+ where cod_art in ('NC1', 'NC6');
+
+select *
+  from docuvent
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero = '8008';
+
+select *
+  from itemdocu
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero = '8008';
+
+select * from pla_control;
+
+select *
+  from ex_prefacturas
+ where numero = 9051657;

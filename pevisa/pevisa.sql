@@ -1143,7 +1143,8 @@ select *
   from permiso
  where numero = 58785;
 
-select * from estado_permiso;
+select *
+  from estado_permiso;
 
 select *
   from concepto_permiso;
@@ -1396,15 +1397,21 @@ select *
   from vacaciones
  where numero = 18343;
 
-select * from pla_control;
+select *
+  from pla_control;
 
 -- borrar de esta tabla
-select * from instrumento_asigna where id_instrumento = '623';
+select *
+  from instrumento_asigna
+ where id_instrumento = '623';
 
 -- aca buscas el intrumento
-select * from instrumento;
+select *
+  from instrumento;
 
-select * from instrumento where serie = 'Wi-207';
+select *
+  from instrumento
+ where serie = 'Wi-207';
 
 select *
   from solimat_g
@@ -1502,13 +1509,16 @@ select *
   from prestamo_banco
  where cod_prestamo = '62128AFB';
 
-select * from error_log order by id_log desc;
+select *
+  from error_log
+ order by id_log desc;
 
 select *
   from accidente
  where id_accidente = 213;
 
-select * from pr_programas_compras;
+select *
+  from pr_programas_compras;
 
 declare
   p_articulo pr_ot.formu_art_cod_art%type;
@@ -1527,7 +1537,8 @@ select *
  where serie = 4
    and numero = 230068;
 
-select * from solicita_cambio_trx;
+select *
+  from solicita_cambio_trx;
 
 select *
   from solicita_cambio_trx_det
@@ -1560,7 +1571,11 @@ select *
 
 -- :solicita_emision_det.cantidad > :x_promedio_anual - :x_stock - :x_ordenes + :x_requerida
 
-select cod_art, consumo_mensual, stock, saldo_op, cant_requerida
+select cod_art
+     , consumo_mensual
+     , stock
+     , saldo_op
+     , cant_requerida
      , (consumo_mensual * 2) - stock - saldo_op + cant_requerida as maximo_emitir
   from vw_articulo
  where cod_art = 'FOR3202';
@@ -1678,7 +1693,8 @@ select *
   from solimat_g
  where numero = 181599;
 
-select * from vw_personal;
+select *
+  from vw_personal;
 
 select *
   from evaluacion
@@ -1688,15 +1704,18 @@ select *
   from respuesta
  where id_evaluacion = 6832;
 
-select * from estado_evaluacion;
+select *
+  from estado_evaluacion;
 
 select *
   from pk_gnumero
  where pk_numero = 54650;
 
-select * from concepto_permiso;
+select *
+  from concepto_permiso;
 
-select * from planilla10.planilla;
+select *
+  from planilla10.planilla;
 
 select *
   from dba_tab_privs
@@ -1720,20 +1739,31 @@ select *
   from orden_de_compra
  where cod_proveed = '10727264057';
 
-select * from view_salidas_pre_guias;
+select *
+  from view_salidas_pre_guias;
 
 select c.num_pla, t.despla, r.ano || '-' || r.mes, r.ano, r.mes
   from planilla10.plcontrol c
      , planilla10.parampla r
      , planilla10.tipoplan t
- where c.num_pla = r.num_pla and t.c_eo = r.c_eo and t.tipo_pla = r.tipo_pla and c.usuario = user
+ where c.num_pla = r.num_pla
+   and t.c_eo = r.c_eo
+   and t.tipo_pla = r.tipo_pla
+   and c.usuario = user
    and r.tipo_pla in ('N', 'M', 'V', 'G', 'U');
 
-select * from planilla10.plcontrol;
+select *
+  from planilla10.plcontrol;
 
-select * from vw_boleta_pagos_email;
+select *
+  from vw_boleta_pagos_email;
 
-select s.nro_sucur, s.direccion, u.cod_ubc, u.nom_dpt, u.nom_pvc, u.nom_dtt
+select s.nro_sucur
+     , s.direccion
+     , u.cod_ubc
+     , u.nom_dpt
+     , u.nom_pvc
+     , u.nom_dtt
      , u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
      , nvl(s.codigo_establecimiento_sunat, '0000') as codigo_establecimiento_sunat
   from ubigeo u
@@ -1792,7 +1822,8 @@ select ot.nuot_tipoot_codigo as tipo_ot
         , otd.cant_formula, ot.lote
  order by ot.nuot_tipoot_codigo, ot.numero;
 
-select * from vw_bono_he;
+select *
+  from vw_bono_he;
 
 select *
   from tab_lineas
@@ -1804,9 +1835,13 @@ select *
 
 select tipo, codigo, descripcion
   from tablas_auxiliares
- where tipo = 32 and codigo <> '....' and indicador1 = 'S' and codigo in ('01', '03');
+ where tipo = 32
+   and codigo <> '....'
+   and indicador1 = 'S'
+   and codigo in ('01', '03');
 
-select * from vw_analpla_personal_total;
+select *
+  from vw_analpla_personal_total;
 
 select *
   from vw_personal
@@ -1816,11 +1851,16 @@ select *
   from vw_personal
  where c_codigo = 'E1047';
 
-select * from estado_otm order by id_estado;
+select *
+  from estado_otm
+ order by id_estado;
 
-select * from hallazgo_importacion;
+select *
+  from hallazgo_importacion;
 
-select * from estado_hallazgo order by id_estado;
+select *
+  from estado_hallazgo
+ order by id_estado;
 
 select nvl(sum(d.cantidad), 0)
   from kardex_d d
@@ -1842,48 +1882,61 @@ declare
   l_numero simple_integer := 3;
 begin
   case
-    when l_numero = 1 then
-      dbms_output.put_line('ok');
-    when l_numero = 2 then
-      dbms_output.put_line('ok');
-    when l_numero = 3 then
-      dbms_output.put_line('ok');
+    when l_numero = 1 then dbms_output.put_line('ok');
+    when l_numero = 2 then dbms_output.put_line('ok');
+    when l_numero = 3 then dbms_output.put_line('ok');
   end case;
 end;
 
-select distinct p.serie from pedido p where p.tipo_docto = 2 and p.estado = 5 order by p.serie;
+select distinct p.serie
+  from pedido p
+ where p.tipo_docto = 2
+   and p.estado = 5
+ order by p.serie;
 
-select serie, automatico from numdoc where tp_transac = '';
+select serie, automatico
+  from numdoc
+ where tp_transac = '';
 
-select * from numdoc;
+select *
+  from numdoc;
 
-select * from numdoc where serie = 170;
+select *
+  from numdoc
+ where serie = 170;
 
-select asistencia.sq_justificacion.currval from dual;
+select asistencia.sq_justificacion.currval
+  from dual;
 
-select asistencia.sq_justificacion.nextval from dual;
+select asistencia.sq_justificacion.nextval
+  from dual;
 
 select owner, object_type, object_name
   from all_objects
  where object_name = 'PERMISO_IDTECFLEX';
 
-select * from paramlg;
+select *
+  from paramlg;
 
-select * from paramin;
+select *
+  from paramin;
 
 select *
   from permiso
  where numero = 58570;
 
-select * from estado_permiso;
+select *
+  from estado_permiso;
 
 select *
   from permiso_idtecflex
  where numero = 58571;
 
-select * from cese_personal;
+select *
+  from cese_personal;
 
-select datefmt.year_month_to_last_day(2023, 8) from dual;
+select datefmt.year_month_to_last_day(2023, 8)
+  from dual;
 
 select *
   from proceso_puntualidad_pers
@@ -1894,7 +1947,8 @@ select *
   from permiso
  where numero = 58615;
 
-select * from usuarios_cotizacion;
+select *
+  from usuarios_cotizacion;
 
 select *
   from vacaciones
@@ -1902,14 +1956,16 @@ select *
 
 select codigo, descripcion, indicador3
   from tablas_auxiliares
- where tipo = 29 and codigo <> '....'
+ where tipo = 29
+   and codigo <> '....'
  order by codigo;
 
 select *
   from tablas_auxiliares
  where tipo = 29;
 
-select * from movfide_situacion_banco;
+select *
+  from movfide_situacion_banco;
 
 
 select *
@@ -2120,28 +2176,35 @@ select abreviada
  where tipo = 24
    and codigo = to_char('10');
 
-select get_categoria_cliente('20450497950') from dual;
+select get_categoria_cliente('20450497950')
+  from dual;
 
 select *
   from tablas_auxiliares
  where tipo = 24;
 
-select * from itemped;
+select *
+  from itemped;
 
-select * from pedido;
+select *
+  from pedido;
 
 select *
   from vw_vacaciones
  where (usuario in (
    select usuario
      from usuario_modulo
-    where usuario = :user and modulo = :modulo
+    where usuario = :user
+      and modulo = :modulo
     union
    select id_usuario
      from usuario_modulo_alterno
-    where id_alterno = :user and id_modulo = :modulo
+    where id_alterno = :user
+      and id_modulo = :modulo
    ) or :user in (
-   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   select usuario
+     from usuario_modulo
+    where modulo = :modulo and maestro = 'SI'
    ))
    and (id_personal = :id_trabajador or :id_trabajador is null)
    and (estado = :estado or :estado is null)
@@ -2149,7 +2212,10 @@ select *
         (:fecha_del is null and :fecha_al is null));
 
 select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
-     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado
+     , per.c_codigo
+     , per.seccion as cod_seccion
+     , s.nombre as seccion
+     , enc.nombre as encargado
      , per.f_ingreso
   from planilla10.personal per
      , planilla10.tar_encarga enc
@@ -2159,25 +2225,31 @@ select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombre
    and (upper(enc.usuario) in (
    select usuario
      from usuario_modulo
-    where usuario = :USER and modulo = :modulo
+    where usuario = :USER
+      and modulo = :modulo
     union
    select id_usuario
      from usuario_modulo_alterno
-    where id_alterno = :USER and id_modulo = :modulo
+    where id_alterno = :USER
+      and id_modulo = :modulo
    ) or :USER in (
-   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   select usuario
+     from usuario_modulo
+    where modulo = :modulo and maestro = 'SI'
    ))
    and per.situacion not in ('8', '9')
  order by per.apellido_paterno;
 
 select usuario
   from usuario_modulo
- where usuario = :user and modulo = :modulo;
+ where usuario = :user
+   and modulo = :modulo;
 
 
 select id_usuario
   from usuario_modulo_alterno
- where id_alterno = :user and id_modulo = :modulo;
+ where id_alterno = :user
+   and id_modulo = :modulo;
 
 select *
   from usuario_modulo_alterno
@@ -2191,7 +2263,8 @@ select *
      from planilla10.t_situacion_cesado
    );
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.tar_encarga;
 
 select *
   from expedstock
@@ -2205,7 +2278,8 @@ select distinct estado_pk
   from expedstock_d
  where numero = 45;
 
-select * from lg_pedjam_historia;
+select *
+  from lg_pedjam_historia;
 
 select *
   from planilla10.tar_encarga
@@ -2219,7 +2293,8 @@ select *
      from planilla10.t_situacion_cesado
    );
 
-select * from nrodoc;
+select *
+  from nrodoc;
 
 select *
   from docuvent
@@ -2255,7 +2330,8 @@ select *
   from pevisa.vacaciones
  where numero = 18358;
 
-select * from estado_vacaciones;
+select *
+  from estado_vacaciones;
 
 select *
   from almacen
@@ -2278,7 +2354,8 @@ select *
   from lg_monedas
  order by fecha desc;
 
-select * from moneda;
+select *
+  from moneda;
 
 select *
   from permiso
@@ -2292,7 +2369,8 @@ select *
   from transacciones_almacen
  where tp_transac = '22';
 
-select * from almacen_activo_fijo;
+select *
+  from almacen_activo_fijo;
 
 select *
   from almacenes
@@ -2302,9 +2380,11 @@ select *
   from expedidos
  where numero = 15959;
 
-select * from packing_agrupar;
+select *
+  from packing_agrupar;
 
-select * from linea_sin_tope_emision;
+select *
+  from linea_sin_tope_emision;
 
 select *
   from pk_gnumero
@@ -2318,13 +2398,15 @@ select *
   from item_ag
  where numero in (4561, 4560);
 
-select * from responsabilidad_cargo;
+select *
+  from responsabilidad_cargo;
 
 select *
   from planilla10.t_cargo
  where descripcion like '%AYUDANTE%';
 
-select * from exproforma_libre;
+select *
+  from exproforma_libre;
 
 select *
   from caja
@@ -2395,22 +2477,36 @@ select *
  where codigo = '039';
 
 
-select * from tmp_carga_activo_fijo;
+select *
+  from tmp_carga_activo_fijo;
 
-select * from caja_estado_log;
+select *
+  from caja_estado_log;
 
-select * from caja;
+select *
+  from caja;
 
 select cod_transp, nombre, domicilio, ruc_transp
   from transporte
  where estado is null
  order by cod_transp;
 
-select * from exclientes;
+select *
+  from exclientes;
 
 -- clientes exportacion
-select e.cod_cliente, e.nombre, e.direcc, e.direc2, ruc, e.pais, p.nombre as nom_pais, ciudad
-     , telefono, cod_vende, abrevia, e.estado
+select e.cod_cliente
+     , e.nombre
+     , e.direcc
+     , e.direc2
+     , ruc
+     , e.pais
+     , p.nombre as nom_pais
+     , ciudad
+     , telefono
+     , cod_vende
+     , abrevia
+     , e.estado
   from exclientes e
        left join expaises p on e.pais = p.pais;
 
@@ -2422,11 +2518,71 @@ select *
   from planilla10.personal
  where c_cargo = 'RMQ';
 
-select * from ruta_docvirtual;
+select *
+  from ruta_docvirtual;
 
-select cod_art, cantidad from tmp_carga_data;
+select cod_art, cantidad
+  from tmp_carga_data;
 
 insert into tmp_carga_data(cod_art, cantidad)
 select cod_art, canti
   from expedido_d
  where numero = 16108;
+
+select *
+  from vendedores
+ where abreviada = 'RRODRIGUEZ';
+
+select *
+  from vacaciones
+ where numero = 18511;
+
+select *
+  from estado_vacaciones;
+
+select *
+  from permiso
+ where numero = 61098;
+
+select *
+  from permiso_idtecflex
+ where numero = 61203;
+
+select *
+  from estado_permiso;
+
+select *
+  from asistencia.justificacion
+ where idjustificacion = 451993;
+
+select *
+  from evaluacion
+ where id_evaluacion = 7740;
+
+select * from incumplimiento;
+
+select * from estado_incumplimiento;
+
+select *
+  from respuesta
+ where id_evaluacion = 7849;
+
+select *
+  from kardex_g_historia
+ where cod_alm = '15'
+   and tp_transac = '29'
+   and serie = 1
+   and numero in (
+   1753254
+   );
+
+
+select *
+  from kardex_d_historia
+ where cod_alm = '15'
+   and tp_transac = '29'
+   and serie = 1
+   and numero in (
+   1753254
+   );
+

@@ -133,4 +133,37 @@ select *
   from planilla10.personal
  where apellido_paterno like '%NEYRA%';
 
---hdi42559
+select *
+  from almacenes
+ where cod_alm = 'PM';
+
+select *
+  from transacciones_almacen
+ order by tp_transac;
+
+select *
+  from transacciones_almacen
+ where descripcion like '%TRASLADO%';
+
+select *
+  from tablas_auxiliares
+ where tipo = 32
+   and descripcion like '%TRASLA%';
+
+select *
+  from tablas_auxiliares
+ where tipo = 32
+   and descripcion like '%TRASLA%';
+
+select *
+  from tablas_auxiliares
+ where codigo = '....'
+ order by tipo;
+
+select * from ingresos_conciliacion;
+
+select *
+  from lg_itemjam_otros
+ where observacion is not null;
+
+select * from modulo;

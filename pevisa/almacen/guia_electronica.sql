@@ -1,121 +1,3 @@
--- cod_alm in ('01')
--- and  exists (
---                select  1
---                from kardex_g_guia_remision r
---                where cod_alm    = VIEW_SALIDAS_PRE_GUIAS.cod_alm
---                and   tp_transac = VIEW_SALIDAS_PRE_GUIAS.tp_transac
---                and   serie      = VIEW_SALIDAS_PRE_GUIAS.serie
---                and   numero     = VIEW_SALIDAS_PRE_GUIAS.numero
---                and    GUIA_SERIE LIKE 'T%'
--- )
-
-select *
-  from kardex_g
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256952
- union all
-select *
-  from kardex_g
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256851;
-
-select *
-  from kardex_g
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256952;
-
-select *
-  from solimat_g
- where serie = 1
-   and numero = 183217;
-
-select s.*
-  from kardex_g k
-       join solimat_g s
-            on k.tip_doc_ref = 'P2' and k.ser_doc_ref = s.serie and k.nro_doc_ref = s.numero
- where k.cod_alm = '62'
-   and k.tp_transac = '22'
-   and k.serie = 1
-   and k.numero = 256952;
-
-begin
-  api_solimat_g.onerow(1, 1).indicador_retorno;
-end;
-
-select * from sucursales;
-
-select *
-  from kardex_g
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256852;
-
-select *
-  from kardex_d
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero = 5851;
-
-select *
-  from kardex_g_guia_remision
- where cod_alm = '62'
-   and tp_transac = '22'
-   and serie = 1
-   and numero = 256952;
-
-select *
-  from numdoc
- where tp_transac = '22';
-
-select *
-  from kardex_d
- where extract(year from fch_transac) = 2023
-   and cantidad = 0;
-
-select * from pr_num_ot;
-
-select *
-  from numdoc
- where tp_transac = 22;
-
-select *
-  from numdoc
- where fserie is not null;
-
-select *
-  from numdoc
- where serie = 160;
-
-select *
-  from numdoc
- where tp_transac = '22';
-
-select * from view_salidas_pre_guias;
-
-select *
-  from kardex_g
- where cod_alm = '62'
-   and serie = 160;
-
-select *
-  from kardex_d
- where cod_alm = '62'
-   and serie = 160;
-
-select *
-  from kardex_g_guia_remision
- where cod_alm = '62'
-   and serie = 160;
-
-
 /*
 
 ██╗   ██╗██╗   ██╗███████╗██╗    ██╗   ██╗███████╗     █████╗
@@ -152,17 +34,17 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7498);
+   and numero in (9990, 9991);
 
 --::::::::::::::::::::::::::::--
 --        tara_bo = 0         --
 --::::::::::::::::::::::::::::--
 select *
   from kardex_g
- where cod_alm = '99'
-   and tp_transac = 'T183'
-   and serie = 999
-   and numero in (13);
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (9990, 9991);
 
 
 --:::::::::::::::::::::::::::::::::::::::::--
@@ -170,17 +52,12 @@ select *
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
- where cod_alm = '99'
-   and tp_transac = 'T183'
-   and serie = 999
-   and numero in (13);
-
-select *
-  from kardex_g_guia_remision
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7481);
+   and numero in (9990, 9991);
+
+--:::::::::::::::::::::::::::::::::::::::::--
 
 select *
   from kardex_d
@@ -238,8 +115,8 @@ select *
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T183'
-   and guia_numero = 13;
+ where guia_serie = 'T171'
+   and guia_numero = 1;
 
 select *
   from clientes
@@ -430,3 +307,62 @@ select s.nro_sucur, s.direccion, u.cod_ubc, u.nom_dpt, u.nom_pvc, u.nom_dtt
    and nvl(s.estado, 0) < 9
 --    and s.nro_sucur <> :X_GUIA_ENTRE_ALMACENES.nro_sucursal_partida
  order by u.nom_dtt;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T171'
+   and guia_numero = 1;
+
+select *
+  from clientes
+ where cod_cliente in ('41189181', '10411891815');
+
+select *
+  from kardex_g
+ where cod_alm = 'A2'
+   and tp_transac = '73'
+   and serie = 171
+   and numero = 1;
+
+select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.direccion, u.cod_ubc
+     , u.nom_dpt, u.nom_pvc, u.nom_dtt, u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+  from ubigeo u
+     , sucursales s
+     , clientes c
+ where s.cod_cliente = c.cod_cliente
+   and u.nacional_internacional = 'N'
+   and s.cod_ubc = u.cod_ubc
+   and nvl(s.estado, 0) < 9
+   and c.cod_cliente in ('41189181', '10411891815')
+ order by c.cod_cliente, s.nro_sucur;
+
+select *
+  from sucursales
+ where cod_cliente = '41189181';
+
+insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
+                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
+                                          , tp_transac, serie, numero, motivo_traslado
+                                          , transporte_empresa, transporte_chofer, transporte_unidad
+                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
+                                          , modalidad_traslado, detalle, contenedor, precinto
+                                          , numero_documento_relacionado
+                                          , codigo_documento_relacionado
+                                          , descri_documento_relacionado, peso_items, pk_serie
+                                          , pk_numero, pk_tipo, ruc_llegada
+                                          , descripcion_motivo_traslado
+                                          , codigo_establecimiento_partida
+                                          , codigo_establecimiento_llegada, fecha_emision
+                                          , precinto_linea, carreta, marca_1, cartones, marca_2
+                                          , marca_3)
+values ( 'T171', 1, date '2023-12-06', '150103', '150103', 'Calle siriu 127-urb. Sol de vitarte'
+       , '20100084768', 'A2', '73', 171, 1, '01', '.', null, null, 1.00, 200.0000, '05', '01', '02'
+       , null, null, null, null, null, null, 200.0000, null, null, null, '41189181', 'VENTA', '0004'
+       , '0000', timestamp '2023-12-06 07:44:37', null, null, null, null, null, null);
+
+
+select * from activo_fijo_area;
+
+select *
+  from activo_fijo_ubicacion
+ where cod_area = 'EXTER';

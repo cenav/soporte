@@ -82,3 +82,5 @@ select *
  where serie = 1
    and num_ped = 85113
    and glosa = 'APROBADO';
+
+select * from paramlg;

@@ -3,7 +3,7 @@ declare
     select numero
       from pr_ot
      where numero in (
-       1010350
+                      965834, 965833
        )
        and nuot_tipoot_codigo = 'AR';
 begin
@@ -26,5 +26,6 @@ end;
 select *
   from produccion_armado
  where numero_oa in (
-   1010350
+                     1022641
    );
+

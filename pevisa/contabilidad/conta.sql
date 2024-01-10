@@ -2,16 +2,16 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 10
-   and libro = '33'
-   and voucher = 100007;
+   and mes = 12
+   and libro = '60'
+   and voucher = 120138;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 9
-   and libro = '33'
-   and voucher = 90022;
+   and mes = 12
+   and libro = '60'
+   and voucher = 120138;
 
 select *
   from movdeta
@@ -1221,64 +1221,6 @@ begin
 end;
 
 
-select a.cod_activo_fijo
-     , a.descripcion
-     , a.cod_clase
-     , a.cod_estado
-     , e.descripcion as desc_estado
-     , a.cuenta_contable
-     , a.cuenta_depreciacion
-     , a.cuenta_gasto_depreciacion
-     , a.fecha_adquisicion
-     , a.fecha_activacion
-     , a.fecha_baja
-     , a.centro_costo
-     , a.cod_tipo_adquisicion
-  --, DECODE( :p_moneda,  'S', a.valor_adquisicion_s,  'D', a.valor_adquisicion_d) AS valor_adquisicion
-     , pkg_activo_fijo_qry.valor_adquisicion(a.cod_activo_fijo, :p_moneda,
-                                             :p_fecha) as valor_adquisicion
-     , d.porcentaje
-     , d.depreciacion
-     , pkg_activo_fijo_qry.depre_acum_anual(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda,
-                                            :p_fecha) as depre_acum_anual
-     , sf_depreciacion_acumulada(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda,
-                                 :p_fecha) as depreciacion_acumulada
-     , sf_costo_neto(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha) as costo_neto
---             , NVL(d.depreciacion_acumulada, sf_depreciacion_acumulada_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha)) AS depreciacion_acumulada
---             , NVL(d.costo_neto, sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, :p_fecha)) AS costo_neto
-     , decode(last_day(a.fecha_adquisicion), :p_fecha,
-              decode(:p_moneda, 'S', a.valor_adquisicion_s, 'D', a.valor_adquisicion_d),
-              0) as valor_compra
-  --, DECODE(TO_NUMBER(TO_CHAR(a.fecha_adquisicion, 'YYYY')), :p_periodo_ano, DECODE( :p_moneda, 'S', a.valor_adquisicion_s,  'D', a.valor_adquisicion_d), 0) AS valor_compra_anual
-     , pkg_activo_fijo_qry.valor_compra_anual(a.cod_activo_fijo, :p_moneda,
-                                              :p_fecha) as valor_compra_anual
-     , decode(last_day(a.fecha_baja), :p_fecha,
-              sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, a.fecha_baja),
-              0) as valor_venta
-     , decode(to_number(to_char(a.fecha_baja, 'YYYY')), :p_periodo_ano,
-              sf_costo_neto_hist(a.cod_activo_fijo, :p_tipo_depreciacion, :p_moneda, a.fecha_baja),
-              0) as valor_venta_anual
-     , decode(a.inoperativo, 'S', 'SI', 'N', 'NO', 'NO') as inoperativo
-  from activo_fijo a
-     , activo_fijo_depreciacion d
-     , activo_fijo_estado e
- where a.cod_activo_fijo = d.cod_activo_fijo(+)
---    and d.cod_tipo_depreciacion(+) = :p_tipo_depreciacion
---    and d.moneda(+) = :p_moneda
-   and a.cod_estado = e.cod_estado
-   and to_number(to_char(d.fecha(+), 'YYYY')) = :p_periodo_ano
-   and to_number(to_char(d.fecha(+), 'MM')) = :p_periodo_mes
---    and a.cod_tipo_adquisicion like :p_tipo_adquisicion
---    and a.cod_clase like :p_clase
-   and a.cod_estado != '9'
-   and a.depreciable = 'S'
-   and a.cod_activo_fijo in ('LOCAL DESCARTES OFICINA MAN2')
-   --AND    NVL(a.fecha_baja, TO_DATE('01/01/9999', 'DD/MM/YYYY')) >= :p_fecha
-   and (a.fecha_activacion is null
-   or (a.fecha_activacion is not null
-     and trunc(a.fecha_activacion) between :p_fecha_adq_del and :p_fecha_adq_al));
-
-
 select cod_activo_fijo, fecha_adquisicion, fecha_activacion
   from activo_fijo
  where cod_activo_fijo = 'LOCAL DESCARTES OFICINA MAN2';
@@ -1329,10 +1271,10 @@ select f.cod_cliente
      , nvl(p.col_compras, 0) as col_compras
      , decode(p.auto_mas, null, 'N', 'O') as genera
      , (
-    round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal,
-          2) -
-    round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) *
-          :icambio, 2)) as saldo
+  round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) * f.tcam_sal,
+        2) -
+  round((f.importe + nvl(sum(decode(c.moneda, 'D', c.importe, c.importe_x)), 0)) *
+        :icambio, 2)) as saldo
      , f.tcam_sal
   from factcob f
      , cabfcob c
@@ -2270,3 +2212,30 @@ select * from view_salidas_pre_guias;
 select *
   from transacciones_almacen
  order by lpad(tp_transac, 3, '0');
+
+select * from activo_fijo;
+
+select *
+  from activo_fijo_estado
+ order by cod_estado;
+
+select md.ano, md.mes, md.relacion, cc.nombre
+     , sum(md.cargo_s - md.abono_s) as importe_s, sum(md.cargo_d - md.abono_d) as importe_d
+  from movdeta md
+       left outer join centro_de_costos cc on (md.relacion = cc.centro_costo)
+ where md.ano = '2023'
+   and md.mes = '11'
+   and nvl(md.nro_referencia, '0') like nvl(null, '%')
+   --AND      md.cuenta BETWEEN '96' AND '962701'
+   and nvl(md.estado, '0') < '9'
+   and md.libro not in ('88')
+   and relacion is null
+ group by md.ano, md.mes, md.relacion, cc.nombre
+ order by md.relacion;
+
+select *
+  from activo_fijo_depreciacion
+ where extract(year from fecha) = 2023
+   and extract(month from fecha) = 11
+   and depreciacion = 0
+   and moneda = 'D';

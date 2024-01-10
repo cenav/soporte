@@ -1857,3 +1857,6 @@ select *
 select *
   from seccrus
  where co_ctrctr = 'MAINMENU_HDI';
+
+select * from pla_control;
+

@@ -2,16 +2,16 @@ select *
   from movfigl
  where ano = 2023
    and mes = 11
-   and tipo = '2'
-   and voucher = 113124;
+   and tipo = '1'
+   and voucher = 120138 ;
 
 select *
   from movfide
  where ano = 2023
-   and mes = 11
-   and tipo = '2'
-   and voucher = 113124;
-
+   and mes = 12
+   and tipo = '1'
+   and voucher = 120105
+   and enumero = '367504';
 
 select *
   from factpag
@@ -21,9 +21,15 @@ select *
 
 select *
   from cabfpag
- where tipdoc = '26'
-   and serie_num = '008'
-   and numero = '3484117';
+ where tipdoc = 'LC'
+   and serie_num = '1'
+   and numero = '367504';
+
+select *
+  from cabfpag
+ where tipdoc = 'LC'
+   and serie_num = '1'
+   and numero = '367504';
 
 select * from ot_mantto where id_tipo = 'EQ' and id_serie = 2 and id_numero = 3;
 
@@ -40,9 +46,9 @@ select *
    and numero_planilla = 26573;
 
 select user as usuario, tpo.descripcion as tipo_pago,
-    tpo.titulo || ' ' || dense_rank() over (order by der.fecha_pago) as descripcion
+  tpo.titulo || ' ' || dense_rank() over (order by der.fecha_pago) as descripcion
      , tpo.abreviada || ' ' || dense_rank() over (order by der.fecha_pago) as cod_proveedor,
-    'DERECHOS ADUANA SEM. ' || dense_rank() over (order by der.fecha_pago) as proveedor_desc
+  'DERECHOS ADUANA SEM. ' || dense_rank() over (order by der.fecha_pago) as proveedor_desc
      , der.fecha_pago as fecha_emision, der.fecha_pago as fecha_vcto, der.moneda as moneda
      , der.moneda_desc as moneda_desc, sum(der.importe) as importe, sum(der.saldo) as saldo
      , sum(der.importe_equidol) as importe_equidol, sum(der.saldo_equidol) as saldo_equidol
@@ -148,11 +154,17 @@ select *
 
 
 select *
-  from nrotipo
- where ano = 2023
-   and mes = 5
-   and tipo = '9';
+  from movfigl
+ where ano = 2024
+   and mes = 1
+   and tipo = '1'
+ order by voucher desc;
 
+select *
+  from nrotipo
+ where ano = 2024
+   and mes = 1
+   and tipo = '1';
 
 -- c_porc_igv             CONSTANT NUMBER := 0.16;
 -- c_porc_promo_muni      CONSTANT NUMBER := 0.02;

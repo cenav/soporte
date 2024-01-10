@@ -1,23 +1,24 @@
 -- cond. pag 46
 select *
   from orden_de_compra
- where serie = 1
+ where serie = 4
    and num_ped in (
-                  85576
+   61573
    );
 
 select *
   from orden_de_compra
- where serie = 4
-   and num_ped between 61349 and 61354;
+ where num_ped = 44222
+ order by fecha desc;
 
 select *
   from itemord
- where serie = 30
+ where serie = 1
    and num_ped in (
-   575
+   326
    );
 
+commit;
 
 select *
   from proveed
@@ -80,15 +81,50 @@ select *
 select *
   from orden_matriceria
  where num_ped in (
-   230145
+                   230186, 240002
    );
+
+insert into pevisa.orden_matriceria ( num_ped, tipo_docto, estado, fecha, cod_proveed, nro_sucur
+                                    , cond_pag, moneda, cod_vende, plazo_entrega, tipdoc_ref
+                                    , numrequ_ref, tipdoc_sol_ref, numsolc_ref, por_desc1, por_desc2
+                                    , impsto, detalle, poliza, cuenta42, total_pedido
+                                    , total_facturado, centro_costo, c_resp, por_des3, por_des4
+                                    , almacen, tipo_presu, serie_presu, num_presu, impu1, impu2
+                                    , impu3, impu4, impu5, serie, tot_dscto, tot_valvta, tot_impu
+                                    , tot_orden, num_importa, pase_cont, juego, fecha_ingreso
+                                    , fecha_salida, fecha_termino, tipo_matriz, cod_matriz, paso
+                                    , cod_pieza, cavidades, ser_oc, nro_oc)
+values ( 240002, '82', '0', date '2024-01-05', '20548295239', '0', '10', 'D', null, null, null, null
+       , null, null, 0.00, 0.00, 0.18, null, null, '4212', 293.70, 293.70, '7002', null, 0.00, 0.00
+       , '00', '51', null, null, null, null, null, null, null, 1, 0.00, 293.70, 52.87, 346.57, '0'
+       , 'N', 'CH 65016S', null, null, null, 'MDI', 'Reparación MOLDE 65016-2', null, '65016S', 4
+       , null, null);
 
 select *
   from itemmatri
  where serie = 1
    and num_ped in (
-   230076
+                   230186, 240002
    );
+
+insert into pevisa.itemmatri ( serie, num_ped, cod_art, item, cod_orig, cantidad, precio, saldo, igv
+                             , estado, empaque, cubicaje, cuenta9060, dscto1, dscto2, dscto3, dscto4
+                             , centro_costo, observacion, fact_des, total, piezas, espesor, largo
+                             , ancho, espesor2, peso, salida, ingreso, tipo_pza, color)
+values ( 1, 240002, 'P20', 1, 'P20', 84.2700, 3.4852, 84.2700, 0.000, null, 0.0000, 0.0000, 'KG'
+       , 0.00, 0.00, 0.00, 0.00, '7002', 'Placa cavidad inferior', 1.000000, 293.7000, 1.00, '40'
+       , '565', '475', null, null, null, null, '02', 'CO');
+
+select *
+  from caja_chica
+ where serie = 2
+   and numero in (230107, 240001);
+
+select *
+  from caja_chica_d
+ where serie = 2
+   and numero in (230107, 240001)
+ order by numero;
 
 select *
   from orden_de_compra
@@ -103,8 +139,6 @@ select *
   from itemord
  where serie = 3
    and num_ped = 42672;
-
-
 
 select *
   from oc_registro_facturas
@@ -128,12 +162,12 @@ select *
 select *
   from caja_chica
  where serie = 2
-   and numero = 230068;
+   and numero = 230104;
 
 select *
   from caja_chica_d
- where serie = 7
-   and numero = 22219;
+ where serie = 2
+   and numero = 230103;
 
 select *
   from gastos_de_viaje_habilitado_m
@@ -430,3 +464,94 @@ select *
 select *
   from transporte
  where cod_transp = '20601166861';
+
+select *
+  from vendedores
+ where cod_vendedor = 'P1';
+
+select *
+  from tablas_auxiliares
+ where tipo = 29
+ order by codigo;
+
+select *
+  from orden_de_compra
+ where num_ped = 1519
+ order by fecha desc;
+
+select * from kardex_d;
+
+select * from kardex_d;
+
+select *
+  from articul
+ where cod_art = 'AT-NI-064-CH-MLS';
+
+
+select *
+  from pcarticul
+ where cod_art = 'AT-NI-064-CH MLS';
+
+select *
+  from embarques_g
+ where numero_embarque = 4449;
+
+select *
+  from embarques_d
+ where numero_embarque = 4449
+   and cod_art = 'AT-NI-064-CH MLS';
+
+
+select g.numero_embarque, h.num_importa, lg.numero as factura, eg.bl_numero, h.cod_proveed, p.nombre
+     , lg.total, p.direccion, p.cod_proveed as ruc, g.estado, eg.fecha_recepcion_almacen
+  from lg_pedjam h
+     , proveed p
+     , embarques_g eg
+     , packing_g g
+     , lg_factura_comercial lg
+ where h.num_importa = g.num_importa
+   and p.cod_proveed = h.cod_proveed
+   and eg.numero_embarque = g.numero_embarque
+   and eg.estado >= 2
+   and eg.estado < 8
+   and nvl(h.estado, 0) > 0 and nvl(h.estado, 0) < 8
+   and lg.numero_embarque = eg.numero_embarque
+   and g.factura_comercial_numero = lg.numero
+   and exists (
+   select 1
+     from embarques_d dd
+        , lg_itemjam ii
+    where dd.numero_embarque = g.numero_embarque
+      and dd.num_importa = g.num_importa
+      and dd.factura_comercial_numero =
+          g.factura_comercial_numero
+      and dd.num_importa = ii.num_importa
+      and nvl(dd.estado, 0) < 9
+      and dd.cod_art = ii.cod_art
+      and dd.saldo > 0
+   )
+   and g.numero_embarque = 4449
+   and g.num_importa = 'PVC23013'
+ order by 1, 2;
+
+select * from lg_itemjam_otros;
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 210
+   and id_vendedor = '42';
+
+select *
+  from gastos_de_viaje_habilitado
+ where numero = 210
+   and id_vendedor = '42';
+
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10427461179';
+
+
+select *
+  from proveed
+ where nombre like '%JUDITH%';

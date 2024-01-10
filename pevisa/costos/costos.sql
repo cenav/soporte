@@ -165,3 +165,65 @@ select *
 select *
   from usuarios_libros
  where usuario = 'WPORTILLO';
+
+
+select md.ano, md.mes, md.relacion, cc.nombre
+     , sum(md.cargo_s - md.abono_s) as importe_s, sum(md.cargo_d - md.abono_d) as importe_d
+  from movdeta md
+       left outer join centro_de_costos cc on (md.relacion = cc.centro_costo)
+ where md.ano = '2023'
+   and md.mes = '11'
+   and nvl(md.nro_referencia, '0') like nvl(null, '%')
+   and md.cuenta between '96390106' and '96390106'
+   and nvl(md.estado, '0') < '9'
+   and md.libro not in ('88')
+   and relacion is null
+ group by md.ano, md.mes, md.relacion, cc.nombre
+ order by md.relacion;
+
+
+select *
+  from movdeta md
+       left outer join centro_de_costos cc on (md.relacion = cc.centro_costo)
+ where md.ano = '2023'
+   and md.mes = '11'
+   and nvl(md.nro_referencia, '0') like nvl(null, '%')
+   and md.cuenta between '96390106' and '96390106'
+   and nvl(md.estado, '0') < '9'
+   and md.libro not in ('88')
+   and relacion is null
+ order by md.relacion;
+
+select cod_grupo_gasto, descripcion, cuenta_del, cuenta_al, referencia
+  from grupo_gasto
+ where cod_grupo_gasto = 91
+ order by cod_grupo_gasto;
+
+declare
+  l_count pls_integer := 0;
+
+  cursor cr_grupos is
+    select cod_grupo_gasto, descripcion, cuenta_del, cuenta_al, referencia
+      from grupo_gasto
+     where cuenta_del is not null
+       and cuenta_al is not null
+     order by cod_grupo_gasto;
+begin
+  for r in cr_grupos loop
+    select count(*)
+      into l_count
+      from movdeta md
+           left outer join centro_de_costos cc on (md.relacion = cc.centro_costo)
+     where md.ano = '2023'
+       and md.mes = '11'
+       and nvl(md.nro_referencia, '0') like nvl(null, '%')
+       and md.cuenta between r.cuenta_del and r.cuenta_al
+       and nvl(md.estado, '0') < '9'
+       and md.libro not in ('88')
+       and relacion is null
+     order by md.relacion;
+    if l_count > 0 then
+      raise_application_error(-20001, 'error ' || r.cod_grupo_gasto);
+    end if;
+  end loop;
+end;

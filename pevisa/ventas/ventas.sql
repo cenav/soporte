@@ -16,19 +16,19 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from cotizacion
- where num_ped = 207389;
+ where num_ped = 211837;
 
 select *
   from itemcot
- where num_ped = 207389;
-
-select *
-  from itemped
- where num_ped = 229335;
+ where num_ped = 211837;
 
 select *
   from pedido
- where num_ped = 233247;
+ where num_ped = 234525;
+
+select *
+  from itemped
+ where num_ped = 234525;
 
 select *
   from cotizacion
@@ -180,3 +180,170 @@ select *
  order by cod_vendedor;
 
 select * from vendedores;
+
+select * from consumo_piezas;
+
+select * from campania_excedentes;
+
+select *
+  from campania_excedentes
+ where cod_escala != 3;
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('22', '29');
+
+select * from articul_tmp where usuario = 'PEVISA';
+
+select * from pr_prioridad_pza_30;
+
+select to_char(d.fch_transac, 'YYYY') as ano, to_char(d.fch_transac, 'MM') as mes, d.cod_art
+     , a.cod_lin, sum(d.cantidad) as cantidad
+  from kardex_d_consumo d
+     , articul a
+ where d.tp_transac in ('22', '29')
+--    and d.fch_transac >= trunc(trunc(sysdate - 365), 'MONTH')
+--    and d.fch_transac <= trunc(sysdate, 'MONTH') - 1
+   and d.cod_art = a.cod_art
+   and a.cod_art = 'FS 81118 MLS'
+ group by to_char(d.fch_transac, 'YYYY'), to_char(d.fch_transac, 'MM'), d.cod_art, a.cod_lin;
+
+select to_char(h.fecha, 'YYYY') as ano, to_char(h.fecha, 'MM') as mes, a.cod_art, a.linea as cod_lin
+     , sum(d.cantidad) as cantidad
+     , sum(decode(h.moneda, 'D', d.neto, d.neto / h.import_cam)) as totlin
+  from itemdocu d
+     , articul_pev a
+     , docuvent h
+ where d.tipodoc in ('01', '03', '07')
+   and d.tipodoc = h.tipodoc
+   and d.serie = h.serie
+   and d.numero = h.numero
+   and h.estado < 9
+   and h.fecha >= trunc(trunc(sysdate - 365), 'MONTH')
+   and h.fecha <= trunc(sysdate, 'MONTH') - 1
+   and '00000' <> substr(h.cod_cliente, 1, 5)
+   and h.origen <> 'EXPO'
+   and a.cod_art = d.cod_art
+   and a.cod_art = 'FS 81118 MLS'
+   and a.indicador in ('I', 'IN', 'EN', 'FN', 'IC', 'IF', 'IS', 'IV', 'VO', 'OB')
+--            AND    A.indicador IN ('I', 'IN', 'EN', 'FN', 'IC', 'IF', 'IS')  OLGA ORIGINAL
+ group by to_char(h.fecha, 'YYYY'), to_char(h.fecha, 'MM'), a.cod_art, a.linea
+ order by ano desc, mes desc;
+
+select *
+  from kardex_d
+ where cod_art = 'FS 81118 MLS'
+   and tp_transac in ('22', '29');
+
+select *
+  from consumo_piezas_resumen
+ where pieza = 'FS 81118 MLS';
+
+select *
+  from consumo_piezas
+ where ano = 2023
+   and mes = 10;
+
+select *
+  from consumo_piezas
+ where cod_art = 'FS 81118 MLS'
+ order by ano desc, mes desc;
+
+begin
+  excedentes.elimina();
+  excedentes.carga_tabla(
+      p_moneda => 'D'
+    , p_prom_meses => 4
+    , p_fecha_al => sysdate
+  );
+end;
+
+
+begin
+  --   pr_consumo_piezas_imp_2020();
+--   pr_consumo_piezas_imp_2021();
+  pr_calcula_venta_nacional_10('PV');
+end;
+
+
+select nro_lista, detalle, moneda, inc_igv, desc_max
+  from lispreg
+ where (nro_lista = 6 and :pedido.cod_cliente <> '20100085578')
+    or (nro_lista = 8 and :pedido.cod_cliente = '20100085578')
+ order by nro_lista;
+
+select *
+  from lispreg
+ order by nro_lista;
+
+select *
+  from tab_lineas
+ where grupo = 41;
+
+select *
+  from articul
+ where cod_lin = '253';
+
+select nro_lista, detalle, moneda, inc_igv, desc_max
+  from lispreg
+ where (nro_lista = 6 and :pedido.cod_cliente <> '20100085578')
+    or (nro_lista = 8 and :pedido.cod_cliente = '20100085578')
+ order by nro_lista;
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
+     , pr_medpza as cod_ing, l.grupo_venta
+  from articul a
+     , tab_lineas l
+     , lispred v
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.linea = a.cod_lin
+   and l.grupo is not null
+   and v.cod_art = a.cod_art
+   and v.nro_lista = :nro_lista
+   and l.grupo_venta = :unidad_negocio
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and l.grupo = 41
+ order by a.cod_art;
+
+select *
+  from lispred
+ where nro_lista = 1
+   and cod_art in (
+                   '0986A00216', '0986A00223', '0092S37085', '0092S37093', '0092S37098',
+                   '0986A00383', '0092S67106', '0986A02335', '0092S57024', '0092S47045',
+                   '0092S47043', '0092S47030', '0092S47029', '0092S47028'
+   );
+
+select *
+  from almacen
+ where cod_art in (
+                   '0986A00216', '0986A00223', '0092S37085', '0092S37093', '0092S37098',
+                   '0986A00383', '0092S67106', '0986A02335', '0092S57024', '0092S47045',
+                   '0092S47043', '0092S47030', '0092S47029', '0092S47028'
+   );
+
+
+select *
+  from clientes
+ where grupo_bateria is not null;
+
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
+     , pr_medpza as cod_ing, l.grupo_venta
+  from articul a
+     , tab_lineas l
+     , lispred v
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.linea = a.cod_lin
+   and l.grupo is not null
+   and v.cod_art = a.cod_art
+   and v.nro_lista = :nro_lista
+   and l.grupo_venta = :unidad_negocio
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and l.grupo = 41
+ order by a.cod_art;
+

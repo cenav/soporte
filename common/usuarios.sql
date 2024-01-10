@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user scastro account unlock;
+alter user kcucho account unlock;
 
 
-alter user caucho account lock;
+alter user nbelandria account lock;
 
 
-alter user gfalcon identified by "peru123.";
+alter user aavellaneda identified by "HAPARCANA";
 
 
 alter user lmuedas password expire;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'KCIUDAD';
+ where username like '%DIAZ%';
 
 
 select *
@@ -117,7 +117,7 @@ select *
 
 select *
   from usuarios
- where usuario = 'EALVITES';
+ where usuario = 'MDIAZ';
 
 select distinct co_ctrctr
   from seccrus
@@ -134,27 +134,19 @@ select *
 
 -- copia menu a usuario
 insert into tab_menu
-select cod_menu
-     , descripcion
-     , menus
-     , titulo
-     , nivel
-     , 'GCORDOVA'
-     , estado
-     , sistema
-     , id_programa
+select cod_menu, descripcion, menus, titulo, nivel, 'JPOZO', estado, sistema, id_programa
   from tab_menu
- where usuario = 'CHARO'
-   and sistema = 'M_LOGIST_M';
+ where usuario = 'PEVISA'
+   and sistema = 'M_CONSULTAS_M';
 
 select *
   from tab_menu
- where usuario = 'GCORDOVA'
-   and sistema = 'M_LOGIST_M';
+ where usuario = 'JPOZO'
+   and sistema = 'M_CONSULTAS_M';
 
 select *
   from tab_menu
- where sistema = 'M_CONSULTAS';
+ where sistema = 'M_CONSULTAS_M';
 
 select *
   from modulo;
@@ -176,7 +168,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('NBELANDRIA')
+ where usuario in ('FLEVANO')
  order by usuario, modulo;
 
 select *
@@ -323,8 +315,7 @@ select *
 
 select *
   from usuarios
- where usuario = 'GPALOMINO';
-
+ where nombres like '%DIAZ%';
 
 select *
   from tab_menu
@@ -332,13 +323,19 @@ select *
    and cod_menu = '300218';
 
 select *
+  from planilla10.personal
+ where apellido_paterno = 'DIAZ';
+
+select *
   from tab_menu
  where sistema = 'M_PRECIOS_M'
    and usuario = 'MCANALES';
 
+
 select *
   from seccrus
- where co_usrusr = 'LSALCEDO';
+ where co_usrusr = 'JPOZO'
+ order by co_ctrctr;
 
 select *
   from seccrus
@@ -739,8 +736,81 @@ select *
  where apellido_paterno = 'RAMOS'
    and nombres like '%CESAR%';
 
-select * from usuario_modulo
-where modulo = 'CAMPANA_CARGA';
+select *
+  from usuario_modulo
+ where modulo = 'CAMPANA_CARGA';
 
-select * from usuario_modulo
-where modulo like '%CAMPANA%';
+select *
+  from usuario_modulo
+ where modulo like '%CAMPANA%';
+
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = 'LARIAS'
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'V0';
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = '35'
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = '06'
+   and n.serie = t.serie
+ order by 1;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = '06';
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = 'V0';
+
+select *
+  from pr_usualma
+ where usuario = 'LARIAS';
+
+select *
+  from serie_caja_usuario
+ where usuario = 'MBONDY';
+
+select *
+  from serie_caja_usuario
+ where id_serie = 1;
+
+select *
+  from usuarios
+ where usuario = 'AAVELLANEDA';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'AVELLANEDA';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1027';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E1027';
+
+select * from serie_caja;
+
+select *
+  from dba_tab_columns
+ where column_name = 'COD_GRUPO_VENTA'
+   and owner = 'PEVISA';

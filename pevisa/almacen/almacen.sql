@@ -1,19 +1,19 @@
 select *
   from kardex_g
- where cod_alm = '01'
-   and tp_transac = '17'
-   and serie = 1
+ where cod_alm = '05'
+   and tp_transac = '11'
+   and serie = 2
    and numero in (
-   718390
+   7853
    );
 
 select *
   from kardex_d
- where cod_alm = '01'
-   and tp_transac = '17'
-   and serie = 1
+ where cod_alm = '05'
+   and tp_transac = '11'
+   and serie = 2
    and numero in (
-   718390
+   7853
    );
 
 select *
@@ -811,3 +811,31 @@ select *
 select *
   from almacen
  where cod_art = 'KIT';
+
+select *
+  from kardex_g
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 824231;
+
+select *
+  from kardex_d
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 824231;
+
+-- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+--                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+--                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+--                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+--                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+-- values ( '57', '27', 2, 824231, '30048MLS', 390, 0.000000, 0.000000, date '2023-07-19', 0.00
+--        , 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null
+--        , null, 0.00, 0.0000, 0.0000, 'AR', 981584, null);
+
+select *
+  from kardex_g_historia
+ where usuario = 'LARIAS'
+ order by fecha desc;
