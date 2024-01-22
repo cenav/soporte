@@ -1,17 +1,25 @@
 select *
   from movfigl
- where ano = 2023
-   and mes = 11
+ where ano = 2024
+   and mes = 1
    and tipo = '1'
-   and voucher = 120138 ;
+   and voucher = 120138;
+
+select *
+  from movfigl
+ where ano = 2024
+   and mes = 1
+   and tipo = '2'
+   and voucher = 13101
+ order by voucher desc;
 
 select *
   from movfide
- where ano = 2023
-   and mes = 12
-   and tipo = '1'
-   and voucher = 120105
-   and enumero = '367504';
+ where ano = 2024
+   and mes = 1
+   and tipo = '2'
+   and voucher = 13101
+   and enumero = '0424400';
 
 select *
   from factpag
@@ -31,7 +39,11 @@ select *
    and serie_num = '1'
    and numero = '367504';
 
-select * from ot_mantto where id_tipo = 'EQ' and id_serie = 2 and id_numero = 3;
+select *
+  from nrotipo
+ where ano = 2024
+   and mes = 1
+   and tipo = '1';
 
 select * from pevisa.tab_semanas order by al;
 

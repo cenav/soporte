@@ -16,11 +16,11 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from cotizacion
- where num_ped = 211837;
+ where num_ped = 212705;
 
 select *
   from itemcot
- where num_ped = 211837;
+ where num_ped = 212705;
 
 select *
   from pedido
@@ -143,7 +143,7 @@ select *
 
 select *
   from usuarios_cotizacion
- where usuario = 'ASEGAMA';
+ where usuario = 'BOBIAGA';
 
 select *
   from usuarios_cotizacion
@@ -347,3 +347,44 @@ select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v
    and l.grupo = 41
  order by a.cod_art;
 
+
+select *
+  from vendedores
+ where cod_vendedor = 'B8';
+
+select *
+  from campana
+ where cod_campana in ('BD2023-7', 'BD2023-9');
+
+select *
+  from campana
+ where cod_campana = 'BD2023-9';
+
+select * from estado_campana;
+
+select * from clientes;
+
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29 and codigo <> '....'
+   and codigo in (
+   select cod_vendedor
+     from vendedores
+    where abreviada = 'BOBIAGA'
+   )
+ union all
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29 and codigo <> '....'
+   and exists (
+   select usuario
+     from usuarios_cotizacion
+    where usuario = user and indicador3 = '1'
+   )
+ order by 1;
+
+select * from usuarios_cotizacion
+where usuario = 'BOBIAGA';
+
+select * from vendedores
+where abreviada = 'BOBIAGA';

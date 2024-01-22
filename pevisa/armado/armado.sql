@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-                  578011
+   1022909
    );
 
 -- select * from prot;
@@ -313,8 +313,8 @@ select distinct o.numero, o.formu_art_cod_art, o.cant_prog, 0 as cant_resul, o.a
                                                                         and pd.ot_nuot_tipoot_codigo = 'AR'
                                                                         and length(pd.cod_lin) = 3
                                                                         and (
-                                                                          to_number(pd.cod_lin) between 800 and 831 or
-                                                                          to_number(pd.cod_lin) between 850 and 854)
+                                                                        to_number(pd.cod_lin) between 800 and 831 or
+                                                                        to_number(pd.cod_lin) between 850 and 854)
                                                                         and saldo = 0
                                                                         and pd.estado <> '9'
                                                                         and ot_numero = o.numero
@@ -399,3 +399,197 @@ select *
  where cod_caja = 281628
  order by estado;
 
+select *
+  from vw_ordenes_pedido_pendiente
+ where cod_cliente = '990249';
+
+
+select id_pedido
+  from view_pedidos_pendientes_38
+ where exists(
+   select 1
+     from pr_embarques p
+          join pr_programa_embarques_id i
+               on p.ano_embarque = i.ano and p.mes_embarque = i.mes and i.estado = 1
+    where p.id_pedido = view_pedidos_pendientes_38.id_pedido
+   );
+
+select *
+  from view_pedidos_pendientes_38
+ where id_pedido = 16175;
+
+select *
+  from expedidos
+ where numero = 16175;
+
+select *
+  from pr_consul
+ where pedido = 16175;
+
+select *
+  from tmp_pedidos_30
+ where numero = 16175;
+
+select ex.cod_vende as id_vendedor, t.descripcion as nombre_vendedor, e.numero as id_pedido, e.fecha
+     , ex.nombre as nombre_cliente, (nvl(tmp.n1, 0)
+  + nvl(tmp.n2, 0)
+  + nvl(tmp.n3, 0)
+  + nvl(tmp.n4, 0)
+  + nvl(tmp.n8, 0)
+  + nvl(tmp.n13, 0))
+  as monto_completo
+     , nvl(tmp.n5, 0) as monto_incompleto, nvl(tmp.n10, 0) as monto_pendiente
+     , nvl(tmp.n11, 0) as monto_saos_por_armar, nvl(tmp.n12, 0) as servicio_cuno, p.prioridad
+     , ex.cod_cliente, nvl(e.no_despachar_antes_de, 0) as no_despachar_antes_de
+     , f_pedidos_rojo_a_facturar_30(e.numero) as rojo_a_facturar, ex.pais
+     , get_pais(ex.pais) as nombre_pais
+  from expedidos e
+     , extablas_expo t
+     , tmp_pedidos_30 tmp
+     , pr_consul p
+     , exclientes ex
+ where e.estado not in ('8',
+                        '9',
+                        'T',
+                        '85')
+   and t.tipo = 13
+   and t.codigo = ex.cod_vende
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
+   and tmp.vendedor = ex.cod_vende
+   and tmp.numero = e.numero
+   and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
+   and e.numero = p.pedido
+   and p.tipo = '1'
+   and ex.cod_cliente = e.cod_cliente
+   and e.numero = 16175
+ union all
+select '77', t.descripcion as nombre_vendedor, e.numero, e.fecha, ex.nombre as nombre, (
+  nvl(tmp.n1, 0)
+    + nvl(tmp.n2, 0)
+    + nvl(tmp.n3, 0)
+    + nvl(tmp.n4, 0)
+    + nvl(tmp.n8, 0)
+    + nvl(tmp.n13, 0))
+  as monto_completo
+     , nvl(tmp.n5, 0) as monto_incompleto, nvl(tmp.n10, 0) as monto_pendiente
+     , nvl(tmp.n11, 0) as monto_saos_por_armar, nvl(tmp.n12, 0) as servicio_cuno, p.prioridad
+     , e.referencia as cod_cliente, 0 as no_despachar_antes_de
+     , f_pedidos_rojo_a_facturar_30(e.numero) as rojo_a_facturar, '800' as pais
+     , get_pais('800') as nombre_pais
+  from expednac e
+     , extablas_expo t
+     , tmp_pedidos_30 tmp
+     , pr_consul p
+     , exclientes ex
+ where e.estado not in ('8',
+                        '9',
+                        'T',
+                        '85')
+   and t.tipo = 13
+   and t.codigo = '77'
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
+   and tmp.vendedor = '77'
+   and tmp.numero = e.numero
+   and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
+   and e.numero = p.pedido
+   and p.tipo = '2'
+   and ex.cod_cliente = e.cod_cliente
+   and substr(e.referencia, 1, 2) <> 'PC'
+   and e.numero = 16175
+ union all
+select '78', t.descripcion as nombre_vendedor, e.numero, e.fecha, ex.nombre as nombre, (
+  nvl(tmp.n1, 0)
+    + nvl(tmp.n2, 0)
+    + nvl(tmp.n3, 0)
+    + nvl(tmp.n4, 0)
+    + nvl(tmp.n8, 0)
+    + nvl(tmp.n13, 0))
+  as monto_completo
+     , nvl(tmp.n5, 0) as monto_incompleto, nvl(tmp.n10, 0) as monto_pendiente
+     , nvl(tmp.n11, 0) as monto_saos_por_armar, nvl(tmp.n12, 0) as servicio_cuno, p.prioridad
+     , e.referencia as cod_cliente, 0 as no_despachar_antes_de
+     , f_pedidos_rojo_a_facturar_30(e.numero) as rojo_a_facturar, '800' as pais
+     , get_pais('800') as nombre_pais
+  from expedstock e
+     , extablas_expo t
+     , tmp_pedidos_30 tmp
+     , pr_consul p
+     , exclientes ex
+ where e.estado not in ('8',
+                        '9',
+                        'T',
+                        '85')
+   and t.tipo = 13
+   and t.codigo = '78'
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
+   and tmp.vendedor = '78'
+   and tmp.numero = e.numero
+   and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
+   and e.numero = p.pedido
+   and p.tipo = '3'
+   and ex.cod_cliente = e.cod_cliente
+   and e.numero = 16175
+   and substr(e.referencia, 1, 2) <> 'PC';
+
+
+select ex.cod_vende as id_vendedor, t.descripcion as nombre_vendedor, e.numero as id_pedido, e.fecha
+     , ex.nombre as nombre_cliente, (nvl(tmp.n1, 0)
+  + nvl(tmp.n2, 0)
+  + nvl(tmp.n3, 0)
+  + nvl(tmp.n4, 0)
+  + nvl(tmp.n8, 0)
+  + nvl(tmp.n13, 0))
+  as monto_completo
+     , nvl(tmp.n5, 0) as monto_incompleto, nvl(tmp.n10, 0) as monto_pendiente
+     , nvl(tmp.n11, 0) as monto_saos_por_armar, nvl(tmp.n12, 0) as servicio_cuno, p.prioridad
+     , ex.cod_cliente, nvl(e.no_despachar_antes_de, 0) as no_despachar_antes_de
+     , f_pedidos_rojo_a_facturar_30(e.numero) as rojo_a_facturar, ex.pais
+     , get_pais(ex.pais) as nombre_pais
+  from expedidos e
+     , extablas_expo t
+     , tmp_pedidos_30 tmp
+     , pr_consul p
+     , exclientes ex
+ where e.estado not in ('8', '9', 'T', '85')
+   and t.tipo = 13
+   and t.codigo = ex.cod_vende
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
+   and tmp.vendedor = ex.cod_vende
+   and tmp.numero = e.numero
+   and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
+   and e.numero = p.pedido
+   and p.tipo = '1'
+   and ex.cod_cliente = e.cod_cliente
+   and e.numero = 16175;
+
+select *
+  from pr_consul
+ where pedido = 16175;
+
+select *
+  from tmp_pedidos_30
+ where numero = 16175
+   and usuario = 9;
+
+select *
+  from expedidos
+ where numero = 16175;
+
+select *
+  from exclientes
+ where cod_cliente = '990249';
+
+select usuario_30
+  from exparamexpo;

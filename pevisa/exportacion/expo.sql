@@ -5,7 +5,13 @@ select *
 select *
   from exfacturas
  where numero in (
-   15049
+   55017183
+   );
+
+select *
+  from ex_prefacturas
+ where numero in (
+  9051660
    );
 
 select *

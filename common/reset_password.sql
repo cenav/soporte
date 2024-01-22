@@ -1,10 +1,10 @@
 select username, account_status, created, lock_date, expiry_date
   from dba_users
-where username like upper('AAVELLANEDA');
+where username like upper('JMENDEZL');
 
 -- reiniciar contraseña
 declare
-  l_usuario varchar2(30) := 'AAVELLANEDA';
+  l_usuario varchar2(30) := 'JMENDEZL';
 begin
   --   execute immediate 'alter user ' || l_usuario || ' account unlock;';
   execute immediate 'alter user ' || l_usuario || ' account unlock';

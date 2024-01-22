@@ -1860,3 +1860,18 @@ select *
 
 select * from pla_control;
 
+select *
+  from nrolibr
+ where ano = 2024
+   and mes = 1
+   and libro = '10';
+
+select *
+  from nrolibr
+ where ano = 2024
+   and mes = 1;
+
+select *
+  from nrotipo
+ where ano = 2024
+   and mes = 1;

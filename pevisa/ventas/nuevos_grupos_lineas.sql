@@ -30,6 +30,10 @@ select *
 
 select *
   from tab_descuento_gpolin
+ where cod_linea = '07';
+
+select *
+  from tab_descuento_gpolin
  where cod_grupo = '27';
 
 select *
@@ -66,3 +70,101 @@ select *
 -- select '70', '42', linea, 'D'
 --   from tab_lineas
 --  where grupo = '42';
+
+select *
+  from tab_descuento_rango
+ where cod_grupo_venta = '50';
+
+
+
+select *
+  from lpred_fam
+ where ldesc1 = 30;
+
+select *
+  from lpred_fam
+ where nro_lista = 1
+   and cod_grupo = '42';
+
+select *
+  from lpred_fam
+ where nro_lista = 1
+   and cod_lin = '07';
+
+select *
+  from tab_descuento_rango
+ where cod_grupo_venta = '70';
+
+select *
+  from lispred
+ where cod_art = 'FS 40088 MLS';
+
+select *
+  from articul
+ where cod_art = 'FS 40088 MLS';
+
+select *
+  from cotizacion
+ where num_ped = 212571;
+
+-- obtiene la ubicacion
+select decode(substr(n.cod_ubc, 1, 2), '07', 'L',
+              decode(substr(n.cod_ubc, 1, 4), '1501', 'L', 'P')) as ubica
+     , decode(c.cond_pag, 'A', 2, 0) as dscto3, decode(c.cliente_afecto, 'S', i.valor, 0) as p_iva
+     , c.tasa_seguro as p_tasa_seguro, c.flete as p_flete, c.cod_cliente
+  from cotizacion c
+     , clientes n
+     , impuesto i
+ where c.serie = 20
+   and c.num_ped = 212571
+   and n.cod_cliente = c.cod_cliente
+   and i.codigo = '1';
+
+-- lista por grupos
+select gp.cod_grupo_venta, gc.descripcion, gc.moneda_rango, gc.tipo_cliente, gc.tipo_rango
+     , sum(i.cantidad) as kantidad, sum(round(i.cantidad * i.precio, 2)) as importes
+     , get_rango_descuento(gp.cod_grupo_venta, 'L',
+                           decode(gc.tipo_rango, 'I', sum(round(i.cantidad * i.precio, 2)),
+                                  sum(i.cantidad)), '1') as dd1
+     , get_rango_descuento(gp.cod_grupo_venta, 'L',
+                           decode(gc.tipo_rango, 'I', sum(round(i.cantidad * i.precio, 2)),
+                                  sum(i.cantidad)), '2') as dd2
+  from itemcot i
+     , articul a
+     , tab_descuento_gpolin gp
+     , tab_descuento_comercial gc
+ where i.serie = 20
+   and i.num_ped = 212571
+   and a.cod_art = i.cod_art
+   and gp.cod_grupo = a.grupo
+   and gp.cod_linea = a.cod_lin
+   and gc.cod_grupo_venta = gp.cod_grupo_venta
+ group by gp.cod_grupo_venta, gc.descripcion, gc.moneda_rango, gc.tipo_cliente, gc.tipo_rango
+ order by 1;
+
+-- lista por solo un grupo
+select i.serie, i.num_ped, a.cod_art, a.grupo, a.cod_lin, gp.cod_grupo_venta, gc.descripcion
+     , gc.moneda_rango, gc.tipo_cliente, gc.tipo_rango, sum(i.cantidad) as kantidad
+     , sum(round(i.cantidad * i.precio, 2)) as importes
+  from itemcot i
+     , articul a
+     , tab_descuento_gpolin gp
+     , tab_descuento_comercial gc
+ where i.serie = 20
+   and i.num_ped = 212571
+   and a.cod_art = i.cod_art
+   and gp.cod_grupo = a.grupo
+   and gp.cod_linea = a.cod_lin
+   and gc.cod_grupo_venta = gp.cod_grupo_venta
+   and gc.cod_grupo_venta = '70'
+ group by i.serie, i.num_ped, a.cod_art, a.grupo, a.cod_lin, gp.cod_grupo_venta, gc.descripcion
+        , gc.moneda_rango, gc.tipo_cliente, gc.tipo_rango
+ order by 4;
+
+select *
+  from cotizacion
+ where num_ped = 212571;
+
+select *
+  from itemcot
+ where num_ped = 212571;

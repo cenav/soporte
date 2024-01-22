@@ -2586,3 +2586,29 @@ select *
    1753254
    );
 
+
+select *
+  from evaluacion
+ where id_evaluacion = 7885;
+
+select *
+  from exproformas
+ where numero = 18919;
+
+select *
+  from pr_prioridad_clientes
+ where cod_cliente = '990249'
+   and accion = 'SI TRABAJA';
+
+select *
+  from pr_prioridad_clientes
+ where cod_cliente = '990249';
+
+select *
+  from pr_prioridad_clientes
+ where prioridad in (6243, 7243);
+
+select * from pr_consul;
+
+select * from exclientes
+where cod_cliente = '998040';

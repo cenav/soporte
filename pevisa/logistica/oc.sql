@@ -1,10 +1,15 @@
 -- cond. pag 46
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 3
    and num_ped in (
-   61573
+   44336
    );
+
+select *
+  from nrodoc
+ where tipodoc = '82'
+   and serie = 13;
 
 select *
   from orden_de_compra
@@ -13,20 +18,23 @@ select *
 
 select *
   from itemord
- where serie = 1
+ where serie = 4
    and num_ped in (
-   326
+   61608
    );
 
-commit;
 
 select *
   from proveed
  where nombre like '%REPLICA%';
 
 select *
+  from proveed
+ where cod_proveed = '10407285056';
+
+select *
   from orden_de_compra
- where cod_proveed = '20251505111'
+ where cod_proveed = '10427461179'
  order by fecha desc;
 
 select *
@@ -80,8 +88,16 @@ select *
 
 select *
   from orden_matriceria
+ where nro_oc = 61608;
+
+select *
+  from itemmatri
+ where num_ped = 240004;
+
+select *
+  from orden_matriceria
  where num_ped in (
-                   230186, 240002
+   61608
    );
 
 insert into pevisa.orden_matriceria ( num_ped, tipo_docto, estado, fecha, cod_proveed, nro_sucur
@@ -555,3 +571,69 @@ select *
 select *
   from proveed
  where nombre like '%JUDITH%';
+
+-- E1124
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1124';
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'RP';
+
+-- jgavelan@hdi.com.pe
+
+select *
+  from vendedores
+ where cod_vendedor = 'N1';
+
+select *
+  from proveed
+ where nombre like '%CHAVEZ VILCAPOMA%';
+
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and serie in (3, 4, 8)
+   and serie = 3
+   and num_ped = 44309
+--    and exists (
+--    select 1
+--      from usuarios u
+--     where orden_de_compra.c_resp = u.codigo_trabajador
+--       and u.usuario = user
+--    )
+   and not exists
+   (
+     select 1
+       from orden_de_compra_calificacion
+      where orden_de_compra.num_ped =
+            orden_de_compra_calificacion.num_ped
+        and orden_de_compra.serie =
+            orden_de_compra_calificacion.serie
+     );
+
+
+select *
+  from orden_de_compra_calificacion
+ where serie = 3
+   and num_ped = 44336;
+
+insert into orden_de_compra_calificacion( num_ped, serie, c_resp, fecha_calificacion
+                                        , detalle_servicio_recibido, evaluacion_a, evaluacion_b
+                                        , usuario_calificacion, aprueba_pago)
+select num_ped, serie, c_resp, sysdate, 'A', 'A', 'A', 'PEVISA', 'SI'
+  from orden_de_compra
+ where serie = 3
+   and num_ped = 44336;
+
+select *
+  from orden_de_compra_calificacion
+ where usuario_calificacion = 'PEVISA'
+ order by fecha_calificacion desc;
+
+select *
+  from orden_de_compra_historia
+ where glosa = 'RESPONSABLE CALIFICO SERVICIO'
+ order by creacion_cuando desc;

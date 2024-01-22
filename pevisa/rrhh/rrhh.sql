@@ -13,7 +13,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'GARCIA'
+ where apellido_paterno = 'PARIONA'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -22,7 +22,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E943';
+   and c_codigo = 'E1122';
 
 select *
   from planilla10.personal

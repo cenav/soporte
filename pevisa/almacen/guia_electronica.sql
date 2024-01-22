@@ -34,7 +34,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (9990, 9991);
+   and numero in (12409);
 
 --::::::::::::::::::::::::::::--
 --        tara_bo = 0         --
@@ -44,8 +44,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (9990, 9991);
-
+   and numero in (12409);
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
@@ -55,7 +54,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (9990, 9991);
+   and numero in (12409);
 
 --:::::::::::::::::::::::::::::::::::::::::--
 
@@ -115,8 +114,8 @@ select *
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T171'
-   and guia_numero = 1;
+ where guia_serie = 'T001'
+   and guia_numero = 11878;
 
 select *
   from clientes
@@ -362,6 +361,7 @@ values ( 'T171', 1, date '2023-12-06', '150103', '150103', 'Calle siriu 127-urb.
 
 
 select * from activo_fijo_area;
+
 
 select *
   from activo_fijo_ubicacion

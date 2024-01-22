@@ -839,3 +839,133 @@ select *
   from kardex_g_historia
  where usuario = 'LARIAS'
  order by fecha desc;
+
+select *
+  from kardex_d
+ where cod_art = 'EQ COMER16';
+
+select *
+  from itemord
+ where cod_art = 'EQ COMER16';
+
+select *
+  from numdoc
+ where tp_transac = '16'
+   and serie = 1;
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero = 9427;
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and nro_doc_ref = 4500
+   and pr_procedencia = 'BT23002';
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and domicilio = '4-13737';
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero = 9430;
+
+select *
+  from embarques_d
+ where numero_embarque = 4500
+   and num_importa = 'BT23002'
+   and factura_comercial_numero = '4-13739';
+
+-- 730
+select *
+  from almacen
+ where cod_art = 'RW 70 TAXI';
+
+select *
+  from embarques_d
+ where numero_embarque = 4500
+   and kardex_numero = 9430;
+
+
+-- F0                         11          010        9427
+-- F0                         11          010        9428
+-- F0                         11          010        9429
+-- F0                         11          010        9430
+
+select g.cod_alm, g.tp_transac, g.serie, g.numero, g.fch_transac, g.nro_doc_ref as numero_embarque
+     , g.cod_relacion, g.pr_procedencia, d.cod_art, d.cantidad as cantidad, p.nombre
+  from kardex_g g
+     , kardex_d d
+     , embarques_g eg
+     , proveed p
+ where g.tp_transac = '11'
+   and g.estado < 9
+   and g.nro_doc_ref = eg.numero_embarque and g.cod_relacion = eg.cod_proveed
+   and d.cod_alm = g.cod_alm and d.tp_transac = g.tp_transac and d.serie = g.serie
+   and d.numero = g.numero and eg.cod_proveed = p.cod_proveed
+   and g.pr_procedencia like :p_importacion;
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero in (9534, 9535);
+
+select *
+  from vendedores
+ order by cod_vendedor;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = 'B10';
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = 'B10';
+
+select *
+  from tab_semanas
+ order by del;
+
+select *
+  from kardex_g
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1467557;
+
+
+select *
+  from kardex_g_historia
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1467557;
+
+
+select *
+  from kardex_d_historia
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1467557;
+
+select *
+  from solicita_cambio_trx_det
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1467557;

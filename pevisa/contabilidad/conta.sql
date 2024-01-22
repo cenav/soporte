@@ -461,9 +461,15 @@ select *
   from paramaf;
 
 select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '21'
+   and numero = 176;
+
+
+select *
   from gastos_de_viaje
- where id_vendedor = '38'
-   and numero = 117;
+ where id_vendedor = '21'
+   and numero = 176;
 
 select *
   from kardex_g_movglos

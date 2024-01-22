@@ -5,7 +5,7 @@ alter user kcucho account unlock;
 alter user nbelandria account lock;
 
 
-alter user aavellaneda identified by "HAPARCANA";
+alter user bobiaga identified by "bo#2024";
 
 
 alter user lmuedas password expire;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%DIAZ%';
+ where username like 'RCHAMBILLA';
 
 
 select *

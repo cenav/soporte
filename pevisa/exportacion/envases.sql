@@ -11,7 +11,7 @@ select distinct t.cod_art
    select 1
      from exfacturas f
           join exfactura_d d on f.numero = d.numero
-    where extract(year from f.fecha) between 2010 and 2023
+    where extract(year from f.fecha) between 2010 and 2024
       and nvl(estado, '0') != '9'
       and d.cod_art = t.cod_art
       and d.id is null

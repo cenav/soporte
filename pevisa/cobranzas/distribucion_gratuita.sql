@@ -11,7 +11,7 @@ select f.cod_cliente, c.nombre, f.tipdoc, f.serie_num, f.numero, f.fecha, f.mone
 -- eliminar de factcob
 select *
   from factcob f
- where extract(year from f.fecha) = 2023
-   and extract(month from f.fecha) = 12
+ where extract(year from f.fecha) = 2024
+   and extract(month from f.fecha) = 1
    and f.serie_num in ('F053', 'B053')
  order by tipdoc, numero;

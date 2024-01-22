@@ -30,7 +30,7 @@ select *
 select *
   from analisis_consumo
  where ano = 2023
-   and mes = 1;
+   and mes = 12;
 
 select ot.nuot_tipoot_codigo as tipo_ot
      , ot.nuot_serie as serie_ot
