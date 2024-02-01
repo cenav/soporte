@@ -16,11 +16,11 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from cotizacion
- where num_ped = 212705;
+ where num_ped = 214282;
 
 select *
   from itemcot
- where num_ped = 212705;
+ where num_ped = 214282;
 
 select *
   from pedido
@@ -266,12 +266,6 @@ begin
 end;
 
 
-select nro_lista, detalle, moneda, inc_igv, desc_max
-  from lispreg
- where (nro_lista = 6 and :pedido.cod_cliente <> '20100085578')
-    or (nro_lista = 8 and :pedido.cod_cliente = '20100085578')
- order by nro_lista;
-
 select *
   from lispreg
  order by nro_lista;
@@ -283,12 +277,6 @@ select *
 select *
   from articul
  where cod_lin = '253';
-
-select nro_lista, detalle, moneda, inc_igv, desc_max
-  from lispreg
- where (nro_lista = 6 and :pedido.cod_cliente <> '20100085578')
-    or (nro_lista = 8 and :pedido.cod_cliente = '20100085578')
- order by nro_lista;
 
 select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
      , pr_medpza as cod_ing, l.grupo_venta
@@ -383,8 +371,28 @@ select codigo, descripcion, indicador3
    )
  order by 1;
 
-select * from usuarios_cotizacion
-where usuario = 'BOBIAGA';
+select *
+  from usuarios_cotizacion
+ where usuario = 'BOBIAGA';
 
-select * from vendedores
-where abreviada = 'BOBIAGA';
+select *
+  from vendedores
+ where abreviada = 'BOBIAGA';
+
+select *
+  from tab_grupos
+ where grupo in (41, 42);
+
+
+select * from cobradores_recibos;
+
+
+select * from caja_chica_motivos;
+
+select *
+  from vendedores
+ where cod_vendedor = 'Z6';
+
+select *
+  from docuvent
+ where cod_vende = 'Z6';

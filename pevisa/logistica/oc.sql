@@ -1,9 +1,8 @@
--- cond. pag 46
 select *
   from orden_de_compra
- where serie = 3
+ where serie = 22
    and num_ped in (
-   44336
+                   360, 361
    );
 
 select *
@@ -30,7 +29,7 @@ select *
 
 select *
   from proveed
- where cod_proveed = '10407285056';
+ where cod_proveed = '20603841418';
 
 select *
   from orden_de_compra
@@ -123,18 +122,42 @@ select *
                    230186, 240002
    );
 
-insert into pevisa.itemmatri ( serie, num_ped, cod_art, item, cod_orig, cantidad, precio, saldo, igv
-                             , estado, empaque, cubicaje, cuenta9060, dscto1, dscto2, dscto3, dscto4
-                             , centro_costo, observacion, fact_des, total, piezas, espesor, largo
-                             , ancho, espesor2, peso, salida, ingreso, tipo_pza, color)
-values ( 1, 240002, 'P20', 1, 'P20', 84.2700, 3.4852, 84.2700, 0.000, null, 0.0000, 0.0000, 'KG'
-       , 0.00, 0.00, 0.00, 0.00, '7002', 'Placa cavidad inferior', 1.000000, 293.7000, 1.00, '40'
-       , '565', '475', null, null, null, null, '02', 'CO');
+insert into caja_chica
+select serie, 24001, glosa, fecha, tipo_cambio, estado, tipo_referencia, nro_referencia, sistema
+     , fecha_referencia, fecha_vencimiento, tipo_transaccion, numliq, fecha_liquidacion, moneda
+     , item, saldo_anterior, reembolso, otros, fondo_asignado, gastos_realizados, saldo_efectivo
+     , saldo_reembolsa, fecha_reembolso, creacion_quien, creacion_cuando, creacion_donde
+     , fecha_cierre, ano, mes, asiento_generado_quien, asiento_generado_cuando
+     , asiento_generado_donde, asiento_caja_generado_quien, asiento_caja_generado_cuando
+     , asiento_caja_generado_donde, caja_de_movilidad, ano_cheque, mes_cheque, libro_cheque
+     , voucher_cheque, numero_cheque_reposicion, caja_mantto_maquina, asiento_cancelacion_quien
+     , asiento_cancelacion_cuando, asiento_reposicion_donde, ano_cancelacion, mes_cancelacion
+     , libro_cancelacion, voucher_cancelacion, cod_unidad_negocio
+  from caja_chica
+ where serie = 1
+   and numero in (23355);
+
+insert into caja_chica_d
+select serie, 24001, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+     , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+     , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+     , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+     , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+     , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+     , nro_transac, saldo, nombre_archivo
+  from caja_chica_d
+ where serie = 1
+   and numero in (23355);
 
 select *
   from caja_chica
- where serie = 2
-   and numero in (230107, 240001);
+ where serie = 1
+   and numero in (23355);
+
+select *
+  from caja_chica_d
+ where serie = 1
+   and numero in (23355);
 
 select *
   from caja_chica_d
@@ -186,9 +209,9 @@ select *
    and numero = 230103;
 
 select *
-  from gastos_de_viaje_habilitado_m
- where id_vendedor = '21'
-   and numero = '168';
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '10'
+   and numero = '152';
 
 select * from gastos_de_viaje_motivos;
 

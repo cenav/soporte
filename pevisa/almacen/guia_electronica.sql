@@ -105,17 +105,26 @@ values ( 'T001', 7030, date '2023-10-26', '070101', '150115', 'AV. IQUITOS NRO. 
 
 
 select *
-  from kardex_d
- where cod_alm = 'FR'
-   and tp_transac = '71'
-   and serie = 40
-   and numero in (206);
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (12433);
 
+select *
+  from kardex_g
+ where ser_doc_ref = 20
+   and nro_doc_ref = 235441;
 
 select *
   from kardex_g_guia_remision
  where guia_serie = 'T001'
-   and guia_numero = 11878;
+   and guia_numero = 12450;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 11879;
 
 select *
   from clientes
@@ -366,3 +375,13 @@ select * from activo_fijo_area;
 select *
   from activo_fijo_ubicacion
  where cod_area = 'EXTER';
+
+select *
+  from vendedores
+ where nombre like '%HERNANDE%';
+
+select *
+  from vendedores
+ where cod_vendedor = '42';
+
+select add_months(trunc(sysdate, 'MM'), -1) from dual;

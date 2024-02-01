@@ -75,7 +75,7 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 811;
+   and num_ped = 837;
 
 select *
   from orden_de_compra_historia

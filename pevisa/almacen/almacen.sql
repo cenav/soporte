@@ -1,20 +1,21 @@
 select *
   from kardex_g
- where cod_alm = '05'
-   and tp_transac = '11'
-   and serie = 2
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
    and numero in (
-   7853
+   21852
    );
 
 select *
   from kardex_d
- where cod_alm = '05'
-   and tp_transac = '11'
-   and serie = 2
+ where cod_alm = '03'
+   and tp_transac = '19'
+   and serie = 1
    and numero in (
-   7853
+   18491
    );
+
 
 select *
   from almacen

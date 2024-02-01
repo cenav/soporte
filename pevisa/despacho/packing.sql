@@ -21,7 +21,7 @@
 --::::::::::::::::::::::::::::::::::::--
 select *
   from pk_gnumero
- where pk_numero = 41517;
+ where pk_numero = 57226;
 
 select *
   from produccion_armado_cajas_his
@@ -43,7 +43,6 @@ select *
    and tp_transac = '26'
    and serie = 19
    and numero = 21457;
-
 
 select *
   from clientes

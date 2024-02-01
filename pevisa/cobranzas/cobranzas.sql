@@ -38,3 +38,12 @@ select *
   from planilla_cobranzas_i
  where numero_planilla = 5001568;
 
+-- COBRADORES
+select *
+  from tablas_auxiliares
+ where tipo = '26'
+ order by codigo;
+
+select *
+  from articul
+ where cod_art in ('S4 70D-25-B', '0092S47028');

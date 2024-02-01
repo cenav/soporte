@@ -7,6 +7,10 @@ select *
  where cod_art = '66450-OSRAM';
 
 select *
+  from lispred
+ where cod_art in ('S4 70D-25-B', '0092S47028');
+
+select *
   from tab_lineas
  where linea = '203';
 
@@ -67,3 +71,7 @@ select *
 select *
   from itemped
  where num_ped = 219792;
+
+select * from categoria;
+
+select * from clientes_categoria;

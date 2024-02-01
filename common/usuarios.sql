@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user kcucho account unlock;
+alter user KCUCHO account unlock;
 
 
-alter user nbelandria account lock;
+alter user MESTABRIDIS account lock;
 
 
-alter user bobiaga identified by "bo#2024";
+alter user mmiranda identified by "mamalucy9+";
 
 
 alter user lmuedas password expire;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'RCHAMBILLA';
+ where username like 'FURTEAGA';
 
 
 select *
@@ -168,7 +168,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('FLEVANO')
+ where usuario in ('DCONTRERAS')
  order by usuario, modulo;
 
 select *
@@ -178,7 +178,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo like 'CAMBIO_OT'
+ where modulo like 'BONO_PRODUCCION_PLANTA'
  order by usuario, modulo;
 
 select *
@@ -736,14 +736,19 @@ select *
  where apellido_paterno = 'RAMOS'
    and nombres like '%CESAR%';
 
+select * from modulo;
+
 select *
   from usuario_modulo
  where modulo = 'CAMPANA_CARGA';
 
 select *
   from usuario_modulo
- where modulo like '%CAMPANA%';
+ where modulo like '%CAMBIO_OT%';
 
+select *
+  from usuario_modulo
+ where modulo like 'EMITE_OP';
 
 select t.codigo, t.descripcion, t.indicador1
   from tablas_auxiliares t
@@ -814,3 +819,19 @@ select *
   from dba_tab_columns
  where column_name = 'COD_GRUPO_VENTA'
    and owner = 'PEVISA';
+
+select * from estado_campana;
+
+select * from activo_fijo_depreciacion;
+
+select *
+  from pcformulas
+ where cod_art = '200.3029'
+   and linea between '800' and '899';
+
+select * from vcos_formulas;
+
+select *
+  from vcos3_formulas_mo
+ where cod_art = '200.3029'
+   and cod_costo = 35;

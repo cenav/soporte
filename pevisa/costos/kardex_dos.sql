@@ -121,10 +121,10 @@ update tmp_moviart_dos
 update tmp_moviart_dos
    set nro_doc = docto
  where ano = 2023
-   and mes between 1 and 6
+   and mes between 7 and 12
    and id = 'S'
-   and (cta like '23%' or cta like '24%' or cta like '26%' or
-        cta like '20%' or cta like '25%' or cta like '21%')
+   and (cta like '20%' or cta like '21%' or cta like '23%' or
+        cta like '24%' or cta like '25%' or cta like '26%')
    and cod_ope in
        ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '87', '36', '37', '48');
 
@@ -812,3 +812,4 @@ select *
   from analisis_consumo
  where ano = 2023
    and mes = 11;
+

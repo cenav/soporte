@@ -2610,5 +2610,37 @@ select *
 
 select * from pr_consul;
 
-select * from exclientes
-where cod_cliente = '998040';
+select *
+  from exclientes
+ where cod_cliente = '998040';
+
+select * from estado_permiso;
+
+select * from color_surtimiento;
+
+select * from solimat_g order by fecha desc;
+
+select * from solimat_d;
+
+select * from estado_proceso;
+
+select * from color;
+
+select *
+  from usuario_modulo
+ where modulo = 'BONO_PRODUCCION_PLANTA';
+
+select * from usuario_modulo;
+
+select *
+  from proceso_bono_obrero
+ order by id_proceso desc;
+
+select *
+  from sistabgen
+ where sisdatcod = 100;
+
+select *
+  from sistabgen
+ where sistabcod = 600
+ order by sisdatcod;

@@ -2,7 +2,7 @@ declare
   cursor cr_cajas is
     select cod_caja as codigo_caja
       from vw_cajas_armado
-     where cod_caja = 279706;
+     where cod_caja = 292821;
 begin
   dbms_output.put_line('=====================');
   for r in cr_cajas loop

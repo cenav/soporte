@@ -21,3 +21,10 @@ select *
 select *
   from vw_campana_det
  where cod_campana = 'E2022-1';
+
+select *
+  from estado_campana
+ order by cod_estado;
+
+select * from usuario_modulo
+where modulo like '%CAMPANA%';
