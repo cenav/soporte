@@ -1875,3 +1875,23 @@ select *
   from nrotipo
  where ano = 2024
    and mes = 1;
+
+select * from pla_control;
+
+select * from cominac_concepto where cod_concepto = 351;
+
+select * from cominac_concepto_cliente;
+
+select * from cominac_concepto_excluye_clie;
+
+select * from cominac_concepto_venta_grupal
+where cod_concepto = 417;
+
+select *
+  from sistabgen
+ order by sistabcod, sisdatcod;
+
+select * from view_vendedor_grupo
+where cod_art = 'ANTICIPO-DI';
+
+select * from gastos_de_viaje_d;

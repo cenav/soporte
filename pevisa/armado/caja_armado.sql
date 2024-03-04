@@ -16,7 +16,7 @@ select *
 
 select *
   from produccion_armado
- where numero_oa = 889984;
+ where numero_oa = 1032296;
 
 select *
   from produccion_armado_cajas

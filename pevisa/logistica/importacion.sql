@@ -97,3 +97,16 @@ select *
  where numero_embarque = 4330;
 
 select * from embarques_d;
+
+select *
+  from hallazgo_importacion
+ where id_hallazgo = 422;
+
+select *
+  from exarticul_tg_int
+ where cod_art = 'COD_ART';
+
+select *
+  from itemord
+ where serie = 1
+   and num_ped = 83969;

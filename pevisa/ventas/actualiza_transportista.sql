@@ -1,0 +1,5 @@
+declare
+  cursor 
+begin
+  
+end;

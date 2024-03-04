@@ -1,27 +1,21 @@
 select *
   from orden_de_compra
- where serie = 22
+ where serie = 30
    and num_ped in (
-                   360, 361
+   606
    );
 
 select *
-  from nrodoc
- where tipodoc = '82'
-   and serie = 13;
+  from itemord
+ where serie = 30
+   and num_ped in (
+   604
+   );
 
 select *
   from orden_de_compra
  where num_ped = 44222
  order by fecha desc;
-
-select *
-  from itemord
- where serie = 4
-   and num_ped in (
-   61608
-   );
-
 
 select *
   from proveed
@@ -45,9 +39,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 30
+ where serie = 22
    and num_ped in (
-   583
+   373
    )
    and glosa = 'APROBADO';
 
@@ -210,8 +204,8 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = '10'
-   and numero = '152';
+ where id_vendedor = 'C4'
+   and numero = '145';
 
 select * from gastos_de_viaje_motivos;
 
@@ -660,3 +654,25 @@ select *
   from orden_de_compra_historia
  where glosa = 'RESPONSABLE CALIFICO SERVICIO'
  order by creacion_cuando desc;
+
+select *
+  from vw_gasto_viaje
+ where id_vendedor = '60';
+
+select * from estado_vacaciones;
+
+select * from pagos_h;
+
+select h.serie, h.num_ped, o.moneda, h.creacion_cuando, o.estado, o.tot_orden, o.tot_impu
+     , o.tot_orden
+  from orden_de_compra_historia h
+       join orden_de_compra o on h.serie = o.serie and h.num_ped = o.num_ped
+ where creacion_quien = 'JAIME'
+   and glosa = 'APROBADO'
+   and trim(creacion_cuando) = to_date('06/02/2024', 'dd/mm/yyyy')
+ order by creacion_cuando desc;
+
+select *
+  from solicita_cambio_ot
+ where usuario = 'DCONTRERAS'
+ order by fch_solicitud desc;

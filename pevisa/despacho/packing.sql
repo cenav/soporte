@@ -34,7 +34,21 @@ select * from activo_fijo;
 select *
   from pk_gnumero
  where pk_numero in (
-   null
+   57529
+   );
+
+select te.descripcion
+  from extablas_expo te
+     , expedidos p
+ where te.tipo = 13
+   and te.codigo = p.zona
+   and p.numero = 15528;
+
+-- cambio vendedor
+select *
+  from expedidos
+ where numero in (
+                  15528, 15532, 15316, 15078, 15546, 15567, 15315
    );
 
 select *
@@ -52,4 +66,19 @@ select *
   from clientes
  where cod_cliente like '%CNPJ 60.860.681/0014-04%';
 
--- CNPJ 60.860.681/0014-04
+
+-- revisar guia expo no llega correo
+-- 21859
+-- 21794
+
+select *
+  from kardex_g
+ where numero in (
+                  21859, 21794
+   );
+
+select *
+  from kardex_g_guia_remision
+ where numero in (
+                  21859, 21794
+   );

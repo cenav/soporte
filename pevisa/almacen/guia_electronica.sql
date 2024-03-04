@@ -34,8 +34,11 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (12409);
+   and numero in (15824);
 
+-- F0	21	25	14665
+
+-- 20601550327	JR. JULIO MENDOZA MERINO NRO. 880 BAR. BARRIO MENDOZA
 --::::::::::::::::::::::::::::--
 --        tara_bo = 0         --
 --::::::::::::::::::::::::::::--
@@ -44,8 +47,20 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (12409);
+   and numero in (15826);
 
+-- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
+select *
+  from clientes
+ where cod_cliente = '10418069738';
+
+select *
+  from pedido
+ where num_ped = 238518;
+
+select *
+  from transporte
+ where cod_transp = '20489585678';
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
 --:::::::::::::::::::::::::::::::::::::::::--
@@ -54,7 +69,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (12409);
+   and numero in (15824);
 
 --:::::::::::::::::::::::::::::::::::::::::--
 
@@ -65,7 +80,9 @@ select *
    and fch_transac > to_date('01/10/2023', 'dd/mm/yyyy');
 
 
-select * from transporte;
+select *
+  from transporte
+ where cod_transp = '20601550327';
 
 
 select *
@@ -187,7 +204,7 @@ select *
 
 select *
   from nrodoc
- where serie = 'T001';
+ where serie = 'T128';
 
 select *
   from kardex_g
@@ -226,7 +243,16 @@ select *
 
 select *
   from numdoc
- where serie in (145, 146);
+ where serie in (127, 128);
+
+select max(numero)
+  from kardex_g
+ where tp_transac = '35'
+   and serie = 128;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = 'FP';
 
 select *
   from pr_usualma
@@ -368,9 +394,7 @@ values ( 'T171', 1, date '2023-12-06', '150103', '150103', 'Calle siriu 127-urb.
        , null, null, null, null, null, null, 200.0000, null, null, null, '41189181', 'VENTA', '0004'
        , '0000', timestamp '2023-12-06 07:44:37', null, null, null, null, null, null);
 
-
 select * from activo_fijo_area;
-
 
 select *
   from activo_fijo_ubicacion
@@ -385,3 +409,8 @@ select *
  where cod_vendedor = '42';
 
 select add_months(trunc(sysdate, 'MM'), -1) from dual;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 14019;

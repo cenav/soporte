@@ -28,15 +28,15 @@ select *
 -- RECIBO COBRANZAS
 select *
   from planilla_cobranzas_h
- where numero_planilla = 5001568;
+ where numero_planilla = 5004205;
 
 select *
   from planilla_cobranzas_d
- where numero_planilla = 5001568;
+ where numero_planilla = 5004205;
 
 select *
   from planilla_cobranzas_i
- where numero_planilla = 5001568;
+ where numero_planilla = 5004205;
 
 -- COBRADORES
 select *

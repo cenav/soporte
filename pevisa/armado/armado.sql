@@ -2,10 +2,18 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   1022909
+                  1027570, 1028650
    );
 
 -- select * from prot;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'AR'
+   and numero in (
+   102811
+   )
+ order by fecha desc;
 
 select *
   from pr_ot_det
@@ -593,3 +601,16 @@ select *
 
 select usuario_30
   from exparamexpo;
+
+select *
+  from almacenes
+ where cod_alm in ('01', '03', '08');
+
+select *
+  from vendedores
+ where cod_vendedor = 'Z6';
+
+select *
+  from movdeta_cua
+ where ano = 2024
+   and mes = 2;

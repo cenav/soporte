@@ -1,6 +1,6 @@
 select rowid, s.*
   from exfacturas s
- where trunc(fecha) >= to_date('01/05/2023', 'dd/mm/yyyy')
+ where trunc(fecha) >= to_date('31/01/2024', 'dd/mm/yyyy')
  order by numero desc;
 --    tomar nota de una factura
 
@@ -9,7 +9,7 @@ call p_yanina_cambia_fechas_expo();
 
 select rowid, s.*
   from exfacturas s
- where numero = 55015447;
+ where numero = 55017446;
 
 --                    ahora debe tener fecha  30 abril
 select rowid, s.*

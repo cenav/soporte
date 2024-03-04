@@ -1,8 +1,8 @@
 begin
-  pkg_cominac.genera_contrato(2023, 8, 'S', 61, 'SI');
+  pkg_cominac.genera_contrato(2024, 1, 'S', 17015, 'SI');
   --     pkg_cominac.genera_periodo(2022, 5, 'S');
 --   pkg_cominac.elimina_periodo(2023, 2);
---   pkg_cominac.elimina_proceso(2003);
+--   pkg_cominac.elimina_proceso( 03627);
 end;
 
 -- Elimina comision en un intervalo de numeros de proceso
@@ -282,3 +282,17 @@ select *
   from comisiones_planilla
  where ano = 2023
    and mes = 8;
+
+select *
+  from sistabgen
+ where sisdatdes like '%VENTAS POR VENDEDOR%';
+
+select * from view_vendedor_grupo;
+
+select *
+  from cambdol
+ where fecha = trunc(sysdate);
+
+select *
+  from cambdol
+ where fecha = to_date('29/02/2024', 'dd/mm/yyyy');

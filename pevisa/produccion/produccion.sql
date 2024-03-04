@@ -2,8 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  538017, 538640, 516642, 529465, 529505, 535899, 514360, 529471, 529520, 537310,
-                  538641, 537274, 538646, 529508, 516691, 529544, 529467, 516705
+                  1027570, 1028650
    );
 
 select * from pr_estados;
@@ -605,3 +604,34 @@ select id_vendedor, nombre_vendedor
   from view_prioridades_pendientes_30
  where prioridad = 4859
  group by id_vendedor, nombre_vendedor;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 536512;
+
+select *
+  from vw_articulo
+ where cod_art = 'PPQ 3753';
+
+select f.formu_art_cod_art, f.art_cod_art
+  from pr_for_ins f
+       join articul a on f.art_cod_art = a.cod_art
+ where (a.cod_lin in ('1601', '2004', '2005')
+   or (a.cod_lin between '1620' and '1634')
+   or (a.cod_lin between '2010' and '2019'))
+   and f.formu_art_cod_art = 'PPQ 3753'
+   and length(a.cod_lin) = 4;
+
+select f.formu_art_cod_art
+     , listagg(f.art_cod_art, ' | ') within group ( order by f.art_cod_art) as material
+  from pr_for_ins f
+       join articul a on f.art_cod_art = a.cod_art
+ where (a.cod_lin in ('1601', '2004', '2005')
+   or (a.cod_lin between '1620' and '1634')
+   or (a.cod_lin between '2010' and '2019'))
+   and length(a.cod_lin) = 4
+   and f.formu_art_cod_art = 'PPQ 3753'
+ group by f.formu_art_cod_art;
+
+select * from planilla10.t_contrato;

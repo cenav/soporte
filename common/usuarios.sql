@@ -1,14 +1,14 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user KCUCHO account unlock;
+alter user larias account unlock;
 
 
-alter user MESTABRIDIS account lock;
+alter user jgarcia account lock;
 
 
-alter user mmiranda identified by "mamalucy9+";
+alter user cmieses identified by "gskcNMW3";
 
 
-alter user lmuedas password expire;
+alter user slatorre password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -20,8 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'FURTEAGA';
-
+ where username like 'JVARGAS';
 
 select *
   from dba_users
@@ -98,13 +97,9 @@ select *
 
 
 -- menu almacenes materia prima
-select *
+select 'APASTRANA', tp_art
   from alcontrol
- where usuario in ('GPALOMINO', 'BETY');
-
-select *
-  from seccrus
- where co_usrusr = 'GPALOMINO';
+ where usuario in ('EDITH', 'APASTRANA');
 
 select *
   from seccrus
@@ -130,7 +125,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('JNEYRA');
+ where co_usrusr in ('JNEYRA', 'PFALMAUX031');
 
 -- copia menu a usuario
 insert into tab_menu
@@ -158,12 +153,24 @@ select *
 -- BRAMOS
 
 select *
+  from usuarios_cotizacion
+ where usuario = 'JMENDEZL';
+
+select *
+  from vendedores
+ where nombre like '%MENDEZ%';
+
+select *
+  from vendedores
+ where cod_vendedor = '66';
+
+select *
   from modulo
  where id_modulo like 'ABRIR_FILE';
 
 select *
   from usuario_modulo
- where usuario in ('CNAVARRO', 'DCONTRERAS')
+ where usuario in ('JQUISPEB', 'DCONTRERAS')
  order by usuario, modulo;
 
 select *
@@ -178,7 +185,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo like 'BONO_PRODUCCION_PLANTA'
+ where modulo like 'BONO_RSC'
  order by usuario, modulo;
 
 select *
@@ -187,7 +194,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('CAMBIO_ESTADO_OA')
+ where modulo in ('CAMBIO_OT')
  order by usuario, modulo;
 
 select *
@@ -832,6 +839,86 @@ select *
 select * from vcos_formulas;
 
 select *
-  from vcos3_formulas_mo
- where cod_art = '200.3029'
-   and cod_costo = 35;
+  from usuarios_almacenes
+ where usuario = 'APASTRANA';
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'EMESTANZA';
+
+-- almacen
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = 'PFALMAUX031'
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'FP';
+
+select *
+  from pr_usualma
+ where cod_alm = 'FP'
+   and usuario = 'LARIAS';
+
+select *
+  from kardex_g_historia
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 14478;
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 14478;
+
+select *
+  from lg_pedjam
+ where num_importa = 'PAF23028';
+
+select *
+  from lg_itemjam
+ where num_importa = 'PAF23028';
+
+select *
+  from exclientes
+ where nombre like '%STOCK%';
+
+select * from ot_mantto_serie;
+
+select maq.descripcion
+     , sec.descripcion as seccion
+     , maq.centro_costo
+     , tar.nombre
+     , maq.abreviatura
+  from pr_tabmaq maq
+     , seccion_maquina sec
+     , planilla10.tar_encarga tar
+ where maq.id_seccion = sec.id_seccion(+)
+   and sec.id_encargado = tar.c_codigo(+)
+   and nvl(maq.estado, 0) != 9
+   and maq.codigo = 'MQ2GEN-011';
+
+select *
+  from seccion_maquina
+ where id_encargado = 'E172';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%OLIVARES%';
+
+select *
+  from vendedores
+ where cod_vendedor = 'R1';

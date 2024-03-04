@@ -2,24 +2,16 @@ select *
   from movfigl
  where ano = 2024
    and mes = 1
-   and tipo = '1'
-   and voucher = 120138;
-
-select *
-  from movfigl
- where ano = 2024
-   and mes = 1
    and tipo = '2'
-   and voucher = 13101
- order by voucher desc;
+   and voucher = 13101;
 
 select *
   from movfide
  where ano = 2024
    and mes = 1
    and tipo = '2'
-   and voucher = 13101
-   and enumero = '0424400';
+   and voucher = 13101;
+--    and enumero = '0424400';
 
 select *
   from factpag

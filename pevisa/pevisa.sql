@@ -2644,3 +2644,62 @@ select *
   from sistabgen
  where sistabcod = 600
  order by sisdatcod;
+
+select *
+  from caja_chica
+ where serie = 3
+   and numero = 220065
+   and estado = 8 and asiento_cancelacion_cuando is not null
+   and asiento_cancelacion_quien is not null
+   and (
+   (asiento_generado_cuando is not null or nvl(caja_de_movilidad, 'N') = 'S')
+     or
+   (asiento_generado_cuando is null and nvl(caja_de_movilidad, 'N') = 'N')
+   )
+   and asiento_caja_generado_quien is null;
+
+select *
+  from caja_chica_serie
+ where id_serie = 3;
+
+select *
+  from ctabnco
+ where codigo = '33';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E881';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%AVILA%'
+   and situacion not in ('8', '9');
+
+select *
+  from pr_usualma
+ where usuario = 'JNEYRA';
+
+select *
+  from pr_usualma
+ where usuario = 'PFALMAUX031'
+ order by cod_alm;
+
+select * from vw_proceso_bono_oa;
+
+select *
+  from proceso_bono_oa
+ where extract(year from periodo_ini) = 2024
+   and extract(month from periodo_ini) = 12;
+
+select * from proceso_bono_oa_det;
+
+select distinct descripcion, codigo
+  from tablas_auxiliares
+ where tipo = '84'
+   and codigo <> '....'
+ order by descripcion;
+
+select * from color;
+
+select * from estado_proceso;
+

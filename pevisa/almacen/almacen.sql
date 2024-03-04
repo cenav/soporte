@@ -1,25 +1,50 @@
 select *
   from kardex_g
- where cod_alm = '01'
-   and tp_transac = '26'
-   and serie = 19
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
    and numero in (
-   21852
+   31735
    );
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '19'
+ where cod_alm = '01'
+   and tp_transac = '17'
    and serie = 1
    and numero in (
-   18491
+   732444
    );
-
 
 select *
   from almacen
- where cod_art = 'KIT AUT MS 5887 SR A';
+ where cod_alm = '01'
+   and cod_art = 'R-3883620';
+
+select *
+  from kardex_d
+ where cod_art = 'SB CH 30015 MLS'
+   and extract(year from fch_transac) = 2024
+ order by fch_transac desc;
+
+select *
+  from kardex_g_movglos
+ where cod_alm = '62'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (
+   31664
+   );
+
+select *
+  from kardex_d_historia
+ where cod_alm = '62'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (
+   31664
+   );
+
 
 select *
   from kardex_d
@@ -27,15 +52,6 @@ select *
    and cod_art = 'FSP 95067 GR'
    and estado != '9'
  order by fch_transac desc;
-
-
-select *
-  from kardex_d
- where cod_alm = 'F8'
-   and tp_transac = '10'
-   and serie = 18
-   and numero = 4204
-   and cod_art = 'FSP 95067 GR';
 
 select *
   from almacen
@@ -512,6 +528,9 @@ select *
    and serie = 1
    and numero = 30363;
 
+select *
+  from pedido_flujo
+ where extract(year from fecha_envio) = 2024;
 
 select *
   from pedido_flujo
@@ -970,3 +989,20 @@ select *
    and tp_transac = '27'
    and serie = 1
    and numero = 1467557;
+
+select * from marca_vehiculo;
+
+select *
+  from amonestacion
+ where numero = 379;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'AR'
+   and serie = 3
+   and numero = 102811
+ order by fecha desc;
+
+select *
+  from almacenes
+ where cod_alm = 'TI';

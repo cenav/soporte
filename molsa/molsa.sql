@@ -7,10 +7,10 @@ select *
 
 select *
   from movdeta
- where ano = 2023
-   and mes = 8
-   and libro = '40'
-   and voucher in (80003, 80004, 80005, 80006, 80007);
+ where ano = 2024
+   and mes = 1
+   and libro = '10'
+   and voucher in (21303201);
 
 select *
   from factpag
@@ -63,10 +63,10 @@ select sum(cantidad * precio * factor_uc) as total_item
 
 select *
   from movfide
- where ano = 2023
-   and mes = 10
+ where ano = 2024
+   and mes = 1
    and tipo = '2'
-   and voucher = 103005;
+   and voucher = 13033;
 
 select *
   from prestamo_banco_cuota
@@ -75,7 +75,7 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 837;
+   and num_ped = 850;
 
 select *
   from orden_de_compra_historia
@@ -146,3 +146,19 @@ select u.serie, s.nombres, cod_unidad_negocio
 select *
   from cambdol
  where fecha = to_date('03/11/2023', 'dd/mm/yyyy');
+
+select codigo, descripcion
+  from tablas_auxiliares
+ where tipo = 77
+ order by codigo;
+
+
+select codigo, descripcion
+  from tablas_auxiliares
+ where tipo = 3
+ order by codigo;
+
+select *
+  from view_registro_de_compras_cont
+ where ano = 2024
+   and voucher = 10022;

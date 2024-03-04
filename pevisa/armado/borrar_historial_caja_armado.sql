@@ -3,7 +3,7 @@ declare
     select numero
       from pr_ot
      where numero in (
-                      965834, 965833
+       1028629
        )
        and nuot_tipoot_codigo = 'AR';
 begin
@@ -22,10 +22,3 @@ begin
     dbms_output.put_line(sql%rowcount);
   end loop;
 end;
-
-select *
-  from produccion_armado
- where numero_oa in (
-                     1022641
-   );
-

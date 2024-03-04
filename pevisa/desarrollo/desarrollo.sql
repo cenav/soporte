@@ -144,7 +144,30 @@ select *
    and cod_alm = 'A2';
 
 
+-- modelo faucett
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 12380;
+
 select *
   from kardex_g
  where cod_alm = 'A2'
    and tp_transac = '73';
+
+
+select *
+  from cambdol
+ where fecha = trunc(sysdate);
+
+select *
+  from kardex_g
+ where cod_alm = 'A1'
+   and tp_transac = '73'
+   and serie = 171
+   and numero = 2;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T171'
+   and guia_numero = 2;

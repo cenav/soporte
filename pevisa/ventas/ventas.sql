@@ -11,28 +11,33 @@ select *
 select nombre, cod_transp, domicilio, ruc_transp
   from transporte
  where nvl(indicador1, '0') = '1'
-   and cod_transp = '20603099088'
+   and cod_transp = '20602535500'
  order by nombre;
 
 select *
-  from cotizacion
- where num_ped = 214282;
-
-select *
-  from itemcot
- where num_ped = 214282;
-
-select *
   from pedido
- where num_ped = 234525;
+ where num_ped in (238516);
 
 select *
   from itemped
- where num_ped = 234525;
+ where num_ped = 238014;
 
 select *
   from cotizacion
- where refe_pedido = 206310
+ where num_ped in (216247);
+
+
+select *
+  from itemcot
+ where num_ped in (215615, 215618);
+
+select *
+  from cotizacion
+ where refe_pedido = 238671;
+
+select *
+  from cotizacion
+ where refe_pedido = 236346
    and estado = '2'
    and cod_vende in (
    select cod_vendedor
@@ -46,7 +51,7 @@ select *
 
 select *
   from pedido
- where num_ped = 206310;
+ where num_ped = 236885;
 
 select cond_pag, descripcion, dias_libres, letras, v01, v02, v03, v04, v05, v06
   from condpag;
@@ -383,9 +388,7 @@ select *
   from tab_grupos
  where grupo in (41, 42);
 
-
 select * from cobradores_recibos;
-
 
 select * from caja_chica_motivos;
 
@@ -396,3 +399,22 @@ select *
 select *
   from docuvent
  where cod_vende = 'Z6';
+
+select *
+  from vendedores
+ where cod_vendedor = '77';
+
+select *
+  from pedido
+ where serie = 24
+   and num_ped = 5878;
+
+select * from tab_bancos;
+
+select *
+  from tablas_auxiliares
+ where tipo = 11
+ order by codigo;
+
+select * from clientes_otros;
+

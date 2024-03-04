@@ -2,16 +2,16 @@
 select *
   from movglos
  where ano = 2023
-   and mes = 12
-   and libro = '60'
-   and voucher = 120138;
+   and mes = 11
+   and libro = '09'
+   and voucher = 110005;
 
 select *
   from movdeta
  where ano = 2023
-   and mes = 12
-   and libro = '60'
-   and voucher = 120138;
+   and mes = 11
+   and libro = '09'
+   and voucher = 110005;
 
 select *
   from movdeta
@@ -29,7 +29,12 @@ select *
 select *
   from gastos_de_viaje
  where id_vendedor = '20'
-   and numero = 215;
+   and numero = 227;
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = '20'
+   and numero = 227;
 
 select *
   from movglos_historia
@@ -303,7 +308,7 @@ select *
 select *
   from activo_fijo
  where cod_activo_fijo in (
-                           '02ESCR14', '02ESCR13', '01ARCH59', '01ARCH58'
+                           'MQ2CHM-010', 'SUB ESTACION I'
    );
 
 select *
@@ -490,7 +495,7 @@ select *
 
 select *
   from cambdol
- where fecha = to_date('22/07/2022', 'dd/mm/yyyy');
+ where fecha = to_date('29/02/2024', 'dd/mm/yyyy');
 
 select *
   from activo_fijo
@@ -506,13 +511,13 @@ select *
 
 select *
   from caja_chica
- where serie = 7
-   and numero = 22238;
+ where serie = 2
+   and numero = 240019;
 
 select *
   from caja_chica_d
- where serie = 7
-   and numero = 22238;
+ where serie = 2
+   and numero = 240019;
 
 
 select *
@@ -555,7 +560,7 @@ select *
 
 select *
   from tablas_auxiliares
- where tipo = '2'
+ where tipo = '11'
  order by codigo;
 
 select *
@@ -1903,8 +1908,8 @@ select *
 
 select *
   from gastos_de_viaje
- where id_vendedor = '61'
-   and numero = 252;
+ where id_vendedor = '44'
+   and numero = 279;
 
 select *
   from gastos_de_viaje_habilitado
@@ -2245,3 +2250,53 @@ select *
    and extract(month from fecha) = 11
    and depreciacion = 0
    and moneda = 'D';
+
+
+select *
+  from movdeta_cua
+ where ano = 2023
+   and mes = 11
+   and libro = '09'
+   and voucher = 110005;
+
+select *
+  from activo_fijo
+ where abreviatura = 'ALIMENTADOR1';
+
+select *
+  from caja
+ where id_serie = 1
+   and id_numero in (
+                     139, 140, 141, 142, 143
+   );
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20545494079'
+ order by fecha desc;
+
+select *
+  from factpag
+ where cod_proveedor = '20545494079'
+ order by fecha desc;
+
+select * from itemdocu;
+
+select * from gastos_de_viaje_d;
+
+select * from bono_obrero_excluye;
+
+select * from bono_obrero_excluye;
+
+select * from motivo_excluye;
+
+-- AAD
+-- RSC
+-- PLANTA OPERARIO
+
+select *
+  from modulo
+ where id_modulo like '%BONO%';
+
+
+select * from bono;

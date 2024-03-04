@@ -5,13 +5,13 @@ select *
 select *
   from exfacturas
  where numero in (
-   55017183
+   55017398
    );
 
 select *
   from ex_prefacturas
  where numero in (
-  9051660
+   9051660
    );
 
 select *
@@ -190,7 +190,7 @@ select *
 select *
   from expedidos
  where numero in (
-                  15993, 15951
+                  15078, 15161, 15315, 15316, 15318, 15528, 15532, 15546, 15567, 16119, 16156
    );
 
 select * from packing_agrupar;
@@ -268,3 +268,30 @@ select * from pla_control;
 select *
   from ex_prefacturas
  where numero = 9051657;
+
+
+select *
+  from exclientes
+ where cod_cliente = 990249;
+
+select * from exproforma_libre;
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 22274;
+
+select *
+  from caja_chica_d
+ where serie = 7
+   and numero = 22274;
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 24001;
+
+select *
+  from caja_chica_d
+ where serie = 7
+   and numero = 24001;

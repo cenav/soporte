@@ -1,7 +1,7 @@
-grant select on clientes_categoria to privilegios_lectura_pvs;
+grant select on vw_personal to privilegios_lectura_pvs;
 
-grant insert on clientes_categoria to privilegios_inserta_pvs;
+grant insert on vw_prefacturas_proformas to privilegios_inserta_pvs;
 
-grant delete on clientes_categoria to privilegios_elimina_pvs;
+grant delete on vw_prefacturas_proformas to privilegios_elimina_pvs;
 
-grant update on clientes_categoria to privilegios_actualiza_pvs;
+grant update on vw_prefacturas_proformas to privilegios_actualiza_pvs;
