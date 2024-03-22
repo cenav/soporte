@@ -14,16 +14,26 @@ select *
    and enumero = '367504';
 
 select *
+  from movdeta
+ where nro_referencia = '377315';
+
+select *
   from factcob
- where tipdoc = 'LC'
+ where tipdoc = 'L1'
    and serie_num = '1'
-   and numero = '367504';
+   and numero = '377254';
 
 select *
   from cabfcob
- where tipdoc = 'LC'
+ where tipdoc = 'L1'
    and serie_num = '1'
-   and numero = '367504';
+   and numero = '377254';
+
+select *
+  from nrotipo
+ where ano = 2024
+   and mes = 3
+   and tipo = '5';
 
 -- RECIBO COBRANZAS
 select *
@@ -47,3 +57,32 @@ select *
 select *
   from articul
  where cod_art in ('S4 70D-25-B', '0092S47028');
+
+select *
+  from cotizacion
+ where cod_tda is not null;
+
+select *
+  from pedido
+ where cod_tda is not null;
+
+select to_char(l.nrolet) as to_char_l_nrolet_to_char_l_se1
+     , decode(l.docref, '01', 'FA', '03', 'BV', '07', 'NC', '08', 'ND', '51', 'PE', '52', 'CD',
+              '60', 'LT') as doc
+     , decode(c.dociden, null, ruc, c.dociden) as nruc, l.nroref, l.emision, l.vencimiento
+     , l.importe, c.nombre, l.cod_cliente, c.telefono, c.direccion || '-' || c.distrito, l.estado
+     , l.moneda, u.nom_dtt as distrito, r.nombre as nombre_aval, r.direccion as direccion_aval
+     , r.localidad as localidad_aval, r.dociden as dociden_aval, r.telefono as telefono_aval
+     , l.cod_vende
+  from letras l
+     , clientes c
+     , ubigeo u
+     , cliente_resp r
+ where l.nrolet between :P_NUMEROI and :P_NUMEROF
+   and l.serlet = :P_SERIE
+   and l.cod_cliente = c.cod_cliente
+   and r.cod_cliente(+) = c.cod_cliente
+   and r.cod_respo(+) = '20'
+   and c.cod_ubc = u.cod_ubc
+ order by l.nrolet;
+

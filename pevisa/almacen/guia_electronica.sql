@@ -60,7 +60,8 @@ select *
 
 select *
   from transporte
- where cod_transp = '20489585678';
+ where cod_transp = '20534452251';
+
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
 --:::::::::::::::::::::::::::::::::::::::::--

@@ -9,11 +9,11 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '01'
-   and tp_transac = '17'
+ where cod_alm = '03'
+   and tp_transac = '15'
    and serie = 1
    and numero in (
-   732444
+   1815
    );
 
 select *
@@ -37,12 +37,12 @@ select *
    );
 
 select *
-  from kardex_d_historia
- where cod_alm = '62'
-   and tp_transac = '11'
-   and serie = 1
+  from kardex_g_historia
+ where cod_alm = '03'
+   and tp_transac = '18'
+   and serie = 2
    and numero in (
-   31664
+   565559
    );
 
 
@@ -1006,3 +1006,93 @@ select *
 select *
   from almacenes
  where cod_alm = 'TI';
+
+select *
+  from solimat_d
+ where numero in (
+                  189647, 188989, 188505, 188225, 187671, 187087, 187736, 186102, 185309, 185216,
+                  184307, 183889
+   );
+
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '15'
+   and serie = 1
+   and numero = 1813;
+
+-- ingreso por ajuste
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '15'
+   and serie = 1
+   and numero = 1813
+   and cod_art in (
+                   'CVJ 1005-DW', 'CVJ 1005-NAB-HY', 'CVJ 1006-DW', 'CVJ 1006-NI', 'CVJ 1006-SB',
+                   'CVJ 1007-DW', 'CVJ 1008-NI', 'CVJ 1008-SB', 'CVJ 1011-A-HO', 'CVJ 1012-SK',
+                   'CVJ 1014-TY', 'CVJ 1015-NAB-HO', 'CVJ 1018-NAB-NI', 'CVJ 1019-A-KA',
+                   'CVJ 1019-TY', 'CVJ 1021-A-SB', 'CVJ 1021-A-VO', 'CVJ 1021-MI', 'CVJ 1024-MI',
+                   'CVJ 1028-NI', 'CVJ 1032-A-RN', 'CVJ 1032-HY', 'CVJ 1033-SB', 'CVJ 1035-A-KA',
+                   'CVJ 1036-A-RN', 'CVJ 1037-DA', 'CVJ 1039-SK', 'CVJ 1044-NI', 'CVJ 1047-HY',
+                   'CVJ 1053-TY', 'CVJ 1057-NI', 'CVJ 1058-TY', 'CVJ 1061-NI', 'CVJ 1067-HY',
+                   'CVJ 1075-TY', 'CVJ 1076-A-TY', 'CVJ 1079-TY', 'CVJ 1091-A-TY', 'CVJ 1092-A-SK',
+                   'CVJ 1099-SK', 'CVJ 1102-A-TY', 'CVJ 1103-NI', 'CVJ 1107-TY', 'CVJ 1108-TY',
+                   'CVJ 1134-NI', 'CVJ 1199-TY', 'CVJ 1211-TY', 'CVJ 5009-TY', 'CVJ 5043-TY',
+                   'CVJ 5173-TY', 'CVJ 5212-NI'
+   );
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '15';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('15', '28');
+
+
+select cod_alm, cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado != '9'
+   and d.cod_alm = 'F0'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) < 0
+ group by d.cod_alm, d.cod_art;
+
+-- códigos sin stock
+select d.cod_alm, tp_transac, serie, numero, d.cod_art, cantidad, a.stock
+  from kardex_d d
+       join almacen a on d.cod_alm = a.cod_alm and d.cod_art = a.cod_art
+ where d.cod_alm = 'F0'
+   and d.tp_transac = '15'
+   and d.serie = 1
+   and d.numero = 1813
+   and cantidad <= a.stock;
+
+
+-- salida por ajuste
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '28'
+   and serie = 1
+   and numero = 991;
+
+select *
+  from inventario_fisico_d
+ where cod_alm = 'F0'
+   and cod_art = 'CVJ 1097-SK';
+
+select *
+  from articul
+ where cod_art = 'CVJ 1097-SK';
+
+select *
+ from inventario_fisico
+ where cod_alm = 'F0'
+   and extract(year from fecha) = 2024
+   and fecha = to_date('06/03/2024', 'dd/mm/yyyy')
+   and usuario = '';
+

@@ -54,9 +54,9 @@ select *
 select *
   from kardex_g
  where cod_alm = '01'
-   and tp_transac = '26'
-   and serie = 19
-   and numero = 21457;
+   and tp_transac = '25'
+   and serie = 118
+   and numero in (209, 210);
 
 select *
   from clientes
@@ -82,3 +82,4 @@ select *
  where numero in (
                   21859, 21794
    );
+

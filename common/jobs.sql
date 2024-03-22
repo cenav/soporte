@@ -1,9 +1,9 @@
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_FACTURAS_PENDIENTES_EXPO'
+      job_name => 'JOB_RSC'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'FACTURAS_PENDIENTES_EXPO_XLS.LISTADO_PARA_VENDEDORES'
-    , start_date => to_date('09/10/2023 16:30:00', 'DD/MM/YYYY HH24:MI:SS')
+    , job_action => 'rsc.tarea'
+    , start_date => to_date('15/03/2024 16:30:00', 'DD/MM/YYYY HH24:MI:SS')
     , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=9,10'
     , auto_drop => false
     , enabled => true
@@ -26,14 +26,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_PLANEAMIENTO_SIN_COLOCAR'
+      job_name => 'JOB_RSC'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'correo_planeamiento_sincolocar'
-    , start_date => timestamp '2023-11-14 08:30:00 -5:00'
+    , job_action => 'rsc.tarea'
+    , start_date => timestamp '2024-03-15 00:00:00 -5:00'
     , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=15'
     , auto_drop => false
     , enabled => true
-    , comments => 'planeamiento sin colocar (jpozo)'
+    , comments => 'Responsabilidad al Cargo'
   );
 end;
 

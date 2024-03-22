@@ -2,7 +2,10 @@ declare
   cursor cr_cajas is
     select cod_caja as codigo_caja
       from vw_cajas_armado
-     where cod_caja = 304244;
+     where cod_caja in (
+                        '305108', '305109', '305110', '305111', '305112', '305113', '305114',
+                        '305115', '305116'
+       );
 begin
   dbms_output.put_line('=====================');
   for r in cr_cajas loop
@@ -12,7 +15,8 @@ begin
        set estado = 2
      where numero_oa in (
        select p.numero_oa
-         from produccion_armado p, produccion_armado_log l
+         from produccion_armado p
+            , produccion_armado_log l
         where p.numero_oa = l.numero_oa and l.cod_caja = (r.codigo_caja)
        );
     dbms_output.put_line('1.. CODIGO_CAJA: ' || r.codigo_caja || '  procesados...: ' ||
@@ -22,7 +26,8 @@ begin
     --------------------------------- 2. Inserta el historial de cada una de las ordenes
     insert into produccion_armado_his
     select p.numero_oa, 2, sysdate, 'ORDEN REGRESADA A PRODUCCION A PEDIDO DE DAVID', user, null
-      from produccion_armado p, produccion_armado_log l
+      from produccion_armado p
+         , produccion_armado_log l
      where p.numero_oa = l.numero_oa and l.cod_caja = (r.codigo_caja);
     dbms_output.put_line('2.. CODIGO_CAJA: ' || r.codigo_caja || '  procesados...: ' ||
                          sql%rowcount);
@@ -30,10 +35,10 @@ begin
 --
     ------------------------------------ 3. Cambia a "Producción" el estado de la caja
     update produccion_armado_cajas
-       set estado    = 1,
-           peso      = null,
-           peso_neto = null,
-           inspector = null
+       set estado    = 1
+         , peso      = null
+         , peso_neto = null
+         , inspector = null
      where cod_caja = (r.codigo_caja);
     dbms_output.put_line('3.. CODIGO_CAJA: ' || r.codigo_caja || '  procesados...: ' ||
                          sql%rowcount);
@@ -65,7 +70,8 @@ begin
        set estado = 4
      where numero in (
        select p.numero_oa
-         from produccion_armado p, produccion_armado_log l
+         from produccion_armado p
+            , produccion_armado_log l
         where p.numero_oa = l.numero_oa
           and l.cod_caja = (r.codigo_caja)
        )

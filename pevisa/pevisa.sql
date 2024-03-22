@@ -2703,3 +2703,65 @@ select * from color;
 
 select * from estado_proceso;
 
+select *
+  from sistabgen
+ order by sistabcod;
+
+select cod_art, descripcion, unidad, tp_art, cod_alm
+  from articul a
+ where exists (
+   select 1
+     from almacen l
+    where l.cod_art = a.cod_art
+      and l.cod_alm = '02'
+   )
+   and exists (
+   select 1
+     from linea_solicitud_material s
+    where s.tipo = 'EMBALAJE'
+      and a.cod_lin = s.cod_lin
+   )
+ order by cod_art;
+
+select *
+  from articul
+ where cod_art = 'ESP 937';
+
+select *
+  from linea_solicitud_material
+ where cod_lin = '2101';
+
+select distinct tipo from linea_solicitud_material;
+
+select *
+  from evaluacion
+ where id_evaluado = 'E43238';
+
+select *
+  from cambdol
+ where fecha = to_date('21/03/2024', 'dd/mm/yyyy');
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'DCONTRERAS';
+
+
+
+  with excluye as (
+    select e.id_proceso, e.id_empleado, sum(exclusion) as es_excluido
+      from proceso_rsc_excluye e
+     group by e.id_proceso, e.id_empleado
+  )
+select d.id_proceso, d.id_empleado, nom_empleado, id_cargo, dsc_cargo, id_encargado
+     , nom_encargado, id_turno, dsc_turno, bono_bruto, bono_neto
+     , case
+         when es_excluido >= 1 then 'SI'
+         when es_excluido = 0 then 'NO'
+       end as exclusion
+  from proceso_rsc p
+       join proceso_rsc_d d on p.id_proceso = d.id_proceso
+       left join excluye e on d.id_proceso = e.id_proceso and d.id_empleado = e.id_empleado
+ where p.periodo_ano = 2024
+   and p.periodo_mes = 2
+   and d.id_encargado = '056'
+ order by d.nom_encargado, d.nom_empleado;

@@ -45,16 +45,6 @@ select *
    and numero = 1371033;
 
 
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( 'TA', '10', 29, 9696, 'CAR 485', 40.0000, 0.000000, 0.000000, date '2023-03-03', 0.00, 0.00
-       , 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null, null, null
-       , null, null, 40.0000, null, null, null);
-
-
 select *
   from cambdol
  where fecha = to_date('21/09/2023', 'dd/mm/yyyy');
@@ -89,12 +79,6 @@ select *
  order by lpad(tp_transac, 3, '0');
 
 select *
-  from tablas_auxiliares
- where tipo = 32
-   and codigo != '....'
- order by codigo;
-
-select *
   from numdoc
  where tp_transac = '21';
 
@@ -102,72 +86,28 @@ select *
   from numdoc
  order by serie;
 
-insert into pevisa.numdoc ( tp_transac, serie, numero, automatico, tp_mov, tp_relacion, tipo_cambio
-                          , ing_costo, lineas)
-values ('73', 171, 0, 'S', 'S', null, 'V', 'N', 0);
-
-
-select *
-  from numdoc
- where tp_transac = '73'
-   and serie = 171;
-
-select *
-  from kardex_g
- where tp_transac = '73';
-
-
-select *
-  from kardex_d
- where tp_transac = '73';
-
-
-select *
-  from view_salidas_pre_guias
- where cod_transp is not null;
-
-
-select *
-  from view_salidas_pre_guias
- where cod_alm = 'A2';
-
-
-select *
-  from view_salidas_pre_guias
- where not exists (
-   select 1
-     from kardex_g_guia_remision r
-    where cod_alm = view_salidas_pre_guias.cod_alm
-      and tp_transac = view_salidas_pre_guias.tp_transac and serie = view_salidas_pre_guias.serie
-      and numero = view_salidas_pre_guias.numero
-   )
-   and cod_alm = 'A2';
-
-
--- modelo faucett
-select *
-  from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 12380;
-
-select *
-  from kardex_g
- where cod_alm = 'A2'
-   and tp_transac = '73';
-
-
 select *
   from cambdol
- where fecha = trunc(sysdate);
+ where fecha = to_date('19/03/2024', 'dd/mm/yyyy');
 
 select *
-  from kardex_g
- where cod_alm = 'A1'
-   and tp_transac = '73'
-   and serie = 171
-   and numero = 2;
+  from cotizacion
+ where serie = 20
+   and num_ped = 196349;
+
 
 select *
-  from kardex_g_guia_remision
- where guia_serie = 'T171'
-   and guia_numero = 2;
+  from pedido
+ where serie = 20
+   and num_ped = 220016;
+
+
+select *
+  from pedido
+ where (flag_cancel is not null
+   or flag_nota_abono is not null
+   or flag_impre is not null
+   or flag_fact is not null
+   or flag_despacha_saldo is not null
+   or flag_impuesto is not null)
+   and extract(year from fecha) = 2023;

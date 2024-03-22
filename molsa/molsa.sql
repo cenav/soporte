@@ -1,9 +1,9 @@
 select *
   from movglos
- where ano = 2023
-   and mes = 8
-   and libro = '40'
-   and voucher in (80003, 80004, 80005, 80006, 80007);
+ where ano = 2024
+   and mes = 2
+   and libro = '08'
+   and voucher in (20025, 20026);
 
 select *
   from movdeta
@@ -33,18 +33,11 @@ select * from activo_fijo_depreciacion;
 
 select *
   from cambdol
- where fecha = to_date('20/02/2023', 'dd/mm/yyyy');
+ where fecha = to_date('21/03/2024', 'dd/mm/yyyy');
 
-declare
-  l_ano simple_integer := 2022;
-  l_mes simple_integer := 12;
-begin
-  utilconta.asiento_sin_detalle(l_ano, l_mes);
-  utilconta.completa_cero(l_ano, l_mes);
-  utilconta.elimina_relacion(l_ano, l_mes);
-  utilconta.agrega_relacion(l_ano, l_mes);
-  commit;
-end;
+select *
+  from tab_semanas
+ order by del;
 
 select *
   from plancta
@@ -75,7 +68,7 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 850;
+   and num_ped = 853;
 
 select *
   from orden_de_compra_historia
@@ -127,7 +120,7 @@ select *
  where cuenta = '442902';
 
 
-select u.serie, s.nombres, cod_unidad_negocio
+select u.serie, s.nombres
   from usuarios_caja_chica u
      , caja_chica_serie s
  where u.usuario = user
@@ -152,7 +145,6 @@ select codigo, descripcion
  where tipo = 77
  order by codigo;
 
-
 select codigo, descripcion
   from tablas_auxiliares
  where tipo = 3
@@ -162,3 +154,55 @@ select *
   from view_registro_de_compras_cont
  where ano = 2024
    and voucher = 10022;
+
+select o.num_ped, p.nombre, o.estado, o.cod_proveed, o.fecha, (o.fecha + o.plazo_entrega) as plazo
+     , o.centro_costo, p.direccion || ' ' || p.ciudad || ' ' || p.distrito as direccion
+     , decode(o.moneda, 'S', 'S/.', 'US$') as moneda, p.telefono as telef, p.fax as telefax
+     , c.descripcion as cond, o.impsto, o.detalle, (i.precio * nvl(fact_des, 1)) as pre
+     , ((i.precio * nvl(fact_des, 1)) * i.cantidad) as totpre, o.almacen
+     , tab_aux(o.almacen, '72') as descripcion_lugar_entrega, l.descripcion as lugar, o.total_pedido
+     , o.tot_valvta, tot_impu, o.tot_dscto, o.tot_orden, o.serie, o.cond_pag, i.item, i.cod_art
+     , i.cantidad, a.unidad, a.descripcion, i.dscto1, i.precio, (precio * cantidad) as pre_tot
+     , i.observacion, p.cod_ubc, d.abreviada, o.por_desc1, o.por_desc2, o.por_des3, o.por_des4
+     , i.unidad_prv as umed, o.plazo_entrega, r.cta, p.telefono, p.ruc, o.c_resp
+     , o.codigo_unidad_negocio, o.codigo_grupo_compra, o.observacion_gerencia
+     , i.centro_costo as centro_costo_item, o.forma_de_pago, o.porcentaje_adelanto
+     , o.moneda as codigo_moneda
+  from orden_de_compra o
+     , itemord i
+     , articul a
+     , proveed p
+     , lg_condpag c
+     , tablas_auxiliares t
+     , tablas_auxiliares l
+     , tablas_auxiliares d
+     , pcarticul r
+ where i.num_ped = o.num_ped
+   and i.serie = o.serie
+   and o.num_ped between :P_NUMERO1 and :P_NUMERO2
+   and o.serie = :P_SERIE
+   and a.cod_art = i.cod_art
+   and p.cod_proveed = o.cod_proveed
+   and c.cond_pag(+) = o.cond_pag
+   and t.tipo(+) = 29
+   and t.codigo(+) = o.cod_vende
+   and l.tipo(+) = 72
+   and l.codigo(+) = o.almacen
+   and d.tipo(+) = 36
+   and d.codigo(+) = a.mnd_fob--A.UNIDAD
+   and r.cod_art(+) = a.cod_art
+ order by o.num_ped, i.item;
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped = 853;
+
+select *
+  from lg_condpag
+ where cond_pag = '103';
+
+select *
+  from itemord
+ where serie = 3
+   and num_ped = 853;

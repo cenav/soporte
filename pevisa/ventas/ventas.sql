@@ -16,24 +16,23 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from pedido
- where num_ped in (238516);
+ where num_ped in (239381);
 
 select *
   from itemped
- where num_ped = 238014;
+ where num_ped = 239381;
 
 select *
   from cotizacion
- where num_ped in (216247);
-
+ where num_ped in (216986);
 
 select *
   from itemcot
- where num_ped in (215615, 215618);
+ where num_ped in (216986);
 
 select *
   from cotizacion
- where refe_pedido = 238671;
+ where refe_pedido = 239381;
 
 select *
   from cotizacion
@@ -417,4 +416,88 @@ select *
  order by codigo;
 
 select * from clientes_otros;
+
+select decode(v.ind_vta1, '1000', '01-EMPAQUES', '2000', '02-COMERCIAL', '3000', '03-BATERIAS',
+              '4000', '04-NEUMATICOS', '5000', '05-OTROS',
+              decode(v.ind_vta1, null,
+                     decode(v.supervisor, '01', '01-EMPAQUES', '42', '03-BATERIAS', '01-EMPAQUES'),
+                     '05-OTROS')) as divi_grupo
+     , to_char(v.grupo) as grupo, v.des_grupo, sum(v.dolares) as dolares
+  from view_vendedor_grupo v
+     , vendedores d
+ where v.cod_vende like :p_vende
+   and v.fecha between :p_fecha1 and :p_fecha2
+   and v.cod_vende = d.cod_vendedor
+   and v.tipo = 'NACIONAL'
+   and v.ind_vta1 not in ('3000', '4000')
+ group by decode(v.ind_vta1, '1000', '01-EMPAQUES', '2000', '02-COMERCIAL', '3000', '03-BATERIAS',
+                 '4000', '04-NEUMATICOS', '5000', '05-OTROS',
+                 decode(v.ind_vta1, null,
+                        decode(v.supervisor, '01', '01-EMPAQUES', '42', '03-BATERIAS',
+                               '01-EMPAQUES'), '05-OTROS'))
+        , to_char(v.grupo), v.des_grupo
+ union
+select decode(v.ind_vta1, '1000', '01-EMPAQUES', '2000', '02-COMERCIAL', '3000', '03-BATERIAS',
+              '4000', '04-NEUMATICOS', '5000', '05-OTROS',
+              decode(v.ind_vta1, null,
+                     decode(v.supervisor, '01', '01-EMPAQUES', '42', '03-BATERIAS', '01-EMPAQUES'),
+                     '05-OTROS')) as divi_grupo
+     , v.cod_lin, v.des_linea, sum(v.dolares) as dolares
+  from view_vendedor_grupo v
+     , vendedores d
+ where v.cod_vende like :p_vende
+   and v.fecha between :p_fecha1 and :p_fecha2
+   and v.cod_vende = d.cod_vendedor
+   and v.tipo = 'NACIONAL'
+   and v.ind_vta1 in ('3000', '4000')
+ group by decode(v.ind_vta1, '1000', '01-EMPAQUES', '2000', '02-COMERCIAL', '3000', '03-BATERIAS',
+                 '4000', '04-NEUMATICOS', '5000', '05-OTROS',
+                 decode(v.ind_vta1, null,
+                        decode(v.supervisor, '01', '01-EMPAQUES', '42', '03-BATERIAS',
+                               '01-EMPAQUES'), '05-OTROS'))
+        , v.cod_lin, v.des_linea
+ order by 1;
+
+select *
+  from articul
+ where cod_art = '28100-0L200 +LINE /O-MU';
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as linea
+     , l.cod_grupo as grupo, v.importe as precio, pr_medpza as cod_ing, t.grupo_venta
+  from articul a
+     , tab_descuento_gpolin l
+     , lispred v
+     , lispreg g
+     , tab_lineas t
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.cod_linea = a.cod_lin
+   and l.cod_grupo is not null
+   and g.nro_lista = :nro_lista
+   and l.moneda = g.moneda
+   and v.cod_art = a.cod_art
+   and v.nro_lista = g.nro_lista
+   and t.linea = l.cod_linea
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and a.cod_art = '28100-0L200 +LINE /O-MU'
+ order by l.cod_grupo, a.cod_art;
+
+select *
+  from tab_descuento_gpolin
+ where cod_linea = '560';
+
+select *
+  from lispred
+ where cod_art = '28100-0L200 +LINE /O-MU';
+
+select * from lispreg;
+
+select *
+  from almacen
+ where cod_art = '28100-0L200 +LINE /O-MU';
+
+alter table cotizacion add flag_riesgo varchar2(1);
+
+select * from cotizacion;
 

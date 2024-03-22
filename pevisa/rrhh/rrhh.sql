@@ -17,7 +17,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1083';
+   and c_codigo = 'E974';
 
 select *
   from planilla10.t_cargo
@@ -25,7 +25,7 @@ select *
 
 select *
   from planilla10.personal
- where c_codigo = 'E123';
+ where c_codigo = 'E017';
 
 select *
   from planilla10.doc_per
@@ -90,7 +90,7 @@ select usuario, modulo, maestro, supermaestro
  union
 select id_usuario, id_modulo, id_alterno
   from usuario_modulo_alterno
- where id_alterno = :p_usuario and id_modulo = :modulo
+ where id_alterno = :p_usuario and id_modulo = :modulo;
 
 select *
   from vw_permisos
@@ -114,3 +114,41 @@ select *
         (:fecha_del is null and :fecha_al is null));
 
 select * from planilla10.tar_encarga;
+
+select *
+  from vw_analpla_personal_total
+ where c_area = '007';
+
+select c_codigo, nombre, sexo, c_cargo, desc_cargo, f_ingreso, fnatal, desc_doc, num_doc, email
+     , email_p, edad
+     , anos_empresa, anos_aniversario, desc_seccion, c_area, dsc_area, c_encargado, desc_encargado
+     , usuario_encargado, email_encargado, desc_local, f_cese, sector, desc_sector, situacion
+     , horario
+     , desc_horario, turno
+  from vw_personal
+ where flg_planta = 1
+   and situacion not in ('8', '9')
+--    and sector in ('10', '20', '40', '80', '30')
+   and c_codigo = 'E424';
+
+select *
+  from planilla10.t_sector
+ where c_sector in ('10', '20', '40', '80', '30');
+
+select *
+  from planilla10.t_sector
+ where c_sector = '90';
+
+select * from motivo_cese_sunat;
+
+select * from cese_personal;
+
+select *
+  from detalle_cese
+ order by id_detalle;
+
+select *
+  from evaluacion
+ where id_evaluacion = 8173;
+
+select * from estado_evaluacion;

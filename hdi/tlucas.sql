@@ -771,3 +771,5 @@ select *
    and numero_planilla in (
                            000855, 000763, 000745, 000727, 000678, 000670
    );
+
+select * from docuvent;

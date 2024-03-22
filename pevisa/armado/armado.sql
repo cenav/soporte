@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-                  1027570, 1028650
+   1022045
    );
 
 -- select * from prot;
@@ -614,3 +614,12 @@ select *
   from movdeta_cua
  where ano = 2024
    and mes = 2;
+
+select *
+  from planilla10.personal
+ where c_codigo in ('E43280', 'E567');
+
+select *
+  from planilla10.personal_hist
+ where codigo = 'E43280'
+ order by fecha desc;

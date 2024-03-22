@@ -10,11 +10,11 @@ select *
 -- 11/05/2023
 select *
   from movdeta
- where ano = 2023
-   and mes = 3
+ where ano = 2024
+   and mes = 2
    and libro = '25'
    and voucher in (
-   30027
+   23161
    );
 
 select *
@@ -1884,14 +1884,20 @@ select * from cominac_concepto_cliente;
 
 select * from cominac_concepto_excluye_clie;
 
-select * from cominac_concepto_venta_grupal
-where cod_concepto = 417;
+select *
+  from cominac_concepto_venta_grupal
+ where cod_concepto = 417;
 
 select *
   from sistabgen
  order by sistabcod, sisdatcod;
 
-select * from view_vendedor_grupo
-where cod_art = 'ANTICIPO-DI';
+select *
+  from view_vendedor_grupo
+ where cod_art = 'ANTICIPO-DI';
 
 select * from gastos_de_viaje_d;
+
+select *
+  from docuvent
+ where extract(year from fecha) = 2022;

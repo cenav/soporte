@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  1027570, 1028650
+   552153
    );
 
 select * from pr_estados;
@@ -634,4 +634,56 @@ select f.formu_art_cod_art
    and f.formu_art_cod_art = 'PPQ 3753'
  group by f.formu_art_cod_art;
 
-select * from planilla10.t_contrato;
+select numero, formu_art_cod_art, cant_prog, cant_ingresado
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and estado in (1, 2, 3, 4, 5, 8)
+   and numero = 545908
+ order by 2;
+
+
+select a.cod_art, a.descripcion, x.cod_alm, x.stock
+  from articul a
+     , almacen x
+ where a.cod_art <> 'CAJA EXT 059X24X25'
+   and a.cod_art = x.cod_art
+   and x.cod_alm = '01';
+
+select *
+  from almacen
+ where cod_art = 'CAJA SERV 059X24X25-P';
+
+select *
+  from vw_articulo
+ where cod_art = '380.744';
+
+select dsc_grupo, sum(cant_faltante) as faltante
+  from vw_articulo
+ where id_grupo = '05'
+ group by dsc_grupo;
+
+create view vw_requerimiento as
+  with requerimiento as (
+    select cod_art, sum(cant_requerida) as cant_requerida
+         , sum(cant_separado) as cant_separado, sum(faltante) as cant_faltante
+         , sum(stock) as stock_requerida
+      from vw_requerimiento_articulo
+     group by cod_art
+    )
+select a.cod_art, a.descripcion, a.cod_lin, g.id_grupo, g.dsc_grupo, r.cant_requerida
+     , r.cant_separado, r.cant_faltante, r.stock_requerida
+     , a.s_act - r.cant_separado as cant_disponible, a.pr_golpez as golpes
+     , a.pr_golpza as cavidades
+  from articul a
+       left join requerimiento r on a.cod_art = r.cod_art
+       left join vw_articulo_grupo g on a.cod_art = g.cod_art;
+
+create public synonym vw_requerimiento for vw_requerimiento;
+
+select *
+  from vw_requerimiento
+ where cod_art = '380.744';
+
+select *
+  from pr_ot_cierre_libre
+ where numero = 546199;

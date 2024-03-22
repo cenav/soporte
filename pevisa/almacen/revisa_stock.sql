@@ -6,11 +6,11 @@ select a.cod_art
                from kardex_d d
               where d.estado <> '9'
                 and d.cod_art = a.cod_art
-                and d.cod_alm = :P_ALMACEN
+                and d.cod_alm = :p_almacen
               group by d.cod_alm, d.cod_art
              ), 0) as stock_kdx
   from almacen a
- where a.cod_alm = :P_ALMACEN
+ where a.cod_alm = :p_almacen
    and a.stock <> nvl(
      (
        select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
@@ -94,4 +94,11 @@ begin
   end loop;
 end;
 
-select * from almacen;
+select *
+  from almacen
+ where cod_art = 'PARALELA 2 MAT2 1547DCS-4';
+
+
+select *
+  from kardex_d
+ where cod_art = 'PARALELA 2 MAT2 1547DCS-4';

@@ -1,8 +1,8 @@
 select *
   from orden_de_compra
- where serie = 30
+ where serie = 13
    and num_ped in (
-   606
+   4906
    );
 
 select *
@@ -93,21 +93,6 @@ select *
    61608
    );
 
-insert into pevisa.orden_matriceria ( num_ped, tipo_docto, estado, fecha, cod_proveed, nro_sucur
-                                    , cond_pag, moneda, cod_vende, plazo_entrega, tipdoc_ref
-                                    , numrequ_ref, tipdoc_sol_ref, numsolc_ref, por_desc1, por_desc2
-                                    , impsto, detalle, poliza, cuenta42, total_pedido
-                                    , total_facturado, centro_costo, c_resp, por_des3, por_des4
-                                    , almacen, tipo_presu, serie_presu, num_presu, impu1, impu2
-                                    , impu3, impu4, impu5, serie, tot_dscto, tot_valvta, tot_impu
-                                    , tot_orden, num_importa, pase_cont, juego, fecha_ingreso
-                                    , fecha_salida, fecha_termino, tipo_matriz, cod_matriz, paso
-                                    , cod_pieza, cavidades, ser_oc, nro_oc)
-values ( 240002, '82', '0', date '2024-01-05', '20548295239', '0', '10', 'D', null, null, null, null
-       , null, null, 0.00, 0.00, 0.18, null, null, '4212', 293.70, 293.70, '7002', null, 0.00, 0.00
-       , '00', '51', null, null, null, null, null, null, null, 1, 0.00, 293.70, 52.87, 346.57, '0'
-       , 'N', 'CH 65016S', null, null, null, 'MDI', 'Reparación MOLDE 65016-2', null, '65016S', 4
-       , null, null);
 
 select *
   from itemmatri
@@ -116,37 +101,10 @@ select *
                    230186, 240002
    );
 
-insert into caja_chica
-select serie, 24001, glosa, fecha, tipo_cambio, estado, tipo_referencia, nro_referencia, sistema
-     , fecha_referencia, fecha_vencimiento, tipo_transaccion, numliq, fecha_liquidacion, moneda
-     , item, saldo_anterior, reembolso, otros, fondo_asignado, gastos_realizados, saldo_efectivo
-     , saldo_reembolsa, fecha_reembolso, creacion_quien, creacion_cuando, creacion_donde
-     , fecha_cierre, ano, mes, asiento_generado_quien, asiento_generado_cuando
-     , asiento_generado_donde, asiento_caja_generado_quien, asiento_caja_generado_cuando
-     , asiento_caja_generado_donde, caja_de_movilidad, ano_cheque, mes_cheque, libro_cheque
-     , voucher_cheque, numero_cheque_reposicion, caja_mantto_maquina, asiento_cancelacion_quien
-     , asiento_cancelacion_cuando, asiento_reposicion_donde, ano_cancelacion, mes_cancelacion
-     , libro_cancelacion, voucher_cancelacion, cod_unidad_negocio
-  from caja_chica
- where serie = 1
-   and numero in (23355);
-
-insert into caja_chica_d
-select serie, 24001, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
-     , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
-     , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
-     , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
-     , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
-     , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
-     , nro_transac, saldo, nombre_archivo
-  from caja_chica_d
- where serie = 1
-   and numero in (23355);
-
 select *
   from caja_chica
- where serie = 1
-   and numero in (23355);
+ where serie = 7
+   and numero in (24014);
 
 select *
   from caja_chica_d
@@ -676,3 +634,27 @@ select *
   from solicita_cambio_ot
  where usuario = 'DCONTRERAS'
  order by fch_solicitud desc;
+
+
+select per.c_codigo
+     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+ where per.c_codigo = enc.c_codigo
+   and per.situacion not in ('8', '9')
+   and (upper(enc.usuario) = (
+   select usuario
+     from usuario_modulo
+    where usuario = user and modulo = 'EVALIACION'
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = user and id_modulo = 'EVALUACION'
+   ) or user in (
+   select usuario from usuario_modulo where modulo = 'EVALUACION' and maestro = 'SI'
+   ))
+ order by per.apellido_paterno;
+
+select *
+  from usuario_modulo
+ where usuario = 'LILY';

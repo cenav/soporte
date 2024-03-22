@@ -1,23 +1,22 @@
 select *
   from movfigl
  where ano = 2024
-   and mes = 1
-   and tipo = '2'
-   and voucher = 13101;
+   and mes = 2
+   and tipo = '3'
+   and voucher = 20031;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 1
+   and mes = 2
    and tipo = '2'
-   and voucher = 13101;
---    and enumero = '0424400';
+   and voucher = 23162;
 
 select *
   from factpag
- where tipdoc = '26'
-   and serie_num = '008'
-   and numero = '3484117';
+ where tipdoc = '54'
+   and serie_num = '118'
+   and numero = '0005038';
 
 select *
   from cabfpag
@@ -41,13 +40,14 @@ select * from pevisa.tab_semanas order by al;
 
 select *
   from pagos_h
- where serie_planilla = 1
-   and numero_planilla = 26573;
+ where serie_planilla = 21
+   and numero_planilla = 1147;
 
 select *
   from pagos_i
- where serie_planilla = 1
-   and numero_planilla = 26573;
+ where serie_planilla = 21
+   and numero_planilla = 1147
+   and serie_num = 'N4';
 
 select user as usuario, tpo.descripcion as tipo_pago,
   tpo.titulo || ' ' || dense_rank() over (order by der.fecha_pago) as descripcion
@@ -238,3 +238,32 @@ select *
    and numero_planilla = 826;
 
 select * from cabfpag;
+
+select i.cod_proveedor, h.apellido_paterno, h.apellido_materno, h.nombres, i.importe_cancelacion,
+  ' ' || '2' || decode(h.tipo_cta, 'CA', 'A', 'C') || h.sucursal || h.num_cta || '      ' ||
+  rpad(h.nombres || ' ' || h.apellido_paterno || ' ' || h.apellido_materno, 40, ' ') ||
+  decode(mone_cta, 'S', 'S/', 'U$') ||
+  rtrim(ltrim(to_char(i.importe_cancelacion * 100, '099999999999999'))) || lpad(' ', 40, ' ') ||
+  '0' || decode(d.num_doc, null, 'CE ', 'DNI') || rpad(nvl(d.num_doc, c.num_doc), 12, ' ') ||
+  '1' as deta_abono
+     , h.c_codigo
+  from pagos_i i
+     , pagos_h h
+     , vendedores p
+     , planilla10.personal h
+     , planilla10.doc_per d
+     , planilla10.doc_per c
+ where i.serie_planilla = h.serie_planilla
+   and i.numero_planilla = h.numero_planilla
+   and h.serie_planilla = 21
+   and h.numero_planilla = 1162
+   and i.cod_proveedor = h.c_codigo
+   and h.c_codigo = p.cod_personal
+   and d.c_codigo(+) = p.cod_personal
+   and d.c_doc(+) = 'LE'
+   and c.c_codigo(+) = p.cod_personal
+   and c.c_doc(+) = 'CE'
+   and h.for_pago = 'C'
+   and h.c_banco = '02'
+   and p.estado = 1;
+
