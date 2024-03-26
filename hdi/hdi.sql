@@ -1901,3 +1901,7 @@ select * from gastos_de_viaje_d;
 select *
   from docuvent
  where extract(year from fecha) = 2022;
+
+select *
+  from saldo_banco
+ where fecha = to_date('24/03/2024', 'dd/mm/yyyy');

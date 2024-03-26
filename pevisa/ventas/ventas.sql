@@ -24,11 +24,15 @@ select *
 
 select *
   from cotizacion
- where num_ped in (216986);
+ where num_ped in (217579);
+
+select *
+  from cotizacion
+ where num_ped in (217579);
 
 select *
   from itemcot
- where num_ped in (216986);
+ where num_ped in (217579);
 
 select *
   from cotizacion
@@ -74,11 +78,13 @@ select *
 
 select *
   from cotizacion
- where num_ped = 208933;
+ where num_ped = 217579
+   and unidad_negocio in ('01', '02')
+   and cod_vende like '27';
 
 select *
   from itemcot
- where num_ped = 207389;
+ where num_ped = 217579;
 
 select *
   from pedido
@@ -497,7 +503,13 @@ select *
   from almacen
  where cod_art = '28100-0L200 +LINE /O-MU';
 
-alter table cotizacion add flag_riesgo varchar2(1);
-
 select * from cotizacion;
 
+select *
+  from cotizacion
+ where flag_riesgo is null;
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm = 'A1';

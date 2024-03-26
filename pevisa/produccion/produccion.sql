@@ -687,3 +687,12 @@ select *
 select *
   from pr_ot_cierre_libre
  where numero = 546199;
+
+select *
+  from tab_lineas
+ where linea = 'ZZ';
+
+select *
+  from tab_lineas
+ where descripcion like '%DESCONT%';
+

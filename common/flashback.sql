@@ -762,7 +762,8 @@ select *
    );
 
 select *
-  from kardex_g_guia_remision as of timestamp to_timestamp('13-12-2023 08:30:00', 'DD-MM-YYYY HH24:MI:SS')
+  from kardex_g_guia_remision as of timestamp to_timestamp('13-12-2023 08:30:00',
+                                                           'DD-MM-YYYY HH24:MI:SS')
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
@@ -773,11 +774,19 @@ select *
  where ano = 2023
    and mes = 12
    and libro = '60'
-   and voucher = 120138 ;
+   and voucher = 120138;
 
 select *
   from movdeta as of timestamp to_timestamp('05-01-2024 08:30:00', 'DD-MM-YYYY HH24:MI:SS')
  where ano = 2023
    and mes = 12
    and libro = '60'
-   and voucher = 120138 ;
+   and voucher = 120138;
+
+select *
+  from comisiones_planilla as of timestamp to_timestamp('25-03-2024 08:30:00',
+                                                        'DD-MM-YYYY HH24:MI:SS')
+ where ano = 2024
+   and mes = 2
+   and cod_personal = 'E420';
+

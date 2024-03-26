@@ -1,5 +1,5 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user mfernandez account unlock;
+alter user WCORONEL account unlock;
 
 
 alter user jgarcia account lock;
@@ -20,7 +20,7 @@ alter user epesado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'SPASTRANA';
+ where username like 'EMBALADO';
 
 select *
   from dba_users
@@ -174,17 +174,17 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('ICATALAN')
+ where usuario in ('JCABEZAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario = 'HOLIVARES'
+ where usuario = 'PEVISA'
  order by modulo;
 
 select *
   from usuario_modulo
- where modulo like 'BONO_RSC'
+ where modulo = 'BONO_RSC'
  order by usuario, modulo;
 
 select *

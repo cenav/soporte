@@ -1,8 +1,8 @@
 select *
   from orden_de_compra
- where serie = 13
+ where serie = 4
    and num_ped in (
-   4906
+   61951
    );
 
 select *

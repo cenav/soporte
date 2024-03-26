@@ -111,3 +111,12 @@ select *
    or flag_despacha_saldo is not null
    or flag_impuesto is not null)
    and extract(year from fecha) = 2023;
+
+select *
+  from cambdol
+ where fecha = to_date('24/03/2024', 'dd/mm/yyyy');
+
+
+select *
+  from cotizacion
+ where num_ped = 196362;

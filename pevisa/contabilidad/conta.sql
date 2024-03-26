@@ -104,4 +104,4 @@ select * from cierre_contabilidad;
 
 select *
   from cambdol
- where fecha = to_date('19/03/2024', 'dd/mm/yyyy');
+ where fecha = to_date('24/03/2024', 'dd/mm/yyyy');

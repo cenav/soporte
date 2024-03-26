@@ -1,20 +1,34 @@
 select *
   from kardex_g
- where cod_alm = 'A3'
+ where cod_alm = '30'
    and tp_transac = '11'
    and serie = 1
    and numero in (
-   31735
+   31796
    );
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '15'
+ where cod_alm = '30'
+   and tp_transac = '11'
    and serie = 1
    and numero in (
-   1815
+   31796
    );
+
+select *
+  from kardex_g_movglos
+ where cod_alm = '30'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (
+   31796
+   );
+
+select *
+  from kardex_g_movglos
+ where guia_bf_numero is not null
+ order by fecha_ingreso_almacen desc;
 
 select *
   from almacen
@@ -1090,7 +1104,7 @@ select *
  where cod_art = 'CVJ 1097-SK';
 
 select *
- from inventario_fisico
+  from inventario_fisico
  where cod_alm = 'F0'
    and extract(year from fecha) = 2024
    and fecha = to_date('06/03/2024', 'dd/mm/yyyy')
