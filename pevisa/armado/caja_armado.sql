@@ -4,7 +4,7 @@
 -- cambiar a estado 5
 select *
   from produccion_armado_cajas
- where cod_caja = 275747;
+ where cod_caja = 1037161;
 
 --::::::::::::::::::::::::::::--
 --    Elimina Caja Armado     --
@@ -14,14 +14,16 @@ select *
  where cod_caja = '275747'
  order by estado;
 
+--::::::::::::::::::::::::::::--
+--      Cambia Cantidad       --
+--::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1031649;
+ where numero_oa = 1037161;
 
 select *
   from produccion_armado_cajas
- where cod_caja = 283179;
-
+ where cod_caja = 305841;
 
 select *
   from produccion_armado

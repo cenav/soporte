@@ -125,28 +125,6 @@ select *
  where tipdoc = 'LV'
    and numero = '21527';
 
--- eliminar las facturas que no deben aparacer en el listado
-select *
-  from excomision_repre_fact
- where codigo = 179
-   and numero_factura not in (
-                              55015072, 55015082, 55015257, 55015285, 55015400, 55015513, 55015695,
-                              55015736, 55015820, 55015906, 55015948, 55015954, 55015981, 55015989,
-                              55015996, 55016002, 55016003, 55016004, 55016038, 55016039, 55016056,
-                              55016108, 55016174, 55016202, 55016203, 55016233, 55016240, 55016274,
-                              55016292, 55016294, 55016303
-;
-
--- fecha de proceso de comision dejar en nulo
-select *
-  from exfacturas
- where numero in (
-                  55016333, 55016340, 55016362, 55016363, 55016374, 55016375, 55016391, 55016415,
-                  55016425, 55016469, 55016470, 55016520, 55016554, 55016555, 55016573, 55016581,
-                  55016591, 55016592, 55016596, 55016607, 55016622, 55016652, 55016683, 55016697,
-                  55016720, 55016726, 55016790, 55016791, 55016792, 55016793
-   );
-
 select *
   from tab_lineas
  where descripcion like '%HANKOOK%';
@@ -189,7 +167,7 @@ select *
 select *
   from expedidos
  where numero in (
-                  15078, 15161, 15315, 15316, 15318, 15528, 15532, 15546, 15567, 16119, 16156
+   16156,16157
    );
 
 select * from packing_agrupar;
@@ -588,3 +566,17 @@ select *
 select *
   from pr_consul
  where pedido = 16175;
+
+-- COD_ART	CANTIDAD
+-- CH 86030 TG	10
+-- V 86030-I R	20
+-- CH 86031 TG	10
+-- CHP 93009A GR	10
+
+select *
+  from exproforma_d
+ where numero = 19218
+   and cod_art in (
+     'CHP 93009A GR'
+     , ''
+     );

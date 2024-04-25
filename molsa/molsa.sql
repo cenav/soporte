@@ -1,21 +1,29 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 2
-   and libro = '08'
-   and voucher in (20025, 20026);
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 1
-   and libro = '10'
-   and voucher in (21303201);
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003;
+
+select *
+  from movdeta
+ where ano = 2024
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003
+   and tipo_relacion = 'P';
 
 select *
   from factpag
- where cod_proveedor = '20182246078'
-   and numero = '0021607';
+ where cod_proveedor = '10082247527'
+   and numero = 'DIVIDENDO';
 
 select *
   from cabfpag

@@ -2,19 +2,51 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   552153
+   507361
    );
 
-select * from pr_estados;
-
-select * from pr_estadopr;
+-- op cerradas
+-- 54758
+-- 521817
+-- 546453
+-- 548983
+-- 549765
+-- 549862
+-- 552912
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   515055
+   556809
    );
+
+--  estado anterior de una orden
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+   536668
+   );
+
+--  estado anterior de una orden
+select *
+  from pr_trasab_estado
+ where tipo = 'PR'
+   and numero in (
+                  556709, 556687, 555023, 549702, 549627, 555016, 556631, 549793, 554998, 556641
+   )
+ order by numero, fecha desc;
+
+select * from pr_estados;
+
+select *
+  from pcformulas
+ where cod_art = '400.333';
+
+select * from pr_estados;
+
+select * from pr_estadopr;
 
 select *
   from kardex_g
@@ -696,3 +728,8 @@ select *
   from tab_lineas
  where descripcion like '%DESCONT%';
 
+select * from vw_standard_emision;
+
+select cod_personal, sf_nom_personal(cod_personal) as nombre
+  from comision_ingeniero
+ order by sf_nom_personal(cod_personal);

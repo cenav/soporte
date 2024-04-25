@@ -16,27 +16,27 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from pedido
- where num_ped in (239381);
+ where num_ped in (241897);
 
 select *
   from itemped
- where num_ped = 239381;
+ where num_ped in (241897, 241914);
 
 select *
   from cotizacion
- where num_ped in (217579);
-
-select *
-  from cotizacion
- where num_ped in (217579);
+ where refe_pedido in (241897);
 
 select *
   from itemcot
- where num_ped in (217579);
+ where num_ped = 219092;
 
-select *
-  from cotizacion
- where refe_pedido = 239381;
+select * from clientes_categoria;
+
+select * from articul
+where cod_art = 'S4 75D-24-B';
+
+select * from tab_lineas
+where linea = '253';
 
 select *
   from cotizacion
@@ -509,7 +509,7 @@ select *
   from cotizacion
  where flag_riesgo is null;
 
-select *
-  from pr_usualma
- where usuario = 'PEVISA'
-   and cod_alm = 'A1';
+update cotizacion
+   set flag_riesgo = 'N'
+ where flag_riesgo is null;
+

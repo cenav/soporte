@@ -1,15 +1,16 @@
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 3
    and num_ped in (
-   61951
+   44675
    );
+
 
 select *
   from itemord
- where serie = 30
+ where serie = 3
    and num_ped in (
-   604
+   44123
    );
 
 select *
@@ -20,6 +21,10 @@ select *
 select *
   from proveed
  where nombre like '%REPLICA%';
+
+select *
+  from proveed
+ where cod_proveed = '10714436894';
 
 select *
   from proveed
@@ -658,3 +663,56 @@ select per.c_codigo
 select *
   from usuario_modulo
  where usuario = 'LILY';
+
+
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and serie in (3, 4, 8)
+   and exists (
+   select 1
+     from usuarios u
+    where orden_de_compra.c_resp = u.codigo_trabajador
+      and u.usuario = user
+   )
+   and not exists
+   (
+     select 1
+       from orden_de_compra_calificacion
+      where orden_de_compra.num_ped =
+            orden_de_compra_calificacion.num_ped
+        and orden_de_compra.serie =
+            orden_de_compra_calificacion.serie
+     );
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped in (
+   44123
+   );
+
+select *
+  from orden_de_compra_calificacion
+ where serie = 3
+   and num_ped = 44123;
+
+select * from usuarios;
+
+select *
+  from tab_lineas
+ where linea = '1079';
+
+select *
+  from itemord
+ where cod_art = 'IMPR ROTUL04';
+
+select *
+  from orden_de_compra
+ where serie = 30
+   and num_ped = 587;
+
+select *
+  from itemord
+ where serie = 30
+   and num_ped = 587;

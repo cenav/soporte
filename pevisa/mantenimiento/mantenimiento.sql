@@ -167,3 +167,40 @@ select *
  where observacion is not null;
 
 select * from modulo;
+-- 275204
+
+select *
+  from kardex_d_otm
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 275204;
+
+select r.*
+     , sf_ultimo_costo_kardex(r.cod_art, r.fch_transac, 'S') as costo
+     , sf_ultimo_costo_kardex(r.cod_art, r.fch_transac, 'D') as costo
+  from vw_repuesto_otm r
+       join kardex_d_otm k
+            on r.otm_tipo = k.otm_tipo and r.otm_serie = k.otm_serie
+              and r.otm_numero = k.otm_numero and r.cod_art = k.cod_art
+ where r.otm_tipo = 'MQ'
+   and r.otm_serie = 2
+   and r.otm_numero = 2827;
+
+select *
+  from usuarios
+ where usuario = 'DNUNEZ';
+
+select *
+  from vw_personal
+ where nombre like '%MELGAR%';
+
+select *
+  from otm_serie_usuario
+ where id_tipo = 'MQ'
+   and id_serie = 2;
+
+select *
+  from ot_mantto_serie
+ where id_tipo = 'MQ'
+ order by id_serie;

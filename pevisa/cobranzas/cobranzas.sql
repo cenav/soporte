@@ -86,3 +86,10 @@ select to_char(l.nrolet) as to_char_l_nrolet_to_char_l_se1
    and c.cod_ubc = u.cod_ubc
  order by l.nrolet;
 
+select *
+  from recprov
+ where numero = 17100;
+
+select *
+  from itemrec
+ where numero = 17100;

@@ -19,7 +19,7 @@ select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.mone
    and o.cod_proveed = p.cod_proveed
    and o.cond_pag = c.cond_pag
    and o.serie = :serie_oc
-   and o.num_ped = :numero_oc
+   and o.num_ped = :numero_c
    and c.tipo <> 'A'
  order by o.num_ped;
 
@@ -45,7 +45,7 @@ select *
 select *
   from kardex_g_movglos
  where serie_oc = :serie_oc
-   and numero_oc = :numero_oc;
+   and numero_oc = to_char(:numero_oc);
 
 -- ELIMINA APROBACION PEVISA
 select *

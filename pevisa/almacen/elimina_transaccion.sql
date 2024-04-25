@@ -5,10 +5,10 @@ declare
   cursor trx is
     select *
       from kardex_g
-     where cod_alm = 'F0'
-       and tp_transac = '15'
-       and serie = 1
-       and numero = 1813
+     where cod_alm = 'TI'
+       and tp_transac = '10'
+       and serie = 118
+       and numero = 3
      order by ing_sal desc, numero_pguia;
 begin
   for r in trx loop

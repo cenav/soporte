@@ -4,8 +4,8 @@ end;
 
 select *
   from analisis_consumo
- where ano = 2023
-   and mes = 7;
+ where ano = 2024
+   and mes = 2;
 
 select *
   from logger_logs

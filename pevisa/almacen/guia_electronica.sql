@@ -15,7 +15,6 @@
  ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═╝
 
  */
-
 --::::::::::::::::::::::::::::--
 -- query pantalla principal   --
 --::::::::::::::::::::::::::::--
@@ -96,10 +95,10 @@ select *
 
 select *
   from kardex_g_guia_remision
- where cod_alm = 'F0'
+ where cod_alm = 'T'
    and tp_transac = '21'
    and serie = 25
-   and numero in (7371);
+   and numero in (12380);
 
 insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
                                           , ubigeo_llegada, direccion_llegada, ruc, cod_alm
@@ -137,7 +136,7 @@ select *
 select *
   from kardex_g_guia_remision
  where guia_serie = 'T001'
-   and guia_numero = 12450;
+   and guia_numero = 12380;
 
 select *
   from kardex_g_guia_remision
@@ -416,4 +415,16 @@ select *
  where guia_serie = 'T183'
    and guia_numero = 44;
 
+select *
+  from kardex_g_guia_remision
+ where serie = 171;
+
 -- INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T183', 44, DATE '2024-03-25', '150103', '070101', 'AV. FAUCETT NRO.717 PROV. CONST.DEL CALLAO CALLAO', '20100084768', '99', 'T183', 999, 44, '17', '20605415050', '02', '01', 1.00, 2.3000, '05', '03', '02', 'REJILLA', null, null, null, null, null, null, null, null, null, '20100036101', 'Traslado de bienes para transf', '0004', '0003', TIMESTAMP '2024-03-25 12:03:24', null, null, null, null, null, null);
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  556494, 556495, 556496, 556513, 556497, 556498, 556500, 556501, 556503, 556504,
+                  556505, 556509, 556510, 556511, 556512
+   );

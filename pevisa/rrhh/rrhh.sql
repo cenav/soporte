@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'GARCIA'
+ where apellido_paterno = 'ALVITES'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -17,7 +17,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E974';
+   and c_codigo = 'E1138';
 
 select *
   from planilla10.t_cargo
@@ -46,7 +46,7 @@ select *
 
 select *
   from planilla10.personal
- where c_codigo = 'E41311';
+ where c_codigo = 'E640';
 
 select *
   from permiso
@@ -152,3 +152,31 @@ select *
  where id_evaluacion = 8173;
 
 select * from estado_evaluacion;
+
+select * from planilla10.tar_encarga;
+
+select *
+  from planilla10.personal
+ where encargado = '039'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from planilla10.personal
+ where encargado = '060';
+
+select *
+  from evaluacion
+ where id_evaluado = 'E41962'
+ order by fecha desc;
+
+select *
+  from vw_personal
+ where nombre like '%FERNANDEZ%';
+
+select *
+  from evaluacion
+ where id_evaluacion in (8296);
+

@@ -1,26 +1,25 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user WCORONEL account unlock;
+alter user jquispeb account unlock;
 
 
 alter user jgarcia account lock;
 
 
-alter user spastrana identified by "antony.2024";
+alter user pfalmaux002 identified by "EMPAQUE2024e%";
 
-
-alter user slatorre password expire;
+alter user mdiaz password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
 
-alter user epesado profile default;
+alter user uarmado profile default;
 
 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'EMBALADO';
+ where username like 'UARMADO';
 
 select *
   from dba_users
@@ -52,7 +51,7 @@ select s.owner as syn_owner
 -- acceso MGVENTAS
 select *
   from seccrus
- where co_usrusr = 'FURTEAGA';
+ where co_usrusr = 'DNUNEZM';
 
 
 select *
@@ -68,7 +67,12 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%odominguez%')
+ where upper(text) like upper('%PEDIDOS NO APROBADOS%')
+   and owner = 'PEVISA';
+
+select *
+  from dba_source
+ where upper(text) like upper('%atencion.oficina%')
    and owner = 'PEVISA';
 
 
@@ -169,7 +173,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('PLANILLA10')
+ where usuario in ('CAMBIO_ESTADO_OA')
  order by usuario, modulo;
 
 select *
@@ -184,7 +188,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo = 'BONO_RSC'
+ where modulo = 'CAMBIO_TRX'
  order by usuario, modulo;
 
 select *
@@ -449,36 +453,11 @@ select *
 
 select *
   from usuarios_almacenes_perfil
- where usuario = 'MPEREZ';
+ where usuario = 'JACUNA';
 
 select *
-  from gastos_de_viaje_habilitado
- where id_vendedor = '77'
-   and numero = 236;
-
-select *
-  from gastos_de_viaje
- where id_vendedor = '77'
-   and numero = 236;
-
-select *
-  from gastos_de_viaje
- where id_vendedor = '77'
-   and num_habilitado = 236;
-
-
-select *
-  from tab_menu
- where usuario = 'MGARCIA'
-   and sistema = 'M_LOGIST_M';
-
-
-select *
-  from tab_menu
- where usuario = 'JQUISPE'
-   and sistema = 'M_LOGIST_M'
-   and estado = '1'
- order by cod_menu;
+  from transacciones_almacen
+ where tp_transac = '11';
 
 select *
   from seccrus
@@ -749,7 +728,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo like '%CAMBIO_OT%';
+ where modulo like '%CAMP%';
 
 select *
   from usuario_modulo
@@ -876,6 +855,10 @@ select *
                     20310203, 203103, 20310301, 20310302, 203104, 203105
    );
 
-select * from all_directories;
-
 select * from expedido_d;
+
+create public synonym vw_seguimiento_bono for vw_seguimiento_bono;
+
+select name, line, text
+  from dba_source
+ where upper(text) like upper('%SUBPIEZA%');

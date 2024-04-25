@@ -3,8 +3,7 @@ declare
     select cod_caja as codigo_caja
       from vw_cajas_armado
      where cod_caja in (
-                        '294768', '294769', '294770', '294771', '294772', '294773', '294774',
-                        '294775', '294776', '294778'
+       310843
        );
 begin
   dbms_output.put_line('=====================');

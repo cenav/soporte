@@ -1,20 +1,24 @@
 select *
   from kardex_g
- where cod_alm = '30'
-   and tp_transac = '11'
-   and serie = 1
+ where cod_alm = '15'
+   and tp_transac = '18'
+   and serie = 2
    and numero in (
-   31796
+   565364
    );
 
 select *
   from kardex_d
- where cod_alm = '30'
-   and tp_transac = '11'
-   and serie = 1
+ where cod_alm = '15'
+   and tp_transac = '18'
+   and serie = 2
    and numero in (
-   31796
+   565354
    );
+
+select *
+  from almacen
+ where cod_art = 'R-3804304';
 
 select *
   from kardex_g_movglos

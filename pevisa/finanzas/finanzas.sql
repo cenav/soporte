@@ -1,16 +1,16 @@
 select *
   from movfigl
  where ano = 2024
-   and mes = 2
-   and tipo = '3'
-   and voucher = 20031;
+   and mes = 4
+   and tipo = '1'
+   and voucher = 40033;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 2
+   and mes = 4
    and tipo = '2'
-   and voucher = 23162;
+   and voucher = 43034;
 
 select *
   from factpag
@@ -33,8 +33,15 @@ select *
 select *
   from nrotipo
  where ano = 2024
-   and mes = 1
+   and mes = 4
    and tipo = '1';
+
+select *
+  from movfigl
+ where ano = 2024
+   and mes = 4
+   and tipo = 1
+ order by voucher desc;
 
 select * from pevisa.tab_semanas order by al;
 

@@ -1,25 +1,25 @@
 -- contabilidad maestro
 select *
   from movglos
- where ano = 2018
-   and mes = 5
-   and libro = '20'
-   and voucher = 50008;
+ where ano = 2024
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003;
 
 select *
   from movdeta
- where ano = 2018
-   and mes = 5
-   and libro = '20'
-   and voucher = 50008;
+ where ano = 2024
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003;
 
 select *
   from movdeta
- where ano = 2023
-   and mes = 9
-   and libro = '33'
-   and voucher = 90022
-   and cuenta in ('24120804', '6121020804');
+ where ano = 2024
+   and mes = 4
+   and libro = '05'
+   and voucher = 40003
+   and cuenta in ('441201');
 
 select *
   from factpag
@@ -105,3 +105,21 @@ select * from cierre_contabilidad;
 select *
   from cambdol
  where fecha = to_date('24/03/2024', 'dd/mm/yyyy');
+
+select *
+  from caja_chica
+ where numero = 240031;
+
+select *
+  from caja_chica_d
+ where numero = 240031;
+
+select *
+  from kardex_g_movglos
+ where numero_oc = '44585'
+   and serie_oc = '003';
+
+select *
+  from orden_de_compra
+ where num_ped = 44585
+   and serie = 3;

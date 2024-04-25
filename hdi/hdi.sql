@@ -1905,3 +1905,128 @@ select *
 select *
   from saldo_banco
  where fecha = to_date('24/03/2024', 'dd/mm/yyyy');
+
+select * from pla_control;
+
+-- x vendedor 690417.79
+select v.cod_vende, d.nombre as vendedor, sum(v.dolares) as total
+  from view_vendedor_grupo v
+     , vendedores d
+ where v.cod_vende like :p_vende
+   and v.fecha between :p_fecha1 and :p_fecha2
+   and v.cod_vende = d.cod_vendedor
+--    and v.tipo like :p_tiponac
+--    and cod_art != 'ANTICIPO-DI'
+ group by v.cod_vende, d.nombre
+ order by 3 desc;
+
+-- x grupo 690218.30
+select v.grupo, v.des_grupo, sum(v.dolares) as total
+  from view_vendedor_grupo v
+ where v.fecha between :p_fecha1 and :p_fecha2
+--    and v.ind_vta1 like :p_tiponac
+ group by v.grupo, v.des_grupo
+ order by 3 desc;
+
+
+select v.grupo, v.des_grupo, sum(v.dolares) as total
+  from view_vendedor_grupo v
+ where v.fecha between :p_fecha1 and :p_fecha2
+   and v.cod_lin in (
+                     'Y002', 'Y003'
+   )
+ group by v.grupo, v.des_grupo
+ order by 3 desc;
+
+select i.*
+  from docuvent d
+       join itemdocu i on d.tipodoc = i.tipodoc and d.serie = i.serie and d.numero = i.numero
+ where fecha between :p_fecha1 and :p_fecha2
+   and i.cod_art = 'ANTICIPO-DI';
+
+select i.*
+  from docuvent d
+       join itemdocu i on d.tipodoc = i.tipodoc and d.serie = i.serie and d.numero = i.numero
+ where d.fecha between :p_fecha1 and :p_fecha2
+   and i.cod_grupo = 98;
+
+select *
+  from view_vendedor_grupo
+ where fecha between :p_fecha1 and :p_fecha2
+   and des_grupo like '%ACTIVO%';
+
+select *
+  from itemdocu
+ where cod_lin in ('AF1', 'AD1');
+
+select *
+  from tab_lineas
+ where grupo = 136;
+
+select *
+  from tab_grupos
+ where grupo = 136;
+
+select nvl(sum(total_dolares), 0) as venta
+  from vw_venta_detalle
+ where fecha between :p_fecha1 and :p_fecha2;
+
+select d.tipodoc
+     , sum(round(decode(d.moneda, 'D', nvl(i.neto, 0), 'S', nvl(i.neto, 0) / d.import_cam),
+                 2)) as total_dolares
+  from docuvent d
+       join itemdocu i
+            on (d.tipodoc = i.tipodoc
+              and d.serie = i.serie
+              and d.numero = i.numero)
+       left join clientes c on d.cod_cliente = c.cod_cliente
+       left join tablas_auxiliares x
+                 on d.tipodoc = x.codigo
+                   and x.tipo = '02'
+       left join tab_lineas l on i.cod_lin = l.linea
+       left join tab_grupos g on l.grupo = g.grupo
+ where d.origen <> 'EXPO'
+   and d.tipodoc in ('01', '03', '07')
+   and d.cond_pag != 'W'
+   and d.estado <> '9'
+   and d.fecha between :p_fecha1 and :p_fecha2
+   and g.ind_vta1 = '1000'
+ group by d.tipodoc;
+
+select grupo, descripcion, ind_vta1
+  from tab_grupos
+ order by ind_vta1;
+
+select d.tipodoc
+     , sum(round(decode(d.moneda, 'D', nvl(i.neto, 0), 'S', nvl(i.neto, 0) / d.import_cam),
+                 2)) as total_dolares
+  from docuvent d
+       join itemdocu i
+            on (d.tipodoc = i.tipodoc
+              and d.serie = i.serie
+              and d.numero = i.numero)
+       left join clientes c on d.cod_cliente = c.cod_cliente
+       left join tablas_auxiliares x
+                 on d.tipodoc = x.codigo
+                   and x.tipo = '02'
+       left join tab_lineas l on i.cod_lin = l.linea
+       left join tab_grupos g on l.grupo = g.grupo
+ where d.estado != '9'
+   and d.cond_pag != 'W'
+   and d.fecha between :p_fecha1 and :p_fecha2
+ group by d.tipodoc;
+
+select *
+  from sistabgen
+ where sisdatcod = 100;
+
+select *
+  from tab_lineas
+ where linea in (
+                 'D127', 'D127', 'D127', 'D127', 'D127', 'D127', 'D127', 'D127', 'D127', 'D127',
+                 'D127', 'D127', 'D127', 'D113', 'D113', 'D113', 'D501', 'D501', 'D501', 'D301',
+                 'D301', 'D301', 'D017', 'D017', 'D017', 'D017', 'D017', 'D017', 'D301', 'D301',
+                 'D301', 'D201', 'D201', 'D201', 'D127', 'D127', 'D127', 'D127', 'D127', 'D127',
+                 'D127', 'D127', 'D127', 'D501', 'D501', 'D501', 'D301', 'D301', 'D301', 'D301',
+                 'D301', 'D301', 'D301', 'D301', 'D30', 'D201', 'D281'
+   );

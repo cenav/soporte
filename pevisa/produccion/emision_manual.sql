@@ -1,12 +1,19 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('CL-O 67012S', 100, false, op);
+  emite.op('400.2319SIL', 48, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
 
-select * from articul where cod_art = 'CL-O 67012S';
+
+select * from articul where cod_art = 'CL-O 200.4009ALR';
+
+--revisar consumo anual
+select *
+  from vw_articulo
+ where cod_art in ('450.254', '450.287SIL');
+
 
 -- emite listado desde tabla temporal
 declare
@@ -26,9 +33,9 @@ begin
   emite.standard('NPC 330.605-2', 30, l_ordenes);
   for i in 1 .. l_ordenes.count loop
     dbms_output.put_line(
-          l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
-          l_ordenes(i).numero
-      );
+        l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
+        l_ordenes(i).numero
+    );
   end loop;
   commit;
 end;
@@ -42,9 +49,9 @@ begin
     commit;
     for i in 1 .. l_ordenes.count loop
       dbms_output.put_line(
-            l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
-            l_ordenes(i).numero
-        );
+          l_ordenes(i).nuot_tipoot_codigo || ' ' || l_ordenes(i).nuot_serie || ' ' ||
+          l_ordenes(i).numero
+      );
     end loop;
   end loop;
 end;
@@ -62,31 +69,7 @@ end;
 select rpad('codigo', 10) || rpad('300', 10) || rpad('155979', 10)
   from dual;
 
-select cod_art, cantidad from tmp_carga_data;
-
-select * from tmp_carga_data;
-
 select *
-  from gastos_de_viaje_habilitado
- where id_vendedor = '03'
-   and numero = 154;
-
-select *
-  from gastos_de_viaje_habilitado
- where fecha_del between to_date('01/02/2022', 'dd/mm/yyyy') and to_date('28/02/2022', 'dd/mm/yyyy')
-   and estado != '8';
-
-select *
-  from gastos_de_viaje_habilitado_d
- where id_vendedor = '03'
-   and numero = 154;
-
-select *
-  from pagos_h
- where serie_planilla = 21
-   and numero_planilla = 871;
-
-select *
-  from pagos_i
- where serie_num = '03'
-   and numero = 154;
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and formu_art_cod_art = 'FOR3001A';

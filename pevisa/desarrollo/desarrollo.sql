@@ -22,6 +22,10 @@ select *
    and length(cod_lin) = 4;
 
 select *
+  from tab_lineas
+ where linea = '1300';
+
+select *
   from tablas_auxiliares
  where tipo = 33
    and codigo = 'M1';
