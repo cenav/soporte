@@ -174,9 +174,51 @@ select *
 
 select *
   from vw_personal
- where nombre like '%FERNANDEZ%';
+where nombre like '%MANGO%';
+
+select * from planilla10.personal
+where apellido_paterno like '%NINiwA%';
 
 select *
   from evaluacion
- where id_evaluacion in (8296);
+ where id_evaluacion in (
+                         8356, 8374, 8372, 8373
+   );
 
+select cod_art, detalle from tmp_carga_data;
+
+select *
+  from planilla10.tar_secc
+ where codigo = '03';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E42625';
+
+select sysdate from dual;
+
+select *
+  from planilla10.tar_encarga
+ where nombre like '%VILLON%';
+
+
+select *
+  from planilla10.personal
+ where c_codigo in (
+                    'E42625', 'E1137', 'E1139'
+   );
+
+declare
+  i pls_integer := 0;
+
+  cursor cr_limpieza is
+    select cod_art as cod_personal, detalle as seccion from tmp_carga_data;
+begin
+  for r in cr_limpieza loop
+    update planilla10.personal
+       set seccion = r.seccion
+     where c_codigo = r.cod_personal;
+    i := i + sql%rowcount;
+  end loop;
+  dbms_output.put_line(i);
+end;

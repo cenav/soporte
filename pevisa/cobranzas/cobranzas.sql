@@ -54,6 +54,18 @@ select *
  where tipo = '26'
  order by codigo;
 
+-- CAMBIA FECHA LETRAS
+select *
+  from letras
+ where nrolet = 376705;
+
+select *
+  from factcob
+ where tipdoc = 'L1'
+   and numero = 376705;
+
+-----------------------
+
 select *
   from articul
  where cod_art in ('S4 70D-25-B', '0092S47028');
@@ -93,3 +105,17 @@ select *
 select *
   from itemrec
  where numero = 17100;
+
+select *
+  from letras
+ where nrolet = 376705;
+
+select *
+  from factcob
+ where tipdoc = 'L1'
+   and numero = 376705;
+
+select *
+  from itemrec
+ where tipodoc = 'RP'
+   and numero = 17146;

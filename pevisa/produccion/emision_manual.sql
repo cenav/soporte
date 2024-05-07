@@ -1,7 +1,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('400.2319SIL', 48, false, op);
+  emite.op('400.2727', 20, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;

@@ -1,16 +1,16 @@
 select *
   from movfigl
  where ano = 2024
-   and mes = 4
-   and tipo = '1'
-   and voucher = 40033;
+   and mes = 3
+   and tipo = '2'
+   and voucher = 33004;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 4
+   and mes = 3
    and tipo = '2'
-   and voucher = 43034;
+   and voucher = 33004;
 
 select *
   from factpag
@@ -47,14 +47,18 @@ select * from pevisa.tab_semanas order by al;
 
 select *
   from pagos_h
- where serie_planilla = 21
-   and numero_planilla = 1147;
+ where serie_planilla = 3
+   and numero_planilla in (3165);
 
 select *
   from pagos_i
- where serie_planilla = 21
-   and numero_planilla = 1147
-   and serie_num = 'N4';
+ where serie_planilla = 3
+   and numero_planilla in (3165);
+
+select *
+  from ctabnco_cheques
+ where serie_planilla = 3
+   and numero_planilla in (3157, 3158, 3159);
 
 select user as usuario, tpo.descripcion as tipo_pago,
   tpo.titulo || ' ' || dense_rank() over (order by der.fecha_pago) as descripcion
@@ -273,4 +277,3 @@ select i.cod_proveedor, h.apellido_paterno, h.apellido_materno, h.nombres, i.imp
    and h.for_pago = 'C'
    and h.c_banco = '02'
    and p.estado = 1;
-

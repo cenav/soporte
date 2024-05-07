@@ -9,17 +9,17 @@ select *
 select *
   from movdeta
  where ano = 2024
-   and mes = 4
-   and libro = '05'
-   and voucher = 40003;
+   and mes = 2
+   and libro = '33'
+   and voucher = 20028;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 4
-   and libro = '05'
-   and voucher = 40003
-   and cuenta in ('441201');
+   and mes = 2
+   and libro = '33'
+   and voucher = 20028
+   and cuenta in ('333101');
 
 select *
   from factpag

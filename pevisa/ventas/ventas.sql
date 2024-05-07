@@ -16,15 +16,19 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from pedido
- where num_ped in (241897);
+ where num_ped in (242763);
 
 select *
   from itemped
- where num_ped in (241897, 241914);
+ where num_ped in (242761);
 
 select *
   from cotizacion
- where refe_pedido in (241897);
+ where num_ped in (219906);
+
+select *
+  from cotizacion
+ where refe_pedido in (242618);
 
 select *
   from itemcot
@@ -32,11 +36,13 @@ select *
 
 select * from clientes_categoria;
 
-select * from articul
-where cod_art = 'S4 75D-24-B';
+select *
+  from articul
+ where cod_art = 'S4 75D-24-B';
 
-select * from tab_lineas
-where linea = '253';
+select *
+  from tab_lineas
+ where linea = '253';
 
 select *
   from cotizacion
@@ -512,4 +518,3 @@ select *
 update cotizacion
    set flag_riesgo = 'N'
  where flag_riesgo is null;
-

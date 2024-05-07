@@ -1582,5 +1582,8 @@ select serie || '-' || num_ped as pedido, c.nombre, total_pedido as total
 
 select * from cese_personal;
 
-select * from permiso
-where numero = 63129;
+select *
+  from permiso
+ where numero = 63129;
+
+select sysdate from dual;

@@ -102,3 +102,21 @@ select *
 select *
   from kardex_d
  where cod_art = 'PARALELA 2 MAT2 1547DCS-4';
+
+select *
+  from almacen
+ where cod_art in (
+                   'CAJA EXT 059X32X48', 'CAJA EXT 085X32X48'
+   )
+   and cod_alm in ('03', '24')
+ order by cod_art;
+
+select cod_alm, cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado != '9'
+   and d.cod_alm in ('03', '24')
+   and d.cod_art in (
+                   'CAJA EXT 059X32X48', 'CAJA EXT 085X32X48'
+   )
+ group by d.cod_alm, d.cod_art;

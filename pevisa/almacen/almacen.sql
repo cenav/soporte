@@ -39,11 +39,19 @@ select *
  where cod_alm = '01'
    and cod_art = 'R-3883620';
 
+
 select *
   from kardex_d
  where cod_art = 'SB CH 30015 MLS'
    and extract(year from fch_transac) = 2024
  order by fch_transac desc;
+
+select *
+  from despacho_guias
+ where cod_alm_kardex = 'F0'
+   and tp_transac_kardex = 21
+   and serie_kardex = 25
+   and numero_kardex = 17446;
 
 select *
   from kardex_g_movglos
@@ -1070,7 +1078,6 @@ select *
   from transacciones_almacen
  where tp_transac in ('15', '28');
 
-
 select cod_alm, cod_art
      , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
@@ -1088,7 +1095,6 @@ select d.cod_alm, tp_transac, serie, numero, d.cod_art, cantidad, a.stock
    and d.serie = 1
    and d.numero = 1813
    and cantidad <= a.stock;
-
 
 -- salida por ajuste
 select *
@@ -1114,3 +1120,10 @@ select *
    and fecha = to_date('06/03/2024', 'dd/mm/yyyy')
    and usuario = '';
 
+select *
+  from almacen
+ where cod_art in (
+                   'CAJA EXT 059X32X48', 'CAJA EXT 085X32X48'
+   )
+   and cod_alm in ('03', '24')
+ order by cod_art;

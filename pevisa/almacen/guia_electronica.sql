@@ -33,7 +33,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (15824);
+   and numero in (20210);
 
 -- F0	21	25	14665
 
@@ -46,7 +46,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (15826);
+   and numero in (20210);
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
 select *
@@ -69,9 +69,32 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (15824);
+   and numero in (
+                  20228, 20227, 20220, 20219, 20218, 20217, 20216, 20215, 20214, 20213, 20212,
+                  20211, 20210, 20209, 20208, 20207, 20206
+   );
 
 --:::::::::::::::::::::::::::::::::::::::::--
+--           cheka correlativo             --
+--:::::::::::::::::::::::::::::::::::::::::--
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+ order by guia_numero desc;
+
+select *
+  from nrodoc
+ where serie = 'T001';
+
+-- T001	19005
+
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 19041;
+
 
 select *
   from kardex_d
@@ -196,15 +219,6 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (7498);
-
-select *
-  from kardex_g_guia_remision
- where guia_serie = 'T001'
- order by guia_numero desc;
-
-select *
-  from nrodoc
- where serie = 'T128';
 
 select *
   from kardex_g
@@ -428,3 +442,22 @@ select *
                   556494, 556495, 556496, 556513, 556497, 556498, 556500, 556501, 556503, 556504,
                   556505, 556509, 556510, 556511, 556512
    );
+
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+ order by numero desc;
+
+select *
+  from kardex_d
+ where tp_transac = '21'
+   and serie = 25
+ order by numero desc;
+
+select *
+  from numdoc
+ where tp_transac = '21'
+   and serie = 25;

@@ -94,7 +94,14 @@ select *
 
 select *
   from lg_factura_comercial
- where numero_embarque = 4330;
+ where numero_embarque = 4687;
+
+select *
+  from lg_factura_comercial
+ where numero_embarque = 4687
+   and numero in (
+                  'F3542', 'F3543', 'F3544'
+   );
 
 select * from embarques_d;
 

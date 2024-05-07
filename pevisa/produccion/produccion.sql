@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   507361
+                  542815, 544698, 522998
    );
 
 -- op cerradas
@@ -733,3 +733,19 @@ select * from vw_standard_emision;
 select cod_personal, sf_nom_personal(cod_personal) as nombre
   from comision_ingeniero
  order by sf_nom_personal(cod_personal);
+
+select *
+  from almacenes
+ where cod_alm = '05';
+
+select *
+  from vacaciones
+ where numero = 19032;
+
+select *
+  from vacaciones_idtecflex
+ where numero = 19032;
+
+select *
+  from estado_vacaciones
+ order by id_estado;

@@ -1,16 +1,16 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 4
+   and mes = 0
    and libro = '05'
-   and voucher = 40003;
+   and voucher = 16;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 4
+   and mes = 0
    and libro = '05'
-   and voucher = 40003;
+   and voucher = 16;
 
 select *
   from movdeta
@@ -65,9 +65,9 @@ select sum(cantidad * precio * factor_uc) as total_item
 select *
   from movfide
  where ano = 2024
-   and mes = 1
+   and mes = 3
    and tipo = '2'
-   and voucher = 13033;
+   and voucher = 33004;
 
 select *
   from prestamo_banco_cuota

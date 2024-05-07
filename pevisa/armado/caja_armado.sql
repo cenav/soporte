@@ -19,16 +19,15 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1037161;
+ where numero_oa = 1042842;
 
 select *
   from produccion_armado_cajas
- where cod_caja = 305841;
+ where cod_caja = 317085;
 
 select *
   from produccion_armado
  where abrev_ped = 15852;
 
-select *
-  from view_prodterm_pedidos
- where pedido = 15692;
+select cod_local, descripcion, estado, direccion
+  from locales;

@@ -60,3 +60,4 @@ select cod_art, stock, (
     )
 select cod_alm, cod_art, costo_32, stock, round(stock * costo_32, 2) as valor
   from detalle;
+

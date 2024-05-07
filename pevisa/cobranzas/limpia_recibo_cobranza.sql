@@ -19,7 +19,7 @@ select *
    and numero_recibo = :p_numero_planilla;
 
 -- colocar numero menos uno anterior para que le aparezca el mismo numero que pide
--- toma nota ultimo_recibo_trabajado 5004087
+-- toma nota ultimo_recibo_trabajado 5005071
 select *
   from cobradores_rango_recibos
  where codigo_cobrador = :p_cobrador
@@ -82,7 +82,6 @@ select *
 select *
   from lispreg
  where nro_lista = 1;
-
 
 ------ PARA  CHOQUEHUANCA  LISTA DE PRECIOS  SOLES -- CON IGV ----
 select a.cod_lin, get_deslinea(a.cod_lin) as descri_linea, l.cod_art, a.peso_std as peso_kg

@@ -24,50 +24,11 @@ select a.*
 --SET L_REFBCO = NULL
 --SET L_CONDLE = 'EC', ESTADO =EC 2
  where numero in (
-                  '371357', '377159', '376789', '374820', '374819', '376788', '376338', '374088',
-                  '376317', '375365', '374861', '377089', '376018', '377639', '376259', '376718',
-                  '375842', '374459', '376639', '374457', '373231', '375527', '375283', '377311',
-                  '373454', '375328', '375693'
+                  '378263', '378772', '371665', '375705', '373943', '374001', '375225', '374092',
+                  '376341', '372836', '373236', '373237', '373235', '375829', '376374', '375330',
+                  '375224', '376131'
    )
-   and estado = '3';
-
-select a.*
-  from letras_envio a
---UPDATE LETRAS_ENVIO
---SET L_REFBCO = NULL
---SET L_CONDLE = 'EC', ESTADO =EC 2
- where numero in (
-                  '369844', '371330'
-   )
-   and estado = '3';
-
-select a.*
-  from letras_envio a
---UPDATE LETRAS_ENVIO
---SET L_REFBCO = NULL
---SET L_CONDLE = 'EC', ESTADO =EC 2
- where numero in (
-                  '364200', '368416', '366585', '367420', '366288', '366389', '362945', '362915',
-                  '363873', '366443', '363880', '359454', '362893', '362941', '368467', '361452',
-                  '363853', '363850', '367554', '367158', '368409', '365331', '365086', '366334',
-                  '343673', '365903', '367329'
-   )
-   and estado = '3'
-   and l_condle = 'CC';
-
--- PARA LIBERAR LETRAS WALTER ---- PARTE 2
--- SE BUSCA TODA LA PLANILLA PARA PODER VER SI ESTAN TODAS LAS LETRAS DE LA PLANILLA BUSCADA---
--- EN BASE A LOS DATGOS OBTENIDOS  EN LA PARTE 1 --
-select a.*
-  from letras_envio a
- where banco = '14'
-   and l_condle = 'CC'
-   and estado = 3
-----AND NRO_ENVIO = 1743
---AND FECHA_ENVIO = '18/OCT/2022'
---    and fecha_recepcion = to_date('17/07/2023', 'dd/mm/yyyy')
-   and fecha_pago = to_date('27/11/2023', 'dd/mm/yyyy');
-
+   and estado = '2';
 
 --- PARA LIBERAR LETRAS WALTER ---- PARTE 3 - FINAL --
 --- SE ACTUALIZA  SOLO 2 DATOS EN BASE A LA SIGUIENTE SITUACION

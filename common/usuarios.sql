@@ -2,7 +2,7 @@
 alter user jquispeb account unlock;
 
 
-alter user jgarcia account lock;
+alter user lsalcedo account lock;
 
 
 alter user pfalmaux002 identified by "EMPAQUE2024e%";
@@ -19,7 +19,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'UARMADO';
+ where username like '%NINAMANGO%';
 
 select *
   from dba_users
@@ -52,6 +52,11 @@ select s.owner as syn_owner
 select *
   from seccrus
  where co_usrusr = 'DNUNEZM';
+
+
+select *
+  from all_constraints
+ where constraint_name = 'PK_DESPACHO_GUIAS';
 
 
 select *
@@ -173,7 +178,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('CAMBIO_ESTADO_OA')
+ where usuario in ('SVARGAS')
  order by usuario, modulo;
 
 select *
@@ -188,7 +193,13 @@ select *
 
 select *
   from usuario_modulo
- where modulo = 'CAMBIO_TRX'
+ where modulo = 'AMONESTACION'
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where modulo = 'AMONESTACION'
+   and usuario = 'JCABEZAS'
  order by usuario, modulo;
 
 select *

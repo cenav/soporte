@@ -8,9 +8,9 @@ declare
   cursor cr_ot_anular is
     select *
       from ot_mantto
-     where id_tipo = 'PY'
-       and id_serie = 2
-       and id_numero = 728;
+     where id_tipo = 'VH'
+       and id_serie = 3
+       and id_numero = 197;
 
   cursor cr_activos_anular(p_tipo varchar2, p_serie number, p_numero number) is
     select *

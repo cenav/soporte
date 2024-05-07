@@ -11,7 +11,7 @@ declare
      where id_tipo = 'PY'
        and id_serie = 2
        and id_numero in (
-       512
+       873
        );
 
   function tiene_oc(

@@ -1,10 +1,9 @@
 select *
   from orden_de_compra
- where serie = 3
+ where serie = 1
    and num_ped in (
-   44675
+   85914
    );
-
 
 select *
   from itemord
@@ -167,8 +166,13 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = 'C4'
-   and numero = '145';
+ where id_vendedor = '21'
+   and numero = '179';
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '21'
+   and numero = '179';
 
 select * from gastos_de_viaje_motivos;
 
