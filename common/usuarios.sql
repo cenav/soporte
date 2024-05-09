@@ -5,9 +5,9 @@ alter user jquispeb account unlock;
 alter user lsalcedo account lock;
 
 
-alter user pfalmaux002 identified by "EMPAQUE2024e%";
+alter user cninamango identified by "pevisa.123";
 
-alter user mdiaz password expire;
+alter user cninamango password expire;
 
 
 grant select any table, insert any table, delete any table, update any table to asocial;
@@ -121,7 +121,11 @@ select *
 
 select *
   from usuarios
- where usuario = 'MDIAZ';
+ where usuario like '%VARGAS%';
+
+select *
+  from vw_personal
+ where nombre like '%VARGAS%';
 
 select distinct co_ctrctr
   from seccrus
@@ -873,3 +877,64 @@ create public synonym vw_seguimiento_bono for vw_seguimiento_bono;
 select name, line, text
   from dba_source
  where upper(text) like upper('%SUBPIEZA%');
+
+select s.id_serie
+     , s.descripcion
+     , s.nombre as encargado
+  from ot_mantto_serie s
+     , otm_serie_usuario u
+ where s.id_serie = u.id_serie
+   and s.id_tipo = u.id_tipo
+   and u.usuario = 'SVARGAS'
+   and u.id_tipo = :id_tipo
+ order by s.id_serie;
+
+
+select *
+  from otm_serie_usuario
+ where usuario = 'JVILLON';
+
+select *
+  from usuarios
+ where usuario = 'SVARGAS';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1137';
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '062';
+
+select *
+  from planilla10.personal
+ where encargado = '062';
+
+select *
+  from usuario_modulo
+ where modulo = 'VACACIONES';
+
+select * from usuario_modulo_alterno
+where id_modulo = 'VACACIONES';
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado
+     , per.f_ingreso
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :p_usuario and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :p_usuario and id_modulo = :modulo
+   ) or :p_usuario in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and per.situacion not in ('8', '9')
+ order by enc.nombre, per.apellido_paterno;

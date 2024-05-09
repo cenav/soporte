@@ -174,10 +174,11 @@ select *
 
 select *
   from vw_personal
-where nombre like '%MANGO%';
+ where nombre like '%MANGO%';
 
-select * from planilla10.personal
-where apellido_paterno like '%NINiwA%';
+select *
+  from planilla10.personal
+ where apellido_paterno like '%NINiwA%';
 
 select *
   from evaluacion
@@ -199,13 +200,23 @@ select sysdate from dual;
 
 select *
   from planilla10.tar_encarga
- where nombre like '%VILLON%';
+ where nombre like '%QUISPE%' or nombre like '%CONTRERAS%';
 
+select *
+  from planilla10.personal
+ where encargado = '034';
+
+update planilla10.personal
+   set encargado = '034'
+ where encargado = '048';
 
 select *
   from planilla10.personal
  where c_codigo in (
-                    'E42625', 'E1137', 'E1139'
+                    'E43034', 'E43262', 'E42956', 'E42840', 'E43242', 'E43082', 'E43254', 'E4034',
+                    'E42501', 'E41936', 'E42509', 'E42637', 'E42936', 'E41298', 'E42827', 'E43148',
+                    'E42567', 'E42171', 'E43253', 'E43313', 'E42077', 'E42381', 'E4918', 'E43204',
+                    'E43246', 'E42088', 'E42519', 'E43297'
    );
 
 declare

@@ -1,16 +1,18 @@
 select *
   from orden_de_compra
- where serie = 1
+ where serie = 20
    and num_ped in (
-   85914
+   1159
    );
+
 
 select *
   from itemord
- where serie = 3
+ where serie = 20
    and num_ped in (
-   44123
+   1159
    );
+
 
 select *
   from orden_de_compra
