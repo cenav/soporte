@@ -123,3 +123,42 @@ select *
   from orden_de_compra
  where num_ped = 44585
    and serie = 3;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like 'MQ1PJEB-040-3%';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like 'MQ1PJEB-040 3%';
+
+select *
+  from pr_tabmaq
+ where codigo like 'MQ1PJEB-038-1%';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo like 'MQ1PJEB-038 1%';
+
+select *
+  from pr_tabmaq
+ where codigo = 'MQ1PJEB-038 1A';
+
+insert into pevisa.pr_tabmaq ( codigo, descripcion, fecha_fabricacion, numero_serie, id_tipo, estado
+                             , centro_costo, id_seccion, id_modelo, id_marca, local
+                             , fecha_adquisicion, id_pais, consumo_energia, consumo_energia_unidad
+                             , capacidad, alto, largo, ancho, peso, num_importa, linea_maquina
+                             , abreviatura, cod_padre, id_seccion_prod, id_prioridad, observaciones)
+values ( 'MQ1PJEB-038 1A', 'PRENSA CUADRUPLE PAN STONE 1A', date '2024-05-21', null, null, null
+       , '9002', 'C1', null, null, 'SEP', date '2024-05-21', null, null, 'kW', null, null, null
+       , null, null, null, null, 'PRENSA PAN STONE 1A', null, '01', 'S', null);
+
+select *
+  from pr_tabmaq
+ where codigo = 'MQ1PJEB-038 1A';
+
+select cod_activo_fijo, detalle from tmp_carga_data;
+
+select *
+  from caja
+ where id_numero = 160;

@@ -1587,3 +1587,5 @@ select *
  where numero = 63129;
 
 select sysdate from dual;
+
+select * from exproforma_d_aprobar;

@@ -1,16 +1,16 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 0
-   and libro = '05'
-   and voucher = 16;
+   and mes = 4
+   and libro = '40'
+   and voucher = 40001;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 0
-   and libro = '05'
-   and voucher = 33004;
+   and mes = 4
+   and libro = '40'
+   and voucher = 40001;
 
 select *
   from movdeta

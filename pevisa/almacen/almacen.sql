@@ -1127,3 +1127,100 @@ select *
    )
    and cod_alm in ('03', '24')
  order by cod_art;
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 739551;
+
+select *
+  from kardex_d
+ where cod_art = 'R-AGM L3-N'
+   and fch_transac = to_date('24/04/2024', 'dd/mm/yyyy');
+
+-- ingreso_baterias_armadas
+select g.cod_alm, g.tp_transac, g.serie, g.numero, g.fch_transac, g.numero_pguia as orden
+     , d.cod_art, d.cantidad
+  from kardex_g g
+       join kardex_d d
+            on g.cod_alm = d.cod_alm
+              and g.tp_transac = d.tp_transac
+              and g.serie = d.serie
+              and g.numero = d.numero
+ where g.tipo_pguia = 'FC'
+   and g.estado != '9'
+   and g.numero_pguia in (
+                          380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 397, 398, 399,
+                          400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410
+   );
+
+select *
+  from kardex_g
+ where cod_alm = 'FT'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1791771;
+
+select *
+  from kardex_g
+ where cod_alm = 'FT'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1791771;
+
+select *
+  from kardex_d
+ where cod_alm = 'FJ'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1789406;
+
+select *
+  from kardex_d
+ where cod_alm = 'FT'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1791771;
+
+select *
+  from numdoc
+ where tp_transac = '29'
+   and serie = 1;
+
+select *
+  from numdoc
+ where tp_transac = '27'
+   and serie = 1;
+
+select *
+  from kardex_g
+ where tp_transac = '27'
+   and serie = 1
+   and extract(year from fch_transac) = 2024
+ order by numero desc;
+
+select * from tmp_carga_data;
+
+select *
+  from kardex_g g
+ where exists(
+   select 1
+     from tmp_carga_data t
+    where g.cod_alm = t.cod_alm
+      and g.tp_transac = t.tp_transac
+      and g.serie = t.serie
+      and g.numero = t.numero
+   );
+
+select *
+  from kardex_d g
+ where exists(
+   select 1
+     from tmp_carga_data t
+    where g.cod_alm = t.cod_alm
+      and g.tp_transac = t.tp_transac
+      and g.serie = t.serie
+      and g.numero = t.numero
+   );

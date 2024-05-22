@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'ALVITES'
+ where apellido_paterno = 'SOTOMAYOR'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -17,7 +17,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1138';
+   and c_codigo = 'E1148';
 
 select *
   from planilla10.t_cargo
@@ -34,8 +34,12 @@ select *
 select *
   from planilla10.vw_utilidades_correos;
 
+select *
+  from proceso_puntualidad
+ order by id_proceso desc;
+
 begin
-  puntualidad.automatico(2023, 4);
+  puntualidad.automatico(2024, 4);
 end;
 
 select * from planilla10.plcontrol;
@@ -233,3 +237,7 @@ begin
   end loop;
   dbms_output.put_line(i);
 end;
+
+select * from estado_accidente;
+
+select * from accidente;

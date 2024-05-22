@@ -105,8 +105,24 @@ select *
 
 select *
   from transporte
- where cod_transp = '20601550327';
+ where cod_transp = '20602853901';
 
+
+select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.direccion, u.cod_ubc
+     , u.nom_dpt, u.nom_pvc, u.nom_dtt, u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+  from ubigeo u
+     , sucursales s
+     , clientes c
+ where s.cod_cliente = c.cod_cliente
+   and u.nacional_internacional = 'N'
+   and s.cod_ubc = u.cod_ubc
+   and nvl(s.estado, 0) < 9
+   and c.cod_cliente = '20602853901'
+ order by c.cod_cliente, s.nro_sucur;
+
+select *
+  from sucursales
+ where cod_cliente = '20602853901';
 
 select *
   from kardex_d
@@ -461,3 +477,30 @@ select *
   from numdoc
  where tp_transac = '21'
    and serie = 25;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T182'
+   and guia_numero = 53;
+
+insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
+                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
+                                          , tp_transac, serie, numero, motivo_traslado
+                                          , transporte_empresa, transporte_chofer, transporte_unidad
+                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
+                                          , modalidad_traslado, detalle, contenedor, precinto
+                                          , numero_documento_relacionado
+                                          , codigo_documento_relacionado
+                                          , descri_documento_relacionado, peso_items, pk_serie
+                                          , pk_numero, pk_tipo, ruc_llegada
+                                          , descripcion_motivo_traslado
+                                          , codigo_establecimiento_partida
+                                          , codigo_establecimiento_llegada, fecha_emision
+                                          , precinto_linea, carreta, marca_1, cartones, marca_2
+                                          , marca_3)
+values ( 'T182', 53, date '0024-05-17', '150103', '150117'
+       , 'PJ. 16 MZA. O2 LOTE. 06 A.H. SAN ALBERTO LIMA - LIMA - LOS OLIVO', '20100084768', '99'
+       , 'T182', 999, 53, '17', '20100084768', '03', '20', 1.00, 200.0000, '04', '00', '02'
+       , 'SERVICIO DE CROMADO', null, null, null, null, null, null, null, null, null, '20566319412'
+       , 'Traslado de bienes para transf', '0011', '0000', timestamp '2024-05-16 18:13:27', null
+       , null, null, null, null, null);

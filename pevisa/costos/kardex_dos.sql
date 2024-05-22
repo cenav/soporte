@@ -61,11 +61,8 @@ select *
 
 select *
   from tmp_moviart_dos
- where ano = 2023
-   and mes in (9)
-   and id = 'I'
-   and docto like 'SN%';
-
+ where ano = 2024
+   and mes in (4);
 
 update tmp_moviart_dos
    set libro   = '05'
@@ -819,3 +816,15 @@ select *
  where ano = 2024
    and mes = 1
    and id = 'I';
+
+select *
+  from tmp_carga_data;
+
+-- 37	18 	2 	574885
+-- 32	29	1	1795946
+-- 30	18	2	574886
+-- 32	29	1	1795947
+-- 32	29	1	1795947
+-- 32	29	1	1795946
+-- 37	18	2	574885
+-- 38	18	2	574886

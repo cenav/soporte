@@ -1,7 +1,7 @@
 begin
-  pkg_cominac.genera_contrato(2024, 2, 'S', 44, 'SI');
--- pkg_cominac.genera_periodo(2022, 5, 'S');
--- pkg_cominac.elimina_periodo(2023, 2);
+  --   pkg_cominac.genera_contrato(2024, 2, 'S', 44, 'SI');
+  pkg_cominac.genera_periodo(2024, 4, 'S');
+  -- pkg_cominac.elimina_periodo(2023, 2);
 -- pkg_cominac.elimina_proceso(2087);
 end;
 
@@ -297,3 +297,11 @@ select *
 select *
   from cambdol
  where fecha = to_date('29/02/2024', 'dd/mm/yyyy');
+
+select *
+  from error_log
+ order by id_log desc;
+
+select * from cominac_calculo;
+
+select * from cominac_tipo_cuota;

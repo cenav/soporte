@@ -124,3 +124,5 @@ select *
 select *
   from cotizacion
  where num_ped = 196362;
+
+select * from planilla10.personal;

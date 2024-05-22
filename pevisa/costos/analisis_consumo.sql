@@ -5,7 +5,7 @@ end;
 select *
   from analisis_consumo
  where ano = 2024
-   and mes = 3;
+   and mes = 4;
 
 select *
   from logger_logs
@@ -92,7 +92,7 @@ select ot.nuot_tipoot_codigo as tipo_ot
    and extract(year from kx.fch_transac) = 2023
    and extract(month from kx.fch_transac) = 6
    and ot.numero in (
-  465601
+   465601
    )
 --    and otd.art_cod_art in ('180.653NY')
  group by extract(year from kx.fch_transac), extract(month from kx.fch_transac)
@@ -130,3 +130,10 @@ select nvl(sum(d.cantidad), 0)
    and d.cod_art = 'BOLSA P1822'
    and extract(year from d.fch_transac) = 2023
    and extract(month from d.fch_transac) = 6;
+
+select *
+  from kardex_d
+ where extract(year from fch_transac) = 2024
+   and extract(month from fch_transac) = 4
+   and tp_transac = '24'
+   and cantidad = 0;

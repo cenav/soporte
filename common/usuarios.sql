@@ -1,25 +1,20 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user jquispeb account unlock;
-
+alter user pevisa account unlock;
 
 alter user lsalcedo account lock;
 
-
-alter user cninamango identified by "pevisa.123";
+alter user jsotomayor identified by "clw$4kz";
 
 alter user cninamango password expire;
 
-
 grant select any table, insert any table, delete any table, update any table to asocial;
 
-
 alter user uarmado profile default;
-
 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%NINAMANGO%';
+ where username like '%VREYMUNDO%';
 
 select *
   from dba_users
@@ -53,7 +48,6 @@ select *
   from seccrus
  where co_usrusr = 'DNUNEZM';
 
-
 select *
   from all_constraints
  where constraint_name = 'PK_DESPACHO_GUIAS';
@@ -72,7 +66,7 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%PEDIDOS NO APROBADOS%')
+ where upper(text) like upper('%NEXT_KEY%')
    and owner = 'PEVISA';
 
 select *
@@ -182,22 +176,25 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('SVARGAS')
+ where usuario in ('JSOTOMAYOR')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario in ('JCABEZAS')
+ where usuario in ('ICATALAN')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario = 'PEVISA'
+ where usuario = 'DTIRAVANTI'
  order by modulo;
 
-select *
+insert into usuario_modulo(usuario, modulo, maestro, supermaestro)
+select 'JSOTOMAYOR', modulo, maestro, supermaestro
   from usuario_modulo
- where modulo = 'AMONESTACION'
+ where modulo in ('AMONESTACION', 'PERMISO', 'VACACIONES', 'MATRIZ_PERSONAL', 'EVALUACION',
+                  'EVALIACION_PENDIENTE')
+   and usuario = 'DCONTRERAS'
  order by usuario, modulo;
 
 select *
@@ -914,8 +911,9 @@ select *
   from usuario_modulo
  where modulo = 'VACACIONES';
 
-select * from usuario_modulo_alterno
-where id_modulo = 'VACACIONES';
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'VACACIONES';
 
 select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
      , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado

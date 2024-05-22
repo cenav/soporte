@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  542815, 544698, 522998
+   551570
    );
 
 -- op cerradas
@@ -749,3 +749,19 @@ select *
 select *
   from estado_vacaciones
  order by id_estado;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'PR';
+
+select * from tipo_linea;
+
+select *
+  from tab_lineas_tipo_linea
+ where cod_tipo = 3;
+
+-- cavidades
+select dsc_grupo, cod_art, cod_lin, cavidades
+  from vw_articulo
+ where dsc_grupo = 'JEBE'
+   and cod_lin <> 'ZZ';

@@ -1,18 +1,16 @@
 select *
   from orden_de_compra
- where serie = 20
+ where serie = 30
    and num_ped in (
-   1159
+   638
    );
-
 
 select *
   from itemord
- where serie = 20
+ where serie = 30
    and num_ped in (
-   1159
+   638
    );
-
 
 select *
   from orden_de_compra
@@ -45,9 +43,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 22
+ where serie = 30
    and num_ped in (
-   373
+   638
    )
    and glosa = 'APROBADO';
 
@@ -109,13 +107,13 @@ select *
 
 select *
   from caja_chica
- where serie = 7
-   and numero in (24014);
+ where serie = 2
+   and numero in (240047);
 
 select *
   from caja_chica_d
  where serie = 1
-   and numero in (23355);
+   and numero in (240074);
 
 select *
   from caja_chica_d
@@ -722,3 +720,4 @@ select *
   from itemord
  where serie = 30
    and num_ped = 587;
+

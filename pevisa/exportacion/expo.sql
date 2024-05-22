@@ -126,6 +126,13 @@ select *
    and numero = '21527';
 
 select *
+  from factcob
+ where tipdoc = 'LV'
+   and numero in (
+                  22867, 22868, 22869, 22870, 22871, 22872, 22873, 22874, 22875, 22876, 22877, 22878
+   );
+
+select *
   from tab_lineas
  where descripcion like '%HANKOOK%';
 

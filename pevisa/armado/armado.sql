@@ -645,7 +645,6 @@ select nvl(sum(stock), 0) as stock_d3
  where cod_art = '400.906'
    and cod_alm = '03';
 
-
 select j.ranking, j.cod_cliente, j.nom_cliente, p.nro_pedido, p.itm_pedido, j.fch_pedido, j.ot_tipo
      , j.ot_serie, j.ot_numero, j.ot_estado, j.cod_jgo, j.valor, j.es_juego, j.tiene_importado
      , j.impreso, j.fch_impresion, j.tiene_stock_ot, p.cod_pza, p.cantidad, p.cant_final
@@ -660,3 +659,7 @@ select j.ranking, j.cod_cliente, j.nom_cliente, p.nro_pedido, p.itm_pedido, j.fc
   from tmp_surte_jgo j
        join tmp_surte_pza p on j.nro_pedido = p.nro_pedido and j.itm_pedido = p.itm_pedido
        left join color_surtimiento c on p.id_color = c.id_color;
+
+select *
+  from pr_estadistica_armado_d
+ where usuario = 'PEVISA';

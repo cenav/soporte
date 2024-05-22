@@ -8,7 +8,6 @@ select *
  where periodo_ano = 2024
    and periodo_mes = 4;
 
-
 declare
   c_ano constant pls_integer := 2024;
   c_mes constant pls_integer := 4;

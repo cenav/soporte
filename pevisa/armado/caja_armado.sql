@@ -25,9 +25,6 @@ select *
   from produccion_armado_cajas
  where cod_caja = 317085;
 
-select *
+select id_linea_prod
   from produccion_armado
- where abrev_ped = 15852;
-
-select cod_local, descripcion, estado, direccion
-  from locales;
+ where numero_oa = 1042842;
