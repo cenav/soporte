@@ -1,5 +1,5 @@
 select numero_oa, formu_art_cod_art, estado, abrev_cli, abrev_ped, dato_agrupa
-     , get_dato_agrupacion_ot(numero_oa) as xxx
+     , get_dato_agrupacion_ot(numero_oa) as nuevo_dato_agrupa
   from produccion_armado
  where abrev_ped = (:NUMERO_PEDIDO);
 

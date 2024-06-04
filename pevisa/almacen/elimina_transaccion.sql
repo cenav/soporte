@@ -1,11 +1,11 @@
 declare
   -- Anula transacciones masivo
-  l_total simple_integer := 0;
+  l_total_g simple_integer := 0;
+  l_total_d simple_integer := 0;
 
   cursor trx is
     select cod_alm, tp_transac, serie, numero
-      from tmp_carga_data
-     where cod_alm in ('37');
+      from tmp_carga_data;
 --     select *
 --       from kardex_g
 --      where cod_alm = '37'
@@ -22,7 +22,7 @@ begin
        and serie = r.serie
        and numero = r.numero;
 
-    l_total := l_total + sql%rowcount;
+    l_total_g := l_total_g + sql%rowcount;
 
     delete
       from kardex_d
@@ -31,8 +31,12 @@ begin
        and serie = r.serie
        and numero = r.numero;
 
-    l_total := l_total + sql%rowcount;
+    l_total_d := l_total_d + sql%rowcount;
   end loop;
 
-  dbms_output.put_line('total eliminado >>>>> ' || l_total);
+  dbms_output.put_line('total eliminado kardex_g >>>>> ' || l_total_g);
+  dbms_output.put_line('total eliminado kardex_d >>>>> ' || l_total_d);
 end;
+
+select cod_alm, tp_transac, serie, numero
+  from tmp_carga_data;

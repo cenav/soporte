@@ -117,9 +117,9 @@ select *
 
 select *
   from movfide_situacion_banco
- where p_ano = 2023
+ where p_ano = 2024
    and p_mes = 4
-   and cta_cte_banco = '191-1200848-1-86';
+   and cta_cte_banco = '191-1402867-0-72';
 
 select *
   from prestamo_banco_cuota

@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user pevisa account unlock;
+alter user mmiranda account unlock;
 
 alter user lsalcedo account lock;
 
-alter user jsotomayor identified by "clw$4kz";
+alter user mmiranda identified by "mamalucy9+";
 
 alter user cninamango password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%VREYMUNDO%';
+ where username like 'HENRIQUEZ';
 
 select *
   from dba_users
@@ -936,3 +936,8 @@ select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombre
    ))
    and per.situacion not in ('8', '9')
  order by enc.nombre, per.apellido_paterno;
+
+select *
+  from usuario_modulo
+ where modulo = 'EVALUACION'
+   and usuario in ('JACUNA', 'SVARGAS', 'JVILLON');

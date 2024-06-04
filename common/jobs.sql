@@ -39,14 +39,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_PIEZAS_DESARROLLO'
+      job_name => 'JOB_FECHA_EMBARQUE_PROG'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'piezas_desarrollo_retail_xls.listado'
-    , start_date => timestamp '2024-04-20 11:10:00 -5:00'
-    , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=20'
+    , job_action => 'pkg_fechaembarqueprog.envia_correo_prog'
+    , start_date => timestamp '2024-05-27 06:00:00 -5:00'
+    , repeat_interval => 'FREQ=DAILY'
     , auto_drop => false
     , enabled => true
-    , comments => 'Reporte de piezas en desarrollo'
+    , comments => 'aviso fecha de embarque programado'
   );
 end;
 

@@ -1,15 +1,15 @@
 select *
   from orden_de_compra
- where serie = 30
+ where serie = 4
    and num_ped in (
-   638
+   62350
    );
 
 select *
   from itemord
- where serie = 30
+ where serie = 1
    and num_ped in (
-   638
+   85953
    );
 
 select *
@@ -23,7 +23,7 @@ select *
 
 select *
   from proveed
- where cod_proveed = '10714436894';
+ where cod_proveed = '20509196681';
 
 select *
   from proveed

@@ -11,7 +11,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado_cajas_his
- where cod_caja = '275747'
+ where cod_caja = '315533'
  order by estado;
 
 --::::::::::::::::::::::::::::--
@@ -19,11 +19,15 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1042842;
+ where numero_oa = 1040291;
 
 select *
   from produccion_armado_cajas
- where cod_caja = 317085;
+ where cod_caja = 315533;
+
+select *
+  from produccion_armado_cajas_det
+ where cod_caja = 315533;
 
 select id_linea_prod
   from produccion_armado

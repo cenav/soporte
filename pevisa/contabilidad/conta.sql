@@ -162,3 +162,24 @@ select cod_activo_fijo, detalle from tmp_carga_data;
 select *
   from caja
  where id_numero = 160;
+
+select *
+  from factcob
+ where tipdoc = 'LV'
+   and numero in (
+                  22785, 22786, 22787
+   );
+
+-- PRIMER VCTO. 15/06/2024
+-- SEGUNDO VCTO. 15/07/2024
+-- TERCER VCTO. 14/08/2024.
+
+select * from ruta_docvirtual;
+
+select * from doc_sunat_xml;
+
+select * from doc_sunat_xml_det;
+
+select *
+  from caja_chica_serie
+ where id_serie = 2;

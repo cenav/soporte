@@ -25,7 +25,6 @@ begin
   end loop;
 end;
 
-
 -- emite standard
 declare
   l_ordenes api_pr_ot.aat;
@@ -66,10 +65,36 @@ begin
   end loop;
 end;
 
-select rpad('codigo', 10) || rpad('300', 10) || rpad('155979', 10)
-  from dual;
+-- listado de nro de ordenes emitidas
+select a.dsc_grupo, o.numero as numero_op, o.formu_art_cod_art as codigo, o.cant_prog as cantidad
+  from pr_ot o
+       join pr_trasab_estado e
+            on o.nuot_tipoot_codigo = e.tipo
+              and o.nuot_serie = e.serie
+              and o.numero = e.numero
+       join vw_articulo a on o.formu_art_cod_art = a.cod_art
+ where trunc(e.fecha) = to_date('30/05/2024', 'dd/mm/yyyy')
+   and e.usuario = 'PEVISA'
+   and e.t1 = '25.0.3.33'
+   and e.estado = 1
+ order by a.dsc_grupo;
+
+-- ordenes caucho abril no impresas
+select a.dsc_grupo, o.numero, o.formu_art_cod_art, o.fecha, o.cod_lin, o.cant_prog
+  from pr_ot o
+       join vw_articulo a on o.formu_art_cod_art = a.cod_art
+ where o.nuot_tipoot_codigo = 'PR'
+   and to_char(o.fecha, 'yyyymm') = '202404'
+   and not exists(
+   select 1
+     from pr_ot_impresion i
+    where i.nuot_tipoot_codigo = o.nuot_tipoot_codigo
+      and i.nuot_serie = o.nuot_serie
+      and i.numero = o.numero
+   )
+   and a.id_grupo = '06';
 
 select *
-  from pr_ot
+  from pr_ot_impresion
  where nuot_tipoot_codigo = 'PR'
-   and formu_art_cod_art = 'FOR3001A';
+   and numero = 558338;

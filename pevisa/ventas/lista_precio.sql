@@ -75,3 +75,13 @@ select *
 select * from categoria;
 
 select * from clientes_categoria;
+
+select * from tab_lineas where linea = '253';
+
+select * from lpred_fam where cod_lin = '114';
+select * from lpred_fam where cod_lin = '253';
+select cod_lin from articul where cod_lin = '253';
+select * from tab_lineas where linea = '253';
+select * from tab_lineas where descripcion like '%BOSCH%' order by linea;
+select * from lpred_fam;
+select * from lista_de_precios;

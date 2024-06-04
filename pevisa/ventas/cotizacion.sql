@@ -70,8 +70,8 @@ select *
 
 select *
   from pedido
- where serie = 23
-   and num_ped = 1899;
+ where serie = 20
+   and num_ped = 244658;
 
 select *
   from itemped
@@ -80,21 +80,17 @@ select *
 
 select *
   from cotizacion
- where serie = 21
-   and num_ped = 207785;
-
-select *
-  from itemcot
- where serie = 21
-   and num_ped = 456;
+ where refe_pedido = 244658;
 
 select *
   from cotizacion
- where num_ped = 201502;
+ where serie = 20
+   and num_ped = 222725;
 
 select *
   from itemcot
- where num_ped = 201502;
+ where serie = 20
+   and num_ped = 222725;
 
 select c.serie, c.num_ped as cotiza, c.fecha, c.estado, c.cod_cliente, c.nombre, c.cod_vende
      , v.abreviada, c.refe_pedido, c.moneda, nvl(p.estado, 'x') as estado_pedi, c.cond_pag
@@ -252,3 +248,97 @@ select *
  where num_ped in (
                    210416, 210573, 210581, 210582, 210497, 210497, 210550, 210553
    );
+
+select * from planilla10.t_area;
+
+select *
+  from articul
+ where cod_art = 'SOL 801';
+
+select f.formu_art_cod_art
+     , listagg(f.art_cod_art, ' | ') within group (order by f.art_cod_art) as art_cod_art
+  from pr_for_ins f
+       join articul a on f.art_cod_art = a.cod_art
+ where (a.cod_lin in ('1601', '2004', '2005') or
+        (a.cod_lin between '1620' and '1634') or
+        (a.cod_lin between '2010' and '2019'))
+   and length(a.cod_lin) = 4
+   and f.formu_art_cod_art = 'CL-O MET 380.679'
+ group by f.formu_art_cod_art;
+
+select f.formu_art_cod_art
+     , listagg(f.art_cod_art, ' | ') within group (order by f.art_cod_art) as art_cod_art
+     , listagg(round(c.consumo_anual), ' | ')
+               within group (order by c.consumo_anual) as consumo_anual_material
+  from pr_for_ins f
+       join articul a on f.art_cod_art = a.cod_art
+       join vw_articulo_consumo c on f.art_cod_art = c.cod_art
+ where (a.cod_lin in ('1601', '2004', '2005') or
+        (a.cod_lin between '1620' and '1634') or
+        (a.cod_lin between '2010' and '2019'))
+   and length(a.cod_lin) = 4
+   and f.formu_art_cod_art = 'CL-O MET 380.679'
+ group by f.formu_art_cod_art;
+
+select *
+  from vw_articulo_consumo
+ where cod_art = 'LAF 1.0-1219-2438GZ';
+
+select *
+  from vw_articulo
+ where cod_art in ('0281006059', '0281006061', '0280130129');
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as linea
+     , l.cod_grupo as grupo, v.importe as precio, pr_medpza as cod_ing, t.grupo_venta
+  from articul a
+     , tab_descuento_gpolin l
+     , lispred v
+     , lispreg g
+     , tab_lineas t
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.cod_linea = a.cod_lin
+   and l.cod_grupo is not null
+   and g.nro_lista = :nro_lista
+   and l.moneda = g.moneda
+   and v.cod_art = a.cod_art
+   and v.nro_lista = g.nro_lista
+   and t.linea = l.cod_linea
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and a.cod_art in ('0281006059', '0281006061', '0280130129')
+ order by l.cod_grupo, a.cod_art;
+
+select *
+  from lispred
+ where cod_art = '0281006059';
+
+select *
+  from lispreg
+ where nro_lista = 1;
+
+select *
+  from tab_descuento_gpolin
+ where cod_linea = '269';
+
+select *
+  from almacen
+ where cod_art = '0281006059';
+
+select *
+  from tab_grupos
+ where grupo = 27;
+
+select *
+  from tab_lineas
+ where grupo = 27;
+
+select *
+  from tab_lineas
+ where linea = '269';
+
+select *
+  from tab_grupos
+ where grupo = 42;
+
+select * from grupo_venta;

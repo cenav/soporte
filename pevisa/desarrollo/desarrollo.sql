@@ -120,9 +120,13 @@ select *
   from cambdol
  where fecha = to_date('24/03/2024', 'dd/mm/yyyy');
 
-
 select *
   from cotizacion
  where num_ped = 196362;
 
 select * from planilla10.personal;
+
+select * from ot_mantto;
+
+alter table ot_mantto
+  add fecha_cierre_mantto date;

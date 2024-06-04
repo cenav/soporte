@@ -171,13 +171,38 @@ select *
    and serie = 118
    and numero in (88, 89, 90);
 
-select *
+select packing_agrupar
   from expedidos
  where numero in (
-                  16156, 16157
+                  16305, 16306
    );
 
-select * from packing_agrupar;
+select *
+  from expedidos
+ where numero = 16331;
+
+
+select *
+  from expedido_d
+ where numero = 16331
+   and cod_art = 'KIT AUT JD 87862-2';
+
+select *
+  from pr_ot
+ where abre01 = 16331
+   and numero = 1040291;
+
+select *
+  from pr_ot
+ where abre01 = '16331'
+   and per_env = '166';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+and ot_numero = 1040291;
+
+select codigo, descripcion from packing_agrupar;
 
 select cod_cliente, nombre, ruc, lista_precio, vendedor, cond_pag, dscto_1, dscto_2, cliente_afecto
      , dscto_max, nivel_cp, direccion
@@ -615,3 +640,7 @@ select *
                   55017863, 55017864, 55017865, 55017866, 55017867, 55017868, 55017869, 55017870,
                   55017871, 55017872, 55017873, 55017874, 55017875, 55017876, 55017877
    );
+
+select * from view_prodterm_paletas;
+
+select * from tmp_carga_data;

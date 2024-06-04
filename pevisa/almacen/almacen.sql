@@ -1224,3 +1224,42 @@ select *
       and g.serie = t.serie
       and g.numero = t.numero
    );
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '15'
+   and serie = 1
+   and numero = 1911;
+
+select *
+  from kardex_d_historia
+ where cod_alm = 'F0'
+   and tp_transac = '15'
+   and serie = 1
+   and numero = 1911;
+
+insert into kardex_g( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
+                    , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
+                    , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
+                    , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
+                    , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
+                    , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+                    , pr_numped)
+values ( xcod_alm, :PR_WKTRANG.tp_transac_sal, :PR_WKTRANG.serie_sal, numero_sal, :PR_WKTRANG.fecha
+       , null, null, null, 'TRANSFERENCIA ' || :PR_WKTRANG.boleta, null, null, null, null, 1, null
+       , null, null, 0, 0, '1', '0', 'D', 'S', '0', null, null, null, null, null, null, null, 0, 0
+       , 0, null, null, 0, :PR_WKTRANG.boleta, null, null, null, null, 0);
+
+
+insert into kardex_g( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
+                    , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
+                    , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
+                    , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
+                    , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
+                    , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+                    , pr_numped)
+values ( xcod_alm, :PR_WKTRANG.tp_transac_ing, :PR_WKTRANG.serie_ing, numero_ing, :PR_WKTRANG.fecha
+       , null, null, null, 'TRANSFERENCIA ' || :PR_WKTRANG.boleta, null, null, null, null, 1, null
+       , null, null, 0, 0, '0', '0', 'D', 'I', '0', null, null, null, null, null, null, null, 0, 0
+       , 0, null, null, 0, :PR_WKTRANG.boleta, null, null, null, null, 0);

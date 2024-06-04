@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'SOTOMAYOR'
+ where apellido_paterno = 'REYMUNDO'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -17,7 +17,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1148';
+   and c_codigo = 'E1145';
 
 select *
   from planilla10.t_cargo
@@ -58,7 +58,11 @@ select *
 
 select *
   from evaluacion
- where id_evaluacion = 8022;
+ where id_evaluacion in (8466, 8480);
+
+select * from estado_evaluacion;
+
+select * from estado_evaluacion;
 
 select *
   from usuario_modulo

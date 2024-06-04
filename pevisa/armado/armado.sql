@@ -2,7 +2,14 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   1042842
+                  1048114, 1048132
+   );
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+   and ot_numero in (
+   1040005
    );
 
 -- select * from prot;
@@ -11,14 +18,26 @@ select *
   from pr_trasab_estado
  where tipo = 'AR'
    and numero in (
-   102811
+   1050925
    )
  order by fecha desc;
 
 select *
-  from pr_ot_det
- where ot_nuot_tipoot_codigo = 'AR'
-   and ot_numero = 1007861;
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and estado is null;
+
+select *
+  from pr_ot
+ where estado is null;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+   1050925
+   );
 
 select *
   from pr_ot
@@ -663,3 +682,4 @@ select j.ranking, j.cod_cliente, j.nom_cliente, p.nro_pedido, p.itm_pedido, j.fc
 select *
   from pr_estadistica_armado_d
  where usuario = 'PEVISA';
+
