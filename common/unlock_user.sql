@@ -1,12 +1,11 @@
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'GFALCON';
+ where username like 'APASTRANA';
 
 
 -- desbloquear usuario
 declare
-  l_usuario varchar2(30) := 'GFALCON';
+  l_usuario varchar2(30) := 'APASTRANA';
 begin
   execute immediate 'alter user ' || l_usuario || ' account unlock';
 end;
-

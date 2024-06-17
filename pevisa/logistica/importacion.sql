@@ -117,3 +117,55 @@ select *
   from itemord
  where serie = 1
    and num_ped = 83969;
+
+select *
+  from pcarticul
+ where cod_art in (
+                   'MOLDE 380.1001-2-1L', 'MOLDE 380.234-2', 'MOLDE 380.753-2',
+                   'MOLDE 380.768-2-1L', 'MOLDE 380.930SIL-2-1L', 'MOLDE 380.994-2',
+                   'MOLDE 380.995-2', 'MOLDE 400.2259', 'MOLDE 400.2795', 'MOLDE 400.3265',
+                   'MOLDE 400.3309SIL'
+   );
+
+select *
+  from articul
+ where cod_art in (
+                   'MOLDE 380.1001-2-1L', 'MOLDE 380.234-2', 'MOLDE 380.753-2',
+                   'MOLDE 380.768-2-1L', 'MOLDE 380.930SIL-2-1L', 'MOLDE 380.994-2',
+                   'MOLDE 380.995-2', 'MOLDE 400.2259', 'MOLDE 400.2795', 'MOLDE 400.3265',
+                   'MOLDE 400.3309SIL'
+   );
+
+select *
+  from lg_itemjam
+ where cod_art in (
+                   'MOLDE 380.1001-2-1L', 'MOLDE 380.234-2', 'MOLDE 380.753-2',
+                   'MOLDE 380.768-2-1L', 'MOLDE 380.930SIL-2-1L', 'MOLDE 380.994-2',
+                   'MOLDE 380.995-2', 'MOLDE 400.2259', 'MOLDE 400.2795', 'MOLDE 400.3265',
+                   'MOLDE 400.3309SIL'
+   );
+
+select *
+  from lg_pedjam
+ where num_importa in (
+                       'PM23062', 'PM24001'
+   );
+
+select *
+  from lg_itemjam
+ where num_importa in (
+                       'PM23062', 'PM24001'
+   );
+
+select *
+  from embarques_d
+ where num_importa = 'PM24001';
+
+select * from lg_factura_comercial;
+
+select *
+  from docuvent_cierre
+ where ano_cierre = 2024
+   and mes_cierre = 5;
+
+select * from paramin;

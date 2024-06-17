@@ -784,9 +784,13 @@ select *
    and voucher = 120138;
 
 select *
-  from comisiones_planilla as of timestamp to_timestamp('25-03-2024 08:30:00',
-                                                        'DD-MM-YYYY HH24:MI:SS')
+  from comisiones_planilla as of timestamp to_timestamp('25-03-2024 08:30:00', 'DD-MM-YYYY HH24:MI:SS')
  where ano = 2024
    and mes = 2
    and cod_personal = 'E420';
+
+select *
+  from kardex_g_guia_remision as of timestamp to_timestamp('05-06-2024 17:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where guia_serie = 'T001'
+   and guia_numero = 20897;
 

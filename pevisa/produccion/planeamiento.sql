@@ -71,7 +71,6 @@ select *
   from vw_articulo
  where cod_art = '400.2438';
 
-
 -- query hoja de items
 select ranking, nom_cliente, nro_pedido, itm_pedido, ot_numero, cod_jgo, valor, valor_surtir
      , es_juego, tiene_importado
@@ -86,3 +85,83 @@ select * from tipo_linea;
 select *
   from tab_lineas_tipo_linea
  where cod_tipo = 2;
+
+select nvl(sum(cant_prog), 0) as stock_oa_impresa
+  from vw_ordenes_impresas_embalaje
+ where formu_art_cod_art = 'CAJA 250.525/45 KRF';
+
+
+create view vw_analisis_embalaje as
+  with stock_art as (
+    select cod_art, sum(stock) as stock
+      from almacen
+     where cod_alm in ('06')
+     group by cod_art
+    )
+     , orden_impresa as (
+    select formu_art_cod_art, nvl(sum(cant_prog), 0) as stock_orden_impresa
+      from vw_ordenes_impresas_embalaje
+     group by formu_art_cod_art
+    )
+select m.cod_art
+     , listagg(f.cod_for, ' | ') within group (order by f.cod_for) as tipo_embalaje
+     , listagg(f.canti, ' | ') within group (order by f.canti) as rendimiento
+     , listagg(s.stock, ' | ') within group (order by s.stock) as stock_06
+     , listagg(nvl(i.stock_orden_impresa, 0), ' | ')
+               within group (order by i.stock_orden_impresa) as stock_orden_impresa
+  from pcmasters m
+       join pcformulas f on m.cod_art = f.cod_art
+       join articul a on a.cod_art = f.cod_for
+       left join stock_art s on f.cod_for = s.cod_art
+       left join orden_impresa i on f.cod_for = i.formu_art_cod_art
+ where cod_lin in (
+   select cod_linea
+     from tab_lineas_tipo_linea
+    where cod_tipo = 3
+   )
+ group by m.cod_art;
+
+select cod_art, tipo_embalaje, rendimiento, stock_06, stock_orden_impresa
+  from vw_analisis_embalaje
+ where cod_art = 'AUT CH 1024 MLS';
+
+create or replace view vw_ordenes_impresas_embalaje as
+  with impresion as (
+    select nuot_tipoot_codigo, nuot_serie, numero, max(fecha) as fch_impresion
+      from pr_ot_impresion
+     where nuot_tipoot_codigo = 'PR'
+     group by nuot_tipoot_codigo, nuot_serie, numero
+    )
+     , ordenes as (
+    select h.abre01 as pedido, h.per_env as pedido_item, h.nuot_tipoot_codigo, h.nuot_serie
+         , h.numero, h.fecha
+         , h.estado, h.destino, h.formu_art_cod_art, h.cant_prog
+         , case g.grupo when 1 then 1 else 0 end as es_juego, i.fch_impresion
+         , round(sysdate - i.fch_impresion) as dias_impreso
+      from pr_ot h
+           left join tab_lineas l on h.cod_lin = l.linea
+           left join tab_grupos g on l.grupo = g.grupo
+           join impresion i
+                on h.numero = i.numero
+                  and h.nuot_serie = i.nuot_serie
+                  and h.nuot_tipoot_codigo = i.nuot_tipoot_codigo
+     where h.nuot_tipoot_codigo = 'PR'
+       and h.estado in (1, 2)
+    )
+select o.pedido, o.pedido_item, o.nuot_tipoot_codigo, o.nuot_serie, o.numero, o.fecha, o.estado
+     , o.destino, o.formu_art_cod_art, o.cant_prog, o.es_juego, o.fch_impresion, o.dias_impreso
+  from ordenes o;
+
+select *
+  from pr_ot
+ where formu_art_cod_art = 'CAJA 250.525/45 KRF'
+   and extract(year from fecha) = 2023;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 562608;
+
+select *
+  from pr_ot_impresion
+ where numero = 535585;

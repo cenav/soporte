@@ -16,7 +16,7 @@ select nombre, cod_transp, domicilio, ruc_transp
 
 select *
   from pedido
- where num_ped in (242763);
+ where num_ped in (244631);
 
 select *
   from itemped
@@ -24,11 +24,11 @@ select *
 
 select *
   from cotizacion
- where num_ped in (219906);
+ where num_ped in (222689);
 
 select *
   from cotizacion
- where refe_pedido in (242618);
+ where refe_pedido in (244631);
 
 select *
   from itemcot

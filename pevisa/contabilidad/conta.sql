@@ -2,16 +2,16 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 4
+   and mes = 5
    and libro = '05'
-   and voucher = 40003;
+   and voucher = 50049;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 2
-   and libro = '33'
-   and voucher = 20028;
+   and mes = 5
+   and libro = '05'
+   and voucher = 50049;
 
 select *
   from movdeta
@@ -79,7 +79,7 @@ select *
 
 select *
   from activo_fijo
- where cod_activo_fijo = '05RELO1';
+ where cod_activo_fijo = 'CPUC79';
 
 select *
   from kardex_d
@@ -167,7 +167,7 @@ select *
   from factcob
  where tipdoc = 'LV'
    and numero in (
-                  22785, 22786, 22787
+                  22781, 22784, 22787
    );
 
 -- PRIMER VCTO. 15/06/2024
@@ -178,8 +178,23 @@ select * from ruta_docvirtual;
 
 select * from doc_sunat_xml;
 
-select * from doc_sunat_xml_det;
+select *
+  from movglos
+ where ano = 2024
+   and mes = 4
+   and libro = '08'
+   and voucher in (
+                   42392, 42393, 42394, 42395, 42396, 42397, 42398, 42399, 42400, 42401, 42402,
+                   42403, 42404, 42405, 42406, 42407, 42408, 42409, 42410, 42411, 42412, 42413,
+                   42414, 42415
+   );
 
 select *
-  from caja_chica_serie
- where id_serie = 2;
+  from gastos_de_viaje
+ where id_vendedor = '35'
+   and numero = 202;
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = '35'
+   and numero = 202;

@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user mmiranda account unlock;
+alter user kcucho account unlock;
 
-alter user lsalcedo account lock;
+alter user RCHAMBILLA account lock;
 
-alter user mmiranda identified by "mamalucy9+";
+alter user kcucho identified by "pevisa.123";
 
 alter user cninamango password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'HENRIQUEZ';
+ where username like 'APASTRANA';
 
 select *
   from dba_users
@@ -113,9 +113,17 @@ select *
  where co_ctrctr = 'M_COSTO_M'
    and co_usrusr = 'APASTRANA';
 
-select *
+select usuario, nombres, estado, email, codigo_trabajador
   from usuarios
- where usuario like '%VARGAS%';
+ where estado = 1;
+
+select c_codigo, nombre, email, email_p, situacion
+  from vw_personal
+ where c_codigo = 'E017'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 select *
   from vw_personal
@@ -154,7 +162,7 @@ select *
 
 select *
   from usuarios
- where usuario = 'MVILLANUEVA';
+ where usuario = 'JQUISPE';
 
 -- BRAMOS
 
@@ -334,6 +342,13 @@ select *
 select *
   from otm_serie_usuario
  where usuario = 'AMUNANTE';
+
+select *
+  from otm_serie_usuario
+ where usuario = 'JJUAREZ';
+
+select * from ot_mantto_serie
+where id_tipo = 'PY';
 
 select *
   from usuarios
@@ -941,3 +956,4 @@ select *
   from usuario_modulo
  where modulo = 'EVALUACION'
    and usuario in ('JACUNA', 'SVARGAS', 'JVILLON');
+

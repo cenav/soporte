@@ -21,7 +21,7 @@
 --::::::::::::::::::::::::::::::::::::--
 select *
   from pk_gnumero
- where pk_numero = 57226;
+ where pk_numero = 42560;
 
 select *
   from produccion_armado_cajas_his

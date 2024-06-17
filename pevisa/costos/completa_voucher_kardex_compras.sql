@@ -8,8 +8,8 @@ declare
   cursor cr_archivo is
     select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num, numero_cp as numerodoc
       from view_kardex_reg_compras
-     where ano = 2022
-       and mes = 8
+     where ano = 2024
+       and mes = 4
        and voucher is null
      group by cod_relacion, tipdoc_cp, serie_cp, numero_cp;
 begin
@@ -49,8 +49,8 @@ declare
   cursor cr_archivo is
     select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num, numero_cp as numerodoc
       from view_kardex_reg_compras
-     where ano = 2022
-       and mes = 5
+     where ano = 2024
+       and mes = 4
        and voucher is null
      group by cod_relacion, tipdoc_cp, serie_cp, numero_cp;
 
@@ -117,8 +117,8 @@ declare
     select cod_relacion as cod_proveedor, tipdoc_cp as tipdoc, serie_cp as serie_num, numero_cp as numerodoc
          , cod_art, ano, mes, libro, voucher
       from view_kardex_reg_compras
-     where ano = 2022
-       and mes = 12
+     where ano = 2024
+       and mes = 4
 --        and libro = '10'
        and voucher is null
 --        and voucher like '2%'

@@ -83,6 +83,15 @@ select *
     where a.cod_art = i.cod_art
    );
 
+select *
+  from kardex_d d
+ where extract(year from d.fch_transac) >= 2023
+   and exists(
+   select 1
+     from articul_iqf a
+    where a.cod_art = d.cod_art
+   );
+
 begin
   if iqbf.existe('VUL 161') then
     dbms_output.put_line('si');

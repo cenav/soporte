@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-                  1048114, 1048132
+   1052388
    );
 
 select *
@@ -683,3 +683,95 @@ select *
   from pr_estadistica_armado_d
  where usuario = 'PEVISA';
 
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR';
+
+select *
+  from kardex_g
+ where cod_alm = '06'
+   and tp_transac = '29'
+   and serie = 3
+   and numero = 669282;
+
+select *
+  from kardex_d
+ where cod_alm = '06'
+   and tp_transac = '29'
+   and serie = 3
+   and numero = 669282;
+
+select *
+  from kardex_g
+ where tipo_pguia = 'AR'
+   and serie_pguia = 3
+   and numero_pguia = 1045150;
+
+select *
+  from kardex_d
+ where pr_tipot = 'AR'
+   and pr_numot = 1045150;
+
+-- no existe en karde_g
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 742053;
+
+-- no existe en karde_g
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 742053;
+
+select *
+  from kardex_d d
+ where d.pr_tipot = 'AR'
+   and d.fch_transac = to_date('14/05/2024', 'dd/mm/yyyy')
+   and d.estado != '9'
+   and not exists(
+   select *
+     from kardex_g g
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+   )
+ order by cod_alm, tp_transac, serie, numero;
+
+select distinct d.cod_alm, tp_transac, d.serie, d.numero, d.fch_transac, d.pr_tipot, d.pr_numot
+              , o.abre01 as pedido, o.per_env as itemped
+  from kardex_d d
+       join pr_ot o
+            on d.pr_tipot = o.nuot_tipoot_codigo
+              and o.nuot_serie = 3
+              and d.pr_numot = o.numero
+ where d.pr_tipot = 'AR'
+   and d.fch_transac = to_date('14/05/2024', 'dd/mm/yyyy')
+   and d.estado != '9'
+   and not exists(
+   select *
+     from kardex_g g
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+   )
+ order by cod_alm, tp_transac, serie, numero;
+
+select *
+  from kardex_g
+ where cod_alm = '06'
+   and tp_transac = '29'
+   and serie = 3
+   and numero = 669282;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and nuot_serie = 3
+   and numero = 1045150;

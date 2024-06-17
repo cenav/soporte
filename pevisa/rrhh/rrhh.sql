@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'REYMUNDO'
+ where apellido_paterno = 'NUÑEZ'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -17,7 +17,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1145';
+   and c_codigo = 'E230';
 
 select *
   from planilla10.t_cargo
@@ -46,7 +46,7 @@ select * from planilla10.plcontrol;
 
 select *
   from planilla10.personal
- where apellido_paterno like 'ZA%';
+ where nombres like 'DANIEL%';
 
 select *
   from planilla10.personal
@@ -54,7 +54,7 @@ select *
 
 select *
   from permiso
- where numero = 59050;
+ where numero = 64191;
 
 select *
   from evaluacion
@@ -245,3 +245,18 @@ end;
 select * from estado_accidente;
 
 select * from accidente;
+
+select *
+  from permiso
+ where numero = 64191;
+
+select * from estado_permiso;
+
+-- puestos trabajadores
+select c_codigo, nombre, desc_cargo, desc_seccion, desc_local
+  from vw_personal
+ where situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+ order by nombre;

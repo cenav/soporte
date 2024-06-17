@@ -33,7 +33,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (20210);
+   and numero in (22027);
 
 -- F0	21	25	14665
 
@@ -46,7 +46,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (20210);
+   and numero in (22027);
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
 select *
@@ -87,14 +87,11 @@ select *
   from nrodoc
  where serie = 'T001';
 
--- T001	19005
-
-
+-- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 19041;
-
+ where guia_serie = 'T171'
+   and guia_numero = 8;
 
 select *
   from kardex_d
@@ -480,8 +477,12 @@ select *
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T182'
-   and guia_numero = 53;
+ where guia_serie = 'T001'
+   and guia_numero = 20897;
+
+select *
+  from clientes
+ where cod_cliente = '20609182106';
 
 insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
                                           , ubigeo_llegada, direccion_llegada, ruc, cod_alm
@@ -504,3 +505,7 @@ values ( 'T182', 53, date '0024-05-17', '150103', '150117'
        , 'SERVICIO DE CROMADO', null, null, null, null, null, null, null, null, null, '20566319412'
        , 'Traslado de bienes para transf', '0011', '0000', timestamp '2024-05-16 18:13:27', null
        , null, null, null, null, null);
+
+select * from pla_control;
+
+select * from locales;

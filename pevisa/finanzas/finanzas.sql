@@ -1,9 +1,9 @@
 select *
   from movfigl
  where ano = 2024
-   and mes = 3
+   and mes = 5
    and tipo = '2'
-   and voucher = 33004;
+   and voucher = 53580;
 
 select *
   from movfide
@@ -43,17 +43,17 @@ select *
    and tipo = 1
  order by voucher desc;
 
-select * from pevisa.tab_semanas order by al;
+select * from tab_semanas order by al;
 
 select *
   from pagos_h
- where serie_planilla = 3
-   and numero_planilla in (3165);
+ where serie_planilla = 1
+   and numero_planilla in (27722);
 
 select *
   from pagos_i
- where serie_planilla = 3
-   and numero_planilla in (3165);
+ where serie_planilla = 1
+   and numero_planilla in (27722);
 
 select *
   from ctabnco_cheques

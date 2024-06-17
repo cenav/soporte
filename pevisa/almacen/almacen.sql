@@ -522,8 +522,7 @@ select *
 
 select *
   from articul
- where cod_art = 'DUPL 74.69';
-
+ where cod_art in ('MQ2CORTLASER-003', 'MQ2MATR-047');
 
 select *
   from kardex_g
@@ -629,7 +628,7 @@ select *
 
 select *
   from numdoc
- where tp_transac = '27'
+ where tp_transac = '16'
    and serie = 1;
 
 select *
@@ -637,11 +636,19 @@ select *
  where tp_transac = '16'
    and serie = 1;
 
+-- resumen vacaciones excel
+
 select *
   from kardex_g
  where tp_transac = '16'
    and serie = 1
  order by numero desc;
+
+select *
+  from kardex_g
+ where tp_transac = '16'
+   and serie = 1
+   and numero = 202868;
 
 select *
   from kardex_d
@@ -1239,27 +1246,39 @@ select *
    and serie = 1
    and numero = 1911;
 
-insert into kardex_g( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
-                    , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
-                    , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
-                    , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
-                    , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
-                    , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-                    , pr_numped)
-values ( xcod_alm, :PR_WKTRANG.tp_transac_sal, :PR_WKTRANG.serie_sal, numero_sal, :PR_WKTRANG.fecha
-       , null, null, null, 'TRANSFERENCIA ' || :PR_WKTRANG.boleta, null, null, null, null, 1, null
-       , null, null, 0, 0, '1', '0', 'D', 'S', '0', null, null, null, null, null, null, null, 0, 0
-       , 0, null, null, 0, :PR_WKTRANG.boleta, null, null, null, null, 0);
+select d.ing_sal as id
+--a.cod_unx CODIGO,
+     , a.cod_art as codigo
+--a.linea_cos LINEA,
+     , a.linea as linea, 0 as provee, decode(d.tp_transac, '11', g.num_importa, '18', g.num_importa,
+                                             '17', g.num_importa, '21', to_char(g.numero),
+                                             g.num_importa) as docto
+     , to_char(d.fch_transac, 'ddmmyyyy') as fechav, nvl(a.undexp, 0) as familia, a.cta
+     , decode(pr_numot, null, pr_referencia, to_char(pr_numot)) as ordtra, null as codpza
+     , 0 as canprod, :p_motivo as motivo, cantidad as canti, costo_s as costo
+     , round(costo_s / cantidad, 4) as costo_un, round(costo_d / cantidad, 4) as costod_un
+     , 0 as pvta, d.fch_transac as fecha, :p_ano as ano, :p_mes as mes, decode(lpad(a.cta, 2, '0'),
+                                                                               '00', 'T', '20', 'T',
+                                                                               '21', 'T', '23', 'T',
+                                                                               '26', 'T', '24',
+                                                                               decode(nvl(a.id, '2'), '1', 'T', 'M')) as tp_art
+---x_tp_Art TP_ART,
+     , null as cod_ope, null as tip_doc, null as ser_doc, null as nro_doc, d.cod_art, 0 as secuencia
+     , null as cod_tipoart, null as serie_fact, null as numero_fact, d.tp_transac, d.serie, d.numero
+     , d.cod_alm
+  from kardex_d d
+     , pcarticul a
+     , kardex_g g
+ where d.tp_transac = :p_transa
+   and d.estado <> '9'
+   and to_number(to_char(d.fch_transac, 'yyyy')) = :p_ano
+   and to_number(to_char(d.fch_transac, 'mm')) = :p_mes
+   and a.cod_art = d.cod_art
+----And NVL(a.ID,'1') = X_TIPO
+   and d.cod_alm = g.cod_alm
+   and d.tp_transac = g.tp_transac
+   and d.serie = g.serie
+   and d.numero = g.numero
+   and not (nvl(a.cta, '0') like '20%');
 
-
-insert into kardex_g( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
-                    , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
-                    , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
-                    , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
-                    , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
-                    , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-                    , pr_numped)
-values ( xcod_alm, :PR_WKTRANG.tp_transac_ing, :PR_WKTRANG.serie_ing, numero_ing, :PR_WKTRANG.fecha
-       , null, null, null, 'TRANSFERENCIA ' || :PR_WKTRANG.boleta, null, null, null, null, 1, null
-       , null, null, 0, 0, '0', '0', 'D', 'I', '0', null, null, null, null, null, null, null, 0, 0
-       , 0, null, null, 0, :PR_WKTRANG.boleta, null, null, null, null, 0);
+select * from pla_control;

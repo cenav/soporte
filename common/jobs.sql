@@ -13,14 +13,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_COTIZACION_IMPORTACION'
+      job_name => 'JOB_STOCK_ALMACEN_63'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'envia_email_cotiza_simula.envia_correo_coti_simu'
-    , start_date => timestamp '2023-11-27 08:30:00 -5:00'
+    , job_action => 'reporte_del_almacen_63_xls.envia_correo'
+    , start_date => timestamp '2024-06-13 06:00:00 -5:00'
     , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON'
     , auto_drop => false
     , enabled => true
-    , comments => 'cotizacion importacion(jgarcia)'
+    , comments => 'Envio correo automatico stock almacen 63'
   );
 end;
 
