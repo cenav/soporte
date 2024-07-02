@@ -1,9 +1,11 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'AR'
+ where nuot_tipoot_codigo = 'FC'
    and numero in (
-   1052388
+                  393, 394, 395, 396
    );
+
+select * from pr_estados;
 
 select *
   from pr_ot_det

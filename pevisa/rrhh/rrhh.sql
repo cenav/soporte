@@ -25,7 +25,7 @@ select *
 
 select *
   from planilla10.personal
- where c_codigo = 'E017';
+ where c_codigo = 'E42422';
 
 select *
   from planilla10.doc_per
@@ -43,10 +43,6 @@ begin
 end;
 
 select * from planilla10.plcontrol;
-
-select *
-  from planilla10.personal
- where nombres like 'DANIEL%';
 
 select *
   from planilla10.personal
@@ -260,3 +256,19 @@ select c_codigo, nombre, desc_cargo, desc_seccion, desc_local
      from planilla10.t_situacion_cesado
    )
  order by nombre;
+
+
+select *
+  from vw_personal
+ where nombre like '%POMALAZO%';
+
+-- correo de personal por sede
+select nombre, desc_cargo, email, desc_seccion, dsc_area
+  from vw_personal
+ where desc_local = 'SEDE VULCANO'
+   and email like '%pevisa%'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+ order by dsc_area;

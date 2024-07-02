@@ -39,14 +39,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_FECHA_EMBARQUE_PROG'
+      job_name => 'JOB_CORREO_CALIDAD_EMBARQUES'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'pkg_fechaembarqueprog.envia_correo_prog'
-    , start_date => timestamp '2024-05-27 06:00:00 -5:00'
+    , job_action => 'pgk_rev_calidad_diario.listado'
+    , start_date => timestamp '2024-06-21 20:00:00 -5:00'
     , repeat_interval => 'FREQ=DAILY'
     , auto_drop => false
     , enabled => true
-    , comments => 'aviso fecha de embarque programado'
+    , comments => 'aviso de calidad embarque al finalizar al dia, Jaime Reclamo'
   );
 end;
 
@@ -60,7 +60,7 @@ end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
-call dbms_scheduler.drop_job('JOB_COTIZACION_IMPORTACION');
+call dbms_scheduler.drop_job('JOB_CORREO_CALIDAD_EMBARQUES');
 
 --call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
 
@@ -70,7 +70,7 @@ call dbms_scheduler.enable('JOB_CANCELACION_PAGARES');
 
 select *
   from dba_scheduler_jobs
- where owner = upper('pevisa')
+ where owner = upper('pevisa' )
  order by job_name;
 
 select job_name, job_action, start_date, repeat_interval

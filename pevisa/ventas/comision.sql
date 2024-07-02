@@ -305,3 +305,9 @@ select *
 select * from cominac_calculo;
 
 select * from cominac_tipo_cuota;
+
+select *
+  from proceso_bono_obrero
+ where id_proceso = 99;
+
+select * from estado_proceso;

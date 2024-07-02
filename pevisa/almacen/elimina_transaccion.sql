@@ -4,15 +4,17 @@ declare
   l_total_d simple_integer := 0;
 
   cursor trx is
-    select cod_alm, tp_transac, serie, numero
-      from tmp_carga_data;
---     select *
---       from kardex_g
---      where cod_alm = '37'
---        and tp_transac = '18'
---        and serie = 2
---        and numero = 574885
---      order by ing_sal desc, numero_pguia;
+--     select cod_alm, tp_transac, serie, numero
+--       from tmp_carga_data;
+    select *
+      from kardex_g
+     where cod_alm = 'FT'
+       and tp_transac = '06'
+       and serie = 1
+       and numero in (
+       800105
+       )
+     order by ing_sal desc, numero_pguia;
 begin
   for r in trx loop
     delete

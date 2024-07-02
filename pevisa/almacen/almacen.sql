@@ -1,19 +1,19 @@
 select *
   from kardex_g
- where cod_alm = '15'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = 'FT'
+   and tp_transac = '29'
+   and serie = 1
    and numero in (
-   565364
+   1797694
    );
 
 select *
   from kardex_d
- where cod_alm = '15'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = 'FT'
+   and tp_transac = '29'
+   and serie = 1
    and numero in (
-   565354
+   1797694
    );
 
 select *
@@ -176,7 +176,7 @@ select *
 
 select *
   from solimat_d
- where numero = 181100;
+ where numero = 193984;
 
 select *
   from kardex_g
@@ -1282,3 +1282,52 @@ select d.ing_sal as id
    and not (nvl(a.cta, '0') like '20%');
 
 select * from pla_control;
+
+select *
+  from solimat_d
+ where numero = 193984;
+
+select *
+  from kardex_g_historia
+ where usuario = 'DCONTRERAS'
+   and extract(year from fecha) = 2024
+   and extract(month from fecha) = 6;
+
+select distinct glosa
+  from kardex_g_historia
+ where usuario = 'DCONTRERAS'
+   and extract(year from fecha) = 2024
+   and extract(month from fecha) = 6;
+
+select cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
+     , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
+     , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
+     , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
+     , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+     , pr_numped
+  from kardex_g;
+
+select *
+  from almacen
+ where cod_art = 'ETIQ E-58 REC HEX';
+
+select * from kardex_g;
+
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero in (
+   753150
+   )
+ order by ing_sal desc, numero_pguia;
+
+select *
+  from kardex_d
+ where cod_alm = 'F7531500'
+   and tp_transac = '17'
+   and serie = 1
+   and numero in (
+   753150
+   );

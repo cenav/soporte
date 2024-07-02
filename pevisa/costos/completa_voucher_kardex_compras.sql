@@ -118,7 +118,7 @@ declare
          , cod_art, ano, mes, libro, voucher
       from view_kardex_reg_compras
      where ano = 2024
-       and mes = 4
+       and mes = 5
 --        and libro = '10'
        and voucher is null
 --        and voucher like '2%'

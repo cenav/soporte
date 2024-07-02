@@ -1,8 +1,8 @@
 select *
   from ot_mantto
- where id_tipo = 'VH'
+ where id_tipo = 'PY'
    and id_serie = 3
-   and id_numero in (197);
+   and id_numero in (6);
 
 select *
   from solimat_d

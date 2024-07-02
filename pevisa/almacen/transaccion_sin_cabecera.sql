@@ -7,10 +7,10 @@ declare
       from kardex_d d
            join pr_ot o
                 on d.pr_tipot = o.nuot_tipoot_codigo
-                  and o.nuot_serie = 3
+                  and o.nuot_serie = 1
                   and d.pr_numot = o.numero
-     where d.pr_tipot = 'AR'
-       and d.fch_transac = to_date('14/05/2024', 'dd/mm/yyyy')
+     where d.pr_tipot = 'FC'
+       and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
        and d.estado != '9'
        and not exists(
        select *
@@ -43,4 +43,29 @@ begin
   end loop;
 
   dbms_output.put_line('Total registros: ' || l_count);
-end;
+end ;
+
+
+select d.*
+  from kardex_d d
+       join pr_ot o
+            on d.pr_tipot = o.nuot_tipoot_codigo
+              and o.nuot_serie = 1
+              and d.pr_numot = o.numero
+ where d.pr_tipot = 'FC'
+   and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
+   and d.estado != '9'
+   and not exists(
+   select *
+     from kardex_g g
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+   )
+--  and d.cod_art = 'CP-R-EFB Q85-90D23L'
+ order by ing_sal desc;
+
+select *
+  from almacen
+ where cod_art = 'CP-R-EFB Q85-90D23L';

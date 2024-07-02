@@ -11,7 +11,7 @@ select *
 select *
   from ex_prefacturas
  where numero in (
-   9051660
+   9052750
    );
 
 select *
@@ -24,7 +24,17 @@ select *
 
 select *
   from exproforma_d
- where numero = 19199;
+ where numero = 19389;
+
+select *
+  from exproforma_d
+ where numero = 19389
+   and nro = 65;
+
+select cod_art, nvl(canti, 0), nvl(preuni, 0)
+  from exproforma_d
+ where numero = 19389
+   and nro = 65;
 
 select * from view_cli_para_booking;
 
@@ -200,7 +210,7 @@ select *
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
-and ot_numero = 1040291;
+   and ot_numero = 1040291;
 
 select codigo, descripcion from packing_agrupar;
 

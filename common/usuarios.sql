@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user kcucho account unlock;
+alter user asistencia account unlock;
 
-alter user RCHAMBILLA account lock;
+alter user RMATOS account lock;
 
-alter user kcucho identified by "pevisa.123";
+alter user vreymundo identified by "sistemvrg";
 
 alter user cninamango password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'APASTRANA';
+ where username like 'CBRAVO';
 
 select *
   from dba_users
@@ -46,18 +46,24 @@ select s.owner as syn_owner
 -- acceso MGVENTAS
 select *
   from seccrus
- where co_usrusr = 'DNUNEZM';
+ where co_ctrctr = 'M_PLANEAMIENTO_M';
+
+select *
+  from seccrus
+ where co_usrusr = '';
 
 select *
   from all_constraints
  where constraint_name = 'PK_DESPACHO_GUIAS';
 
+select *
+  from all_objects
+ where object_name = 'RRHH';
 
 select *
   from sig_conexiones
  where usuario = 'YBERROSPI'
  order by creacion_cuando desc;
-
 
 select *
   from dba_registry
@@ -151,7 +157,7 @@ select cod_menu, descripcion, menus, titulo, nivel, 'JPOZO', estado, sistema, id
 
 select *
   from tab_menu
- where usuario = 'APASTRANA';
+ where usuario = 'NPOMALAZO';
 
 select *
   from tab_menu
@@ -162,7 +168,11 @@ select *
 
 select *
   from usuarios
- where usuario = 'JQUISPE';
+ where usuario = 'NPOMALAZO';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'POMALAZO';
 
 -- BRAMOS
 
@@ -184,17 +194,17 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('JSOTOMAYOR')
+ where usuario in ('JCABEZAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario in ('ICATALAN')
+ where usuario in ('DCONTRERAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario = 'DTIRAVANTI'
+ where modulo = 'BONO_PRODUCCION_PLANTA'
  order by modulo;
 
 insert into usuario_modulo(usuario, modulo, maestro, supermaestro)
@@ -347,8 +357,9 @@ select *
   from otm_serie_usuario
  where usuario = 'JJUAREZ';
 
-select * from ot_mantto_serie
-where id_tipo = 'PY';
+select *
+  from ot_mantto_serie
+ where id_tipo = 'PY';
 
 select *
   from usuarios
@@ -370,7 +381,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'DTIRAVANTI'
+ where co_usrusr = 'CNAVARRO'
  order by co_ctrctr;
 
 select *
@@ -957,3 +968,15 @@ select *
  where modulo = 'EVALUACION'
    and usuario in ('JACUNA', 'SVARGAS', 'JVILLON');
 
+select *
+  from planilla10.plcontrol
+ where usuario = 'NPOMALAZO';
+
+select *
+  from usuarios_cotizacion
+ where usuario in ('LILY', 'LSALCEDO', 'CNAVARRO');
+
+select *
+  from cotizacion
+ where estado = '2'
+   and extract(year from fecha) = 2024;

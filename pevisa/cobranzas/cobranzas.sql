@@ -57,12 +57,12 @@ select *
 -- CAMBIA FECHA LETRAS
 select *
   from letras
- where nrolet = 376705;
+ where nrolet = 382052;
 
 select *
   from factcob
  where tipdoc = 'L1'
-   and numero = 376705;
+   and numero = 382052;
 
 -----------------------
 

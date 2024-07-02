@@ -1,6 +1,6 @@
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'APASTRANA';
+ where username like 'EPESADO';
 
 
 -- desbloquear usuario

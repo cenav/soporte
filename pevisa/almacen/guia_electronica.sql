@@ -33,7 +33,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (22027);
+   and numero in (22649);
 
 -- F0	21	25	14665
 
@@ -509,3 +509,10 @@ values ( 'T182', 53, date '0024-05-17', '150103', '150117'
 select * from pla_control;
 
 select * from locales;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 1499;
+
+--M4	35	140	1499

@@ -61,3 +61,33 @@ select cod_art, stock, (
 select cod_alm, cod_art, costo_32, stock, round(stock * costo_32, 2) as valor
   from detalle;
 
+  with detalle as (
+    select d.cod_alm, d.cod_art, c.costo as costo_32
+         , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+      from kardex_d d
+           join pcart_precios c on d.cod_art = c.cod_art and cod_costo = '32'
+     where d.estado != '9'
+       and d.cod_art = 'ETIQ E-58 REC HEX'
+    having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+     group by d.cod_alm, d.cod_art, c.costo
+    )
+select cod_alm, cod_art, costo_32, stock, round(stock * costo_32, 2) as valor
+  from detalle;
+
+select *
+  from kardex_d
+ where cod_art = 'CP-R-EFB Q85-90D23L'
+ order by fch_transac desc;
+
+select *
+  from kardex_d
+ where cod_alm = 'FT'
+   and tp_transac = '06'
+   and serie = 1
+   and numero in (
+   800105
+   );
+
+select *
+  from almacen
+ where cod_art = 'CP-R-EFB Q85-90D23L';

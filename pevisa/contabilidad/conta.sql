@@ -79,7 +79,12 @@ select *
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'CPUC79';
+ where cod_activo_fijo in (
+                           '02BALA61', '04LUZE2 INST', 'EQ DIV325', '04TELE3', '02ESCR9',
+                           'EQ DIV326', '02LOCK3', '02LOCK4', 'MQ2MATR-064', 'AC1GEN-001',
+                           '02LUZE11', '04FRIO2', '02LOCK2', 'EQ MEDIC24', 'EQ MEDIC25',
+                           'LICENCIA COREL12', 'LICENCIA COREL13'
+   );
 
 select *
   from kardex_d
@@ -190,11 +195,42 @@ select *
    );
 
 select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = 'B10'
+   and numero = 107;
+
+select *
   from gastos_de_viaje
- where id_vendedor = '35'
-   and numero = 202;
+ where id_vendedor = 'B10'
+   and numero = 107;
+
+select * from vw_gasto_viaje;
 
 select *
   from gastos_de_viaje
  where id_vendedor = '35'
    and numero = 202;
+
+select *
+  from gastos_de_viaje_habilitado
+ where estado = 5 and movilidad = 'S' and (
+   (fecha_del between :fecha_del and :fecha_al) or
+   (:fecha_del is null and :fecha_al is null));
+
+select *
+  from kardex_g_movglos
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 32071;
+
+select *
+  from kardex_d
+ where cod_alm = 'A3'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 32071;
+
+select *
+  from centro_de_costos
+ order by centro_costo;

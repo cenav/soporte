@@ -1,3 +1,24 @@
+select *
+  from cotizacion
+ where num_ped in (223718);
+
+select *
+  from itemped
+ where num_ped in (242761);
+
+select *
+  from cotizacion
+ where refe_pedido = 246109;
+
+select *
+  from pedido
+ where num_ped = 246109;
+
+select *
+  from itemped
+ where num_ped = 246109;
+
+
 -- acceso MGVENTAS
 select *
   from seccrus
@@ -24,7 +45,7 @@ select *
 
 select *
   from cotizacion
- where num_ped in (222689);
+ where num_ped in (223718);
 
 select *
   from cotizacion
@@ -94,11 +115,11 @@ select *
 
 select *
   from pedido
- where num_ped = 230874;
+ where num_ped = 246109;
 
 select *
   from itemped
- where num_ped = 230874;
+ where num_ped = 246109;
 
 select *
   from pedido
@@ -167,7 +188,7 @@ select *
 
 select *
   from cotizacion
- where refe_pedido = 210497;
+ where refe_pedido = 246109;
 
 select *
   from pedido
@@ -518,3 +539,23 @@ select *
 update cotizacion
    set flag_riesgo = 'N'
  where flag_riesgo is null;
+
+select distinct p.num_ped, p.cod_cliente, p.nombre, p.nro_sucur, p.cond_pag, p.moneda, p.cod_vende
+              , p.por_desc1, p.por_desc2, p.ruc, p.cliente_afecto, nro_lista, p.cod_transp
+              , p.domicilio, p.ruc_transp, p.direccion, numero_ref
+  from pedido p
+     , itemped i
+ where p.tipo_docto in (2, 6, 20, 21, 22, 23, 24) and p.estado = 5 and i.serie = p.serie
+   and i.num_ped = p.num_ped and i.saldo > 0
+
+ order by p.num_ped;
+
+select *
+  from pedido
+ where num_ped = 246530;
+
+select *
+  from pedido
+ where num_ped = 246529;
+
+select sysdate from dual;

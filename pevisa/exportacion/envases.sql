@@ -135,3 +135,65 @@ select cod_art, 1
   from exequivalentes
  where tipo = '58'
  group by cod_art;
+
+
+-- vw_envase_segun_master
+select distinct t.cod_art
+              , listagg(cod_for, ' | ') within group (order by cod_for)
+                        over (partition by t.cod_art) as envase
+  from articul t
+       join vcos_formulas vfs on t.cod_art = vfs.cod_art
+ where vfs.linea between '800' and '899'
+   and length(vfs.linea) = 3
+   and vfs.linea not in ('840', '855', '871', '875', '880', '896')
+   and exists (
+   select 1
+     from exfacturas f
+          join exfactura_d d on f.numero = d.numero
+    where extract(year from f.fecha) between 2010 and extract(year from sysdate)
+      and nvl(estado, '0') != '9'
+      and d.cod_art = t.cod_art
+      and d.id is null
+      and not exists(
+      select 1
+        from exfacturas_his
+       where numero = f.numero
+         and accion = '92'
+      )
+   )
+   and t.cod_art = 'KIT MH CH 66110 BR'
+ group by vfs.cod_art, cod_for, t.cod_art
+ order by cod_art;
+
+select *
+  from articul
+ where cod_art = 'KIT MH CH 66110 BR';
+
+select *
+  from exfactura_d
+ where cod_art = 'KIT MH CH 66110 BR';
+
+select *
+  from expedido_d
+ where cod_art = 'KIT MH CH 66110 BR';
+
+-- en base a pedidos (no facturas)
+create view vw_envase_segun_master_pedidos as
+select distinct t.cod_art
+              , listagg(cod_for, ' | ') within group (order by cod_for)
+                        over (partition by t.cod_art) as envase
+  from articul t
+       join vcos_formulas vfs on t.cod_art = vfs.cod_art
+ where vfs.linea between '800' and '899'
+   and length(vfs.linea) = 3
+   and vfs.linea not in ('840', '855', '871', '875', '880', '896')
+   and exists (
+   select 1
+     from expedidos f
+          join expedido_d d on f.numero = d.numero
+    where extract(year from f.fecha) between 2010 and extract(year from sysdate)
+      and nvl(estado, '0') != '9'
+      and d.cod_art = t.cod_art
+   )
+ group by vfs.cod_art, cod_for, t.cod_art
+ order by cod_art;

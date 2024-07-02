@@ -1,16 +1,17 @@
 select *
   from orden_de_compra
- where serie = 20
+ where serie = 6
    and num_ped in (
-                   1189, 1190, 1191
+   3314
    );
 
 select *
   from itemord
- where serie = 1
+ where serie = 4
    and num_ped in (
-   85953
+   62377
    );
+
 
 select *
   from orden_de_compra
@@ -19,20 +20,45 @@ select *
 
 select *
   from proveed
- where nombre like '%REPLICA%';
-
-select *
-  from proveed
- where cod_proveed = '20509196681';
-
-select *
-  from proveed
- where cod_proveed = '20603841418';
+ where nombre like '%BORHUA%';
 
 select *
   from orden_de_compra
- where cod_proveed = '10427461179'
+ where cod_proveed = '20109034593'
  order by fecha desc;
+
+
+-- aprueba orden de servicio
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and serie in (3, 4, 8)
+--    and serie = 3
+   and num_ped = :p_numero
+   and (exists (
+   select 1
+     from usuarios u
+    where orden_de_compra.c_resp = u.codigo_trabajador
+      and u.usuario = user
+   ) or user = 'PEVISA')
+   and not exists
+   (
+     select 1
+       from orden_de_compra_calificacion
+      where orden_de_compra.num_ped =
+            orden_de_compra_calificacion.num_ped
+        and orden_de_compra.serie =
+            orden_de_compra_calificacion.serie
+     );
+
+select *
+  from usuarios
+ where usuario = 'EMESTANZA';
+
+select *
+  from orden_de_compra_calificacion
+ where num_ped = 44934
+   and serie = 3;
 
 select *
   from itemord
@@ -43,9 +69,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 30
+ where serie = 6
    and num_ped in (
-   638
+   3306
    )
    and glosa = 'APROBADO';
 
@@ -725,3 +751,12 @@ select *
   from itemord
  where serie = 30
    and num_ped = 587;
+
+select *
+  from docuvent
+ where numero = 201425;
+
+select *
+  from exfacturas_enviados
+ where numero = 201467
+ order by creacion_cuando desc;
