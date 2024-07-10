@@ -66,3 +66,17 @@ select a.cod_art, a.descripcion, a.cod_lin
     where g.estado != '9'
       and extract(year from g.fch_transac) >= 2017
    );
+
+select *
+  from permiso
+ where numero = 63268;
+
+select * from vw_permisos;
+
+select count(*)
+  from permiso
+ where id_personal = 'E42422'
+   and trunc(desde) = to_date('10/04/2024', 'dd/mm/yyyy')
+   and id_concepto = 'DMS'
+ order by fecha desc;
+

@@ -2,7 +2,8 @@ declare
   l_count pls_integer := 0;
 
   cursor cr_sin_cabecera is
-    select distinct d.cod_alm, tp_transac, d.serie, d.numero, d.fch_transac, d.pr_tipot, d.pr_numot
+    select distinct d.cod_alm, tp_transac, d.serie, d.numero, d.fch_transac
+                  , d.pr_tipot, o.nuot_serie, d.pr_numot
                   , o.abre01 as pedido, o.per_env as itemped
       from kardex_d d
            join pr_ot o
@@ -10,7 +11,7 @@ declare
                   and o.nuot_serie = 1
                   and d.pr_numot = o.numero
      where d.pr_tipot = 'FC'
-       and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
+--        and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
        and d.estado != '9'
        and not exists(
        select *
@@ -33,11 +34,11 @@ begin
                          , num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
                          , pr_numped, nombre_archivo, nombre_archivo_ingreso, texto_1
                          , texto_2, numero_1, numero_2)
-    values ( r.cod_alm, r.tp_transac, r.serie, r.numero, r.fch_transac, r.pr_tipot, 3, r.pr_numot
-           , 'Surtido Piezas', null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2'
-           , 'A', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000
-           , '211118', null, 0, 'PED' || r.pedido, r.pr_tipot, '3', r.pr_numot, 'ORDPR', r.pedido
-           , null, null, null, null, null, null);
+    values ( r.cod_alm, r.tp_transac, r.serie, r.numero, r.fch_transac, r.pr_tipot, r.nuot_serie
+           , r.pr_numot, 'Surtido Piezas', null, null, null, null, null, null, null, null, 0.00
+           , 0.00, '0', '2', 'A', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000
+           , 0.0000, '211118', null, 0, 'PED' || r.pedido, r.pr_tipot, '3', r.pr_numot, 'ORDPR'
+           , r.pedido, null, null, null, null, null, null);
 
     l_count := l_count + sql%rowcount;
   end loop;
@@ -53,7 +54,7 @@ select d.*
               and o.nuot_serie = 1
               and d.pr_numot = o.numero
  where d.pr_tipot = 'FC'
-   and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
+--    and d.fch_transac = to_date('29/06/2024', 'dd/mm/yyyy')
    and d.estado != '9'
    and not exists(
    select *
@@ -66,6 +67,39 @@ select d.*
 --  and d.cod_art = 'CP-R-EFB Q85-90D23L'
  order by ing_sal desc;
 
+
 select *
   from almacen
  where cod_art = 'CP-R-EFB Q85-90D23L';
+
+select *
+  from kardex_g
+ where cod_alm = 'FP'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 883701;
+
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 744554;
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 744554;
+
+select *
+  from almacen
+ where cod_art = 'R-MN158385';
+
+select *
+  from kardex_g
+ where extract(year from fch_transac) = 2024
+   and extract(month from fch_transac) = 5
+   and tipo_pguia = 'FC'
+   and serie_pguia = '1';

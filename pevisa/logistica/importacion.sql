@@ -169,3 +169,71 @@ select *
    and mes_cierre = 5;
 
 select * from paramin;
+
+create or replace function pevisa.sf_cant_req_vendida_simulacion(
+  p_codigo varchar2
+)
+  return number is
+  l_cantidad number;
+begin
+  select sum(total)
+    into l_cantidad
+    from (
+           select sum(nvl(total, 0)) as total
+             from pr_consd prd
+                , pr_consg g
+                , pr_ot o
+            where g.tipo_orden = o.nuot_tipoot_codigo
+              and g.serie_orden = o.nuot_serie
+              and g.num_orden = o.numero
+              and g.tipo = prd.tipo
+              and g.serie = prd.serie
+              and g.numero = prd.numero
+              and prd.cod_art = p_codigo
+              and abre02 like 'SIMULACION%'
+            group by prd.cod_art, abre02
+           );
+
+  return l_cantidad;
+exception
+  when others then
+    return 0;
+end;
+
+
+create or replace public synonym sf_cant_req_vendida_simulacion for pevisa.sf_cant_req_vendida_simulacion;
+
+
+
+create or replace function pevisa.sf_cant_req_vendida_st(
+  p_codigo varchar2
+)
+  return number is
+  l_cantidad number;
+begin
+  select sum(total)
+    into l_cantidad
+    from (
+           select sum(nvl(total, 0)) as total
+             from pr_consd prd
+                , pr_consg g
+                , pr_ot o
+            where g.tipo_orden = o.nuot_tipoot_codigo
+              and g.serie_orden = o.nuot_serie
+              and g.num_orden = o.numero
+              and g.tipo = prd.tipo
+              and g.serie = prd.serie
+              and g.numero = prd.numero
+              and prd.cod_art = p_codigo
+              and abre02 like 'ST%'
+            group by prd.cod_art, abre02
+           );
+
+  return l_cantidad;
+exception
+  when others then
+    return 0;
+end;
+
+
+create or replace public synonym sf_cant_req_vendida_st for pevisa.sf_cant_req_vendida_st;

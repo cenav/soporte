@@ -293,7 +293,11 @@ select *
   from exclientes
  where cod_cliente = 990249;
 
-select * from exproforma_libre;
+select *
+  from exproforma_libre
+ where numero = 19415;
+
+
 
 select *
   from caja_chica

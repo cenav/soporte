@@ -87,7 +87,7 @@ select *
  where cod_alm = 'FJ'
    and tp_transac = '27'
    and serie = 1
-   and nro_doc_ref = '380'
+   and nro_doc_ref in ('393', '394', '395', '396')
  order by fch_transac desc, nro_doc_ref desc;
 
 select *

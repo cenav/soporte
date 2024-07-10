@@ -45,4 +45,4 @@ select *
  where nuot_tipoot_codigo = 'PR'
    and numero = 570910;
 
-select sysdate from dual;
+

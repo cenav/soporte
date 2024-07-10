@@ -1,10 +1,10 @@
 select *
   from kardex_g
- where cod_alm = 'FT'
-   and tp_transac = '29'
+ where cod_alm = 'F0'
+   and tp_transac = '17'
    and serie = 1
    and numero in (
-   1797694
+                  744551, 744552, 744553, 744554
    );
 
 select *
@@ -1331,3 +1331,19 @@ select *
    and numero in (
    753150
    );
+
+select *
+  from kardex_g g
+ where exists(
+   select 1
+     from tmp_carga_data t
+    where g.cod_alm = t.cod_alm
+      and g.tp_transac = t.tp_transac
+      and g.serie = t.serie
+      and g.numero = t.numero
+   );
+
+select * from tmp_carga_data;
+
+select * from exproforma_libre;
+

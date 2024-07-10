@@ -1,7 +1,7 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user asistencia account unlock;
+alter user PAPEL account unlock;
 
-alter user RMATOS account lock;
+alter user PAPEL account lock;
 
 alter user vreymundo identified by "sistemvrg";
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CBRAVO';
+ where username like 'HABILITADO';
 
 select *
   from dba_users

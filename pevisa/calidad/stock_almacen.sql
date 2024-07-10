@@ -67,7 +67,7 @@ select cod_alm, cod_art, costo_32, stock, round(stock * costo_32, 2) as valor
       from kardex_d d
            join pcart_precios c on d.cod_art = c.cod_art and cod_costo = '32'
      where d.estado != '9'
-       and d.cod_art = 'ETIQ E-58 REC HEX'
+       and d.cod_art = 'RACK SELECT13'
     having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
      group by d.cod_alm, d.cod_art, c.costo
     )
@@ -91,3 +91,21 @@ select *
 select *
   from almacen
  where cod_art = 'CP-R-EFB Q85-90D23L';
+
+-- stock alamcen
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado != '9'
+   and exists(
+   select *
+     from tmp_carga_data t
+    where d.cod_art = t.cod_activo_fijo
+   )
+   and exists(
+   select *
+     from activo_fijo af
+    where d.cod_art = af.cod_activo_fijo
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art;

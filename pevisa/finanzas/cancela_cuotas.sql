@@ -1,3 +1,29 @@
+-- vencimientos masivos de un rango de fechas
+declare
+  cursor vencimientos is
+       with fechas as (
+         select date'2024-06-01' as desde, date'2024-06-30' as hasta
+           from dual
+         )
+     select f.desde + level - 1 as dia
+       from dual
+            cross join fechas f
+    connect by level <= (f.hasta - f.desde + 1);
+begin
+  for vcto in vencimientos loop
+        pkg_finanzas_pagares.cancela_cuotas(vcto.dia);
+--     pkg_finanzas_leasing.cancela_cuotas(vcto.dia);
+  end loop;
+end;
+
+-- genera asiento de pagare que vencia en una fecha pero se pago en otra
+declare
+  l_vencimiento date := to_date('15/01/2023', 'dd/mm/yyyy');
+  l_pago        date := to_date('16/01/2023', 'dd/mm/yyyy');
+begin
+  pkg_finanzas_pagares.cancela_cuotas(l_vencimiento, l_pago);
+end;
+
 -- cancelacion a una fecha
 call pkg_finanzas_pagares.cancela_cuotas(to_date('28/03/2022', 'dd/mm/yyyy'));
 

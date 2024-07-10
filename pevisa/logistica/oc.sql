@@ -1,17 +1,22 @@
 select *
   from orden_de_compra
- where serie = 6
+ where serie = 3
    and num_ped in (
-   3314
+   44991
    );
+
+select *
+  from orden_de_compra
+ where num_ped = 62444;
+
+select * from orden_de_compra_estado;
 
 select *
   from itemord
  where serie = 4
    and num_ped in (
-   62377
+   62337
    );
-
 
 select *
   from orden_de_compra
@@ -24,8 +29,15 @@ select *
 
 select *
   from orden_de_compra
- where cod_proveed = '20109034593'
+ where cod_proveed = '20600735668'
  order by fecha desc;
+
+select *
+  from proveed
+ where cod_proveed = '20600735668';
+
+select * from proveed
+where nombre like '%LINUX%';
 
 
 -- aprueba orden de servicio
@@ -69,11 +81,10 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 6
+ where serie = 3
    and num_ped in (
-   3306
-   )
-   and glosa = 'APROBADO';
+   44991
+   );
 
 select *
   from factpag

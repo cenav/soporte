@@ -113,10 +113,29 @@ select p.serie, p.numero, p.cod_personal, p.nombre, p.seccion, p.fecha, p.desde,
      , p.colorindex, p.cant_dia
   from permisos p
 --  where p.cant_dia > 1
-   where p.cod_personal = 'E1136'
-  order by fecha;
+ where p.cod_personal = 'E1136'
+ order by fecha;
+
+select count(*)
+  from permiso
+ where id_personal = 'E43259'
+   and trunc(desde) = to_date('31/05/2024', 'dd/mm/yyyy')
+   and id_concepto = 'DMS'
+ order by fecha desc;
 
 select *
   from permiso
- where id_personal = 'E1136'
+ where numero = 64617;
+
+select *
+  from permiso
+ where numero = 63268;
+
+select * from vw_permisos;
+
+select count(*)
+  from permiso
+ where id_personal = 'E42422'
+   and trunc(desde) = to_date('10/04/2024', 'dd/mm/yyyy')
+   and id_concepto = 'DMS'
  order by fecha desc;

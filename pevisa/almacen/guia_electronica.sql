@@ -33,7 +33,7 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (22649);
+   and numero in (24513);
 
 -- F0	21	25	14665
 
@@ -46,7 +46,7 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (22027);
+   and numero in (24507);
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
 select *
@@ -70,13 +70,15 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (
-                  20228, 20227, 20220, 20219, 20218, 20217, 20216, 20215, 20214, 20213, 20212,
-                  20211, 20210, 20209, 20208, 20207, 20206
+   24507
    );
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --           cheka correlativo             --
 --:::::::::::::::::::::::::::::::::::::::::--
+
+-- 1. revisa en la carpeta ftp/in cual es el ultimo nro generado
+-- 2. actualiza el numero correlativo
 
 select *
   from kardex_g_guia_remision
@@ -86,6 +88,8 @@ select *
 select *
   from nrodoc
  where serie = 'T001';
+
+---------------------------------------------
 
 -- F0	21	25	22027
 select *
@@ -135,27 +139,6 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (12380);
-
-insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
-                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
-                                          , tp_transac, serie, numero, motivo_traslado
-                                          , transporte_empresa, transporte_chofer, transporte_unidad
-                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
-                                          , modalidad_traslado, detalle, contenedor, precinto
-                                          , numero_documento_relacionado
-                                          , codigo_documento_relacionado
-                                          , descri_documento_relacionado, peso_items, pk_serie
-                                          , pk_numero, pk_tipo, ruc_llegada
-                                          , descripcion_motivo_traslado
-                                          , codigo_establecimiento_partida
-                                          , codigo_establecimiento_llegada, fecha_emision
-                                          , precinto_linea, carreta, marca_1, cartones, marca_2
-                                          , marca_3)
-values ( 'T001', 7030, date '2023-10-26', '070101', '150115', 'AV. IQUITOS NRO. 353', '20566560900'
-       , 'F0', '21', 25, 7371, '01', '20100084768', '01', '12', 3.00, 42.3000, '03', '00', '02'
-       , null, null, null, 'F050-00185857', '01', 'FACTURA', null, null, null, null, null, null
-       , null, null, null, null, null, null, null, null, null);
-
 
 select *
   from kardex_g
@@ -401,26 +384,6 @@ select *
   from sucursales
  where cod_cliente = '41189181';
 
-insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
-                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
-                                          , tp_transac, serie, numero, motivo_traslado
-                                          , transporte_empresa, transporte_chofer, transporte_unidad
-                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
-                                          , modalidad_traslado, detalle, contenedor, precinto
-                                          , numero_documento_relacionado
-                                          , codigo_documento_relacionado
-                                          , descri_documento_relacionado, peso_items, pk_serie
-                                          , pk_numero, pk_tipo, ruc_llegada
-                                          , descripcion_motivo_traslado
-                                          , codigo_establecimiento_partida
-                                          , codigo_establecimiento_llegada, fecha_emision
-                                          , precinto_linea, carreta, marca_1, cartones, marca_2
-                                          , marca_3)
-values ( 'T171', 1, date '2023-12-06', '150103', '150103', 'Calle siriu 127-urb. Sol de vitarte'
-       , '20100084768', 'A2', '73', 171, 1, '01', '.', null, null, 1.00, 200.0000, '05', '01', '02'
-       , null, null, null, null, null, null, 200.0000, null, null, null, '41189181', 'VENTA', '0004'
-       , '0000', timestamp '2023-12-06 07:44:37', null, null, null, null, null, null);
-
 select * from activo_fijo_area;
 
 select *
@@ -484,28 +447,6 @@ select *
   from clientes
  where cod_cliente = '20609182106';
 
-insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
-                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
-                                          , tp_transac, serie, numero, motivo_traslado
-                                          , transporte_empresa, transporte_chofer, transporte_unidad
-                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
-                                          , modalidad_traslado, detalle, contenedor, precinto
-                                          , numero_documento_relacionado
-                                          , codigo_documento_relacionado
-                                          , descri_documento_relacionado, peso_items, pk_serie
-                                          , pk_numero, pk_tipo, ruc_llegada
-                                          , descripcion_motivo_traslado
-                                          , codigo_establecimiento_partida
-                                          , codigo_establecimiento_llegada, fecha_emision
-                                          , precinto_linea, carreta, marca_1, cartones, marca_2
-                                          , marca_3)
-values ( 'T182', 53, date '0024-05-17', '150103', '150117'
-       , 'PJ. 16 MZA. O2 LOTE. 06 A.H. SAN ALBERTO LIMA - LIMA - LOS OLIVO', '20100084768', '99'
-       , 'T182', 999, 53, '17', '20100084768', '03', '20', 1.00, 200.0000, '04', '00', '02'
-       , 'SERVICIO DE CROMADO', null, null, null, null, null, null, null, null, null, '20566319412'
-       , 'Traslado de bienes para transf', '0011', '0000', timestamp '2024-05-16 18:13:27', null
-       , null, null, null, null, null);
-
 select * from pla_control;
 
 select * from locales;
@@ -516,3 +457,83 @@ select *
    and guia_numero = 1499;
 
 --M4	35	140	1499
+
+-- REGISTRAR CLIENTE
+--------------------------------------------
+-- DNI:  06266577
+-- Nombre : CESAR AUGUSTO PARIONA ALTAMIRANO
+-- Dirección : PSJ ESTRELLA 138
+-- Correo : cpariona44@hotmail.com
+-- Teléfono: 993 102 925
+
+-- INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T171', 10, DATE '2024-07-08', '150103', '150101', 'PSJ ESTRELLA 138', '20100084768', 'A4', '73', 171, 10, '01', '.', '01', '32', 19.00, 10.0000, '06', '01', '02', 'VENTA DE EQUIPOS INOPERARATIVOS', null, null, null, null, null, 10.0000, null, null, null, '06266577', 'VENTA', '0000', '0000', TIMESTAMP '2024-07-08 07:30:00', null, null, null, null, null, null);
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T171'
+   and guia_numero = 10
+ union
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T001'
+   and guia_numero = 12380;
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero = 12949
+ union
+select *
+  from kardex_g
+ where cod_alm = 'A4'
+   and tp_transac = '73'
+   and serie = 171
+   and numero = 10;
+
+select *
+  from view_salidas_pre_guias
+ where cod_alm = 'A4'
+   and tp_transac = '73'
+   and serie = 171
+   and numero = 10
+   and not exists (
+   select 1
+     from kardex_g_guia_remision r
+    where cod_alm = view_salidas_pre_guias.cod_alm
+      and tp_transac = view_salidas_pre_guias.tp_transac
+      and serie = view_salidas_pre_guias.serie
+      and numero = view_salidas_pre_guias.numero
+   );
+
+select s.nro_sucur, s.direccion, u.cod_ubc, u.nom_dpt, u.nom_pvc, u.nom_dtt
+     , u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+     , nvl(s.codigo_establecimiento_sunat, '0000') as codigo_establecimiento_sunat
+  from ubigeo u
+     , sucursales s
+ where s.cod_cliente = '06266577'
+   and u.nacional_internacional = 'N'
+   and s.cod_ubc = u.cod_ubc
+   and nvl(s.estado, 0) < 9
+   and s.nro_sucur <> :X_GUIA_ENTRE_ALMACENES.nro_sucursal_partida
+ order by u.nom_dtt;
+
+select *
+  from sucursales
+ where cod_cliente = '06266577';
+
+select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.direccion, u.cod_ubc
+     , u.nom_dpt, u.nom_pvc, u.nom_dtt, u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+  from ubigeo u
+     , sucursales s
+     , clientes c
+ where s.cod_cliente = c.cod_cliente
+   and u.nacional_internacional = 'N'
+   and s.cod_ubc = u.cod_ubc
+   and nvl(s.estado, 0) < 9
+ order by c.cod_cliente, s.nro_sucur;
+
+select *
+  from clientes
+ where cod_cliente = '40843900';

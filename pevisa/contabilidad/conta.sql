@@ -196,13 +196,40 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = 'B10'
-   and numero = 107;
+ where id_vendedor = '34'
+   and numero = 230;
+
+select *
+  from gastos_de_viaje_habilitado_m
+ where id_vendedor = '34'
+   and numero = 230;
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = '34'
+   and numero = 230;
+
+insert into gastos_de_viaje_m(numero, id_motivo, total_habilitado, id_vendedor)
+select 230, id_motivo, sum(valor), '34'
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = '34'
+   and numero = 230
+ group by id_motivo;
 
 select *
   from gastos_de_viaje
- where id_vendedor = 'B10'
-   and numero = 107;
+ where id_vendedor = '34'
+   and numero = 230;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = '34'
+   and numero = 230;
+
+select *
+  from gastos_de_viaje_d
+ where id_vendedor = '34'
+   and numero = 230;
 
 select * from vw_gasto_viaje;
 
