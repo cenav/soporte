@@ -129,7 +129,14 @@ select *
 
 select *
   from permiso
- where numero = 63268;
+ where numero = 64949;
+
+select *
+  from proceso_puntualidad_pers
+ where id_personal = 'E43200'
+ order by id_proceso desc;
+
+select * from estado_permiso;
 
 select * from vw_permisos;
 
@@ -139,3 +146,43 @@ select count(*)
    and trunc(desde) = to_date('10/04/2024', 'dd/mm/yyyy')
    and id_concepto = 'DMS'
  order by fecha desc;
+
+select *
+  from concepto_permiso;
+
+select *
+  from cominac_concepto_venta_grupal
+ where cod_concepto = 192;
+
+select *
+  from concepto_permiso
+ where flg_asocial = 1;
+
+select descripcion as dsc_concepto, id_concepto as idconcepto
+  from pevisa.concepto_permiso
+ where ((:maestro = 'NO' and flg_solorrhh = 0) or
+        (flg_asocial = 1 and exists(
+          select rm.id_permiso, p.dsc_permiso
+            from usuarios u
+                 join roles r on u.id_rol = r.id_rol
+                 join roles_modulo rm on r.id_rol = rm.id_rol
+                 join permisos p on rm.id_permiso = p.id_permiso
+           where u.usuario = 'CNAVARRO'
+             and rm.id_modulo = 'PERMISO'
+             and p.id_permiso in (20)
+          )) or
+        :maestro = 'SI')
+ order by descripcion;
+
+select rm.id_permiso, p.dsc_permiso
+  from usuarios u
+       join roles r on u.id_rol = r.id_rol
+       join roles_modulo rm on r.id_rol = rm.id_rol
+       join permisos p on rm.id_permiso = p.id_permiso
+ where u.usuario = 'CNAVARRO'
+   and rm.id_modulo = 'PERMISO'
+   and p.id_permiso in (20);
+
+create package accesos as
+
+end accesos;

@@ -1,8 +1,23 @@
 select *
   from orden_de_compra
- where serie = 3
+ where serie = 6
    and num_ped in (
-   44991
+   3314
+   );
+
+
+select *
+  from itemord
+ where serie = 6
+   and num_ped in (
+   3312
+   );
+
+select *
+  from itemord
+ where serie = 30
+   and num_ped in (
+   643
    );
 
 select *
@@ -36,8 +51,9 @@ select *
   from proveed
  where cod_proveed = '20600735668';
 
-select * from proveed
-where nombre like '%LINUX%';
+select *
+  from proveed
+ where nombre like '%LINUX%';
 
 
 -- aprueba orden de servicio
@@ -81,9 +97,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 3
+ where serie = 6
    and num_ped in (
-   44991
+   3314
    );
 
 select *

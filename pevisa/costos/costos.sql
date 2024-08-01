@@ -23,6 +23,8 @@ select *
    and ser_transac = 2
    and nro_transac = 6794;
 
+select * from porcentaje_merma_consumo;
+
 select *
   from tmp_moviart_dos
  where voucher = '100509';
@@ -82,8 +84,8 @@ select ot.nuot_tipoot_codigo as tipo_ot
 
 select *
   from analisis_consumo
- where ano = 2023
-   and mes = 5;
+ where ano = 2024
+   and mes = 6;
 
 select count(*)
   from analisis_consumo
@@ -98,7 +100,7 @@ select *
    and cantidad = 0;
 
 begin
-  pkg_analisis_consumo.procesa(2023, 5);
+  pkg_analisis_consumo.procesa(2024, 5);
 end;
 
 select ot.nuot_tipoot_codigo as tipo_ot

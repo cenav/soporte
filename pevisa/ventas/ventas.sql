@@ -12,12 +12,52 @@ select *
 
 select *
   from pedido
- where num_ped = 246109;
+ where num_ped = 248027;
 
 select *
   from itemped
- where num_ped = 246109;
+ where num_ped = 248027;
 
+select *
+  from articul
+ where cod_art = 'S4 38DA-NS40';
+
+select *
+  from articul
+ where cod_art = 'S4 38DA-NS40';
+
+select *
+  from tab_lineas
+ where linea = '253';
+
+select p.num_ped, a.estado, p.fecha, p.cod_cliente, e.nombre, e.cond_pag, p.moneda, p.cod_vende
+     , i.cod_art
+  from pedido p
+       join itemped i
+            on p.serie = i.serie
+              and p.num_ped = i.num_ped
+       join articul a on i.cod_art = a.cod_art
+       join clientes e on p.cod_cliente = e.cod_cliente
+ where a.cod_lin = '253'
+   and p.moneda = 'S'
+   and p.estado != '9'
+   and extract(year from p.fecha) = 2024;
+
+-- cotizaciones Bosch
+select p.num_ped, p.estado, p.fecha, p.cod_cliente, e.nombre, e.cond_pag, p.moneda, p.cod_vende
+     , v.nombre as vendedor, p.refe_pedido, i.imp_vvb as importe
+  from cotizacion p
+       join itemcot i
+            on p.serie = i.serie
+              and p.num_ped = i.num_ped
+       join articul a on i.cod_art = a.cod_art
+       join clientes e on p.cod_cliente = e.cod_cliente
+       join vendedores v on p.cod_vende = v.cod_vendedor
+ where a.cod_lin = '253'
+   and p.moneda = 'S'
+   and p.estado not in ('0', '9')
+   and extract(year from p.fecha) = 2024
+ order by fecha;
 
 -- acceso MGVENTAS
 select *
@@ -77,7 +117,7 @@ select *
 
 select *
   from vendedores
- where cod_vendedor = '77';
+ where cod_vendedor = 'N5';
 
 select *
   from pedido
@@ -559,3 +599,101 @@ select *
  where num_ped = 246529;
 
 select sysdate from dual;
+
+-- 000676465 carnet extranjeria
+
+select *
+  from clientes
+ where cod_cliente = '000676465';
+
+select *
+  from clientes_otros
+ where cod_cliente = '000676465';
+
+select * from tipo_documento_identidad;
+
+alter table clientes_otros
+  add id_tipo_dociden number(3);
+
+select *
+  from articul
+ where cod_art = 'V 95120 R';
+
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29 and codigo <> '....'
+   and codigo in (
+   select cod_vendedor
+     from vendedores
+    where abreviada = user
+   )
+ union all
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29 and codigo <> '....'
+   and exists (
+   select usuario
+     from usuarios_cotizacion
+    where usuario = user and indicador3 = '1'
+   )
+ order by 1;
+
+select *
+  from cotizacion
+ where serie = 20
+   and num_ped = 225627;
+
+select *
+  from histcot
+ where serie = 20
+   and num_ped = 226261;
+
+declare
+  l_nombre varchar2(40);
+
+  function get_customer_name(
+    v1 in number
+  , v in  varchar2
+  )
+    return varchar2 is
+    rv varchar2(40);
+  begin
+    if v1 is not null then
+      select descripcion
+        into rv
+        from tablas_auxiliares t
+       where t.tipo = v1 and t.codigo = v;
+      return (rv);
+    end if;
+  exception
+    when
+      others
+      then
+        null;
+    --   message ('Codigo no existe en tablas auxiliares');
+  end;
+begin
+  l_nombre := get_customer_name(29, 'N5');
+  dbms_output.put_line(l_nombre);
+end;
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
+     , pr_medpza as cod_ing, l.grupo_venta
+  from articul a
+     , tab_lineas l
+     , lispred v
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.linea = a.cod_lin
+   and l.grupo is not null
+   and v.cod_art = a.cod_art
+   and v.nro_lista = :nro_lista
+   and l.grupo_venta = :unidad_negocio
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and l.grupo not in (41)
+ order by a.cod_art;
+
+select *
+  from tab_grupos
+ where descripcion like '%BATERIAS%';

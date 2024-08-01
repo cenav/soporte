@@ -73,6 +73,12 @@ select *
  where owner = upper('pevisa' )
  order by job_name;
 
+select *
+  from dba_scheduler_jobs
+ where owner = upper('pevisa' )
+ and job_name like '%PUNTUA%'
+ order by job_name;
+
 select job_name, job_action, start_date, repeat_interval
   from dba_scheduler_jobs
  where owner = upper('pevisa')

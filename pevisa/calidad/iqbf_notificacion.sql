@@ -12,18 +12,21 @@ select *
 
 begin
   mail.send_simple(
-      p_to => 'cnavarro@pevisa.com.pe'
-    , p_from => 'alertas@pevisa.com.pe'
+      p_to => 'henriquez@pevisa.com.pe; spastrana@pevisa.com.pe'
+    , p_bcc => 'cnavarro@pevisa.com.pe'
+    , p_from => 'alertas_calidad@pevisa.com.pe'
     , p_subject => 'Ingreso IQBF'
-    , p_message => 'Ingreso IQBF'
+    , p_message => 'pruebas'
   );
 end;
 
-create or replace trigger tai_alerta_ingreso_iqbf
+
+
+create trigger tai_alerta_ingreso_iqbf
   after insert
   on kardex_d
   for each row
-  when ( new.ing_sal = 'I' )
+  when (new.ing_sal = 'I')
 begin
   if iqbf.existe(:new.cod_art) then
     mail.send_simple(

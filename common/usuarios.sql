@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user PAPEL account unlock;
+alter user MOBANDO account unlock;
 
-alter user PAPEL account lock;
+alter user papel account lock;
 
-alter user vreymundo identified by "sistemvrg";
+alter user MMIRANDA identified by "mamalucy9+";
 
-alter user cninamango password expire;
+alter user gfalcon password expire;
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'HABILITADO';
+ where username like 'MMIRANDA';
 
 select *
   from dba_users
@@ -194,7 +194,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('JCABEZAS')
+ where usuario in ('CNAVARRO')
  order by usuario, modulo;
 
 select *
@@ -976,7 +976,22 @@ select *
   from usuarios_cotizacion
  where usuario in ('LILY', 'LSALCEDO', 'CNAVARRO');
 
-select *
-  from cotizacion
- where estado = '2'
-   and extract(year from fecha) = 2024;
+select * from usuarios;
+
+select * from tab_menu;
+
+select * from modulo;
+
+select * from roles;
+
+select * from permisos;
+
+select * from roles_modulo;
+
+--------------------------
+select * from roles_menus;
+
+select * from menu_roles;
+--------------------------
+
+select * from menu; -- por crear

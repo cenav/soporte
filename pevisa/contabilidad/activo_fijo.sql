@@ -48,3 +48,21 @@ select d.cod_alm, d.cod_art
    )
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo in (
+                            'LICENCIA COREL14', 'LICENCIA A.CAD07', '04LAPT26',
+                           'AC1RET-012', 'EQ DIV315', 'EQ COMP/OF SEG', '02CAMA2', '02CAMA3',
+                           '02CAMA4', '02CAMA1', 'SECS PINT AREN FOSF MET MAN15',
+                           'SECS PINT AREN FOSF MET MAN16', 'MQ2MATR-074', 'EQ DIV107', '03BOBI146',
+                           '03BOBI147', '03BOBI148', '02SILL2', '03IMPR1', '02MUEB25', 'EQ DIV96',
+                           'EQ DIV120', '02IMPR10', '02LOCK1', '03HERR44', '03CAMA1',
+                           'MQ2MATR-064 INST1', '02ANDA26', 'AC1LJEB-011', 'AC1LJEB-012', 'EQ DIV2',
+                           'EQ MEDIC35'
+   );
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = 'LICENCIA A.CAD08'
+   and fecha = to_date('30/06/2024', 'dd/mm/yyyy');

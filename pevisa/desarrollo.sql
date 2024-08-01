@@ -79,4 +79,3 @@ select count(*)
    and trunc(desde) = to_date('10/04/2024', 'dd/mm/yyyy')
    and id_concepto = 'DMS'
  order by fecha desc;
-

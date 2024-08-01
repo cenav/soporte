@@ -2,16 +2,25 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 5
-   and libro = '05'
-   and voucher = 50049;
+   and mes = 4
+   and libro = '08'
+   and voucher = 40085;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 5
-   and libro = '05'
-   and voucher = 50049;
+   and mes = 3
+   and libro = '20'
+   and voucher = 30007
+   and serie = '096';
+
+-- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+--                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+--                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+--                            , serie, f_vencto, cambio, file_cta_cte)
+-- values ( 2024, 3, '20', 30007, '451102', 'V', 'P', '20100047218', '26', '3981486', date '2023-10-18'
+--        , null, 48214.42, 0.00, 12698.03, 0.00, '1', null, 'N', 'PEGUILUZ', date '2024-04-11', 'CRE'
+--        , '096', null, 3.7970, 'N');
 
 select *
   from movdeta
@@ -23,8 +32,20 @@ select *
 
 select *
   from factpag
- where numero = '0470850'
-   and cod_proveedor = '20467534026';
+ where numero = '0000652'
+   and cod_proveedor = '20603183933';
+
+select *
+  from factpag
+ where numero = '3981486'
+   and cod_proveedor = '20100047218'
+   and serie_num = '096';
+
+select *
+  from cabfpag
+ where numero = '3981486'
+   and cod_proveedor = '20100047218'
+   and serie_num = '096';
 
 select *
   from movglos_anexos
@@ -80,10 +101,7 @@ select *
 select *
   from activo_fijo
  where cod_activo_fijo in (
-                           '02BALA61', '04LUZE2 INST', 'EQ DIV325', '04TELE3', '02ESCR9',
-                           'EQ DIV326', '02LOCK3', '02LOCK4', 'MQ2MATR-064', 'AC1GEN-001',
-                           '02LUZE11', '04FRIO2', '02LOCK2', 'EQ MEDIC24', 'EQ MEDIC25',
-                           'LICENCIA COREL12', 'LICENCIA COREL13'
+                           '05MUEB102', '05MUEB103', '05MUEB104', '05MUEB105'
    );
 
 select *
@@ -235,8 +253,8 @@ select * from vw_gasto_viaje;
 
 select *
   from gastos_de_viaje
- where id_vendedor = '35'
-   and numero = 202;
+ where id_vendedor = 'B10'
+   and numero = 108;
 
 select *
   from gastos_de_viaje_habilitado
@@ -261,3 +279,28 @@ select *
 select *
   from centro_de_costos
  order by centro_costo;
+
+select *
+  from proveed
+ where cod_proveed = '10476312316';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10476312316'
+ order by fecha desc;
+
+select *
+  from movglos
+ where cod_proveed = '10476312316'
+ order by fecha desc;
+
+select *
+  from factpag
+ where cod_proveedor = '10476312316'
+ order by fecha desc;
+
+select *
+  from campana_cliente
+ where cod_campana = 'C24-DC1';
+
+select * from nrodoc;

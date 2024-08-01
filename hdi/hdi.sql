@@ -2032,3 +2032,12 @@ select *
    );
 
 select * from pla_control;
+
+select *
+  from proveed
+ where nombre like '%NAVARRO MALDONADO%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '10442310624'
+ order by fecha desc;

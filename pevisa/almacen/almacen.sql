@@ -1347,3 +1347,36 @@ select * from tmp_carga_data;
 
 select * from exproforma_libre;
 
+select * from tipo_linea;
+
+select *
+  from tab_lineas_tipo_linea
+ where cod_tipo = 4;
+
+-- 03-11-2-8692
+-- 03-11-2-8693
+
+-- 03-11-2-8692
+-- 03-11-2-8693
+
+
+select *
+  from kardex_g
+ where cod_alm = '30'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 8692;
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '11'
+   and serie = 2
+   and numero = 8693;
+
+select *
+  from almacen
+ where cod_art in (
+                   'MAT1 180.761CS-1 -2', 'MAT1 180.761CS-3 -2', 'MAT1 180.789ZN-2',
+                   'MAT1 200.1535CS-1 -2', 'MAT1 200.1703CS-1 -2'
+   );

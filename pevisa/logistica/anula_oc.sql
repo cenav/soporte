@@ -2,10 +2,11 @@ declare
   cursor cr_ordenes is
     select *
       from orden_de_compra
-     where serie = 3
+     where serie = 30
        and num_ped in (
-       44675
+       617
        );
+
 
   function ot_cerrada(
     p_serie  orden_de_compra.serie%type

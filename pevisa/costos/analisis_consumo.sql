@@ -1,27 +1,66 @@
 begin
-  pkg_analisis_consumo.procesa(2023, 07);
+  pkg_analisis_consumo.procesa(2024, 06);
 end;
 
 select *
   from analisis_consumo
  where ano = 2024
-   and mes = 4;
+   and mes = 6;
 
 select *
   from logger_logs
  order by id desc;
 
-
 -- PR 8 503540 BO 2.0GR-200
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
-   and numero = 513172;
+   and numero = 542938;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
-   and ot_numero = 513172;
+   and ot_numero = 542938;
+
+select cant_prog, cant_merma, cant_ingresado, cant_merma + 1819 as cant_prog_calc
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 542938;
+
+select sum(kxd.cantidad)
+  from kardex_g kx
+       join kardex_d kxd
+            on (kx.cod_alm = kxd.cod_alm
+              and kx.tp_transac = kxd.tp_transac
+              and kx.serie = kxd.serie
+              and kx.numero = kxd.numero)
+ where kx.tipo_pguia = 'PR'
+   and kx.serie_pguia = 8
+   and kx.numero_pguia = 542938
+   and kx.tp_transac = '18'
+   and kx.estado != '9'
+--          and kx.fch_transac <= sysdate;
+   and to_number(to_char(kx.fch_transac, 'yyyymm')) <= :p_ano * 100 + :p_mes;
+
+select cant_prog, cant_merma, cant_ingresado, cant_merma + 62740 as cant_prog_calc
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 536154;
+
+select sum(kxd.cantidad)
+  from kardex_g kx
+       join kardex_d kxd
+            on (kx.cod_alm = kxd.cod_alm
+              and kx.tp_transac = kxd.tp_transac
+              and kx.serie = kxd.serie
+              and kx.numero = kxd.numero)
+ where kx.tipo_pguia = 'PR'
+   and kx.serie_pguia = 8
+   and kx.numero_pguia = 536154
+   and kx.tp_transac = '18'
+   and kx.estado != '9'
+--          and kx.fch_transac <= sysdate;
+   and to_number(to_char(kx.fch_transac, 'yyyymm')) <= :p_ano * 100 + :p_mes;
 
 select *
   from pr_ot_det

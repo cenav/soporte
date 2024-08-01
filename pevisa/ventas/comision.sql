@@ -311,3 +311,9 @@ select *
  where id_proceso = 99;
 
 select * from estado_proceso;
+
+select * from cominac_concepto_rango;
+
+select *
+  from cominac_concepto_venta_grupal
+ where cod_concepto = 458;

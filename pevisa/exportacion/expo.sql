@@ -24,7 +24,8 @@ select *
 
 select *
   from exproforma_d
- where numero = 19389;
+ where numero = 19416
+   and nro = 38;
 
 select *
   from exproforma_d
@@ -658,3 +659,8 @@ select *
 select * from view_prodterm_paletas;
 
 select * from tmp_carga_data;
+
+select *
+  from exproforma_d_aprobar
+ where numero = 19416
+   and estado_respuesta is null and cantidad_libre is null;

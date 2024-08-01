@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  10525, 10526, 10684, 10685, 10662, 10688, 10689, 10642, 10641, 10643, 10644
+   1031238
    );
 
 select *
@@ -14,9 +14,9 @@ select *
 
 select *
   from pr_ot_det
- where ot_nuot_tipoot_codigo = 'PR'
+ where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   556809
+   1031238
    );
 
 --  estado anterior de una orden

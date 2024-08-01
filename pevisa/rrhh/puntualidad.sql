@@ -1,3 +1,5 @@
+call puntualidad.automatico(2024, 7);
+
 select *
   from proceso_puntualidad
  order by id_proceso desc;
@@ -64,6 +66,3 @@ select v.idperiodo, v.cod_personal, v.persona, e.codigo as cod_encargado, e.nomb
    and v.cod_personal = 'E43229'
    and v.idperiodo = 3287
  group by v.idperiodo, v.cod_personal, v.persona, e.codigo, e.nombre;
-
-alter table oc_registro_facturas
-  add nombre_pdf_acta varchar2(100);
