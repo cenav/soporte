@@ -118,6 +118,12 @@ select *
    and numero = '0009359';
 
 select *
+  from factpag
+ where cod_proveedor = '20600123638'
+   and serie_ref = '11'
+   and nro_referencia = '1649';
+
+select *
   from kardex_g_movglos
  where cod_alm = '30'
    and tp_transac = '11'
@@ -174,3 +180,4 @@ select *
   from usuarios_almacenes_perfil
  where usuario = 'DCONTRERAS'
    and cod_alm = '01';
+

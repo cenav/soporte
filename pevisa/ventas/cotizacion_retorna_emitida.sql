@@ -1,6 +1,6 @@
 begin
   for r in (
-    --     select c.num_ped as num_cot, c.refe_pedido as num_ped, c.fecha, c.estado
+--     select c.num_ped as num_cot, c.refe_pedido as num_ped, c.fecha, c.estado
 --       from cotizacion c
 --      where c.refe_pedido in (
 --        222701

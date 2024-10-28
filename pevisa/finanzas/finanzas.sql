@@ -1,16 +1,18 @@
 select *
   from movfigl
  where ano = 2024
-   and mes = 5
-   and tipo = '2'
-   and voucher = 53580;
+   and mes = 10
+   and tipo = '9'
+   and voucher = 100003;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 3
-   and tipo = '2'
-   and voucher = 33004;
+   and mes = 10
+   and tipo = '9'
+   and voucher = 100003;
+
+-- 0337221
 
 select *
   from factpag
@@ -33,17 +35,29 @@ select *
 select *
   from nrotipo
  where ano = 2024
-   and mes = 4
-   and tipo = '1';
+   and mes = 9
+   and tipo = '2';
+
+-- 93546
 
 select *
   from movfigl
  where ano = 2024
-   and mes = 4
-   and tipo = 1
+   and mes = 9
+   and tipo = '2'
+   and numero = 93546;
+
+select *
+  from movfigl
+ where ano = 2024
+   and mes = 9
+   and tipo = '2'
  order by voucher desc;
 
-select * from tab_semanas order by al;
+select *
+  from tab_semanas
+ where extract(year from del) = 2024
+ order by al;
 
 select *
   from pagos_h
@@ -219,7 +233,9 @@ select * from embarques_d;
 
 select *
   from docu_ag
- where numero = 4603;
+ where numero in (
+                  5455, 5456, 5457, 5458, 5459, 5460, 5461, 5462
+   );
 
 select *
   from item_ag
@@ -277,3 +293,22 @@ select i.cod_proveedor, h.apellido_paterno, h.apellido_materno, h.nombres, i.imp
    and h.for_pago = 'C'
    and h.c_banco = '02'
    and p.estado = 1;
+
+select *
+  from docu_ag
+ where numero = 5258;
+
+select *
+  from item_ag
+ where numero = 5258;
+
+select * from pagos_i;
+
+select *
+  from pagos_h
+ where generado_por_usuario = 'ODOMINGUEZ'
+   and extract(year from fecha_generacion) = 2024
+   and extract(month from fecha_generacion) = 10;
+
+select to_date('18/10/2024', 'dd/mm/yyyy') from dual;
+

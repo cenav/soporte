@@ -1,13 +1,12 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('BLAF 0.35-184N', 319, false, op);
+  emite.op('FOR3829', 3.1, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
 
-
-select * from articul where cod_art = 'CL-O 200.4009ALR';
+select * from articul where cod_art = 'MET 450.538';
 
 --revisar consumo anual
 select *

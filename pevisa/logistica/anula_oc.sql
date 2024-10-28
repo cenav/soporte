@@ -4,7 +4,7 @@ declare
       from orden_de_compra
      where serie = 30
        and num_ped in (
-       617
+       675
        );
 
 

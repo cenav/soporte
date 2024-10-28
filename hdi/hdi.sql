@@ -226,7 +226,25 @@ select *
 
 select *
   from prestamo_banco
- where cod_prestamo = '20126815-1';
+ where cod_prestamo = '4198825';
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '4198825';
+
+select *
+  from movfigl
+ where ano = 2024
+   and mes = 10
+   and tipo = 3
+   and voucher = 100003;
+
+select *
+  from movfide
+ where ano = 2024
+   and mes = 10
+   and tipo = 3
+   and voucher = 100003;
 
 select *
   from tab_bancos
@@ -2041,3 +2059,18 @@ select *
   from orden_de_compra
  where cod_proveed = '10442310624'
  order by fecha desc;
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '4198825';
+
+select pcuenta
+     , pcuentad
+  from t_documi
+ where codigo = '26';
+
+select cuenta, descripcion
+  from plancta
+ where lower(descripcion) like '%interes%'
+   and moneda = :prestamo_banco.cod_banco
+   and titulo = 'D';

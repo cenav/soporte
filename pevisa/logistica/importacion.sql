@@ -169,3 +169,7 @@ select *
    and mes_cierre = 5;
 
 select * from paramin;
+
+select *
+  from proveed
+ where cod_proveed = '20600612922';

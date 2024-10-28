@@ -4,9 +4,9 @@ declare
   cursor cr_planillas is
     select *
       from pagos_h
-     where serie_planilla = 3
+     where serie_planilla = 80
        and numero_planilla in (
-                               000855, 000763, 000745, 000727, 000678, 000670
+                               27358
        );
 
   procedure anula_detalle(

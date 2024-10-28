@@ -32,3 +32,9 @@ select id_proceso, id_empleado, nom_empleado, id_cargo, dsc_cargo, id_encargado,
      , id_turno, dsc_turno, bono_bruto, bono_neto
   from proceso_rsc_d
  where id_proceso = 5;
+
+select * from bono_obrero;
+
+select *
+  from proceso_bono_obrero_det
+ where id_bono_obrero = 56;

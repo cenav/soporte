@@ -2,25 +2,20 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 4
-   and libro = '08'
-   and voucher = 40085;
+   and mes = 10
+   and libro = '05'
+   and voucher = 10001;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 3
-   and libro = '20'
-   and voucher = 30007
-   and serie = '096';
+   and mes = 10
+   and libro = '05'
+   and voucher = 10001;
 
--- insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
---                            , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
---                            , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
---                            , serie, f_vencto, cambio, file_cta_cte)
--- values ( 2024, 3, '20', 30007, '451102', 'V', 'P', '20100047218', '26', '3981486', date '2023-10-18'
---        , null, 48214.42, 0.00, 12698.03, 0.00, '1', null, 'N', 'PEGUILUZ', date '2024-04-11', 'CRE'
---        , '096', null, 3.7970, 'N');
+select *
+  from plancta
+ where cuenta = '92260208';
 
 select *
   from movdeta
@@ -45,6 +40,27 @@ select *
   from cabfpag
  where numero = '3981486'
    and cod_proveedor = '20100047218'
+   and serie_num = '096';
+
+select *
+  from cabfpag
+ where numero = '3981486'
+   and cod_proveedor = '20100047218'
+   and serie_num = '003';
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '3981486'
+   and nro_cuota = 97;
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '3981486'
+   and nro_cuota = 97;
+
+select *
+  from factpag
+ where numero = '3981486'
    and serie_num = '096';
 
 select *
@@ -131,11 +147,17 @@ select *
 
 select *
   from caja_chica
- where numero = 240031;
+ where numero = 24085;
 
 select *
-  from caja_chica_d
- where numero = 240031;
+  from caja_chica
+ where estado = '1'
+   and creacion_quien = 'DACOSTA';
+
+select *
+  from caja_chica
+ where serie = 7
+   and numero = 24083;
 
 select *
   from kardex_g_movglos
@@ -190,7 +212,7 @@ select *
   from factcob
  where tipdoc = 'LV'
    and numero in (
-                  22781, 22784, 22787
+                  23420, 23421, 23422, 23423, 23424
    );
 
 -- PRIMER VCTO. 15/06/2024
@@ -214,13 +236,18 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = '34'
-   and numero = 230;
+ where id_vendedor = 'Z10'
+   and numero = 100;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = 'Z10'
+   and numero = 100;
 
 select *
   from gastos_de_viaje_habilitado_m
- where id_vendedor = '34'
-   and numero = 230;
+ where id_vendedor = '23'
+   and numero = 244;
 
 select *
   from gastos_de_viaje_habilitado_d
@@ -236,18 +263,18 @@ select 230, id_motivo, sum(valor), '34'
 
 select *
   from gastos_de_viaje
- where id_vendedor = '34'
-   and numero = 230;
+ where id_vendedor = 'Z10'
+   and numero = 101;
 
 select *
   from gastos_de_viaje_m
- where id_vendedor = '34'
-   and numero = 230;
+ where id_vendedor = 'Z10'
+   and numero = 101;
 
 select *
   from gastos_de_viaje_d
- where id_vendedor = '34'
-   and numero = 230;
+ where id_vendedor = 'Z10'
+   and numero = 101;
 
 select * from vw_gasto_viaje;
 
@@ -278,7 +305,30 @@ select *
 
 select *
   from centro_de_costos
+ where centro_costo like ('730505%');
+
+select *
+  from caja_d
+ where centro_costo = '73050521E4';
+
+select *
+  from centro_de_costos
+ where centro_costo in (
+                        '730505', '73050521E4 ', '73050521F6', '73050521H6'
+   )
  order by centro_costo;
+
+select *
+  from caja_chica_d
+ where centro_costo in (
+                        '730505', '73050521E4 ', '73050521F6', '73050521H6'
+   );
+--    and codigo_motivo = 'AN';
+
+select *
+  from pr_tabmaq
+ where centro_costo = '730505';
+
 
 select *
   from proveed
@@ -303,4 +353,129 @@ select *
   from campana_cliente
  where cod_campana = 'C24-DC1';
 
-select * from nrodoc;
+select *
+  from nrodoc
+ where tipodoc = 'FN';
+
+select *
+  from tablas_auxiliares
+ where codigo = 'FN';
+
+
+select * from docu_fact_nego;
+
+select * from usuarios_libros;
+
+select * from cierre_contabilidad;
+
+select *
+  from prestamo_banco_cuota
+ where cod_prestamo = '3981486'
+   and nro_cuota = 97;
+
+select extract(year from fecha) as anio
+     , extract(month from fecha) as mes
+     , sum(case id_moneda when 'S' then importe_solicitado else 0 end) as soles
+     , sum(case id_moneda when 'D' then importe_solicitado else 0 end) as dolares
+  from vw_aprueba_caja
+ where id_estado in (2, 4, 5, 6, 7)
+   and trunc(fecha) between trunc(add_months(sysdate, -2), 'MM') and last_day(trunc(sysdate))
+ group by extract(year from fecha), extract(month from fecha)
+ order by anio, mes;
+
+select trunc(add_months(sysdate, -2), 'MM')
+     , last_day(trunc(sysdate))
+  from dual;
+
+select *
+  from estado_caja
+ order by id_estado;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo in (
+                           '02LAPT9', 'CPUC16-CPU', 'CPUC16-MONI', 'CPUC17-CPU', 'CPUC17-MONI',
+                           '01SILL60', '01SILL61', '02COCH38', '02COCH41', '02COCH42', '02COCH43',
+                           '02COCH44', '02COCH45', 'AC1PJEB-011', 'AC1PJEB-012', '04ELEV1',
+                           '02BALA56', '02BALA57', '02BALA58', '04BALA1', '04BALA2', '02RELO2',
+                           '02LOCK5', '02LOCK6', 'AC1ARMPT-009', '02CAMA5', '02CAMA6', 'AC1RET-008',
+                           'EQ DIV159', 'ALM COMP Y PZS MAN3', 'AC1ACAB-003', 'AC2SPAPL-006'
+   );
+
+select * from movfide;
+
+select *
+  from vendedores
+ where nombre like '%ARANDA%';
+
+select *
+  from factpag
+ where tipdoc = 'PO';
+
+select to_date('23/09/2024', 'dd/mm/yyyy') + 30 from dual;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = '83'
+   and numero = 234;
+
+select *
+  from gastos_de_viaje_habilitado_m
+ where id_vendedor = '83'
+   and numero = 234;
+
+select *
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = '83'
+   and numero = 234;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = '83'
+   and numero = 234;
+
+select max((ano * 100) + mes)
+  from cierre_contabilidad;
+
+select * from cierre_contabilidad;
+
+select 2024 * 100 + 9 from dual;
+
+select *
+  from proveed
+ where cod_proveed = '10466236638';
+
+
+
+select *
+  from proveed_bancos
+ where cod_proveed = '10466236638';
+
+create public synonym cancelacion_auto_factura_no for cancelacion_auto_factura_no;
+
+select *
+  from factpag
+ where cod_proveedor = '20182246078'
+   and extract(year from fecha) = 2023;
+
+
+select *
+  from pagos_i i
+     , proveed_pagos_especiales e
+ where i.serie_planilla = 1
+   and i.numero_planilla = 27939
+   and i.cod_proveedor = e.cod_proveed;
+
+select *
+  from proveed
+ where cod_proveed = '20265681299';
+
+
+select *
+  from proveed_pagos_especiales
+ where cod_proveed = '20265681299';
+
+insert into pevisa.proveed_pagos_especiales ( cod_proveed, fecha_modificacion, modificado_por
+                                            , creado_por, fecha_creacion, motivo)
+values ('20265681299', null, null, 'MSOTO', timestamp '2024-02-13 15:31:00', null);
+

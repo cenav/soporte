@@ -46,7 +46,9 @@ select *
  where cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (24507);
+   and numero in (
+                  31972, 31994, 32010, 32013, 32023, 32028, 32039, 32062
+   );
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
 select *
@@ -70,7 +72,7 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (
-   24507
+                  30764, 30765, 30766, 30767, 30768, 30769, 30770, 30771
    );
 
 --:::::::::::::::::::::::::::::::::::::::::--
@@ -94,8 +96,30 @@ select *
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T171'
-   and guia_numero = 8;
+ where guia_serie = 'T001'
+   and guia_numero = 30764;
+
+--------------------------------------
+-- vuelve a enviar guia exportacion --
+--------------------------------------
+select *
+  from kardex_g_guia_remision r --> elimina filas
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero in (23706);
+
+/*
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23349, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23349, '09', '20605584129', '01', '06', 1.00, 347.5000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59448, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 13:43:05', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '30', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23176, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23176, '09', '20605584129', '01', '06', 1.00, 268.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59167, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:09:08', null, null, 'COMERC AUTOREP UNIVERSAL LUBAMAQUI CIA.LTDA', '30', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23287, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23287, '09', '20605584129', '01', '06', 1.00, 318.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59346, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:10:15', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '32', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 22830, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 22830, '09', '20605584129', '01', '06', 1.00, 258.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 58562, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:11:00', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '27', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23559, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23559, '09', '20605584129', '01', '06', 1.00, 206.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59750, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:11:47', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '21', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 22909, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 22909, '09', '20605584129', '01', '06', 1.00, 312.5000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 58767, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:13:03', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '35', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23460, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23460, '09', '20605584129', '01', '06', 1.00, 77.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59608, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:22:17', null, null, 'COMERC AUTOREP UNIVERSAL LUBAMAQUI CIA.LTDA', '6', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23431, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23431, '09', '20605584129', '01', '06', 1.00, 61.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59526, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:23:57', null, null, 'COMERC AUTOREP UNIVERSAL LUBAMAQUI CIA.LTDA', '7', 'AMBATO - ECUADOR', null);
+INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 22936, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 22936, '09', '20605584129', '01', '06', 1.00, 103.0000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 58815, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 14:24:37', null, null, 'COMERC AUTOREP UNIVERSAL LUBAMAQUI CIA.LTDA', '16', 'AMBATO - ECUADOR', null);
+*/
 
 select *
   from kardex_d
@@ -142,25 +166,22 @@ select *
 
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero in (12433);
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (2422);
 
 select *
-  from kardex_g
- where ser_doc_ref = 20
-   and nro_doc_ref = 235441;
-
-select *
-  from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 12380;
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (2422);
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 11879;
+ where guia_serie = 'T139'
+   and guia_numero = 2422;
 
 select *
   from clientes
@@ -537,3 +558,137 @@ select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.
 select *
   from clientes
  where cod_cliente = '40843900';
+
+select case
+         when instr(direccion, ',') > 0 then 'Comma found'
+         else 'No comma'
+       end as comma_check
+  from sucursales;
+
+select *
+  from sucursales
+ where instr(direccion, ',') > 0;
+
+select *
+  from sucursales
+ where cod_cliente = '20555901179';
+
+-- analizar no tiene ingreso almacen 63
+select *
+  from kardex_g
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (2422);
+
+select *
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (2422);
+
+select *
+  from kardex_d
+ where cod_alm = '63'
+   and tp_transac = '10'
+   and serie = 139
+   and numero in (2422);
+
+
+select *
+  from kardex_g
+ where serie = 139
+   and numero = 2422;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T139'
+   and guia_numero = 2422;
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('18', '35', '10');
+
+select *
+  from kardex_d
+ where cod_art = '1022GR'
+   and extract(year from fch_transac) = 2024
+   and cod_alm in ('D3', '63')
+   and tp_transac in ('35', '10')
+ order by fch_transac desc;
+
+
+select *
+  from kardex_g
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero = 2410
+ union all
+select *
+  from kardex_g
+ where cod_alm = '63'
+   and tp_transac = '10'
+   and serie = 139
+   and numero = 2410;
+
+select *
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero = 2410
+   and cod_art = '1416-1-DGR'
+ union all
+select *
+  from kardex_d
+ where cod_alm = '63'
+   and tp_transac = '10'
+   and serie = 139
+   and numero = 2410
+   and cod_art = '1416-1-DGR';
+
+insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped
+                            , nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1
+                            , numero_2)
+values ( '63', '10', 139, 2422, date '2024-08-09', '35', 139, 2422, null, 'C', '20100084768', '04'
+       , null, 1, 'D', '03', null, 0.00, 0.00, '6', '3', '*', 'I', '0', null, null, null, null
+       , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN139', null
+       , null, null, null, null, null, null, null, null, null, null);
+
+select *
+  from kardex_d
+ where cod_alm = '63'
+   and tp_transac = '10'
+   and serie = 139
+   and numero = 2410
+   and cod_art = '1416-1-DGR';
+
+-- completa ingresa almacen de transito
+begin
+  for r in (
+    select *
+      from kardex_d
+     where cod_alm = 'D3'
+       and tp_transac = '35'
+       and serie = 139
+       and numero in (2422)
+    )
+  loop
+    insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                                , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado
+                                , cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
+                                , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta
+                                , pr_cosfob, pr_canthabi, pr_tipot, pr_numot, pr_numped)
+    values ( '63', '10', 139, 2422, r.cod_art, r.cantidad, 0.000000, 0.000000, date '2024-08-09'
+           , 0.00, 0.00, 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null
+           , null, null, null, null, r.cantidad, null, null, null);
+  end loop;
+end;

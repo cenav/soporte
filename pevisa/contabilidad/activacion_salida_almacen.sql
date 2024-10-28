@@ -54,4 +54,3 @@ select g.*, sd.cod_ubicacion
    and g.serie = 1
    and g.numero = 191118
    and g.estado != '9';
-

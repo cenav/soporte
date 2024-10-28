@@ -158,21 +158,77 @@ select *
   from concepto_permiso
  where flg_asocial = 1;
 
+select *
+  from concepto_permiso
+ where flg_solorrhh != 1;
+
+select *
+  from usuario_modulo
+ where usuario = 'CNAVARRO'
+   and modulo = 'PERMISO';
+
+-- tentativo
 select descripcion as dsc_concepto, id_concepto as idconcepto
   from pevisa.concepto_permiso
- where ((:maestro = 'NO' and flg_solorrhh = 0) or
+ where ((:maestro = 'NO' and flg_solorrhh = 0 and not exists(
+   select rm.id_permiso, p.dsc_permiso
+     from usuarios u
+          join roles r on u.id_rol = r.id_rol
+          join roles_modulo rm on r.id_rol = rm.id_rol
+          join permisos p on rm.id_permiso = p.id_permiso
+    where u.usuario = :usuario
+      and rm.id_modulo = 'PERMISO'
+      and p.id_permiso in (20)
+   )) or
         (flg_asocial = 1 and exists(
           select rm.id_permiso, p.dsc_permiso
             from usuarios u
                  join roles r on u.id_rol = r.id_rol
                  join roles_modulo rm on r.id_rol = rm.id_rol
                  join permisos p on rm.id_permiso = p.id_permiso
-           where u.usuario = 'CNAVARRO'
+           where u.usuario = :usuario
              and rm.id_modulo = 'PERMISO'
              and p.id_permiso in (20)
           )) or
         :maestro = 'SI')
  order by descripcion;
+
+-- final en base a roles
+select descripcion as dsc_concepto, id_concepto as idconcepto
+  from pevisa.concepto_permiso
+ where ((exists(
+   select rm.id_permiso, p.dsc_permiso
+     from usuarios u
+          join roles r on u.id_rol = r.id_rol
+          join roles_modulo rm on r.id_rol = rm.id_rol
+          join permisos p on rm.id_permiso = p.id_permiso
+    where u.usuario = :usuario
+      and rm.id_modulo = 'PERMISO'
+      and p.id_permiso = 0
+   )) or
+        (flg_asocial = 1 and exists(
+          select rm.id_permiso, p.dsc_permiso
+            from usuarios u
+                 join roles r on u.id_rol = r.id_rol
+                 join roles_modulo rm on r.id_rol = rm.id_rol
+                 join permisos p on rm.id_permiso = p.id_permiso
+           where u.usuario = :usuario
+             and rm.id_modulo = 'PERMISO'
+             and p.id_permiso = 20
+          )) or
+        flg_solorrhh != 1 and not exists(
+          select rm.id_permiso, p.dsc_permiso
+            from usuarios u
+                 join roles r on u.id_rol = r.id_rol
+                 join roles_modulo rm on r.id_rol = rm.id_rol
+                 join permisos p on rm.id_permiso = p.id_permiso
+           where u.usuario = :usuario
+             and rm.id_modulo = 'PERMISO'
+             and p.id_permiso in (0, 20)
+          ))
+ order by descripcion;
+
+select * from concepto_permiso;
 
 select rm.id_permiso, p.dsc_permiso
   from usuarios u
@@ -183,6 +239,122 @@ select rm.id_permiso, p.dsc_permiso
    and rm.id_modulo = 'PERMISO'
    and p.id_permiso in (20);
 
-create package accesos as
 
-end accesos;
+select * from usuarios;
+
+select * from tab_menu;
+
+select * from modulo;
+
+-- borrar
+select * from roles;
+
+-- borrar
+select * from permisos order by id_permiso;
+
+-- borrar
+select * from roles_modulo;
+
+
+-- borrar
+select * from rol_concepto_permiso;
+
+select * from concepto_permiso;
+
+--------------------------
+select * from roles_menus;
+
+select * from menu_roles;
+--------------------------
+
+select * from menu; -- por crear
+
+begin
+  accesos.carga_permisos(2);
+  if accesos.permiso_habilitado('AES', 2) then
+    dbms_output.put_line('SI');
+  else
+    dbms_output.put_line('NO');
+  end if;
+end;
+
+select * from tipo_linea;
+
+select * from tab_lineas_tipo_linea;
+
+begin
+  dbms_output.put_line(accesos.rol('CNAVARRO'));
+end;
+
+create public synonym accesos for pevisa.accesos;
+
+select *
+  from vendedores
+ where cod_vendedor = 'Z10';
+
+select * from estado_permiso;
+
+select descripcion as dsc_concepto, id_concepto as idconcepto
+  from pevisa.concepto_permiso
+ where ((exists(
+   select rm.id_permiso, p.dsc_permiso
+     from usuarios u
+          join roles r on u.id_rol = r.id_rol
+          join roles_modulo rm on r.id_rol = rm.id_rol
+          join permisos p on rm.id_permiso = p.id_permiso
+    where u.usuario = :usuario
+      and rm.id_modulo = :modulo
+      and p.id_permiso = 0
+   )) or
+        (flg_asocial = 1 and exists(
+          select rm.id_permiso, p.dsc_permiso
+            from usuarios u
+                 join roles r on u.id_rol = r.id_rol
+                 join roles_modulo rm on r.id_rol = rm.id_rol
+                 join permisos p on rm.id_permiso = p.id_permiso
+           where u.usuario = :usuario
+             and rm.id_modulo = :modulo
+             and p.id_permiso = 20
+          )) or
+        flg_solorrhh != 1 and not exists(
+          select rm.id_permiso, p.dsc_permiso
+            from usuarios u
+                 join roles r on u.id_rol = r.id_rol
+                 join roles_modulo rm on r.id_rol = rm.id_rol
+                 join permisos p on rm.id_permiso = p.id_permiso
+           where u.usuario = :usuario
+             and rm.id_modulo = :modulo
+             and p.id_permiso in (0, 20)
+          ))
+ order by descripcion;
+
+select descripcion as dsc_concepto, id_concepto as idconcepto
+  from concepto_permiso
+ where id_concepto in (
+   select p.valor
+     from aut_rol_usuario u
+          left join aut_rol_compuesto c on u.id_rol = c.id_compuesto
+          join aut_permiso p on (p.id_rol = coalesce(c.id_rol, u.id_rol))
+    where u.usuario = :usuario
+      and p.id_objeto = :objeto
+      and p.id_campo = :concepto
+      and p.contador in (
+      select p2.contador
+        from aut_rol_usuario u2
+             left join aut_rol_compuesto c2 on u2.id_rol = c2.id_compuesto
+             join aut_permiso p2 on (p2.id_rol = coalesce(c2.id_rol, u2.id_rol))
+       where u2.usuario = u.usuario
+         and p2.id_rol = p.id_rol
+         and p2.id_objeto = p.id_objeto
+         and p2.id_campo = :actividad
+         and p2.valor = :crear
+      )
+   );
+
+select *
+  from accidente
+ where id_accidente = 305;
+
+select *
+  from accidente
+ where id_accidente = 305;

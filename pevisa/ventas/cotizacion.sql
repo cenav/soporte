@@ -6,8 +6,8 @@ select c.serie, c.num_ped, c.fecha, c.cod_cliente, e.nombre, c.cond_pag, c.cod_v
        join clientes e on c.cod_cliente = e.cod_cliente
        join vendedores v on c.cod_vende = v.cod_vendedor
        join pedido p on c.refe_pedido = p.num_ped
- where extract(year from c.fecha) = 2023
-   and extract(month from c.fecha) = 6
+ where extract(year from c.fecha) = 2024
+   and extract(month from c.fecha) = 10
  order by fecha;
 
 select *
@@ -36,7 +36,16 @@ select *
 
 select *
   from cotizacion
- where num_ped = 210576;
+ where num_ped = 233046;
+
+select *
+  from itemcot
+ where num_ped = 233046;
+
+select *
+  from cot_cotizaciones_historia
+ where numero = 233046;
+
 
 select *
   from itemcot
@@ -342,3 +351,10 @@ select *
  where grupo = 42;
 
 select * from grupo_venta;
+
+select *
+  from cotizacion
+ where cod_vende = '15'
+   and extract(year from fecha) = 2024;
+
+select * from pevisa.vendedores;

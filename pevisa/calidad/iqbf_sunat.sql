@@ -55,4 +55,8 @@ select *
 select *
   from kardex_d_historia
  where cod_alm = '02'
-   and fecha between to_date('19/06/2024', 'dd/mm/yyyy') and to_date('01/07/2024', 'dd/mm/yyyy')
+   and fecha between to_date('19/06/2024', 'dd/mm/yyyy') and to_date('01/07/2024', 'dd/mm/yyyy');
+
+select * from articul_iqf;
+
+alter table articul_iqf;

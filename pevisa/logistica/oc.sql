@@ -1,17 +1,108 @@
 select *
   from orden_de_compra
- where serie = 6
+ where serie = 1
    and num_ped in (
-   3314
+   86402
    );
 
+select *
+  from lg_condpag
+ where descripcion like '%CONTRA%';
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped in (
+   45380
+   );
+
+select *
+  from orden_matriceria
+ where nro_oc = 63236;
+
+select *
+  from itemmatri
+ where num_ped = 240099;
+
+select * from orden_de_compra_estado;
+
+select to_date('18/10/2024', 'dd/mm/yyyy') from dual;
+
+select *
+  from lg_condpag
+ where tipo = 'A';
+
+select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda as moneda_factura
+              , o.por_desc1, o.por_desc2, c.descripcion as descripcion_pago, o.fecha, p.ruc
+              , o.impsto, o.tot_valvta, o.tot_impu, o.tot_orden, c.v01
+              , decode(o.moneda, 'D', 'US$', 'S', 'S/.', 'XXX') as simbolo_moneda
+              , o.tot_valvta as tot_valvta_back, o.total_facturado
+  from orden_de_compra o
+     , itemord i
+     , proveed p
+     , lg_condpag c
+ where o.tipo_docto = (82)
+   and o.estado >= '2'
+   and o.estado <= '7'
+   and i.serie = o.serie
+   and i.num_ped = o.num_ped
+   and nvl(i.saldo, 0) > 0
+   and o.cod_proveed = p.cod_proveed
+   and o.cond_pag = c.cond_pag
+   and o.serie = :kardex_g.ser_doc_ref
+   and c.tipo = 'A'
+ order by o.num_ped;
 
 select *
   from itemord
- where serie = 6
+ where serie = 11
    and num_ped in (
-   3312
+   1629
    );
+
+select *
+  from almacen
+ where cod_art = 'PUB116-0201001';
+
+select *
+  from kardex_d
+ where cod_art = 'PUB144-0122001';
+
+select *
+  from kardex_d
+ where cod_art = 'PUB116-0201001';
+
+select *
+  from articul
+ where cod_art in (
+                   'PUB116-0302001', 'PUB116-0201001'
+   );
+
+select *
+  from kardex_d
+ where cod_art in (
+                   'PUB116-0302001', 'PUB116-0201001'
+   )
+   and tp_transac != '11';
+
+select g.*
+  from kardex_g g
+       join kardex_g_historia h
+            on g.cod_alm = h.cod_alm
+              and g.tp_transac = h.tp_transac
+              and g.serie = h.serie
+              and g.numero = h.numero
+ where trunc(h.fecha) = to_date('10/09/2024', 'dd/mm/yyyy')
+   and h.usuario = 'PEVISA'
+ order by ing_sal desc;
+
+
+-- F0	51	1	25282
+-- F0	51	1	25283
+-- F0	51	1	25284
+-- F0	08	1	25081
+-- F0	08	1	25082
+-- F0	08	1	25080
 
 select *
   from itemord
@@ -97,10 +188,11 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 6
+ where serie = 1
    and num_ped in (
-   3314
-   );
+                   86401, 86402
+   )
+ order by num_ped;
 
 select *
   from factpag
@@ -787,3 +879,79 @@ select *
   from exfacturas_enviados
  where numero = 201467
  order by creacion_cuando desc;
+
+select * from locales;
+
+select *
+  from campana
+ where periodo <= 2023
+   and cod_estado != '8';
+
+select *
+  from lg_condpag
+ where grupo_cp = 0
+ order by cond_pag;
+
+select *
+  from lg_condpag
+ where cond_pag = '221';
+
+select cod_art, descripcion, unidad, tp_art, cod_alm
+  from articul a
+ where exists
+   (
+     select 1
+       from almacen l
+      where l.cod_art = a.cod_art
+        and l.cod_alm = :cod_alm01
+     )
+   and exists
+   (
+     select 1
+       from linea_solicitud_material s
+      where s.tipo = 'EMBALAJE'
+        and a.cod_lin = s.cod_lin
+     )
+   and a.cod_art = 'PLANCHA NYLON 6MM'
+ order by cod_art;
+
+select *
+  from articul
+ where cod_art = 'PLANCHA NYLON 6MM';
+
+select *
+  from linea_solicitud_material s
+ where s.tipo = 'EMBALAJE'
+   and a.cod_lin = s.cod_lin;
+
+select *
+  from linea_solicitud_material
+ where cod_lin = '2062';
+
+select *
+  from lg_condpag
+ where cond_pag = '28';
+
+
+
+-- SALDO_SOLES_GASTO := TOPE_SOLES_MES - GASTO_SOLES_MES;
+-- COSTO_SOLES_TOTAL := COSTO_SOLES_ARTICULO * G_CANT_DESPACHO;
+-- 3228.896 = 4000 - (10 * 77.1104)
+-- 154.2208 = 77.1104 * 2
+
+select nvl(tope_consumo, 0)
+  from articul_consumo
+ where cod_art = :x_articulo;
+
+select nvl(sum(cantidad), 0)
+  from kardex_d
+ where tp_transac = '22'
+   and estado < 9
+   and cod_art = :x_articulo
+   and to_char(fch_transac, 'MM/YYYY') = to_char(sysdate, 'MM/YYYY');
+
+select get_costos(:x_articulo, '03') from dual;
+
+select *
+  from proceso_rsc
+ where id_proceso = 9;

@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user MOBANDO account unlock;
+alter user powerbi account unlock;
 
-alter user papel account lock;
+alter user ametaloplastica account lock;
 
-alter user MMIRANDA identified by "mamalucy9+";
+alter user powerbi identified by "pevisapbi";
 
 alter user gfalcon password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MMIRANDA';
+ where username like 'PCALDERON';
 
 select *
   from dba_users
@@ -50,7 +50,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = '';
+ where co_usrusr in ('ECARDENAS');
 
 select *
   from all_constraints
@@ -72,12 +72,12 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%NEXT_KEY%')
+ where upper(text) like upper('%spastrana%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%atencion.oficina%')
+ where upper(text) like upper('%spastrana%')
    and owner = 'PEVISA';
 
 
@@ -95,6 +95,10 @@ select owner, table_name
 select *
   from v$version;
 
+select * from v$parameter where lower("NAME") like '%result_cache%';
+
+-- result cache disabled
+select dbms_result_cache.status() from dual;
 
 select *
   from user_types;
@@ -102,8 +106,7 @@ select *
 
 select *
   from alcontrol
- where usuario in ('MFERNANDEZ', 'WQUISPE');
-
+ where usuario in ('JCABEZAS', 'OLGA');
 
 -- menu almacenes materia prima
 select 'APASTRANA', tp_art
@@ -133,7 +136,19 @@ select c_codigo, nombre, email, email_p, situacion
 
 select *
   from vw_personal
- where nombre like '%VARGAS%';
+ where nombre like '%SUAREZ%';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1089';
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '050';
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'VARGAS';
 
 select distinct co_ctrctr
   from seccrus
@@ -157,7 +172,9 @@ select cod_menu, descripcion, menus, titulo, nivel, 'JPOZO', estado, sistema, id
 
 select *
   from tab_menu
- where usuario = 'NPOMALAZO';
+ where usuario = 'PEVISA'
+   and sistema = 'M_PRODUC_M'
+   and upper(descripcion) like '%ANALI%';
 
 select *
   from tab_menu
@@ -168,7 +185,11 @@ select *
 
 select *
   from usuarios
- where usuario = 'NPOMALAZO';
+ where usuario = 'ADIONICIO';
+
+select *
+  from usuarios
+ where usuario in ('DRODRIGUEZS', 'DCHAMPI');
 
 select *
   from planilla10.personal
@@ -182,7 +203,7 @@ select *
 
 select *
   from vendedores
- where nombre like '%MENDEZ%';
+ where nombre like '%TIRAVA%';
 
 select *
   from vendedores
@@ -194,17 +215,44 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('CNAVARRO')
+ where usuario in ('KSIGUENAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where usuario in ('DCONTRERAS')
+ where modulo in ('CONTROL_PRODUCCION')
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'DNUNEZM';
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'DNUNEZM'
+ order by id_usuario;
+
+select *
+  from usuarios
+ where usuario like '%NINAMANGO%';
+
+select *
+  from usuario_modulo
+ where modulo = 'ACTIVO_FIJO'
+--    and supermaestro = 'SI'
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo = 'BONO_PRODUCCION_PLANTA'
+ where usuario in ('APASTRANA')
+ order by usuario, modulo;
+
+-- abre libro 10
+-- meses 3 4 5
+
+select *
+  from usuario_modulo
+ where modulo = 'ABRE_MES'
  order by modulo;
 
 insert into usuario_modulo(usuario, modulo, maestro, supermaestro)
@@ -381,7 +429,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'CNAVARRO'
+ where co_usrusr = 'AAVELLANEDA'
  order by co_ctrctr;
 
 select *
@@ -456,7 +504,7 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('MBONDY', 'APASTRANA')
+ where usuario in ('AAVELLANEDA')
  order by usuario, modulo;
 
 -- CAMBIO_OT
@@ -491,7 +539,8 @@ select *
 
 select *
   from usuarios_almacenes_perfil
- where usuario = 'JACUNA';
+ where usuario = 'PEVISA'
+   and cod_alm in ('MM', '02');
 
 select *
   from transacciones_almacen
@@ -984,9 +1033,13 @@ select * from modulo;
 
 select * from roles;
 
-select * from permisos;
+select * from permisos order by id_permiso;
 
 select * from roles_modulo;
+
+select * from rol_concepto_permiso;
+
+select * from concepto_permiso;
 
 --------------------------
 select * from roles_menus;
@@ -995,3 +1048,23 @@ select * from menu_roles;
 --------------------------
 
 select * from menu; -- por crear
+
+select * from tipo_linea;
+
+select * from tab_lineas_tipo_linea;
+
+select *
+  from articul
+ where cod_art = 'PLANCHA NYLON 6MM';
+
+select *
+  from articul_historia
+ where cod_art = 'PLANCHA NYLON 6MM';
+
+select *
+  from usuario_modulo
+ where usuario = 'PLANILLA10';
+
+select *
+  from usuario_modulo
+ where usuario = 'PLANILLA10';

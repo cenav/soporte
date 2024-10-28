@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-                  1046319, 1046632, 1046929
+   1075267
    );
 
 select * from pr_estados;
@@ -11,8 +11,20 @@ select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1040005
+   1071505
    );
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and estado = 1
+   and extract(year from fecha) = 2024
+   and extract(month from fecha) = 9;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+   and estado = 1;
 
 -- select * from prot;
 
@@ -907,3 +919,58 @@ update pr_ot
                   1055057, 1052651, 1049128, 1059359, 1055034, 1049367, 1049712, 1049002, 1049237,
                   1048998, 1052707
    );
+
+select * from pla_control;
+
+select * from locales;
+
+insert into pevisa.pr_ot ( numero, fecha, estado, cant_prog, nuot_serie, nuot_tipoot_codigo
+                         , observacion, lote, fecha_prog_ini, fecha_prog_fin, fecha_cierre, parcial
+                         , receta, referencia, formu_art_cod_art, formu_receta, cdc_centro_costo
+                         , num_lote, cant_resul, aprueba_gte, serie_ot_fab, numero_ot_fab
+                         , cant_ingresado, hora_fab, hora_env, hora_enc, per_fab, per_env, per_enc
+                         , bolsal, bolfec, abre01, abre02, boling, destino, plazo, fecha_plazo
+                         , cod_eqi, pais, empaque, usuario, origen, embalaje, prioridad, cant_merma
+                         , fecha_prioridad, cod_lin, peso_pieza, saldo_pk, categ_merma)
+values ( 1061725, timestamp '2024-07-12 05:01:20', '9', 840.0000, '3', 'AR', 'ORDEN :19783614', 0
+       , null, null, date '2024-08-20', 'S', 1, 0.0000, 'KIT SB 9903341', 1, '91', null, 840.00, 'S'
+       , null, null, 0.0000, 25.00, null, null, null, 1.00, null, null, null, '16440', 'SABO', null
+       , '1', 20, timestamp '2024-07-31 21:01:33', '9903341', '11', '40', 'PEVISA', 'CONVIERTE'
+       , '**SIN MARCA', 6148, 0.00, null, '03', 0.0000, 840.0000, 0);
+
+insert into pevisa.pr_ot_det ( cant_formula, cant_usada, cost_formula, cost_usada, almacen
+                             , ot_numero, ot_nuot_serie, ot_nuot_tipoot_codigo, art_cod_art
+                             , cant_despachada, rendimiento, cod_lin, pr_secuencia, flag_kardex
+                             , estado, prioridad, fecha_prioridad, cant_surtida, saldo)
+values ( 840.0000, 7.0000, 7.0000, 7.0000, '03', 1061725, '3', 'AR', '200.2086ZN', 0.0000, 1.0000
+       , '1049', 0, 'N', '1', 6148, null, 0.0000, 840.0000);
+
+select *
+  from pr_num_ot
+ where tipoot_codigo = 'AR'
+   and serie = '3';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+   1071693
+   );
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+   and ot_numero in (
+   1071693
+   );
+
+select *
+  from expedido_d
+ where numero = 16440
+   and nro = 1;
+
+select * from pla_control;
+
+
+select * from articul_iqf
+where cod_art = 'SOL 815';

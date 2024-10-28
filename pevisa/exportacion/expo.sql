@@ -5,7 +5,7 @@ select *
 select *
   from exfacturas
  where numero in (
-   55017398
+   16333
    );
 
 select *
@@ -16,11 +16,11 @@ select *
 
 select *
   from exbooking
- where numero_booking = 'PEEXM230171';
+ where numero_booking = 'TCL0000150/2024';
 
 select *
   from exbooking_d
- where numero_booking = 'COU-76';
+ where numero_booking = 'TCL0000150/2024';
 
 select *
   from exproforma_d
@@ -82,7 +82,9 @@ select *
   from canjedoc
  where nrocanje = 87345;
 
-select * from exproforma_libre;
+select *
+  from exproforma_libre
+ where numero = 19552;
 
 select *
   from pr_embarques
@@ -190,7 +192,7 @@ select packing_agrupar
 
 select *
   from expedidos
- where numero = 16331;
+ where numero = 16333;
 
 
 select *
@@ -664,3 +666,79 @@ select *
   from exproforma_d_aprobar
  where numero = 19416
    and estado_respuesta is null and cantidad_libre is null;
+
+select * from exproforma_libre;
+
+select *
+  from expedidos
+ where numero = 16333;
+
+select *
+  from expedidos
+ where numero = 16335;
+
+select *
+  from expedido_d
+ where numero = 16333
+   and saldo_pk != 0;
+
+select *
+  from expedido_d
+ where numero = 16333
+   and estado_pk = 8;
+
+select *
+  from expedido_d
+ where numero = 16333;
+
+select *
+  from expedido_d
+ where numero = 16333
+   and estado_pk = '1';
+
+select *
+  from pr_ot
+ where abre01 = '16333'
+   and per_env in (
+                   '11', '12', '14', '20', '31', '33', '44', '51', '58', '89'
+   );
+
+select numero, fecha
+  from expedidos
+ where numero in (
+   select pedido
+     from pr_consul
+    where prioridad = :prioridad_no_trabaja
+      and estado < 9
+   )
+ order by 1;
+
+select *
+  from pr_consul
+ where pedido = 16333;
+
+select distinct estado
+  from pr_consul;
+
+select *
+  from embarques_expo_g
+ where numero_embarque = 1127;
+
+select *
+  from expedido_d
+ where numero = 16293
+   and nro in (
+               3, 21, 12
+   );
+
+select *
+  from expedido_d
+ where numero = 16109
+   and nro in (
+               55, 78, 79, 80, 74
+   );
+
+select *
+  from pr_ot
+ where abre01 = '16293'
+   and per_env = '11';

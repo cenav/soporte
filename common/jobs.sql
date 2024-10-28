@@ -13,14 +13,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_STOCK_ALMACEN_63'
+      job_name => 'JOB_VALIDACION_MATRIZ'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'reporte_del_almacen_63_xls.envia_correo'
-    , start_date => timestamp '2024-06-13 06:00:00 -5:00'
+    , job_action => 'notif_matriceria_calidad.listado'
+    , start_date => timestamp '2024-10-07 06:00:00 -5:00'
     , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON'
     , auto_drop => false
     , enabled => true
-    , comments => 'Envio correo automatico stock almacen 63'
+    , comments => 'envio de correo de validaciones de matriz pendientes'
   );
 end;
 
@@ -28,7 +28,7 @@ begin
   dbms_scheduler.create_job(
       job_name => 'JOB_RSC'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'rsc.tarea'
+    , job_action => 'pr_calculo_ctacte.calcular'
     , start_date => timestamp '2024-03-15 00:00:00 -5:00'
     , repeat_interval => 'FREQ=MONTHLY;BYMONTHDAY=15'
     , auto_drop => false
@@ -39,14 +39,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_CORREO_CALIDAD_EMBARQUES'
+      job_name => 'JOB_ACTUALIZA_PARAM_PRODUCCION'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'pgk_rev_calidad_diario.listado'
-    , start_date => timestamp '2024-06-21 20:00:00 -5:00'
+    , job_action => 'sp_actualiza_param_produccion'
+    , start_date => timestamp '2024-10-15 00:00:00 -5:00'
     , repeat_interval => 'FREQ=DAILY'
     , auto_drop => false
     , enabled => true
-    , comments => 'aviso de calidad embarque al finalizar al dia, Jaime Reclamo'
+    , comments => 'actualiza parametro de boleta y fecha de produccion'
   );
 end;
 
@@ -70,13 +70,13 @@ call dbms_scheduler.enable('JOB_CANCELACION_PAGARES');
 
 select *
   from dba_scheduler_jobs
- where owner = upper('pevisa' )
+ where owner = upper('pevisa')
  order by job_name;
 
 select *
   from dba_scheduler_jobs
- where owner = upper('pevisa' )
- and job_name like '%PUNTUA%'
+ where owner = upper('pevisa')
+   and job_name like '%PUNTUA%'
  order by job_name;
 
 select job_name, job_action, start_date, repeat_interval
@@ -100,7 +100,7 @@ select * from all_directories;
 
 select *
   from all_source
- where upper(text) like upper('%procede recojo de reclamo%');
+ where upper(text) like upper('%spastrana@pevisa.com.pe%');
 
 select *
   from all_source
@@ -119,3 +119,5 @@ select sysdate
 
 select * from all_directories;
 -- \\10.0.0.125\powerbi-pevisa
+
+select * from docuvent_cierre;

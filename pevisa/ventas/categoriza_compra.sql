@@ -1,4 +1,5 @@
 select *
+
   from clientes
  where grupo_bateria is not null;
 

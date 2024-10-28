@@ -90,12 +90,24 @@ select *
    and serie = 1
    and numero = 29810;
 
+-- 57-27-2-884495
 select *
-  from kardex_d as of timestamp to_timestamp('12-09-2022 11:00:00', 'DD-MM-YYYY HH24:MI:SS')
- where cod_alm = '15'
-   and tp_transac = '29'
-   and serie = 1
-   and numero = 1568711;
+  from kardex_g as of timestamp to_timestamp('05-09-2024 05:09:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = '63'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (
+   1550
+   );
+
+select *
+  from kardex_d as of timestamp to_timestamp('05-09-2024 05:09:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = '63'
+   and tp_transac = '35'
+   and serie = 139
+   and numero in (
+   1550
+   );
 
 select *
   from pr_ot as of timestamp to_timestamp('12-08-2019 11:00:00', 'DD-MM-YYYY HH24:MI:SS')
@@ -784,13 +796,15 @@ select *
    and voucher = 120138;
 
 select *
-  from comisiones_planilla as of timestamp to_timestamp('25-03-2024 08:30:00', 'DD-MM-YYYY HH24:MI:SS')
+  from comisiones_planilla as of timestamp to_timestamp('25-03-2024 08:30:00',
+                                                        'DD-MM-YYYY HH24:MI:SS')
  where ano = 2024
    and mes = 2
    and cod_personal = 'E420';
 
 select *
-  from kardex_g_guia_remision as of timestamp to_timestamp('05-06-2024 17:30:00', 'DD-MM-YYYY HH24:MI:SS')
+  from kardex_g_guia_remision as of timestamp to_timestamp('05-06-2024 17:30:00',
+                                                           'DD-MM-YYYY HH24:MI:SS')
  where guia_serie = 'T001'
    and guia_numero = 20897;
 

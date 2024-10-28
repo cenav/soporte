@@ -52,7 +52,7 @@ having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
 select *
   from activo_fijo
  where cod_activo_fijo in (
-                            'LICENCIA COREL14', 'LICENCIA A.CAD07', '04LAPT26',
+                           'LICENCIA COREL14', 'LICENCIA A.CAD07', '04LAPT26',
                            'AC1RET-012', 'EQ DIV315', 'EQ COMP/OF SEG', '02CAMA2', '02CAMA3',
                            '02CAMA4', '02CAMA1', 'SECS PINT AREN FOSF MET MAN15',
                            'SECS PINT AREN FOSF MET MAN16', 'MQ2MATR-074', 'EQ DIV107', '03BOBI146',
@@ -66,3 +66,57 @@ select *
   from activo_fijo_depreciacion
  where cod_activo_fijo = 'LICENCIA A.CAD08'
    and fecha = to_date('30/06/2024', 'dd/mm/yyyy');
+
+select * from activo_fijo;
+
+-- equipos de computo
+select e.cod_activo_fijo, a.descripcion, a.abreviatura, c.descripcion as clase
+     , u.descripcion as subclase, e.nro_serie, e.fabricacion, e.cod_marca, e.alto, e.largo, e.ancho
+     , e.peso, e.ip, e.licencia, e.observaciones, e.nro_telefono, e.modelo, e.imei, e.anexo
+     , eh.cod_hardware, h.descripcion as nom_hardware, eh.cantidad, es.cod_software
+     , s.descripcion as nom_software, es.cantidad, es.key
+  from activo_fijo a
+       join activo_fijo_clase c on a.cod_clase = c.cod_clase
+       join activo_fijo_subclase u on a.cod_clase = c.cod_clase and a.cod_subclase = u.cod_subclase
+       join equipo e on a.cod_activo_fijo = e.cod_activo_fijo
+       left join equipo_hardware eh on e.cod_activo_fijo = eh.cod_activo_fijo
+       left join equipo_software es on e.cod_activo_fijo = es.cod_activo_fijo
+       left join hardware h on eh.cod_hardware = h.cod_hardware
+       left join software s on es.cod_software = s.cod_software
+ where (eh.cod_activo_fijo is not null or es.cod_activo_fijo is not null)
+   and a.cod_activo_fijo = 'CPUC63';
+
+select *
+  from activo_fijo_subclase
+ where cod_clase = 'EQP';
+
+select * from hardware;
+
+select * from software;
+
+-- equipos de computo
+  with componentes as (
+    select eh.cod_activo_fijo, eh.cod_hardware as cod_componente, h.descripcion as nom_componente
+         , eh.cantidad
+         , null as key
+      from equipo_hardware eh
+           left join hardware h on eh.cod_hardware = h.cod_hardware
+     union all
+    select es.cod_activo_fijo, es.cod_software, s.descripcion as nom_software, es.cantidad
+         , es.key
+      from equipo_software es
+           left join software s on es.cod_software = s.cod_software
+    )
+select e.cod_activo_fijo, a.descripcion, a.abreviatura, c.descripcion as clase
+     , u.descripcion as subclase, e.nro_serie, e.fabricacion, e.cod_marca, e.alto, e.largo, e.ancho
+     , e.peso, e.ip, e.licencia, e.observaciones, e.nro_telefono, e.modelo, e.imei, e.anexo
+     , cp.cod_componente, cp.nom_componente, cp.cantidad, cp.key
+  from activo_fijo a
+       join activo_fijo_clase c on a.cod_clase = c.cod_clase
+       join activo_fijo_subclase u on a.cod_clase = c.cod_clase and a.cod_subclase = u.cod_subclase
+       join equipo e on a.cod_activo_fijo = e.cod_activo_fijo
+       join componentes cp on e.cod_activo_fijo = cp.cod_activo_fijo;
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = '03COMP25-MONI2';

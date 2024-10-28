@@ -6,15 +6,25 @@ declare
   cursor trx is
 --     select cod_alm, tp_transac, serie, numero
 --       from tmp_carga_data;
-    select *
-      from kardex_g
-     where cod_alm = 'FT'
-       and tp_transac = '06'
-       and serie = 1
-       and numero in (
-       800105
-       )
-     order by ing_sal desc, numero_pguia;
+    select g.*
+      from kardex_g g
+           join kardex_g_historia h
+                on g.cod_alm = h.cod_alm
+                  and g.tp_transac = h.tp_transac
+                  and g.serie = h.serie
+                  and g.numero = h.numero
+     where trunc(h.fecha) = to_date('10/09/2024', 'dd/mm/yyyy')
+       and h.usuario = 'PEVISA'
+     order by ing_sal desc;
+--     select *
+--       from kardex_g
+--      where cod_alm = '37'
+--        and tp_transac = '16'
+--        and serie = 1
+--        and numero in (
+--        204493
+--        )
+--      order by ing_sal desc, numero_pguia;
 begin
   for r in trx loop
     delete
@@ -40,5 +50,8 @@ begin
   dbms_output.put_line('total eliminado kardex_d >>>>> ' || l_total_d);
 end;
 
-select cod_alm, tp_transac, serie, numero
-  from tmp_carga_data;
+select *
+  from almacen
+ where cod_art in (
+                   'PUB116-0302001', 'PUB116-0201001'
+   );

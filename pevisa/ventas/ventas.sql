@@ -1,6 +1,10 @@
 select *
   from cotizacion
- where num_ped in (223718);
+ where num_ped in (231196);
+
+select *
+  from itemcot
+ where num_ped = 231196;
 
 select *
   from itemped
@@ -8,15 +12,23 @@ select *
 
 select *
   from cotizacion
- where refe_pedido = 246109;
+ where refe_pedido = 252326;
 
 select *
   from pedido
- where num_ped = 248027;
+ where num_ped in (252326);
+
+select *
+  from transporte
+ where cod_transp = '20452647428';
+
+select *
+  from transporte
+ where nombre like '%TRANSERVIS%';
 
 select *
   from itemped
- where num_ped = 248027;
+ where num_ped = 248675;
 
 select *
   from articul
@@ -558,19 +570,45 @@ select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as line
 
 select *
   from tab_descuento_gpolin
- where cod_linea = '560';
+ where cod_linea = '272';
+
+select * from grupo_venta;
+
+select * from tab_descuento_comercial order by cod_grupo_venta;
+
+select * from tab_descuento_gpolin;
+
+select * from tab_descuento_rango;
+
+select * from lispreg order by nro_lista;
+
+select * from tab_grupos;
+
+select *
+  from tab_descuento_gpolin
+ where cod_grupo_venta = '82';
 
 select *
   from lispred
  where cod_art = '28100-0L200 +LINE /O-MU';
 
-select * from lispreg;
+select *
+  from tab_lineas
+ where linea = '144';
 
 select *
-  from almacen
- where cod_art = '28100-0L200 +LINE /O-MU';
+  from unidades_negocio
+ where codigo_unidad_negocio = '07';
 
-select * from cotizacion;
+select *
+  from grupo_venta
+ where cod_grupo_venta = '7000';
+
+select *
+  from tab_grupos
+ where ind_vta1 = '7000';
+
+select get_rango_descuento('', '') from dual;
 
 select *
   from cotizacion
@@ -677,6 +715,62 @@ begin
   dbms_output.put_line(l_nombre);
 end;
 
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
+     , pr_medpza as cod_ing, l.grupo_venta
+  from articul a
+     , tab_lineas l
+     , lispred v
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.linea = a.cod_lin
+   and l.grupo is not null
+   and v.cod_art = a.cod_art
+   and v.nro_lista = :nro_lista
+   and l.grupo_venta = :unidad_negocio
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and l.grupo not in (41)
+ order by a.cod_art;
+
+
+select *
+  from tab_grupos
+ where descripcion like '%BATERIAS%';
+
+select *
+  from kardex_g
+ where num_importa = '4734';
+
+select *
+  from embarques_g
+ where numero_embarque = '4734';
+
+select *
+  from embarques_d
+ where numero_embarque = 4734;
+
+select *
+  from embarques_d e
+       join kardex_d d
+            on e.kardex_cod_alm = d.cod_alm
+              and e.kardex_tp_transac = d.tp_transac
+              and e.kardex_serie = d.serie
+              and e.kardex_numero = d.numero
+ where e.numero_embarque = 4734;
+
+select *
+  from kardex_d
+ where cod_alm = '';
+
+select *
+  from expedidos
+ where numero = 16417;
+
+select *
+  from articul
+ where cod_art = 'PUB144-0301001';
+
 select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
      , pr_medpza as cod_ing, l.grupo_venta
   from articul a
@@ -695,5 +789,253 @@ select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v
  order by a.cod_art;
 
 select *
+  from lispred
+ where cod_art = '2C4090';
+
+select *
+  from lispred
+ where cod_art in ('PUB144-0301001', 'PUB116-0301001')
+ order by nro_lista;
+
+select *
+  from lispred
+ where cod_art = 'PDG-1160000041';
+
+select *
+  from tab_lineas
+ where linea = '501';
+
+select *
+  from articul
+ where cod_art = 'PUB144-0301001';
+
+select *
+  from articul
+ where cod_lin = '501';
+
+select *
+  from tab_lineas
+ where descripcion like '%PUBLICIDAD%';
+
+select *
+  from itemped
+ where cod_art = 'PDG-1160000041';
+
+select *
+  from pedido
+ where serie = 24
+   and num_ped = 6190;
+
+select *
+  from itemped
+ where serie = 24
+   and num_ped = 6190;
+
+select *
+  from articul
+ where cod_art = 'PUB116-0301001';
+
+select *
+  from cotizacion
+ where serie = 24
+   and num_ped = 5095;
+
+select *
+  from itemcot
+ where serie = 24
+   and num_ped = 5095;
+
+select total_facturado
+  from pedido
+ where serie = 'F050' and num_ped = '19575';
+
+select total_facturado
+  from pedido
+ where serie = 20 and num_ped = '19575';
+
+select *
+  from itemped
+ where serie = 20
+   and num_ped = 19575;
+
+select *
+  from docuvent
+ where serie = 'F050'
+   and numero = '18849'
+   and tipodoc = '08';
+
+select *
+  from docuvent
+ where serie = 'F050'
+   and numero = '18847'
+   and tipodoc = '08';
+
+select *
+  from docuvent
+ where serie = 'F050'
+   and tipodoc = '08'
+   and extract(year from fecha) = 2024;
+
+select *
+  from docuvent
+ where serie = 'F050'
+   and numero = '199575'
+   and tipodoc = '01';
+
+select *
+  from itemdocu
+ where serie = 'F050'
+   and numero = '199575'
+   and tipodoc = '01';
+
+select *
+  from itemdocu
+ where serie = 'F050'
+   and numero = '18847'
+   and tipodoc = '08';
+
+select * from pedido;
+
+select * from vendedores;
+
+select distinct supervisor from vendedores;
+
+select *
+  from vendedores
+ where cod_vendedor in ('N1', '84');
+
+select *
+  from vendedores
+ where cod_vendedor in ('N3', '77');
+
+select *
+  from vendedores
+ where cod_vendedor in ('79', 'N4', '22', 'N5');
+
+select *
+  from vendedores
+ where cod_vendedor in ('25', '34', '35', '38', '41', '45', '48', 'B1', 'B3', 'B4', 'B10');
+
+select *
+  from vendedores
+ where nombre like '%FIGUE%';
+
+select *
+  from vendedores
+ where abreviada is null;
+
+select *
+  from vendedores
+ where telefono = :id_jefatura -- Filtra a los empleados bajo la jefatura
+    or cod_vendedor = :id_jefatura; -- Incluye a la propia jefatura
+
+select cod_vendedor
+  from vendedores
+ where upper(abreviada) = upper(:usuario);
+
+select *
+  from cotizacion
+ where cod_vende = '06'
+ order by fecha desc;
+
+select *
+  from vendedores
+ where cod_vendedor = '06';
+
+select *
+  from clientes
+ where cod_cliente = '10422033306';
+
+select *
+  from clientes
+ where cod_cliente in (
+                       '20521093880', '10422033306', '10428823147', '20603482621', '10428823147',
+                       '20601251494'
+   );
+
+select sysdate from dual;
+
+select * from unidades_negocio;
+
+select *
   from tab_grupos
- where descripcion like '%BATERIAS%';
+ where grupo = 44;
+
+select grupo, descripcion
+  from tab_grupos
+ where ind_vta1 <> '1000'
+ order by descripcion, grupo;
+
+select * from grupo_venta;
+
+select *
+  from tab_grupos
+ where ind_vta1 = '7000';
+
+select *
+  from tab_lineas
+ where linea in (
+                 '272', '273', '276'
+   );
+
+select distinct cod_lin
+  from articul
+ where cod_lin in ('272', '273', '276');
+
+select *
+  from proveed_bancos
+ where cod_proveed = '20196464086';
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as linea
+     , l.cod_grupo as grupo, v.importe as precio, pr_medpza as cod_ing, t.grupo_venta
+  from articul a
+     , tab_descuento_gpolin l
+     , lispred v
+     , lispreg g
+     , tab_lineas t
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.cod_linea = a.cod_lin
+   and l.cod_grupo is not null
+   and g.nro_lista = :nro_lista
+   and l.moneda = g.moneda
+   and v.cod_art = a.cod_art
+   and v.nro_lista = g.nro_lista
+   and t.linea = l.cod_linea
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and exists(
+   select *
+     from tab_lineas lin
+          join tab_grupos gpo on lin.grupo = gpo.grupo
+    where lin.linea = l.cod_linea
+      and gpo.ind_vta1 = '7000'
+   )
+ order by l.cod_grupo, a.cod_art;
+
+select *
+  from cotizacion
+ where serie = 20
+   and num_ped = 232060;
+
+select *
+  from cotizacion
+ where serie = 20
+   and num_ped = 232060;
+
+select *
+  from vendedores
+ where abreviada = 'PEVISA';
+
+select *
+  from pedido
+ where num_ped = 253412;
+
+select *
+  from itemped
+ where num_ped = 253412;
+
+select *
+  from sistabgen
+ where sistabcod = 600
+ order by sistabcod, sisdatcod;

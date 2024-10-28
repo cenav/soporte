@@ -8,24 +8,44 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'NUÑEZ'
+ where apellido_paterno = 'VALIENTE'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
    );
 
 select *
+  from planilla10.personal
+ where apellido_paterno like '%INFANTE%';
+
+select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E230';
+   and c_codigo = 'E165';
 
 select *
   from planilla10.t_cargo
- where c_cargo = 'OPAL';
+ where c_cargo = 'SPS';
+
+select * from vw_personal;
+
+select p.c_codigo as codigo, p.nombre, p.email, p.email_p
+  from vw_personal p
+ where p.c_codigo in (
+                      'E1177', 'E786', 'E4034', 'E419', 'E1116', 'E1085', 'E687', 'E792', 'E410',
+                      'E744', 'E748', 'E156', 'E144', 'E868', 'E784', 'E720', 'E802', 'E185',
+                      'E1103', 'E165', 'E893', 'E360', 'E1037', 'E912', 'E869', 'E1128', 'E822',
+                      'E450', 'E664', 'E969', 'E727', 'E422', 'E324', 'E887', 'E691', 'E1115',
+                      'E873', 'E1021', 'E303', 'E591', 'E862', 'E421', 'E440', 'E588', 'E722',
+                      'E698', 'E665', 'E1038', 'E420', 'E492', 'E815', 'E577', 'E1027', 'E926',
+                      'E1153', 'E719', 'E1112', 'E874', 'E762', 'E1124', 'E974', 'E1127', 'E731',
+                      'E931'
+   )
+ order by nombre;
 
 select *
-  from planilla10.personal
- where c_codigo = 'E42422';
+  from planilla10.hr_personal
+ where c_codigo = :p_personal;
 
 select *
   from planilla10.doc_per
@@ -37,6 +57,19 @@ select *
 select *
   from proceso_puntualidad
  order by id_proceso desc;
+
+select *
+  from proceso_puntualidad_pers
+ where id_personal = 'E41298'
+ order by id_proceso desc;
+
+select * from concepto_permiso;
+
+select *
+  from permiso
+ where id_concepto = 'PTD'
+   and id_personal = 'E41298'
+ order by fecha desc;
 
 begin
   puntualidad.automatico(2024, 4);
@@ -207,6 +240,9 @@ select *
  where nombre like '%QUISPE%' or nombre like '%CONTRERAS%';
 
 select *
+  from planilla10.tar_encarga
+ where nombre like '%NAVARRO%';
+select *
   from planilla10.personal
  where encargado = '034';
 
@@ -260,7 +296,7 @@ select c_codigo, nombre, desc_cargo, desc_seccion, desc_local
 
 select *
   from vw_personal
- where nombre like '%POMALAZO%';
+ where nombre like '%CATALAN%';
 
 -- correo de personal por sede
 select nombre, desc_cargo, email, desc_seccion, dsc_area
@@ -272,3 +308,43 @@ select nombre, desc_cargo, email, desc_seccion, dsc_area
      from planilla10.t_situacion_cesado
    )
  order by dsc_area;
+
+select *
+  from planilla10.personal
+ where apellido_paterno = 'CARDENAS'
+   and nombres like '%ESTEFANY%';
+
+select *
+  from cese_personal
+ where id_personal = 'E41990';
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'VACACIONES'
+   and id_usuario = 'CNINAMANGO';
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'VACACIONES'
+   and id_alterno = 'DNUNEZM';
+
+select *
+  from campana
+ where cod_campana = 'GC24-MR2';
+
+select * from estado_campana;
+
+select *
+  from campana_cliente
+ where cod_campana = 'GC24-MR2';
+
+select *
+  from usuario_modulo
+ where modulo = 'VACACIONES'
+ order by usuario;
+
+select *
+  from articul
+ where cod_art in (
+                   'ACLAB-020', 'ACLAB-021', 'ACLAB-022'
+   );

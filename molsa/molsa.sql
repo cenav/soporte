@@ -1,16 +1,16 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 4
-   and libro = '40'
-   and voucher = 40001;
+   and mes = 10
+   and libro = '05'
+   and voucher = 100001;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 4
-   and libro = '40'
-   and voucher = 40001;
+   and mes = 10
+   and libro = '05'
+   and voucher = 100001;
 
 select *
   from movdeta
@@ -42,10 +42,6 @@ select * from activo_fijo_depreciacion;
 select *
   from cambdol
  where fecha = to_date('21/03/2024', 'dd/mm/yyyy');
-
-select *
-  from tab_semanas
- order by del;
 
 select *
   from plancta
@@ -83,17 +79,12 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 893;
-
-select *
-  from orden_de_compra_historia
- where serie = 3
-   and num_ped = 811;
+   and num_ped = 922;
 
 select *
   from itemord
  where serie = 3
-   and num_ped = 789;
+   and num_ped = 922;
 
 select *
   from movdeta d
@@ -211,7 +202,7 @@ select o.num_ped, p.nombre, o.estado, o.cod_proveed, o.fecha, (o.fecha + o.plazo
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 853;
+   and num_ped = 894;
 
 select *
   from lg_condpag
@@ -221,3 +212,17 @@ select *
   from itemord
  where serie = 3
    and num_ped = 853;
+
+select *
+  from proveed
+ where cod_proveed = '20100047218';
+
+select * from movfide_situacion_banco;
+
+select *
+  from tab_semanas
+ order by del;
+
+select *
+  from tablas_auxiliares
+ where codigo = 'FN';

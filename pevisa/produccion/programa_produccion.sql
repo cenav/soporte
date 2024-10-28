@@ -31,16 +31,17 @@ select *
       and pte.usuario = 'ALBERTO'
    );
 
+
 select *
   from pr_ot po
- where po.boling != '240701'
+ where po.boling != '240901'
    and exists(
    select *
      from pr_trasab_estado pte
     where pte.tipo = po.nuot_tipoot_codigo
       and pte.serie = po.nuot_serie
       and pte.numero = po.numero
-      and trunc(pte.fecha) >= to_date('24/06/2024', 'dd/mm/yyyy')
+      and trunc(pte.fecha) >= to_date('20/08/2024', 'dd/mm/yyyy')
       and pte.usuario = 'ALBERTO'
    );
 
@@ -51,15 +52,15 @@ select *
    and po.origen != '240701';
 
 update pr_ot po
-   set po.boling = '240701'
-     , po.origen = '240701'
+   set po.boling = '240901'
+     , po.origen = '240901'
  where exists(
    select *
      from pr_trasab_estado pte
     where pte.tipo = po.nuot_tipoot_codigo
       and pte.serie = po.nuot_serie
       and pte.numero = po.numero
-      and trunc(pte.fecha) >= to_date('29/06/2024', 'dd/mm/yyyy')
+      and trunc(pte.fecha) >= to_date('20/08/2024', 'dd/mm/yyyy')
       and pte.usuario = 'ALBERTO'
    );
 
@@ -84,7 +85,12 @@ select * from tmp_programa_ordenes_ingresos;
 
 select *
   from pr_programas
- where estado = 1;
+--  where estado = 1
+order by id_programa desc;
+
+select *
+  from pr_ot
+ where boling = '240801';
 
 select *
   from pr_ot p
@@ -96,7 +102,7 @@ select *
 -- PARA CREAR NUEVO PROGRAMA  PR
 -- USANDO UNA ORDEN POR CADA GRUPO
 declare
-  p_nuevo_programa varchar2(06) := '240801';
+  p_nuevo_programa varchar2(06) := '240901';
   cursor c1 is
     select distinct get_descripcion_grupo_pieza(formu_art_cod_art) as grupo
       from pr_ot
@@ -108,7 +114,7 @@ declare
       from pr_ot
      where nuot_tipoot_codigo = 'PR'
        and get_descripcion_grupo_pieza(formu_art_cod_art) <> 'SAOS'
-       and boling in ('240801') --  PROGRAMA NUEVO--
+       and boling in ('240901') --  PROGRAMA NUEVO--
        and estado = 1
      order by 1;
 begin

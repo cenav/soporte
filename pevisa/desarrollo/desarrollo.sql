@@ -130,3 +130,18 @@ select * from ot_mantto;
 
 alter table ot_mantto
   add fecha_cierre_mantto date;
+
+select *
+  from pevisa.solicita_emision
+ where numero = 1444;
+
+select * from articul_iqf;
+
+alter table articul_iqf
+  add alcance varchar2(1) default 'I' not null;
+
+alter table articul_iqf
+  add constraint chk_articul_iqf_alcance
+    check ( alcance in ('I', 'E') );
+
+comment on column articul_iqf.alcance is '[I]nterno [E]xterno';

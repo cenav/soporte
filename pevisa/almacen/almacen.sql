@@ -1,24 +1,127 @@
+-- 57-27-2-884495
+-- 24-16-2-884485
+--
+-- 57-27-2-884494
+-- 24-16-2-884484
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '17'
+ where cod_alm = '03'
+   and tp_transac = '08'
    and serie = 1
    and numero in (
-                  744551, 744552, 744553, 744554
+                  25310, 25311, 25312, 25313, 25314, 25315, 25316, 25317, 25318, 25319, 25320,
+                  25321, 25322, 25323, 25324
    );
 
 select *
   from kardex_d
- where cod_alm = 'FT'
-   and tp_transac = '29'
+ where cod_alm = '03'
+   and tp_transac = '08'
    and serie = 1
    and numero in (
-   1797694
+                  25310, 25311, 25312, 25313, 25314, 25315, 25316, 25317, 25318, 25319, 25320,
+                  25321, 25322, 25323, 25324
+   );
+
+select *
+  from kardex_g_historia
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero in (
+   522
+   );
+
+select *
+  from kardex_g_historia
+ where cod_alm = '02'
+   and usuario = 'ETAIPE'
+   and extract(year from fecha) = 2024
+   and extract(month from fecha) = 8;
+
+select t.descripcion, kgh.*
+  from kardex_g_historia kgh
+       join transacciones_almacen t on kgh.tp_transac = t.tp_transac
+ where kgh.usuario = 'ETAIPE'
+   and trunc(kgh.fecha) = to_date('24/08/2024', 'dd/mm/yyyy');
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('27', '29', '22', '18');
+
+select *
+  from kardex_d_historia
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero in (
+   522
    );
 
 select *
   from almacen
- where cod_art = 'R-3804304';
+ where cod_art = 'R-4955665';
+
+select *
+  from articul
+ where cod_art = 'R-4955665';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+  with log as (
+    select cod_alm, tp_transac, serie, numero, min(fecha) as fecha
+      from kardex_g_historia
+     group by cod_alm, tp_transac, serie, numero
+    )
+select kg.cod_alm, a.descripcion as almacen, kg.tp_transac, t.descripcion as transaccion, kg.serie
+     , kg.numero, l.fecha, kg.ing_sal
+  from kardex_g kg
+       join almacenes a on kg.cod_alm = a.cod_alm
+       join transacciones_almacen t on kg.tp_transac = t.tp_transac
+       left join log l
+                 on kg.cod_alm = l.cod_alm
+                   and kg.tp_transac = l.tp_transac
+                   and kg.serie = l.serie
+                   and kg.numero = l.numero
+ where kg.tipo_pguia = 'AR'
+   and kg.serie_pguia = 3
+   and kg.numero_pguia = 1031238
+   and kg.serie = 2
+ order by l.fecha, ing_sal desc;
+
+select *
+  from kardex_g
+ where nro_doc_ref = 4734
+   and tip_doc_ref = '82';
+
+-- F0	17	1	744551
+-- F0	17	1	744552
+-- F0	17	1	744553
+-- F0	17	1	744554
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '17'
+   and serie = 1
+   and numero in (
+   744551
+   )
+ union all
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (
+   31796
+   );
+
+
+select *
+  from almacen
+ where cod_art = 'R-3883620';
 
 select *
   from kardex_g_movglos
@@ -62,13 +165,162 @@ select *
    31664
    );
 
+-- F0	17	1	744551
+-- F0	17	1	744552
+-- F0	17	1	744553
+-- F0	17	1	744554
 select *
   from kardex_g_historia
- where cod_alm = '03'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
    and numero in (
-   565559
+   204493
+   );
+
+select *
+  from solimat_g
+ where serie = 1
+   and numero = 196082;
+
+select serie, numero, cod_art, cantidad
+  from solimat_d
+ where serie = 1
+   and numero = 196082;
+
+-- solicitudes
+select g.numero, g.fecha, g.cod_alm01, g.cod_alm02, d.cod_art, d.cantidad
+  from solimat_g g
+       join solimat_d d on g.serie = d.serie and g.numero = d.numero
+ where d.cod_art = 'BH 0.32-222'
+   and extract(year from g.fecha) = 2024
+ order by g.fecha desc;
+
+select *
+  from solicita_cambio_trx_det
+ where cod_alm = '37'
+   and extract(year from fch_transac_old) = 2024
+ order by fch_transac_old desc;
+
+select *
+  from kardex_g
+ where ser_doc_ref = 1
+   and nro_doc_ref = 196082;
+
+select *
+  from kardex_g
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   204493
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   204493
+   );
+
+insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped
+                            , nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1
+                            , numero_2)
+values ( '37', '16', 1, 204493, date '2024-08-27', 'P2', 1, 196082
+       , 'TRANSFE ALMACEN  30 ( 27 - 1 - 204493)', null, null, null, null, 1, null, null, null, 0.00
+       , 0.00, '0', '0', 'P', 'I', '0', null, null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null, 'SOLIMAT', null, null, null, null, null, null
+       , null);
+
+
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'GRAF 0.7-245', 147.0000, 0.000000, 0.000000, date '2024-08-27'
+       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'GRAF 0.8-222', 400.0000, 0.000000, 0.000000, date '2024-08-27'
+       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'GRAF 0.6-222', 300.0000, 0.000000, 0.000000, date '2024-08-27'
+       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'BH 0.32-222', 900.0000, 0.000000, 0.000000, date '2024-08-27', 0.00
+       , 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'NI 2900 0.8-200', 480.0000, 0.000000, 0.000000, date '2024-08-27'
+       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '37', '16', 1, 204493, 'BH 0.23-200', 600.0000, 0.000000, 0.000000, date '2024-08-27', 0.00
+       , 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null, null
+       , null, null, null, null, null, null, null);
+
+select cod_alm, tp_transac, serie, numero, cod_art, cantidad, fch_transac, ing_sal
+  from kardex_d
+ where cod_art = 'BH 0.32-222'
+   and extract(year from fch_transac) = 2024
+   and ing_sal = 'I'
+ order by fch_transac desc;
+
+select *
+  from almacenes
+ where cod_alm = '37';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '16';
+
+select *
+  from kardex_d_historia
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   204493
+   );
+
+select *
+  from kardex_d_historia
+ where cod_alm = 'F0'
+   and tp_transac = '17'
+   and serie = 1
+   and numero in (
+   744551
    );
 
 
@@ -172,11 +424,70 @@ select *
 
 select *
   from solimat_g
- where numero = 181100;
+ where numero = 195640;
 
 select *
   from solimat_d
- where numero = 193984;
+ where numero = 195640;
+
+select *
+  from kardex_g
+ where tip_doc_ref = 'P2'
+   and ser_doc_ref = 1
+   and nro_doc_ref = 195640;
+
+select *
+  from kardex_g
+ where nro_doc_ref = 195640;
+
+select *
+  from kardex_g
+ where cod_alm = '08'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 204221;
+
+select *
+  from kardex_d
+ where cod_alm = '08'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 204221;
+
+select *
+  from almacenes
+ where cod_alm = '08';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('16', '27');
+
+
+select *
+  from kardex_d
+ where cod_art = 'BOLSA 22.27'
+ order by fch_transac desc;
+
+-- 02	27	1	1542698
+select *
+  from kardex_g
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1542698;
+
+-- 02	27	1	1542698
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1542698;
+
+
+select *
+  from almacen
+ where cod_art = 'BOLSA 22.27';
 
 select *
   from kardex_g
@@ -519,10 +830,6 @@ select *
    and tp_transac = '27'
    and serie = 180
    and numero = 42;
-
-select *
-  from articul
- where cod_art in ('MQ2CORTLASER-003', 'MQ2MATR-047');
 
 select *
   from kardex_g
@@ -1208,8 +1515,6 @@ select *
    and extract(year from fch_transac) = 2024
  order by numero desc;
 
-select * from tmp_carga_data;
-
 select *
   from kardex_g g
  where exists(
@@ -1380,3 +1685,268 @@ select *
                    'MAT1 180.761CS-1 -2', 'MAT1 180.761CS-3 -2', 'MAT1 180.789ZN-2',
                    'MAT1 200.1535CS-1 -2', 'MAT1 200.1703CS-1 -2'
    );
+
+select kd.*
+  from kardex_g kg
+       join kardex_d kd
+            on kg.cod_alm = kd.cod_alm
+              and kg.tp_transac = kd.tp_transac
+              and kg.serie = kd.serie
+              and kg.numero = kd.numero
+ where kg.cod_alm = 'F0'
+   and kg.tp_transac = '17'
+   and kg.serie = 1
+   and kg.numero in (
+   744551
+   );
+
+select *
+  from kardex_g
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 884496;
+
+select *
+  from kardex_d
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 884496;
+
+select *
+  from kardex_g
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 884496;
+
+
+insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values ( '57', '27', 2, 884498, '95330MLS', 400.0000, 0.000000, 0.000000, date '2024-04-30', 0.00
+       , 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null
+       , null, 0.00, 0.0000, 0.0000, 'AR', 1039832, null);
+
+
+-- codigo, stock actual, linea, fecha ultimo ingreso
+select *
+  from almacenes
+ where cod_alm = 'M4';
+
+-- stock almacen M4
+  with ingresos as (
+    select cod_alm, cod_art, max(d.fch_transac) as ultimo_ingreso
+      from kardex_d d
+     where d.estado != '9'
+       and d.ing_sal = 'I'
+       and d.cod_alm = :p_almacen
+     group by d.cod_alm, d.cod_art
+    )
+select d.cod_alm, d.cod_art, a.cod_lin, i.ultimo_ingreso
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join ingresos i on d.cod_alm = i.cod_alm and d.cod_art = i.cod_art
+       join articul a on d.cod_art = a.cod_art
+ where d.estado != '9'
+   and d.cod_alm = :p_almacen
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, i.ultimo_ingreso, a.cod_lin;
+
+select *
+  from articul
+ where cod_art like 'PUB116-0122001';
+
+select *
+  from articul
+ where cod_art in (
+                   'PUB116-0122001', 'PUB144-0122001', 'PUB116-0201001', 'PUB144-0201001',
+                   'PUB116-0302001', 'PUB144-0302001'
+   )
+ order by cod_art;
+
+select *
+  from itemord
+ where cod_art = 'PUB116-0122001';
+
+select *
+  from itemord
+ where serie = 11
+   and num_ped = 1629;
+
+select *
+  from kardex_d
+ where cod_art = 'PUB116-0201001';
+
+select *
+  from kardex_d
+ where cod_art like 'PUB116%';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '51';
+
+select al.cod_alm, a.descripcion as almacen, l.descripcion as local
+  from almacen_local al
+       left join almacenes a on al.cod_alm = a.cod_alm
+       left join locales l on al.cod_local = l.cod_local;
+
+select d.ano, d.mes, d.tipo, d.voucher, d.item, d.banco, to_date(b.fecha, 'DD/MM/YY') as fecha
+     , g.numero, d.cargo_d - d.abono_d as regmov, b.monto, b.cta_cte_banco
+  from movfigl g
+     , movfide d
+     , movfide_situacion_banco b
+ where d.banco in (
+   select x.codigo from ctabnco x where x.n_cta_cte = b.cta_cte_banco
+   )
+   and d.estado <> '9'
+   and d.estado_banco is null
+   and d.fecha <= to_date('31/08/2024', 'dd/mm/yyyy')
+   ----AND D.FECHA BETWEEN XFECI AND XFECF
+   and d.ano = g.ano
+   and d.mes = g.mes
+   and d.tipo = g.tipo
+   and d.voucher = g.voucher
+   and d.item = g.item
+   -----	AND LENGTH(G.NUMERO) <= 6
+   -----	AND LPAD(G.NUMERO,6,'0') = LPAD(B.NUM_OPER,6,'0')
+   and b.p_ano = 2024
+   and b.p_mes = 8
+   and b.cta_cte_banco = '850200-0001'
+   and b.fecha is not null
+   and length(b.fecha) = 10
+   and to_date(d.fecha, 'DD/MM/YY') = to_date(b.fecha, 'DD/MM/YY');
+--    and (d.cargo_d - d.abono_d) = b.monto;
+
+select * from movfide_situacion_banco;
+
+-- Karen almacén TD
+-- Daniel almacén TG
+-- Jorge almacén TE
+
+select * from kardex_d;
+
+select *
+  from almacen
+ where cod_art = 'PUB144-0101001';
+
+select *
+  from articul
+ where cod_art = 'PUB144-0101001';
+
+select *
+  from kardex_d
+ where cod_art = 'PUB144-0101001';
+
+select ta.descripcion, kd.*
+  from kardex_d kd
+       join transacciones_almacen ta on kd.tp_transac = ta.tp_transac
+ where kd.cod_art = '03COMP25-MONI2'
+ order by trunc(kd.fch_transac), kd.ing_sal desc;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '73';
+
+select min(fch_transac)
+  from kardex_d
+ where cod_art = 'BL450.539SIL NKS';
+
+select distinct d.tp_transac, t.descripcion
+  from kardex_d d
+       join transacciones_almacen t on d.tp_transac = t.tp_transac
+ where d.cod_art = 'BL450.539SIL NKS';
+
+select a.cod_alm, t.descripcion, a.nombre
+  from pr_usualma a
+     , tablas_auxiliares t
+ where a.cod_alm = t.codigo
+   and t.tipo = '33'
+   and a.usuario = :PR_OT.xusuario
+ order by a.cod_alm;
+
+select *
+  from pr_usualma
+ where usuario = 'MDIAZH'
+   and cod_alm like 'D%';
+
+select *
+  from kardex_d
+ where cod_art = 'CSIL 359-PR';
+
+select *
+  from almacen
+ where cod_art in ('CSIL 359-PR', 'CSIL 360-PR');
+
+
+declare
+  l_linea   articul.cod_lin%type   := '800';
+  l_almacen almacenes.cod_alm%type := '48';
+  l_ingsal  kardex_d.ing_sal%type  := 'S';
+begin
+  if ((length(l_linea) = 3 and l_linea not between '900' and '999')
+    or length(l_linea) != 3)
+    and l_almacen = '48' and l_ingsal = 'I'
+  then
+    dbms_output.put_line('Error');
+  else
+    dbms_output.put_line('Ok');
+  end if;
+end;
+
+select *
+  from kardex_d
+ where cod_alm = '48'
+   and ing_sal = 'I'
+   and extract(year from fch_transac) = 2024
+ order by fch_transac;
+
+select *
+  from kardex_d
+ where cod_art = '200.4081NA';
+
+select *
+  from kardex_g
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero = 522;
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero = 522;
+
+select *
+  from kardex_g
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 293142;
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 293142;
+
+select *
+  from numdoc
+ where tp_transac = '22';
+
+select *
+  from kardex_d
+ where cod_art = 'SOL 815'
+   and tp_transac = '22'
+ order by fch_transac desc;
+
+select *
+  from kardex_g
+ where tp_transac = '22'
+   and numero = 293141;
