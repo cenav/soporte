@@ -16,4 +16,5 @@ select per.c_codigo
  where per.encargado = enc.codigo
    and enc.c_codigo = :evaluacion.id_evaluador
    and per.situacion not in ('8', '9')
- order by per.apellido_paterno
+ order by per.apellido_paterno;
+

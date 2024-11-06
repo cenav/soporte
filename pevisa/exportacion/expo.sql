@@ -687,9 +687,15 @@ select *
  where numero = 16333
    and estado_pk = 8;
 
+
+select max(nro)
+  from expedido_d
+ where numero = 16582;
+
 select *
   from expedido_d
- where numero = 16333;
+ where numero = 16582
+   and cod_art = 'KIT MH CHP 30050 GR';
 
 select *
   from expedido_d
@@ -739,6 +745,16 @@ select *
    );
 
 select *
+  from expedido_d
+ where numero = 16582
+   and cod_art in ('KIT MH CHP 30050 GR');
+
+select *
   from pr_ot
  where abre01 = '16293'
    and per_env = '11';
+
+select *
+  from pr_ot
+ where abre01 = '16582'
+   and per_env = '47';

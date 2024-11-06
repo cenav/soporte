@@ -5,23 +5,26 @@
 -- 24-16-2-884484
 select *
   from kardex_g
- where cod_alm = '03'
-   and tp_transac = '08'
-   and serie = 1
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
    and numero in (
-                  25310, 25311, 25312, 25313, 25314, 25315, 25316, 25317, 25318, 25319, 25320,
-                  25321, 25322, 25323, 25324
+   552
    );
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '08'
-   and serie = 1
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
    and numero in (
-                  25310, 25311, 25312, 25313, 25314, 25315, 25316, 25317, 25318, 25319, 25320,
-                  25321, 25322, 25323, 25324
+   552
    );
+
+select *
+  from numdoc
+ where tp_transac = '35'
+   and serie = 141;
 
 select *
   from kardex_g_historia
@@ -48,6 +51,11 @@ select t.descripcion, kgh.*
 select *
   from transacciones_almacen
  where tp_transac in ('27', '29', '22', '18');
+
+select tp_transac, descripcion
+  from transacciones_almacen
+ where estado = '1'
+ order by tp_transac;
 
 select *
   from kardex_d_historia
@@ -131,11 +139,6 @@ select *
    and numero in (
    31796
    );
-
-select *
-  from kardex_g_movglos
- where guia_bf_numero is not null
- order by fecha_ingreso_almacen desc;
 
 select *
   from almacen
@@ -225,71 +228,6 @@ select *
    204493
    );
 
-insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
-                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
-                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
-                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
-                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
-                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
-                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped
-                            , nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1
-                            , numero_2)
-values ( '37', '16', 1, 204493, date '2024-08-27', 'P2', 1, 196082
-       , 'TRANSFE ALMACEN  30 ( 27 - 1 - 204493)', null, null, null, null, 1, null, null, null, 0.00
-       , 0.00, '0', '0', 'P', 'I', '0', null, null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null, 'SOLIMAT', null, null, null, null, null, null
-       , null);
-
-
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'GRAF 0.7-245', 147.0000, 0.000000, 0.000000, date '2024-08-27'
-       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'GRAF 0.8-222', 400.0000, 0.000000, 0.000000, date '2024-08-27'
-       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'GRAF 0.6-222', 300.0000, 0.000000, 0.000000, date '2024-08-27'
-       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'BH 0.32-222', 900.0000, 0.000000, 0.000000, date '2024-08-27', 0.00
-       , 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'NI 2900 0.8-200', 480.0000, 0.000000, 0.000000, date '2024-08-27'
-       , 0.00, 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '37', '16', 1, 204493, 'BH 0.23-200', 600.0000, 0.000000, 0.000000, date '2024-08-27', 0.00
-       , 0.00, 0.000, '0', null, 'D', 'I', null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null);
-
 select cod_alm, tp_transac, serie, numero, cod_art, cantidad, fch_transac, ing_sal
   from kardex_d
  where cod_art = 'BH 0.32-222'
@@ -334,15 +272,6 @@ select *
 select *
   from almacen
  where cod_art = 'FSP 95067 GR';
-
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( 'F8', '10', 18, 4204, 'FSP 95067 GR', 35.0000, 0.000000, 0.000000, date '2022-11-10', 0.00
---        , 0.00, 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null
---        , null, null, null, null, null, null, null);
 
 
 select *
@@ -614,27 +543,6 @@ select *
 
 select * from tmp_carga_data;
 
-insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
-                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
-                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
-                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
-                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
-                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
-                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
-values ( 'TA', '10', 29, 9237, date '2023-06-30', '35', 29, 9237, null, 'C', '20100084768', '05'
-       , null, 1, 'D', '17', null, 0.00, 0.00, '6', '3', '*', 'I', '0', null, null, null, null
-       , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, '6', null, null
-       , null, null, null);
-
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( 'TA', '10', 29, 9237, 'SOL 830', 586.4400, 0.000000, 0.000000, date '2023-06-30', 0.00
-       , 0.00, 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null, null);
-
 -- Luis Arias 21/07/2023
 select *
   from kardex_g
@@ -651,55 +559,6 @@ select *
    and numero = 9021
    and cod_art = 'CAR 485';
 
-
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( '17', '10', 1, 27, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
---        , 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null, null
---        , null, null, null, null, null, null);
---
---
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( 'TA', '35', 29, 25, 'CAR 485', 40.0000, 0.000000, 0.000000, date '2023-03-03', 0.00, 0.00
---        , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
---        , null, null, null, null, null, null);
---
---
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( 'TA', '10', 29, 9696, 'CAR 485', 40.0000, 0.000000, 0.000000, date '2023-03-03', 0.00, 0.00
---        , 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null, null, null
---        , null, null, 40.0000, null, null, null);
---
---
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( 'TA', '35', 29, 28, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
---        , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
---        , null, null, null, null, null, null);
---
---
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( 'TA', '10', 29, 9021, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
---        , 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null, null, null
---        , null, null, 20.0000, null, null, null);
 
 
 select *
@@ -754,46 +613,6 @@ select *
    and serie = 25
    and numero = 4556;
 
-
-insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
-                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
-                                          , tp_transac, serie, numero, motivo_traslado
-                                          , transporte_empresa, transporte_chofer, transporte_unidad
-                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
-                                          , modalidad_traslado, detalle, contenedor, precinto
-                                          , numero_documento_relacionado
-                                          , codigo_documento_relacionado
-                                          , descri_documento_relacionado, peso_items, pk_serie
-                                          , pk_numero, pk_tipo, ruc_llegada
-                                          , descripcion_motivo_traslado
-                                          , codigo_establecimiento_partida
-                                          , codigo_establecimiento_llegada, fecha_emision
-                                          , precinto_linea, carreta, marca_1, cartones, marca_2
-                                          , marca_3)
-values ( 'T001', 4395, date '2023-09-14', '070101', '050101', 'ASOC. WARI ACCOPAMPA MZA. B LOTE. 1'
-       , '10465247555', 'F0', '21', 25, 4556, '01', '20604418934', null, null, 123.00, 2291.9800
-       , '03', '00', '01', null, null, null, 'F050-00183120', '01', 'FACTURA', null, null, null
-       , null, null, null, null, null, null, null, null, null, null, null, null);
-
-insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
-                                          , ubigeo_llegada, direccion_llegada, ruc, cod_alm
-                                          , tp_transac, serie, numero, motivo_traslado
-                                          , transporte_empresa, transporte_chofer, transporte_unidad
-                                          , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
-                                          , modalidad_traslado, detalle, contenedor, precinto
-                                          , numero_documento_relacionado
-                                          , codigo_documento_relacionado
-                                          , descri_documento_relacionado, peso_items, pk_serie
-                                          , pk_numero, pk_tipo, ruc_llegada
-                                          , descripcion_motivo_traslado
-                                          , codigo_establecimiento_partida
-                                          , codigo_establecimiento_llegada, fecha_emision
-                                          , precinto_linea, carreta, marca_1, cartones, marca_2
-                                          , marca_3)
-values ( 'T001', 4557, date '2023-09-16', '070101', '150115', 'AV.REP.PANAMA 2457 URB STA CATALINA'
-       , '20100814162', 'F0', '21', 25, 4704, '01', '20491988682', '03', '03', 6.00, 180.0000, '03'
-       , '01', '02', null, null, null, 'F050-00183266', '01', 'FACTURA', null, null, null, null
-       , null, null, null, null, null, null, null, null, null, null, null);
 
 select *
   from kardex_d
@@ -992,27 +811,6 @@ select *
   from numdoc
  where tp_transac = '28'
    and serie = 1;
-
-insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
-                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
-                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
-                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
-                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
-                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
-                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
-values ( '03', '28', 1, 886, date '2023-10-30', null, null, null, null, null, null, null, null, 1
-       , null, null, 'S', 0.00, 0.00, '1', '3', 'D', 'S', '0', null, null, null, null, null, null
-       , null, null, null, 1.0000, null, null, null, 'BD2310', null, null, null, null, null);
-
-
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '03', '28', 1, 886, '380.912', 59, 0.000000, 0.000000, date '2023-10-30', 0.00
-       , 0.00, 0.000, '0', '6910101', 'D', 'S', null, null, null, null, null, null, null
-       , 'SALIDA POR AJUSTE', null, null, null, null, null, null, null, null);
 
 select *
   from kardex_g
@@ -1950,3 +1748,130 @@ select *
   from kardex_g
  where tp_transac = '22'
    and numero = 293141;
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '28'
+   and fch_transac = to_date('29/10/2024', 'dd/mm/yyyy')
+ order by fch_transac desc;
+
+-- salida por servicio
+select os.numero, os.nuot_serie, os.nuot_tipoot_codigo, os.oc_numero, os.oc_serie
+     , oc.fecha as fecha_oc, oc.cod_proveed, proveedor(oc.cod_proveed) as nombre
+     , op.formu_art_cod_art
+     , op.cant_prog, op.fecha as fecha_op, i.cod_art, i.cantidad
+  from orden_de_compra oc
+     , itemord i
+     , pr_ot_orden_de_servicio os
+--      , articul_servicios arts
+     , pr_ot op
+ where i.num_ped = oc.num_ped
+   and i.serie = oc.serie
+   and oc.estado < '9'
+   and i.num_ped = os.oc_numero
+   and i.serie = os.oc_serie
+--    and i.cod_art = arts.cod_art
+   and os.numero = op.numero
+   and os.nuot_serie = op.nuot_serie
+   and os.nuot_tipoot_codigo = op.nuot_tipoot_codigo
+--    and op.formu_art_cod_art = arts.cod_art_produccion
+   and op.estado = 1
+   and os.kardex_numero is null
+   and oc.serie = 2
+   and oc.num_ped = 23214;
+
+select *
+  from itemord
+ where serie = 2
+   and num_ped = 23214
+ order by cod_art;
+
+select *
+  from pr_ot_orden_de_servicio
+ where oc_serie = 2
+   and oc_numero = 23214
+ order by numero;
+
+select *
+  from articul_servicios
+ where cod_art in (
+                   'SERV MHL 510.700-2/17X49-F', 'SERV MHL 510.700-2/17X49-FD',
+                   'SERV MHL 510.700-2/16X29-F', 'SERV MHL 510.700-2/16X29-FD',
+                   'SERV MHL 510.700-2/23X33-F', 'SERV MHL 510.700-2/23X33-FD',
+                   'SERV MHL 510.700-2/15X20-F', 'SERV MHL 510.700-2/15X20-FD',
+                   'SERV MHL 790.590-2/19X72-F', 'SERV MHL 790.590-2/19X72-FD',
+                   'SERV MHL 790.590-2/24X52-F', 'SERV MHL 790.590-2/24X52-FD',
+                   'SERV MHL 790.590-2/19X38-F', 'SERV MHL 790.590-2/19X38-FD',
+                   'SERV MHL 790.590-2/23X56-F', 'SERV MHL 790.590-2/23X56-FD',
+                   'SERV MHL 920.700-2/22.5X86-F', 'SERV MHL 920.700-2/22.5X86-FD',
+                   'SERV MHL 700.690-2/33.5X67-F', 'SERV MHL 700.690-2/33.5X67-FD',
+                   'SERV MHL 550.1150-2/31X105 -F', 'SERV MHL 550.1150-2/31X105 -FD'
+   )
+ order by cod_art;
+
+select *
+  from articul_servicios
+ where cod_art in (
+                   'SERV MHL 510.700-2/17X49-F', 'SERV MHL 510.700-2/17X49-FD'
+   );
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and formu_art_cod_art in (
+                             'MHL 510.700-2/17X49', 'MHL 510.700-2/17X49', 'MHL 510.700-2/16X29',
+                             'MHL 510.700-2/16X29', 'MHL 510.700-2/23X33', 'MHL 510.700-2/23X33',
+                             'MHL 510.700-2/15X20', 'MHL 510.700-2/15X20', 'MHL 790.590-2/19X72',
+                             'MHL 790.590-2/19X72', 'MHL 790.590-2/24X52', 'MHL 790.590-2/24X52',
+                             'MHL 790.590-2/19X38', 'MHL 790.590-2/19X38', 'MHL 790.590-2/23X56',
+                             'MHL 790.590-2/23X56', 'MHL 920.700-2/22.5X86',
+                             'MHL 920.700-2/22.5X86', 'MHL 700.690-2/33.5X67',
+                             'MHL 700.690-2/33.5X67', 'MHL 550.1150-2/31X105',
+                             'MHL 550.1150-2/31X105'
+   )
+   and estado = '1';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  584730, 584731
+   );
+
+delete
+  from kardex_d d
+ where not exists (
+   select *
+     from kardex_g g
+    where d.cod_alm = g.cod_alm
+      and d.tp_transac = g.tp_transac
+      and d.serie = g.serie
+      and d.numero = g.numero
+   )
+   and extract(year from d.fch_transac) < 2010;
+
+select *
+  from kardex_d
+ where cod_alm = '08'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 2625;
+
+select *
+  from kardex_g
+ where fch_transac >= to_date('01/11/2024', 'dd/mm/yyyy');
+
+select *
+  from kardex_g
+ where cod_alm = '03'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 204300;
+
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 204300;

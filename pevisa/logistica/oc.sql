@@ -1,19 +1,15 @@
 select *
   from orden_de_compra
- where serie = 1
+ where serie = 30
    and num_ped in (
-   86402
+   717
    );
 
 select *
-  from lg_condpag
- where descripcion like '%CONTRA%';
-
-select *
-  from orden_de_compra
- where serie = 3
+  from itemord
+ where serie = 30
    and num_ped in (
-   45380
+   721
    );
 
 select *
@@ -400,7 +396,7 @@ select *
 
 select *
   from proveed
- where cod_proveed = '20251505111';
+ where cod_proveed = '20600735668';
 
 select *
   from proveed
@@ -955,3 +951,20 @@ select get_costos(:x_articulo, '03') from dual;
 select *
   from proceso_rsc
  where id_proceso = 9;
+
+select *
+  from proveed
+ where nombre like '%DAYZ%';
+
+select *
+  from orden_de_compra
+ where upper(detalle) like '%GRIP%';
+
+select *
+  from itemord
+ where upper(observacion) like '%GRIP%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20600735668'
+ order by fecha desc;

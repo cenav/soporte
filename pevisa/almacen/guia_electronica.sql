@@ -96,8 +96,8 @@ select *
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 30764;
+ where guia_serie = 'T138'
+   and guia_numero = 868;
 
 --------------------------------------
 -- vuelve a enviar guia exportacion --
@@ -128,10 +128,12 @@ select *
    and fch_transac > to_date('01/10/2023', 'dd/mm/yyyy');
 
 
+select distinct estado
+  from transporte;
+
 select *
   from transporte
- where cod_transp = '20602853901';
-
+ where cod_transp = '20100039207';
 
 select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.direccion, u.cod_ubc
      , u.nom_dpt, u.nom_pvc, u.nom_dtt, u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre

@@ -6,7 +6,7 @@ declare
       from pagos_h
      where serie_planilla = 80
        and numero_planilla in (
-                               27358
+                               30736
        );
 
   procedure anula_detalle(

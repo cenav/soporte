@@ -2,17 +2,52 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   1075267
+   1077345
    );
-
-select * from pr_estados;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1071505
+   1077345
    );
+
+
+
+update pr_ot_det
+   set cant_formula = rendimiento * 200
+ where ot_nuot_tipoot_codigo = 'AR'
+   and ot_numero in (
+   1077345
+   );
+
+select *
+  from pr_ot
+ where formu_art_cod_art = 'KIT MH CH 30010 TG'
+   and extract(year from fecha) = 2023;
+
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+   and ot_numero in (
+   1034043
+   );
+
+select *
+  from pr_ot
+ where estado = '1';
+
+select *
+  from pr_formu
+ where art_cod_art = 'KIT MH CH 30010 TG';
+
+select *
+  from expedido_d
+ where numero = '16582'
+   and nro = 60;
+
+select * from pr_estados;
 
 select *
   from pr_ot
@@ -972,5 +1007,6 @@ select *
 select * from pla_control;
 
 
-select * from articul_iqf
-where cod_art = 'SOL 815';
+select *
+  from articul_iqf
+ where cod_art = 'SOL 815';

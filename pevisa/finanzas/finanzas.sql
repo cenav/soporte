@@ -311,4 +311,3 @@ select *
    and extract(month from fecha_generacion) = 10;
 
 select to_date('18/10/2024', 'dd/mm/yyyy') from dual;
-

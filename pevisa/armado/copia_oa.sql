@@ -31,7 +31,7 @@ select * from pr_num_ot;
 declare
   c_tpo constant pr_ot.nuot_tipoot_codigo%type := 'AR';
   c_ser constant pr_ot.nuot_serie%type         := '3';
-  c_nro constant pr_ot.numero%type             := 1057410;
+  c_nro constant pr_ot.numero%type             := 1076194;
   c_fch constant date                          := sysdate;
   l_nuevo_nro    pr_ot.numero%type;
 begin

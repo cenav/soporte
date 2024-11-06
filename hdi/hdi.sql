@@ -247,6 +247,11 @@ select *
    and voucher = 100003;
 
 select *
+  from factpag
+ where cod_proveedor = '20100047218'
+   and numero = '4198825';
+
+select *
   from tab_bancos
  where codigo_banco = '04';
 
@@ -258,84 +263,19 @@ select *
   from prestamo_banco_cuota
  where cod_prestamo = '0003CM5';
 
-insert into prestamo_banco
-select cod_banco
-     , '0003CM5'
-     , fecha
-     , estado
-     , importe_prestamo
-     , moneda
-     , tasa_interes
-     , cod_tipo_prestamo
-     , ano
-     , mes
-     , tipo
-     , voucher
-     , item
-     , asiento_generado_quien
-     , asiento_generado_cuando
-     , cod_derivado
-     , debito_auto
-     , contrato
-     , cod_proveedor
-     , tipdoc
-     , importe_neto
-     , tasa_igv
-     , contrato_derivado
-     , cod_penalidad
-     , estructuracion
-     , cod_interes_leasing
-     , cod_motivo
-     , nombre_archivo
-     , cod_unidad_negocio
-  from prestamo_banco
- where cod_prestamo = '0001CM5';
-
-insert into prestamo_banco_cuota
-select cod_banco
-     , '0003CM5'
-     , nro_cuota
-     , fecha_vcto
-     , importe_saldo_capital
-     , importe_capital
-     , importe_interes
-     , importe_cuota
-     , serie_num
-     , numero
-     , importe_portes
-     , importe_igv
-     , importe_comision
-     , importe_gastos
-     , importe_valor_cuota
-     , tipdoc_cp
-     , serie_cp
-     , numero_cp
-     , fecha_debito_banco
-     , importe_capital_real
-     , importe_interes_real
-     , importe_valor_cuota_real
-     , importe_portes_real
-     , importe_igv_real
-     , importe_comision_real
-     , importe_gastos_real
-     , importe_cuota_real
-     , opcion_de_compra
-  from prestamo_banco_cuota
- where cod_prestamo = '0001CM5';
-
 select *
   from movfigl
- where ano = 2023
-   and mes = 8
-   and tipo = '9'
-   and voucher = 80002;
+ where ano = 2024
+   and mes = 10
+   and tipo = '3'
+   and voucher = 100003;
 
 select *
   from movfide
- where ano = 2023
-   and mes = 8
-   and tipo = '9'
-   and voucher = 80002;
+ where ano = 2024
+   and mes = 10
+   and tipo = '3'
+   and voucher = 100003;
 
 select *
   from factcob
@@ -346,9 +286,9 @@ select *
 
 select *
   from factpag
- where cod_proveedor = '20609623277'
+ where cod_proveedor = '20100047218'
 --    and serie_num = '0000'
-   and numero = '0001CM8';
+   and numero = '4198825';
 
 select *
   from articul

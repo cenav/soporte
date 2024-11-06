@@ -137,11 +137,14 @@ select *
 
 select * from articul_iqf;
 
-alter table articul_iqf
-  add alcance varchar2(1) default 'I' not null;
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '28'
+   and extract(year from fch_transac) = 2024;
 
-alter table articul_iqf
-  add constraint chk_articul_iqf_alcance
-    check ( alcance in ('I', 'E') );
-
-comment on column articul_iqf.alcance is '[I]nterno [E]xterno';
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '28'
+   and extract(year from fch_transac) = 2024;

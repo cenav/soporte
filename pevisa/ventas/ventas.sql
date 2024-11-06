@@ -81,12 +81,6 @@ select *
   from transporte
  where cod_transp = '20603099088';
 
-select nombre, cod_transp, domicilio, ruc_transp
-  from transporte
- where nvl(indicador1, '0') = '1'
-   and cod_transp = '20602535500'
- order by nombre;
-
 select *
   from pedido
  where num_ped in (244631);
@@ -183,9 +177,11 @@ select *
 
 select *
   from pedido_flujo
- where num_ped = 230874
+ where num_ped in
+       (254751, 254752, 254746, 254747, 254750, 254735, 254735, 254736, 254737, 254738, 254748,
+        254742, 254740, 254739, 254697)
+   and codigo_area = '01'
  order by item;
-
 
 select per.c_codigo
      , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
@@ -1039,3 +1035,44 @@ select *
   from sistabgen
  where sistabcod = 600
  order by sistabcod, sisdatcod;
+
+select condpag_venta, descripcion
+  from condpag_venta
+ where cond_pag = ''
+ group by condpag_venta, descripcion
+ order by condpag_venta;
+
+select * from condpag_venta order by condpag_venta;
+
+select distinct cond_pag from condpag_venta;
+
+select sysdate from dual;
+
+select * from view_categoria_cliente;
+
+select *
+  from clientes
+ where cod_cliente = '20608010654';
+
+select abreviada
+  from tablas_auxiliares
+ where tipo = 24
+   and codigo = to_char('40');
+
+select *
+  from tablas_auxiliares
+ where tipo = 24
+   and codigo != '....'
+ order by codigo;
+
+/*
+0	TELEVENTAS	TELEVENTAS
+10	TURQUEZA - TELEVENTAS	TURQUEZA
+15	FLOTAS	FLOTAS
+20	BRONCE	BRONCE
+25	PLATA	PLATA
+30	ORO	ORO
+35	SAFIRO	SAFIRO
+40	DIAMANTE	DIAMANTE
+45	PERLA	PERLA
+*/

@@ -125,16 +125,16 @@ select count(*)
 
 select *
   from permiso
- where numero = 64617;
-
-select *
-  from permiso
- where numero = 64949;
+ where numero in (66855, 66854);
 
 select *
   from proceso_puntualidad_pers
- where id_personal = 'E43200'
+ where id_personal = 'E4376'
  order by id_proceso desc;
+
+select * from proceso_puntualidad_pers;
+
+select * from proceso_puntualidad_permiso;
 
 select * from estado_permiso;
 
@@ -269,92 +269,74 @@ select * from menu_roles;
 
 select * from menu; -- por crear
 
-begin
-  accesos.carga_permisos(2);
-  if accesos.permiso_habilitado('AES', 2) then
-    dbms_output.put_line('SI');
-  else
-    dbms_output.put_line('NO');
-  end if;
-end;
-
-select * from tipo_linea;
-
-select * from tab_lineas_tipo_linea;
-
-begin
-  dbms_output.put_line(accesos.rol('CNAVARRO'));
-end;
-
 create public synonym accesos for pevisa.accesos;
 
 select *
-  from vendedores
- where cod_vendedor = 'Z10';
+  from permiso
+ where numero in (66855, 66854);
 
-select * from estado_permiso;
-
-select descripcion as dsc_concepto, id_concepto as idconcepto
-  from pevisa.concepto_permiso
- where ((exists(
-   select rm.id_permiso, p.dsc_permiso
-     from usuarios u
-          join roles r on u.id_rol = r.id_rol
-          join roles_modulo rm on r.id_rol = rm.id_rol
-          join permisos p on rm.id_permiso = p.id_permiso
-    where u.usuario = :usuario
-      and rm.id_modulo = :modulo
-      and p.id_permiso = 0
-   )) or
-        (flg_asocial = 1 and exists(
-          select rm.id_permiso, p.dsc_permiso
-            from usuarios u
-                 join roles r on u.id_rol = r.id_rol
-                 join roles_modulo rm on r.id_rol = rm.id_rol
-                 join permisos p on rm.id_permiso = p.id_permiso
-           where u.usuario = :usuario
-             and rm.id_modulo = :modulo
-             and p.id_permiso = 20
-          )) or
-        flg_solorrhh != 1 and not exists(
-          select rm.id_permiso, p.dsc_permiso
-            from usuarios u
-                 join roles r on u.id_rol = r.id_rol
-                 join roles_modulo rm on r.id_rol = rm.id_rol
-                 join permisos p on rm.id_permiso = p.id_permiso
-           where u.usuario = :usuario
-             and rm.id_modulo = :modulo
-             and p.id_permiso in (0, 20)
-          ))
- order by descripcion;
-
-select descripcion as dsc_concepto, id_concepto as idconcepto
-  from concepto_permiso
- where id_concepto in (
-   select p.valor
-     from aut_rol_usuario u
-          left join aut_rol_compuesto c on u.id_rol = c.id_compuesto
-          join aut_permiso p on (p.id_rol = coalesce(c.id_rol, u.id_rol))
-    where u.usuario = :usuario
-      and p.id_objeto = :objeto
-      and p.id_campo = :concepto
-      and p.contador in (
-      select p2.contador
-        from aut_rol_usuario u2
-             left join aut_rol_compuesto c2 on u2.id_rol = c2.id_compuesto
-             join aut_permiso p2 on (p2.id_rol = coalesce(c2.id_rol, u2.id_rol))
-       where u2.usuario = u.usuario
-         and p2.id_rol = p.id_rol
-         and p2.id_objeto = p.id_objeto
-         and p2.id_campo = :actividad
-         and p2.valor = :crear
-      )
-   );
 
 select *
-  from accidente
- where id_accidente = 305;
+  from permiso
+ where numero = 63652;
 
 select *
-  from accidente
- where id_accidente = 305;
+  from proceso_puntualidad_pers
+ where id_personal = 'E4376'
+   and horas_libres_saldo > 0
+ order by id_proceso desc;
+
+select * from proceso_puntualidad_pers;
+
+select * from proceso_puntualidad_permiso;
+
+begin
+
+  for r in (
+    select id_proceso, id_personal, permiso_ser, permiso_nro, horas_usadas
+      from proceso_puntualidad_permiso
+     where permiso_ser = 1
+       and permiso_nro = 63652
+    )
+  loop
+    update proceso_puntualidad_pers
+       set horas_libres_saldo = horas_libres_saldo + r.horas_usadas
+     where id_proceso = r.id_proceso
+       and id_personal = r.id_personal;
+
+    delete
+      from proceso_puntualidad_permiso
+     where id_proceso = r.id_proceso
+       and id_personal = r.id_personal
+       and permiso_ser = r.permiso_ser
+       and permiso_nro = r.permiso_nro;
+  end loop;
+
+end;
+
+begin
+  puntualidad.reclama_hr('E4376', 6);
+end;
+
+  with det as (
+    select p.id_proceso, e.id_personal, e.horas_libres_saldo
+         , sum(e.horas_libres_saldo) over (order by p.hasta) as saldo_acumulado
+      from proceso_puntualidad p
+           join proceso_puntualidad_pers e on p.id_proceso = e.id_proceso
+     where id_personal = :p_persona_id
+       and e.horas_libres_saldo != 0
+     order by hasta
+    )
+select d.id_proceso, d.id_personal, d.horas_libres_saldo, d.saldo_acumulado
+     , d.saldo_acumulado - d.horas_libres_saldo as acumulado_anterior
+     , greatest(d.saldo_acumulado - :p_horas, 0) as saldo_final
+     , case
+         when d.saldo_acumulado <= :p_horas then
+           d.horas_libres_saldo
+         when d.saldo_acumulado - horas_libres_saldo < :p_horas then
+           :p_horas - (d.saldo_acumulado - d.horas_libres_saldo)
+         else 0
+       end as consumo_distribuido
+  from det d
+-- running total for previous row is less than :p_horas then include current row
+ where d.saldo_acumulado - d.horas_libres_saldo < :p_horas;
