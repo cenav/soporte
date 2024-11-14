@@ -13,17 +13,27 @@ select *
    and voucher = 100001;
 
 select *
-  from movdeta
+  from movfide
  where ano = 2024
-   and mes = 4
-   and libro = '05'
-   and voucher = 40003
-   and tipo_relacion = 'P';
+   and mes = 10
+   and tipo = '2'
+   and voucher = 103026;
 
 select *
   from factpag
- where cod_proveedor = '10082247527'
-   and numero = 'DIVIDENDO';
+ where cod_proveedor = '20601875200'
+   and numero = '0000780';
+
+select *
+  from factpag
+ where ano = 2024
+   and mes = 10
+   and libro = '05'
+   and voucher = 10001;
+
+select * from nrodoc
+where tipodoc = '00';
+
 
 select *
   from cabfpag
@@ -32,10 +42,10 @@ select *
 
 select *
   from cabfpag
- where ano = 2022
-   and mes = 12
-   and libro = '39'
-   and voucher = 120006;
+ where ano = 2024
+   and mes = 10
+   and libro = '05'
+   and voucher = 10001;
 
 select * from activo_fijo_depreciacion;
 
@@ -226,3 +236,5 @@ select *
 select *
   from tablas_auxiliares
  where codigo = 'FN';
+
+

@@ -2014,3 +2014,12 @@ select cuenta, descripcion
  where lower(descripcion) like '%interes%'
    and moneda = :prestamo_banco.cod_banco
    and titulo = 'D';
+
+select *
+  from factpag
+ where numero = '4198825';
+
+select *
+  from factpag
+ where cod_proveedor = '20100047218'
+   and serie_num = '050';

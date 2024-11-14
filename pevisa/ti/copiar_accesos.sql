@@ -1,14 +1,14 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CVASQUEZ';
+ where username like 'JENNIFER_VARGAS';
 
 select *
   from usuarios
- where usuario = 'ADIONICIO';
+ where usuario = 'RTARRILLO';
 
 declare
-  k_newusr varchar2(30) := 'ADIONICIO';
+  k_newusr varchar2(30) := 'PAPEL';
 begin
   delete from seccrus where co_usrusr = k_newusr;
 
@@ -28,8 +28,8 @@ begin
 end;
 
 declare
-  k_oldusr varchar2(30) := 'KMONTESINOS';
-  k_newusr varchar2(30) := 'CVASQUEZ';
+  k_oldusr varchar2(30) := 'RTARRILLO';
+  k_newusr varchar2(30) := 'PAPEL';
 begin
   insert into seccrus
   select k_newusr, co_ctrctr, co_clave, nombres
@@ -107,8 +107,9 @@ select co_usrusr, co_ctrctr, co_clave, nombres
       and s2.co_usrusr = 'FSANCHEZ'
    );
 
-select * from seccrus
-where co_usrusr = 'CVASQUEZ';
+select *
+  from seccrus
+ where co_usrusr = 'CVASQUEZ';
 
 select *
   from tab_menu t
@@ -153,7 +154,7 @@ select cod_alm
 
 select cod_alm
   from pr_usualma
- where usuario = 'TDELGADO';
+ where usuario = 'JENNIFER_VARGAS';
 
 select *
   from pr_usualma ua

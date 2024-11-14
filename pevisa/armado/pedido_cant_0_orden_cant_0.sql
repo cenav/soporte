@@ -20,6 +20,13 @@ begin
 
     l_count := l_count + sql%rowcount;
 
+
+    update pr_ot
+       set estado = '9'
+     where nuot_tipoot_codigo = r.nuot_tipoot_codigo
+       and nuot_serie = r.nuot_serie
+       and numero = r.nuot_numero;
+
     delete
       from pr_ot
      where nuot_tipoot_codigo = r.nuot_tipoot_codigo

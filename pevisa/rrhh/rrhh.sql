@@ -329,22 +329,5 @@ select *
    and id_alterno = 'DNUNEZM';
 
 select *
-  from campana
- where cod_campana = 'GC24-MR2';
-
-select * from estado_campana;
-
-select *
-  from campana_cliente
- where cod_campana = 'GC24-MR2';
-
-select *
-  from usuario_modulo
- where modulo = 'VACACIONES'
- order by usuario;
-
-select *
-  from articul
- where cod_art in (
-                   'ACLAB-020', 'ACLAB-021', 'ACLAB-022'
-   );
+  from vacaciones
+ where numero = 19615;

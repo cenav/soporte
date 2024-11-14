@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   1077345
+   774405
    );
 
 select *
@@ -12,14 +12,12 @@ select *
    1077345
    );
 
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and destino = '2'
+   and abre01 = '480';
 
-
-update pr_ot_det
-   set cant_formula = rendimiento * 200
- where ot_nuot_tipoot_codigo = 'AR'
-   and ot_numero in (
-   1077345
-   );
 
 select *
   from pr_ot

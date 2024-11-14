@@ -1,24 +1,37 @@
--- 57-27-2-884495
--- 24-16-2-884485
---
--- 57-27-2-884494
--- 24-16-2-884484
 select *
   from kardex_g
- where cod_alm = '02'
-   and tp_transac = '35'
-   and serie = 141
+ where cod_alm = '01'
+   and tp_transac = '25'
+   and serie = 118
    and numero in (
-   552
+   428
    );
 
 select *
   from kardex_d
  where cod_alm = '02'
-   and tp_transac = '35'
-   and serie = 141
+   and tp_transac = '22'
+   and serie = 1
    and numero in (
-   552
+   294084
+   );
+
+select *
+  from kardex_dpk
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero in (
+   294084
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 150
+   and numero in (
+   714
    );
 
 select *
@@ -236,10 +249,6 @@ select cod_alm, tp_transac, serie, numero, cod_art, cantidad, fch_transac, ing_s
  order by fch_transac desc;
 
 select *
-  from almacenes
- where cod_alm = '37';
-
-select *
   from transacciones_almacen
  where tp_transac = '16';
 
@@ -318,11 +327,6 @@ select *
    and numero = 29807;
 
 select *
-  from almacenes
- where cod_alm = 'D3';
-
-
-select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero = 178279;
@@ -382,10 +386,6 @@ select *
    and tp_transac = '16'
    and serie = 1
    and numero = 204221;
-
-select *
-  from almacenes
- where cod_alm = '08';
 
 select *
   from transacciones_almacen
@@ -834,12 +834,21 @@ select *
 
 select *
   from almacenes
- where cod_alm in ('03', '62');
+ where cod_alm like '%B%'
+ order by cod_alm;
 
 select *
-  from planilla10.personal
- where apellido_paterno = 'RAMOS'
-   and nombres like '%ADAN%';
+  from almacenes
+ where upper(descripcion) like '%TRANSITO%'
+ order by cod_alm;
+
+select distinct tp_transac
+  from kardex_g
+ where cod_alm = '58';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('10', '27', '35');
 
 
 select * from pagos_h;
@@ -983,15 +992,6 @@ select *
    and tp_transac = '27'
    and serie = 2
    and numero = 824231;
-
--- insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
---                             , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
---                             , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
---                             , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
---                             , pr_canthabi, pr_tipot, pr_numot, pr_numped)
--- values ( '57', '27', 2, 824231, '30048MLS', 390, 0.000000, 0.000000, date '2023-07-19', 0.00
---        , 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null
---        , null, 0.00, 0.0000, 0.0000, 'AR', 981584, null);
 
 select *
   from kardex_g_historia
@@ -1140,10 +1140,6 @@ select *
    and serie = 3
    and numero = 102811
  order by fecha desc;
-
-select *
-  from almacenes
- where cod_alm = 'TI';
 
 select *
   from solimat_d
@@ -1520,21 +1516,6 @@ select *
    and numero = 884496;
 
 
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( '57', '27', 2, 884498, '95330MLS', 400.0000, 0.000000, 0.000000, date '2024-04-30', 0.00
-       , 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null
-       , null, 0.00, 0.0000, 0.0000, 'AR', 1039832, null);
-
-
--- codigo, stock actual, linea, fecha ultimo ingreso
-select *
-  from almacenes
- where cod_alm = 'M4';
-
 -- stock almacen M4
   with ingresos as (
     select cod_alm, cod_art, max(d.fch_transac) as ultimo_ingreso
@@ -1864,14 +1845,25 @@ select *
 
 select *
   from kardex_g
- where cod_alm = '03'
-   and tp_transac = '16'
-   and serie = 1
-   and numero = 204300;
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero = 552;
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '16'
-   and serie = 1
-   and numero = 204300;
+ where cod_alm = '02'
+   and tp_transac = '35'
+   and serie = 141
+   and numero = 552;
+
+select *
+  from numdoc
+ where tp_transac = '35'
+   and serie = 141;
+
+select *
+  from numdoc
+ where tp_transac = '22'
+   and serie = 1;
+

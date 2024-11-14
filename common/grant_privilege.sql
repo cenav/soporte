@@ -1,10 +1,9 @@
-grant select on condpag_cuotas  to privilegios_lectura_pvs;
+grant select on tmp_provisiones_fallidas  to privilegios_lectura_pvs;
 
-grant insert on condpag_cuotas  to privilegios_inserta_pvs;
+grant insert on tmp_provisiones_fallidas  to privilegios_inserta_pvs;
 
-grant delete on condpag_cuotas  to privilegios_elimina_pvs;
+grant delete on tmp_provisiones_fallidas  to privilegios_elimina_pvs;
 
-grant update on condpag_cuotas  to privilegios_actualiza_pvs;
+grant update on tmp_provisiones_fallidas  to privilegios_actualiza_pvs;
 
--- condpag_cuotas
--- condpag_cuotas
+grant execute on report_provisiones_fallidas  to privilegios_lectura_pvs;

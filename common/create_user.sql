@@ -7,7 +7,7 @@ create user powerbi
   identified by "sistemas.pevisa768"
   default tablespace pevisad
   temporary tablespace temp
---     profile profile_usuario_sig
+  profile profile_usuario_sig
   account unlock;
 
 grant create session to powerbi;

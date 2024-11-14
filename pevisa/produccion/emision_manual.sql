@@ -13,6 +13,7 @@ select *
   from vw_articulo
  where cod_art in ('450.254', '450.287SIL');
 
+select cod_art, cantidad from tmp_carga_data;
 
 -- emite listado desde tabla temporal
 declare

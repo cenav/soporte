@@ -1076,3 +1076,62 @@ select *
 40	DIAMANTE	DIAMANTE
 45	PERLA	PERLA
 */
+
+select *
+  from clientes
+ where cod_cliente in (
+                       '20479078026', '20605794301', '10406789972', '10437571673', '20571413443',
+                       '10443505747', '10180422230', '20482636072', '20529348267', '20530344208',
+                       '10433097098', '20605389636', '10471289715', '20609796082', '20608257609',
+                       '20603461500', '20604117292'
+   );
+
+select *
+  from tab_lineas
+ where linea = '650';
+
+select *
+  from tfamlin
+ where cod_lin = '650';
+
+-- cierre de ventas
+select count(*)
+  from docuvent_cierre
+ where ano_cierre = :P_ANO
+   and mes_cierre = :P_MES
+   and expo = 'S';
+
+select count(*)
+  from docuvent_cierre
+ where ano_cierre = :P_ANO
+   and mes_cierre = :P_MES
+   and nac = 'S';
+
+select p.cod_art, p.precio, p.linea, 0 as stock, l.grupo, p.indicador
+     , l.factor1 as factor_nac1, l.factor2 as factor_imp2, round(
+    nvl(decode(substr(p.indicador, 1, 1), 'I', p.precio * l.factor2, p.precio * l.factor1),
+        0), 2) as precio_factor_lista1
+     , 1 as lista, p.precio2 as precio_especial, nvl(p.oferta, 0) as oferta
+     , l.factor3 as tcambio
+  from articul_pev p
+     , tab_lineas l
+ where l.linea = p.linea
+   and p.linea <> 'ZZ'
+   and p.cod_art like 'S4 55DH-H5-B'
+ order by p.linea, p.cod_art;
+
+select *
+  from articul_pev
+ where cod_art in ('S4 45D-51R-B', 'S4 55DH-H5-B');
+
+select *
+  from articul_mis
+ where cod_art = 'S4 45D-51R-B';
+
+select *
+  from lispred
+ where cod_art = 'S4 45D-51R-B';
+
+select * from articul_pev;
+
+select sysdate from dual;

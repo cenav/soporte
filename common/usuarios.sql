@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user powerbi account unlock;
+alter user jvargas account unlock;
 
 alter user ametaloplastica account lock;
 
-alter user powerbi identified by "pevisapbi";
+alter user jjuarez identified by "pevisapbi";
 
 alter user gfalcon password expire;
 
@@ -14,7 +14,9 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CAUCHO';
+ where username like '%PAPEL%';
+
+-- roxana tarrillo
 
 select *
   from dba_users
@@ -50,7 +52,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('ECARDENAS');
+ where co_usrusr in ('PEVISA');
 
 select *
   from all_constraints
@@ -207,7 +209,25 @@ select *
 
 select *
   from vendedores
- where cod_vendedor = '66';
+ where cod_vendedor in ('Z11', 'Z7');
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor in ('Z11', 'Z7');
+
+select *
+  from gastos_de_viaje
+ where id_vendedor in ('Z11', 'Z7');
+
+select *
+  from vendedores
+ where nombre like '%COLLANTES%';
+
+select * from ruta_docvirtual;
+
+select *
+  from vendedores
+ where cod_vendedor = 'Z11';
 
 select *
   from modulo

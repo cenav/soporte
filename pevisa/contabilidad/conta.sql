@@ -9,9 +9,18 @@ select *
 select *
   from movdeta
  where ano = 2024
-   and mes = 10
-   and libro = '05'
-   and voucher = 10001;
+   and mes = 9
+   and libro = '33'
+   and voucher = 90024
+   and cuenta = '253205';
+
+select *
+  from movdeta
+ where ano = 2024
+   and mes = 9
+   and libro = '33'
+   and voucher = 90024
+   and cuenta = '253105';
 
 select *
   from plancta
@@ -477,7 +486,6 @@ select *
   from proveed
  where cod_proveed = '20265681299';
 
-
 select *
   from proveed_pagos_especiales
  where cod_proveed = '20265681299';
@@ -486,3 +494,20 @@ insert into pevisa.proveed_pagos_especiales ( cod_proveed, fecha_modificacion, m
                                             , creado_por, fecha_creacion, motivo)
 values ('20265681299', null, null, 'MSOTO', timestamp '2024-02-13 15:31:00', null);
 
+select *
+  from caja
+ where id_serie = 1
+   and id_numero = 208;
+
+select *
+  from caja
+ where id_serie = 1
+   and id_numero = 208;
+
+select *
+  from nrodoc
+ where tipodoc = '00';
+
+select *
+  from factpag
+ where tipdoc = '00';

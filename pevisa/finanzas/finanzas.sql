@@ -2,15 +2,15 @@ select *
   from movfigl
  where ano = 2024
    and mes = 10
-   and tipo = '9'
-   and voucher = 100003;
+   and tipo = '2'
+   and voucher = 103134;
 
 select *
   from movfide
  where ano = 2024
    and mes = 10
-   and tipo = '9'
-   and voucher = 100003;
+   and tipo = '2'
+   and voucher = 103065;
 
 -- 0337221
 
@@ -61,13 +61,22 @@ select *
 
 select *
   from pagos_h
- where serie_planilla = 1
-   and numero_planilla in (27722);
+ where serie_planilla = 42
+   and numero_planilla in (135);
 
 select *
   from pagos_i
- where serie_planilla = 1
-   and numero_planilla in (27722);
+ where serie_planilla = 42
+   and numero_planilla in (135)
+   and numero in ('0165597', '0015596');
+
+select sum(importe_documento)
+     , sum(importe_saldo)
+     , sum(importe_cancelacion)
+  from pagos_i
+ where serie_planilla = 42
+   and numero_planilla in (135)
+   and numero in ('0165597', '0015596');
 
 select *
   from ctabnco_cheques
@@ -234,12 +243,14 @@ select * from embarques_d;
 select *
   from docu_ag
  where numero in (
-                  5455, 5456, 5457, 5458, 5459, 5460, 5461, 5462
+                  5477, 5555
    );
 
 select *
   from item_ag
- where numero = 4603;
+ where numero in (
+                  5477, 5555
+   );
 
 select *
   from tab_lineas

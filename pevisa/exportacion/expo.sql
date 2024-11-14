@@ -5,7 +5,7 @@ select *
 select *
   from exfacturas
  where numero in (
-   16333
+   19684
    );
 
 select *
@@ -84,7 +84,7 @@ select *
 
 select *
   from exproforma_libre
- where numero = 19552;
+ where numero = 19684;
 
 select *
   from pr_embarques
@@ -514,7 +514,7 @@ select *
 
 select *
   from exclientes
- where cod_cliente = '991953';
+ where cod_cliente = '996057';
 
 select d.tipodoc, t.descripcion, d.serie, d.numero as numero_factura, d.fecha, d.cod_cliente
      , cod_vende
@@ -758,3 +758,31 @@ select *
   from pr_ot
  where abre01 = '16582'
    and per_env = '47';
+
+select * from exproformas;
+
+select * from exproformas_param;
+
+select * from clientes_corporacion;
+
+select * from exclientes where cod_cliente = '996057';
+
+-- 996057
+
+select *
+  from pevisa.exproformas
+ where texto8 is not null
+   and extract(year from fecha) = 2024;
+
+select *
+  from exclientes_marcas;
+
+select cod_marca
+  from exclientes_marcas
+ where cod_cliente = '996057'
+   and grupo = 'JUEGOS Y CULATAS'
+ order by 1;
+
+-- todo lo que mahle ha comprado en el año, facturacion
+-- relacion de la demanda anual estimada de Mahle
+-- explosion de piezas cuanto se consume al año, mayor y menor

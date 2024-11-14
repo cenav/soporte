@@ -53,7 +53,7 @@ select *
 
 select *
   from usuario_modulo_alterno
- where id_modulo = 'EVALUACION';
+ where id_modulo = 'PERMISO';
 
 -- SVAGAS
 -- JVILLON
@@ -67,6 +67,10 @@ select *
   from planilla10.tar_encarga;
 
 select * from concepto_permiso;
+
+select *
+  from asistencia.concepto
+ where cod_concepto = 'ENFGT';
 
 select descripcion as dsc_concepto, id_concepto as idconcepto
   from pevisa.concepto_permiso
@@ -245,19 +249,6 @@ select * from usuarios;
 select * from tab_menu;
 
 select * from modulo;
-
--- borrar
-select * from roles;
-
--- borrar
-select * from permisos order by id_permiso;
-
--- borrar
-select * from roles_modulo;
-
-
--- borrar
-select * from rol_concepto_permiso;
 
 select * from concepto_permiso;
 
