@@ -19,7 +19,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1077093;
+ where numero_oa = 1071937;
 
 select *
   from produccion_armado_cajas

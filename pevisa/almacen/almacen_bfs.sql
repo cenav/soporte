@@ -1,7 +1,17 @@
 -- almacenes salida Ate 02, 03, 05, 01
 select *
   from almacenes
- where descripcion like '%BFS%';
+ where descripcion like '%SALVADOR%';
+
+select *
+  from almacenes
+ where cod_alm in ('01', '02', '03', '05', 'V0');
+
+select *
+  from almacen_local
+ where cod_alm in ('01', '02', '03', '05', 'V0', 'B1');
+
+select * from locales;
 
 select *
   from almacen
@@ -18,17 +28,45 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'PEVISA'
+ where usuario in ('DCONTRERAS', 'JNEYRA', 'PEVISA')
+   and cod_alm = 'B1'
  order by cod_alm;
 
 select *
   from traslados_almacenes
- where cod_alm_origen = '02';
+ where cod_alm_origen in ('01', '02', '03', '05', 'V0')
+   and cod_alm_destino = 'B1'
+ order by cod_alm_destino;
+
+select *
+  from traslados_almacenes
+ where cod_alm_destino = 'B1'
+ order by cod_alm_destino;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'B1'
+ order by cod_alm_destino;
 
 select *
   from almacen_trasaccion_serie
- where cod_alm = '02'
- order by serie;
+ where cod_alm in ('01', '02', '03', '05', 'V0', 'F0', 'B1')
+   and serie in (147, 148, 149, 151, 152)
+ order by cod_alm;
+
+-- Series según almacén y transacción
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = :p_tp_transac
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = :p_cod_alm
+   and n.serie = t.serie
+ order by 1;
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('35', '10', '22');
 
 select *
   from numdoc
@@ -36,8 +74,15 @@ select *
  order by serie;
 
 select *
+  from numdoc
+ order by serie;
+
+select * from sucursales where cod_cliente = '20100084768' order by nro_sucur;
+
+-- almacen sucursal (tiene nombre cojudo)
+select *
   from almacen_punto_partida_llegada
- where cod_alm = '02';
+ where cod_alm in ('B1');
 
 select ta.cod_alm_destino, a.descripcion
   from traslados_almacenes ta

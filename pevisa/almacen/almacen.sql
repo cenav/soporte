@@ -1,20 +1,34 @@
 select *
   from kardex_g
- where cod_alm = '01'
-   and tp_transac = '25'
-   and serie = 118
+ where cod_alm = '03'
+   and tp_transac = '16'
+   and serie = 1
    and numero in (
-   428
+   204300
    );
 
 select *
   from kardex_d
- where cod_alm = '02'
-   and tp_transac = '22'
+ where cod_alm = '03'
+   and tp_transac = '16'
    and serie = 1
    and numero in (
-   294084
+   204300
    );
+
+select *
+  from kardex_g
+ where cod_alm = '05'
+   and tp_transac = '27'
+   and serie = 1
+   and numero in (
+   204300
+   );
+
+select *
+  from numdoc
+ where tp_transac = '27'
+   and serie = 1;
 
 select *
   from kardex_dpk

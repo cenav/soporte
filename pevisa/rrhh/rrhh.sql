@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'CARDENAS'
+ where apellido_paterno = 'ALVITES'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -21,7 +21,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E165';
+   and c_codigo = 'E1084';
 
 select *
   from planilla10.t_cargo
@@ -317,6 +317,10 @@ select *
 select *
   from cese_personal
  where id_personal = 'E41990';
+
+select * from motivo_cese_sunat;
+
+select * from detalle_cese order by id_detalle;
 
 select *
   from usuario_modulo_alterno

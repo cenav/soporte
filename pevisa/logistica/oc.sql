@@ -1,8 +1,8 @@
 select *
   from orden_de_compra
- where serie = 30
+ where serie = 4
    and num_ped in (
-   717
+   63421
    );
 
 select *
@@ -14,7 +14,7 @@ select *
 
 select *
   from orden_matriceria
- where nro_oc = 63236;
+ where num_ped = 240108;
 
 select *
   from itemmatri

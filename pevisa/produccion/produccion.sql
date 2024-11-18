@@ -2,14 +2,14 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   584491
+   553656
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   582308
+   585912
    );
 
 select *

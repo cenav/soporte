@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user jvargas account unlock;
+alter user UALMACEN account unlock;
 
 alter user ametaloplastica account lock;
 
-alter user jjuarez identified by "pevisapbi";
+alter user RVELA identified by "pava76$cm";
 
 alter user gfalcon password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%PAPEL%';
+ where username like 'UALMACEN';
 
 -- roxana tarrillo
 

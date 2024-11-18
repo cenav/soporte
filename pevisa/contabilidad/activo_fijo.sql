@@ -52,7 +52,8 @@ having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
 select *
   from activo_fijo
  where cod_activo_fijo in (
-                           'EQ DIV368', 'EQ DIV369', 'EQ DIV370', 'EQ DIV371'
+                           'MQ1LJEB-004', 'MQ1LJEB-004 INS1', 'MQ1LJEB-005', 'MQ1LJEB-005 INS1',
+                           'MQ1PLP-007'
    );
 
 select *
@@ -112,4 +113,13 @@ select e.cod_activo_fijo, a.descripcion, a.abreviatura, c.descripcion as clase
 
 select *
   from activo_fijo
- where cod_activo_fijo = '03COMP25-MONI2';
+ where cod_activo_fijo = 'EQ DIV352-2';
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = 'EQ DIV352';
+
+select *
+  from activo_fijo_depreciacion
+ where cod_activo_fijo = 'EQ DIV352-2';
+

@@ -3,14 +3,14 @@ select *
  where ano = 2024
    and mes = 10
    and tipo = '2'
-   and voucher = 103134;
+   and voucher = 103632;
 
 select *
   from movfide
  where ano = 2024
    and mes = 10
    and tipo = '2'
-   and voucher = 103065;
+   and voucher = 103593;
 
 -- 0337221
 
@@ -322,3 +322,18 @@ select *
    and extract(month from fecha_generacion) = 10;
 
 select to_date('18/10/2024', 'dd/mm/yyyy') from dual;
+
+select c.fecha, c.tipo_cambio, c.import_cam
+  from cambdol c
+     , (
+    select case
+             when pkg_pagos_mes_anterior.habilitado() = 1 then pkg_pagos_mes_anterior.get_fecha()
+             else trunc(sysdate)
+           end as xxx
+      from dual
+    ) s
+ where to_number(to_char(fecha, 'YYYY')) = 2024
+   and to_number(to_char(fecha, 'MM')) = 11
+   and tipo_cambio = 'V'
+   and fecha = s.xxx
+ order by fecha desc;

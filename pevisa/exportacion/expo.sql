@@ -194,6 +194,10 @@ select *
   from expedidos
  where numero = 16333;
 
+select *
+  from expedido_d
+ where numero = 16333;
+
 
 select *
   from expedido_d

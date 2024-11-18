@@ -129,18 +129,17 @@ select *
 
 select *
   from kardex_d
- where cod_alm = '02'
+ where cod_alm = '05'
    and tp_transac = '27'
    and serie = 1
-   and numero = 1528581
-   and cod_art = 'BOLSA P1316';
+   and numero = 1566680;
 
 declare
   -- 03	16	1	204406
   k_alm_ing constant kardex_g.cod_alm%type    := '03';
   k_trx_ing constant kardex_g.tp_transac%type := '16';
   k_ser_ing constant kardex_g.serie%type      := 1;
-  k_nro_ing constant kardex_g.numero%type     := 204406;
+  k_nro_ing constant kardex_g.numero%type     := 204300;
 
   k_alm_sal constant kardex_g.cod_alm%type    := '05';
   k_trx_sal constant kardex_g.tp_transac%type := '27';

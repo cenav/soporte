@@ -289,13 +289,21 @@ select * from vw_gasto_viaje;
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = 'A3'
-   and numero = 101;
+ where id_vendedor = 'A2'
+   and numero = 102;
 
 select *
-  from gastos_de_viaje_habilitado
+  from gastos_de_viaje_habilitado_m
  where id_vendedor = 'A2'
-   and numero = 103;
+   and numero = 102;
+
+select numero, id_motivo, item, cod_ubc, cod_ubc_destino
+     , fecha_del
+     , fecha_al
+     , dias, valor, id_vendedor
+  from gastos_de_viaje_habilitado_d
+ where id_vendedor = 'A2'
+   and numero = 102;
 
 select * from estado_gasto_viaje;
 
