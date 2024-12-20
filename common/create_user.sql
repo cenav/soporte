@@ -1,31 +1,26 @@
 -- CREAR EN USUARIOS
-select rowid, u.*
+select *
   from usuarios u
- where usuario in ('IVEGA', 'DAYALA');
+ where usuario in ('JHORLY_GUEVARA', 'ARODRIGUEZ');
 
-create user powerbi
-  identified by "sistemas.pevisa768"
+create user jhorly_guevara
+  identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
-  profile profile_usuario_sig
+  profile default
   account unlock;
+-- 1 Role for RCARRION
+grant privilegios_usuarios_sig to jhorly_guevara;
+alter user jhorly_guevara default role all;
 
-grant create session to powerbi;
 
--- 1 Role for DAYALA
-grant privilegios_usuarios_sig to dayala;
-
-alter user dayala default role all;
-
-alter user dayala identified by "PEVISA.123";
-
-alter user dayala password expire;
+alter user jhorly_guevara password expire;
 
 
 -- PARA COPIAR DESDE OTRO USUARIO
 select rowid, s.*
   from seccrus s
- where co_usrusr = 'IVEGA';
+ where co_usrusr = 'RICARDO_TOVAR';
 
 select rowid, s.*
   from seccrus s
@@ -49,7 +44,7 @@ select rowid, u.*
 
 select rowid, u.*
   from usuarios_almacenes u
- where usuario = 'IVEGA';
+ where usuario = 'RICARDO_TOVAR';
 
 
 select rowid, u.*
@@ -61,3 +56,8 @@ select rowid, u.*
 select rowid, u.*
   from almacenes_perfil u
  where cod_alm = '97';
+
+select *
+  from usuarios_cotizacion
+ where usuario in ('MVARGAS', 'JSOTOMAYOR');
+

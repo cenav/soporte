@@ -84,3 +84,7 @@ select *
    and glosa = 'APROBADO';
 
 select * from paramlg;
+
+select *
+  from itemmatri
+ where num_ped = 240113;

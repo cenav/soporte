@@ -250,7 +250,8 @@ select bco.cod_banco
                        and cob.fecha <= :g_fecha_fin)
      where f.tipdoc = 'LD'
        and f.estado != '9'
-       and f.f_vencto between :g_fecha_ini and last_day(add_months(:g_fecha_ini, :c_meses_hacia_adelante))
+       and f.fecha between :g_fecha_ini and last_day(add_months(:g_fecha_ini, :c_meses_hacia_adelante))
+       and f.numero = '381132'
      group by f.tipdoc
             , auxdoc.descripcion
             , b.banco
@@ -358,144 +359,38 @@ select user
 
 select to_date('01/05/2024', 'dd/mm/yyyy'), to_date('31/05/2024', 'dd/mm/yyyy') from dual;
 
-  with letras_descuento as (
-    select f.tipdoc as tipdoc
-         , auxdoc.descripcion as nombre_doc
-         , b.banco as banco
-         , pro.nombre as nombre_bco
-         , f.cod_cliente
-         , f.serie_num
-         , f.numero
-         , f.moneda
-         , f.importe
-         , f.importex
-         , f.tcam_sal
-         , f.f_vencto
-         , nvl(decode(f.moneda, 'D', f.importe, f.importe / f.tcam_sal), 0) as importe_dolar
-         , sum(cob.importe) as cancelacion
-         , nvl(sum(decode(cob.moneda, 'D', cob.importe, cob.importe_x)),
-               0) as cancelacion_dolar
-         , nvl(f.importe + nvl(sum(cob.importe), 0), 0) as saldo_a_fecha
-      from factcob f
-           left join ctabnco b on (f.banco = b.codigo)
-           left join plancta p on (b.cuenta = p.cuenta)
-           left join clientes c on (f.cod_cliente = c.cod_cliente)
-           left join tablas_auxiliares auxdoc
-                     on (f.tipdoc = auxdoc.codigo
-                       and auxdoc.tipo = 2)
-           left join tablas_auxiliares auxbco
-                     on (b.banco = auxbco.codigo
-                       and auxbco.tipo = 11)
-           left join proveed pro on (auxbco.obs = pro.cod_proveed)
-           left join cabfcob cob
-                     on (f.tipdoc = cob.tipdoc
-                       and f.serie_num = cob.serie_num
-                       and f.numero = cob.numero
-                       and cob.fecha <= :g_fecha_fin)
-     where f.tipdoc = 'LD'
-       and f.estado != '9'
-       and f.f_vencto between :g_fecha_ini and last_day(add_months(:g_fecha_ini, :c_meses_hacia_adelante))
-     group by f.tipdoc
-            , auxdoc.descripcion
-            , b.banco
-            , pro.nombre
-            , f.cod_cliente
-            , f.serie_num
-            , f.numero
-            , f.moneda
-            , f.importe
-            , f.importex
-            , f.tcam_sal
-            , f.f_vencto
-    having nvl(f.importe + nvl(sum(cob.importe), 0), 0) != 0
-     order by numero
-    )
-select user
-     , ld.tipdoc
-     , ld.nombre_doc
-     , ld.banco
-     , ld.nombre_bco
-     , count(*) as cant_tot
-     , count(case
-               when ld.f_vencto between add_months(:g_fecha_ini, 0) and last_day(add_months(:g_fecha_ini, 0))
-                 then 1
-               else null
-             end)
-  as cant_mes_0
-     , count(case
-               when ld.f_vencto between add_months(:g_fecha_ini, 1) and last_day(add_months(:g_fecha_ini, 1))
-                 then 1
-               else null
-             end)
-  as cant_mes_1
-     , count(case
-               when ld.f_vencto between add_months(:g_fecha_ini, 2) and last_day(add_months(:g_fecha_ini, 2))
-                 then 1
-               else null
-             end)
-  as cant_mes_2
-     , count(case
-               when ld.f_vencto between add_months(:g_fecha_ini, 3) and last_day(add_months(:g_fecha_ini, 3))
-                 then 1
-               else null
-             end)
-  as cant_mes_3
-     , round(sum(ld.importe_dolar + ld.cancelacion_dolar), 2) as saldo_tot
-     , round(
-    sum(
-        case
-          when ld.f_vencto between add_months(:g_fecha_ini, 0) and last_day(add_months(:g_fecha_ini, 0))
-            then
-            ld.importe_dolar + ld.cancelacion_dolar
-          else
-            0
-        end
-    )
-  , 2
-       )
-  as saldo_mes_0
-     , round(
-    sum(
-        case
-          when ld.f_vencto between add_months(:g_fecha_ini, 1) and last_day(add_months(:g_fecha_ini, 1))
-            then
-            ld.importe_dolar + ld.cancelacion_dolar
-          else
-            0
-        end
-    )
-  , 2
-       )
-  as saldo_mes_1
-     , round(
-    sum(
-        case
-          when ld.f_vencto between add_months(:g_fecha_ini, 2) and last_day(add_months(:g_fecha_ini, 2))
-            then
-            ld.importe_dolar + ld.cancelacion_dolar
-          else
-            0
-        end
-    )
-  , 2
-       )
-  as saldo_mes_2
-     , round(
-    sum(
-        case
-          when ld.f_vencto between add_months(:g_fecha_ini, 3) and last_day(add_months(:g_fecha_ini, 3))
-            then
-            ld.importe_dolar + ld.cancelacion_dolar
-          else
-            0
-        end
-    )
-  , 2
-       )
-  as saldo_mes_3
-     , 0 as porc_participacion
-  from letras_descuento ld
- group by ld.tipdoc
-        , ld.nombre_doc
-        , ld.banco
-        , ld.nombre_bco;
+select *
+  from factcob
+ where numero = '381132';
+
+-- reporte letras en descuento
+select f.tipdoc as tipdoc, auxdoc.descripcion as nombre_doc, b.banco as banco
+     , pro.nombre as nombre_bco, f.cod_cliente, f.serie_num, f.numero, f.moneda, f.importe
+     , f.importex, f.tcam_sal, f.fecha, f.f_vencto
+     , nvl(decode(f.moneda, 'D', f.importe, f.importe / f.tcam_sal), 0) as importe_dolar
+     , sum(cob.importe) as cancelacion
+     , nvl(sum(decode(cob.moneda, 'D', cob.importe, cob.importe_x)), 0) as cancelacion_dolar
+     , nvl(f.importe + nvl(sum(cob.importe), 0), 0) as saldo_a_fecha
+  from factcob f
+       left join ctabnco b on (f.banco = b.codigo)
+       left join plancta p on (b.cuenta = p.cuenta)
+       left join clientes c on (f.cod_cliente = c.cod_cliente)
+       left join tablas_auxiliares auxdoc
+                 on (f.tipdoc = auxdoc.codigo
+                   and auxdoc.tipo = 2)
+       left join tablas_auxiliares auxbco
+                 on (b.banco = auxbco.codigo
+                   and auxbco.tipo = 11)
+       left join proveed pro on (auxbco.obs = pro.cod_proveed)
+       left join cabfcob cob
+                 on (f.tipdoc = cob.tipdoc
+                   and f.serie_num = cob.serie_num
+                   and f.numero = cob.numero
+                   and cob.fecha <= :g_fecha_fin)
+ where f.tipdoc = 'LD'
+   and f.estado != '9'
+   and f.fecha between :g_fecha_ini and last_day(add_months(:g_fecha_ini, :c_meses_hacia_adelante))
+ group by f.tipdoc, auxdoc.descripcion, b.banco, pro.nombre, f.cod_cliente, f.serie_num, f.numero
+        , f.moneda, f.importe, f.importex, f.tcam_sal, f.f_vencto, f.fecha
+having nvl(f.importe + nvl(sum(cob.importe), 0), 0) != 0
+ order by numero;

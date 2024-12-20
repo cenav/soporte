@@ -1,20 +1,24 @@
 select *
   from kardex_g
- where cod_alm = '03'
-   and tp_transac = '16'
-   and serie = 1
+ where cod_alm = 'D3'
+   and tp_transac = '18'
+   and serie = 2
    and numero in (
-   204300
+   599378
    );
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '16'
-   and serie = 1
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 131
    and numero in (
-   204300
+   980
    );
+
+select *
+  from almacen
+ where cod_art = 'R-3883620';
 
 select *
   from kardex_g
@@ -55,11 +59,11 @@ select *
 
 select *
   from kardex_g_historia
- where cod_alm = '02'
-   and tp_transac = '35'
-   and serie = 141
+ where cod_alm = 'D3'
+   and tp_transac = '18'
+   and serie = 2
    and numero in (
-   522
+   599367
    );
 
 select *
@@ -343,7 +347,7 @@ select *
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
-   and numero = 178279;
+   and numero = 582552;
 
 select *
   from instrumento_asigna
@@ -438,7 +442,7 @@ select *
 
 select *
   from kardex_d d
- where exists(
+ where exists (
    select *
      from kardex_g g
     where d.cod_alm = g.cod_alm
@@ -888,20 +892,19 @@ select g.numero_embarque, h.num_importa, lg.numero as factura, eg.bl_numero, h.c
    and nvl(h.estado, 0) > 0 and nvl(h.estado, 0) < 8
    and lg.numero_embarque = eg.numero_embarque
    and g.factura_comercial_numero = lg.numero
-   and exists
-   (
-     select 1
-       from embarques_d dd
-          , lg_itemjam ii
-      where dd.numero_embarque = g.numero_embarque
-        and dd.num_importa = g.num_importa
-        and dd.factura_comercial_numero =
-            g.factura_comercial_numero
-        and dd.num_importa = ii.num_importa
-        and nvl(dd.estado, 0) < 9
-        and dd.cod_art = ii.cod_art
-        and dd.saldo > 0
-     )
+   and exists (
+   select 1
+     from embarques_d dd
+        , lg_itemjam ii
+    where dd.numero_embarque = g.numero_embarque
+      and dd.num_importa = g.num_importa
+      and dd.factura_comercial_numero =
+          g.factura_comercial_numero
+      and dd.num_importa = ii.num_importa
+      and nvl(dd.estado, 0) < 9
+      and dd.cod_art = ii.cod_art
+      and dd.saldo > 0
+   )
  order by 1, 2;
 
 -- 252
@@ -962,20 +965,19 @@ select g.numero_embarque, h.num_importa, lg.numero as factura, eg.bl_numero, h.c
    and lg.numero_embarque = eg.numero_embarque
    and g.factura_comercial_numero = lg.numero
    and eg.numero_embarque = 4493
-   and exists
-   (
-     select 1
-       from embarques_d dd
-          , lg_itemjam ii
-      where dd.numero_embarque = g.numero_embarque
-        and dd.num_importa = g.num_importa
-        and dd.factura_comercial_numero =
-            g.factura_comercial_numero
-        and dd.num_importa = ii.num_importa
-        and nvl(dd.estado, 0) < 9
-        and dd.cod_art = ii.cod_art
-        and dd.saldo > 0
-     )
+   and exists (
+   select 1
+     from embarques_d dd
+        , lg_itemjam ii
+    where dd.numero_embarque = g.numero_embarque
+      and dd.num_importa = g.num_importa
+      and dd.factura_comercial_numero =
+          g.factura_comercial_numero
+      and dd.num_importa = ii.num_importa
+      and nvl(dd.estado, 0) < 9
+      and dd.cod_art = ii.cod_art
+      and dd.saldo > 0
+   )
  order by 1, 2;
 
 select *
@@ -1325,7 +1327,7 @@ select *
 
 select *
   from kardex_g g
- where exists(
+ where exists (
    select 1
      from tmp_carga_data t
     where g.cod_alm = t.cod_alm
@@ -1336,7 +1338,7 @@ select *
 
 select *
   from kardex_d g
- where exists(
+ where exists (
    select 1
      from tmp_carga_data t
     where g.cod_alm = t.cod_alm
@@ -1447,7 +1449,7 @@ select *
 
 select *
   from kardex_g g
- where exists(
+ where exists (
    select 1
      from tmp_carga_data t
     where g.cod_alm = t.cod_alm
@@ -1881,3 +1883,524 @@ select *
  where tp_transac = '22'
    and serie = 1;
 
+-- F0 – 17 – 1 – 771938
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '17'
+   and serie = 1
+   and numero = 771938;
+
+select *
+  from almacen
+ where cod_art = 'R-3883620';
+
+
+select g.num_importa, g.cod_alm, g.tp_transac, g.serie, g.numero, g.fch_transac, g.cod_relacion
+     , decode(g.nombre, null, p.nombre, g.nombre) as nombre
+  from kardex_g g
+     , proveed p
+ where g.tp_transac = '11'
+   and g.estado <> '9'
+   and p.cod_proveed(+) = g.cod_relacion
+   and p.origen = 'I'
+   and g.num_importa = 'II4942'
+ order by g.fch_transac desc, num_importa;
+
+select *
+  from lg_informe_pedido
+ where num_importa = 'II4942';
+
+begin
+  pr_genera_file_importacion('II4942');
+end;
+
+select :p_num_importa as num_importa, d.codigo_gasto as codigo, d.tipo_referencia as tipo
+     , d.serie_referencia as serie, lpad(d.nro_referencia, 7, '0') as numero
+     , d.fecha_referencia as fecha, decode(d.moneda, 'S', round(
+    nvl(d.afecto, 0) + nvl(d.inafecto, 0) / c.import_cam, 2), d.importe) as importe_d
+     , d.afecto + nvl(d.inafecto, 0) as importe_s, c.import_cam as icambio, d.moneda
+     , d.afecto + nvl(d.inafecto, 0) as importe, d.codigo_relacion as cod_proveed
+     , null as cod_banco
+  from lg_detalle_gastos d
+     , cambdol c
+ where d.numero_embarque = :p_num_importa
+   and c.fecha = d.fecha_referencia
+   and c.tipo_cambio = 'V';
+
+select *
+  from lg_detalle_gastos
+ where numero_embarque = '4942';
+
+declare
+  l_ult_ing date;
+begin
+  l_ult_ing := fecha_ultimo_ingreso(to_date('30/11/2024', 'dd/mm/yyyy'), 'RIB 86002');
+  dbms_output.put_line(l_ult_ing);
+end;
+
+declare
+  l_ult_ing date;
+begin
+  l_ult_ing := fecha_ultimo_ingreso(to_date('30/11/2024', 'dd/mm/yyyy'), 'RIB 86002');
+  dbms_output.put_line(l_ult_ing);
+end;
+
+declare
+  l_fecha date;
+  l_ano   pls_integer := 2024;
+  l_mes   pls_integer := 11;
+begin
+  l_fecha := last_day(to_date(l_ano || l_mes, 'yyyymm'));
+  dbms_output.put_line(l_fecha);
+end;
+
+-- ordenes para ingresar almacén D5
+select o.numero as numero_ot, o.formu_art_cod_art as art_cod_art, o.cant_prog
+     , o.nuot_tipoot_codigo as tip_ot, o.nuot_serie as serie_ot, o.estado, o.fecha
+  from pr_ot o
+     , articul a
+ where o.formu_art_cod_art = a.cod_art
+   and o.nuot_tipoot_codigo = 'PR'
+   and o.estado not in ('8', '9')
+ order by fecha desc, o.numero;
+
+
+--  órdenes validación para ingresar almacén D5
+select o.numero as numero_ot, o.formu_art_cod_art as art_cod_art, o.cant_prog
+     , o.nuot_tipoot_codigo as tip_ot, o.nuot_serie as serie_ot, o.estado, o.fecha
+  from pr_ot o
+     , articul a
+ where o.formu_art_cod_art = a.cod_art
+   and o.nuot_tipoot_codigo = 'VA'
+   and o.estado < '7'
+ order by fecha desc, o.numero;
+
+
+insert into kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
+  , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
+  , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
+  , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
+  , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
+  , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+  , pr_numped)
+values
+  ( xcod_alm, :LR_DATA.tran_i, :LR_DATA.serie_i, :LR_DATA.numero_i, :LR_DATA.fecha, null, null, null
+  , null, null, null, null, null, null, null, null, null, 0, 0, '0', '2', 'P', 'I', '0', null, null
+  , null, null, null, null, null, null, null, null, null, null, null, :LR_DATA.boleta_i
+  , :PR_OT.nuot_tipoot_codigo, :PR_OT.nuot_serie, :PR_OT.numero, 'OTPRD', 0);
+
+
+insert into kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
+  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
+  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
+  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
+  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+  , pr_numped)
+values
+  ( xcod_alm, :LR_DATA.tran_s, :LR_DATA.serie_s, :LR_DATA.numero_s, :LR_DATA.fecha, null, null, null
+  , null, null, ' ', null, null, null, null, null, null, 0, 0, '0', '2', 'D', 'S', '0', null, null
+  , null, null, null, null, null, null, null, null, null, null, null, :LR_DATA.boleta_s
+  , :PR_OT.nuot_tipoot_codigo, :PR_OT.nuot_serie, :PR_OT.numero, 'OTPRD', 0);
+
+-- movimiento almacen ultimos 3 meses
+select g.cod_alm, g.tp_transac, g.serie, g.numero, g.fch_transac, g.num_importa as boleta
+     , g.numero_pguia as orden, a.cod_lin, d.cod_art, d.cantidad
+  from kardex_g g
+       join kardex_d d
+            on g.cod_alm = d.cod_alm
+              and g.tp_transac = d.tp_transac
+              and g.serie = d.serie
+              and g.numero = d.numero
+       left join articul a on d.cod_art = a.cod_art
+ where g.cod_alm in ('03', '02', '05')
+   and g.tp_transac = '27'
+   and nvl(g.estado, 0) != '9'
+   and g.fch_transac >= to_date('01/08/2024', 'dd/mm/yyyy');
+
+-- movimiento almacen ultimos 3 meses agrupado
+select a.cod_lin, d.cod_art, sum(d.cantidad) as cantidad
+  from kardex_g g
+       join kardex_d d
+            on g.cod_alm = d.cod_alm
+              and g.tp_transac = d.tp_transac
+              and g.serie = d.serie
+              and g.numero = d.numero
+       left join articul a on d.cod_art = a.cod_art
+ where g.cod_alm in ('03', '02', '05')
+   and g.tp_transac = '27'
+   and nvl(g.estado, 0) != '9'
+   and g.fch_transac >= to_date('01/08/2024', 'dd/mm/yyyy')
+ group by a.cod_lin, d.cod_art;
+
+select codigo, descripcion, indicador1
+  from tablas_auxiliares
+ where tipo = 33
+   and codigo in
+       (
+         select codigo
+           from tablas_auxiliares
+          where tipo = 33
+            and (:user = 'GPALOMINO' and codigo in ('D5', 'D2', 'D4', '30', 'A1', '02'))
+             or (:user = 'AVULCANO' and codigo in ('12', '30', '31', '32', '37', '39', '43'))
+             or (:user = 'NLLOCLLA' and codigo in ('02', 'D2', 'D4', '30', 'D5', 'DQ'))
+             or (:user = 'MDIAZH' and codigo in ('02', 'D5', '30'))
+             or (:user = 'KCASTILLO' and codigo in ('02', 'D5', '30'))
+             or (:user = 'MJUAREZ' and codigo in ('D2', 'D4', 'D5', '30', '05', '03', '48', '02'))
+             or (:user = 'MOBANDO' and codigo in ('D5', 'D2', 'D4', '02'))
+             or (:user = 'HOLIVARES' and codigo in ('12', '02', '09', '15', '18', '23'))
+             or (:user = 'NBELANDRIA' and codigo in ('15', '17', '30'))
+             or (:user = 'YSULCA' and codigo in ('02'))
+             or (:user = 'CUSURIAGA' and codigo in ('D5'))
+             or (:user = 'JJUAREZ' and
+                 codigo in ('30', '30', 'M3', 'M4', '17', '37', '39', '32', '43'))
+             or (:user = 'GPALOMINO' and codigo in ('32', '37', '39', '43', 'D2', 'D4', '30', '31'))
+             or (:user = 'LARIAS' and
+                 codigo in ('A1', '02', '03', '05', '15', '09', '30', '62', '91', 'FP', 'MM'))
+             or (:user = 'DCONTRERAS' and codigo in
+                                          ('01', '02', '17', '46', '03', '05', '18', '07', '08',
+                                           '09', '15', '19', '20', '30', '48', '62', '24', '27',
+                                           '31', '79', '90', '91', 'D2', 'D3', 'D4', 'D5', 'DC',
+                                           'L1', 'V0', 'FP', '93', '39', '43', '37', 'M3'))
+             or (:user = 'MPEREZ' and codigo in ('05', '05', '62'))
+             or (:user = 'JQUISPEB' and codigo in ('02', '01'))
+             or (:user = 'AMUNANTE' and codigo in ('02', '01'))
+             or (:user = 'SCASTRO' and codigo in ('02'))
+             or (:user = 'MGUIELAC' and codigo in ('02', '01', '08', '27'))
+             or (:user = 'YCHUNGA' and codigo in ('02', '01'))
+             or (:user = 'WCORONEL' and codigo in ('30', '30'))
+             or (:user = 'ETAIPE' and
+                 codigo in ('30', '32', '37', '39', 'M3', 'M4', '05', '48', '03', '02'))
+             or (:user = 'JMANAYAY' and codigo in ('30', '2', 'M3', 'M4'))
+             or (:user = 'HAPARCANA' and
+                 codigo in ('30', 'M3', 'M4', '2', '32', '37', '39', '48', '17'))
+             or (:user = 'CUSURIAGA' and codigo in ('D4', 'D2'))
+             or (:user = 'JCABEZAS' and codigo in ('T1'))
+             or (:user = 'PVFAUCETT' and codigo in ('SS', 'SF', 'SD', 'SV'))
+             or (:user = 'KCHACARA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+             or (:user = 'LDAVILA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+             or (:user = 'MVILLANUEVA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+             or (:user = 'DANGELES' and codigo in ('SS', 'SF', 'SD', 'SV'))
+             or (:user = 'PEVISA' and codigo in ('A1', 'A2', 'A3', 'A4', 'MM', '02', '03', 'T1'))
+             or (:user = 'CNINAMANGO' and codigo in ('30'))
+             or (:user = 'MFERNANDEZ' and codigo in ('02', '03', '05', '06', '62', '91'))
+             or (:user = 'DRODRIGUEZS' and
+                 codigo in ('01', '02', '09', '15', '18', '30', 'MM', '05', 'P1'))
+             or (:user = 'RLUCANO' and codigo in ('30'))
+             or (:user = 'KLARA' and codigo in ('02', '15', '18', '09'))
+             or (:user = 'JVILLON' and codigo in ('02', '15', '18', '09'))
+             or (:user = 'SVARGAS' and codigo in ('02', '15', '18', '09'))
+             or (:user = 'ADESCARTES' and codigo in ('02', 'D2', 'D4', 'D5'))
+             or (:user = 'DCHAMPI' and codigo in ('02', '15', '09', '18', '01'))
+             or (:user = 'JACUNA' and codigo in ('01', '02'))
+             or (:user = 'KCUCHO' and codigo in ('03', '06', 'P1'))
+             or (:user = 'AEMBALAJES' and codigo in ('03', '06', 'P1'))
+             or (:user = 'LDANIEL' and codigo in ('30'))
+             or (:user = 'JFARRO' and codigo in ('30'))
+             or (:user = 'YSULCA' and codigo in ('01'))
+             or (:user = 'JDFLORES' and codigo in ('01', '02', '06'))
+             or (:user = 'DNUNEZM' and
+                 codigo in ('01', '02', '03', '05', '15', '18', '23', '30', '40', '62', '09'))
+             or (:user = 'RTARRILLO' and codigo in ('D2', 'D5', '30', '02', 'D4', 'DQ'))
+             or (:user = 'ADIONICIO' and codigo in ('D2', 'D3', 'D4', 'D5', '30', '02', 'DQ'))
+             or (:user = 'METALOPLASTICA' and codigo in ('D2', 'D5', '30', '02', 'D4', 'DQ'))
+         )
+   and tablas_auxiliares.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = tablas_auxiliares.codigo
+      and usuario = :user
+   )
+ order by codigo;
+
+select *
+  from pr_usualma
+ where usuario = 'DRODRIGUEZS'
+ order by cod_alm;
+
+select * from vehiculo_tcircula;
+
+select *
+  from vehiculo_matpel
+ where upper(adjunto) like '%TCIRCULA%';
+
+select *
+  from vehiculo_matpel
+ where id_item = 22;
+
+select x.cod_alm, tab_aux(x.cod_alm, '33') as almacen
+     , a.cod_art, a.descripcion, x.stock, a.cod_lin, x.ubic
+     , indicador_venta.indicador, indicador_venta.megagrupo as grupos
+  from almacen x
+     , articul a
+     , (
+    select aa.cod_art, aa.cod_fam, aa.cod_lin, t.grupo, g.descripcion
+         , g.ind_vta1 as indicador, m.descripcion as megagrupo
+      from articul aa
+         , tab_lineas t
+         , tab_grupos g
+         , grupo_venta m
+     where aa.cod_lin = t.linea
+       and g.grupo = t.grupo
+       and g.ind_vta1 = m.cod_grupo_venta
+    ) indicador_venta
+ where x.cod_art = a.cod_art
+   and x.cod_alm in (
+   select cod_alm
+     from pr_usualma
+    where usuario = user
+   )
+   and a.cod_art = indicador_venta.cod_art (+)
+   and x.cod_alm like :p_alm
+   and ((x.stock > 0 and :p_stock = 1) or :p_stock = 0)
+ order by 2, 1;
+
+select *
+  from tab_grupos
+ where descripcion like '%BARD%';
+
+select *
+  from tab_lineas
+ where grupo = '43';
+
+select aa.cod_art, aa.cod_fam, aa.cod_lin, t.grupo, g.descripcion
+     , g.ind_vta1 as indicador, m.descripcion as megagrupo
+  from articul aa
+     , tab_lineas t
+     , tab_grupos g
+     , grupo_venta m
+ where aa.cod_lin = t.linea
+   and g.grupo = t.grupo
+   and g.ind_vta1 = m.cod_grupo_venta
+   and aa.cod_lin = '272';
+
+select *
+  from articul
+ where cod_lin = '272';
+
+insert into pr_usualma(cod_alm, usuario, nombre)
+select cod_alm, 'PFALMAUX002', nombre
+  from pr_usualma
+ where usuario = 'JNEYRA';
+
+select *
+  from pr_usualma
+ where usuario = 'PFALMAUX002';
+
+select cuenta69
+  from tfamlin
+ where :KARDEX_D.tp_art = tp_art
+   and :KARDEX_D.cod_fam = cod_fam
+   and :KARDEX_D.cod_lin = cod_lin;
+
+select *
+  from articul
+ where cod_art = 'CRYO 330MM/15MIC-HP-MU';
+
+select *
+  from tfamlin
+ where tp_art = 'E'
+   and cod_fam = '001'
+   and cod_lin = '873';
+
+select *
+  from tab_lineas
+ where linea = '873';
+
+select a.cod_art, a.descripcion, a.unidad, m.stock, a.tp_art, a.cod_fam, a.cod_lin
+  from almacen m
+     , articul a
+ where m.cod_alm = '08'
+   and m.cod_art = a.cod_art
+   and a.estado <> '9'
+   and a.cod_art = 'CRYO 330MM/15MIC-HP-MU'
+ order by a.cod_art
+
+select codigo, descripcion, :user as usuario
+  from tablas_auxiliares
+ where tipo = 33
+   and codigo in (
+   select codigo
+     from tablas_auxiliares
+    where tipo = 33
+      and (:user = 'GPALOMINO' and codigo in ('D5', '30', 'A1', '31', 'DB', 'DM', 'D2'))
+       or (:user = 'NLLOCLLA' and codigo in ('D2', 'D4', 'DQ', 'M1', 'P1'))
+       or (:user = 'MDIAZH' and codigo in ('D2', 'D4', 'DQ'))
+       or (:user = 'KCASTILLO' and codigo in ('D2', 'D4', 'DQ', 'M1'))
+       or (:user = 'MJUAREZ' and codigo in ('D4', 'D4', '03', '05', '48', 'P1'))
+       or (:user = 'MOBANDO' and codigo in ('D2', 'D4', 'D5', 'P1'))
+       or (:user = 'HOLIVARES' and codigo in ('12', '02', '09', '15', '18', '23'))
+       or (:user = 'NBELANDRIA' and codigo in ('P1', '15', '18'))
+       or (:user = 'YSULCA' and codigo in ('09', '15', '18', '23'))
+       or (:user = 'JJUAREZ' and codigo in ('32', '37', '39', '17', 'M3', 'M4', '30', '31'))
+       or (:user = 'AVULCANO' and codigo in ('12', '30', '31', '32', '37', '39', '43'))
+       or (:user = 'LARIAS' and codigo in ('A1', '02', '03', '05', '08', '09', '30', '62', 'L1'))
+       or (:user = 'WCORONEL' and codigo in ('37', '39'))
+       or (:user = 'CUSURIAGA' and codigo in ('D2'))
+       or (:user = 'DCONTRERAS' and codigo in
+                                    ('01', '02', '03', '05', '06', '07', '15', '19', '24', '30',
+                                     '31', '48', '62', '90', '91', 'D2', 'D3', 'D4', 'D5', 'L1',
+                                     'P1', 'V0', 'ES', '37', 'M1'))
+       or (:user = 'MPEREZ' and codigo in ('03', '03', 'L1'))
+       or (:user = 'ETAIPE' and codigo in
+                                ('12', '31', '32', '37', '39', '43', '30', 'D5', '02', '05', '06',
+                                 'M3', 'M4', '03', '48'))
+       or (:user = 'JMANAYAY' and codigo in ('12', 'T1', '40', '31'))
+       or (:user = 'JQUISPEB' and codigo in ('08'))
+       or (:user = 'AMUNANTE' and codigo in ('08'))
+       or (:user = 'MGUIELAC' and codigo in ('27', '01', '08'))
+       or (:user = 'YCHUNGA' and codigo in ('27', '01'))
+       or (:user = 'SCASTRO' and codigo in ('15', '18', '09'))
+       or (:user = 'HAPARCANA' and codigo in ('12', '30', '31', '32', '37', '39', '43', '17'))
+       or (:user = 'CUSURIAGA' and codigo in ('D5'))
+       or (:user = 'JCABEZAS' and codigo in ('M2', 'M4', 'M1'))
+       or (:user = 'PVFAUCETT' and codigo in ('SS', 'SF', 'SD', 'SV'))
+       or (:user = 'KCHACARA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+       or (:user = 'LDAVILA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+       or (:user = 'MVILLANUEVA' and codigo in ('SS', 'SF', 'SD', 'SV'))
+       or (:user = 'DANGELES' and codigo in ('SS', 'SF', 'SD', 'SV'))
+       or (:user = 'CNINAMANGO' and codigo in ('D2'))
+       or (:user = 'PEVISA' and
+           codigo in ('A1', 'A2', 'A3', 'A4', 'M1', '30', 'L1', '62', 'ES', '02', 'B1', 'M1', 'M2'))
+       or (:user = 'MFERNANDEZ' and codigo in ('03', '05', 'P1', '62', '91'))
+       or (:user = 'KLARA' and codigo in ('15', '18', '09', '12', '02'))
+       or (:user = 'JVILLON' and codigo in ('02'))
+       or (:user = 'SVARGAS' and codigo in ('02'))
+       or (:user = 'ADESCARTES' and codigo in ('D2', 'D4', 'D5', 'P1'))
+       or (:user = 'DRODRIGUEZS' and codigo in ('02', '15', '09', '18', '01', '05', 'P1'))
+       or (:user = 'DCHAMPI' and codigo in ('02', '15', '09', '18', '01'))
+       or (:user = 'JACUNA' and codigo in ('15', '18', '09', 'ES'))
+       or (:user = 'KCUCHO' and codigo in ('P1', '06'))
+       or (:user = 'AEMBALAJES' and codigo in ('03', '06', 'P1'))
+       or (:user = 'JLOPEZ' and codigo in ('P1'))
+       or (:user = 'LDANIEL' and codigo in ('P1'))
+       or (:user = 'JFARRO' and codigo in ('32', '37', '39'))
+       or (:user = 'JDFLORES' and codigo in ('08', 'P1'))
+       or (:user = 'DNUNEZM' and codigo in ('M2', '02'))
+       or (:user = 'RTARRILLO' and codigo in ('D2', 'D5', '30', '02', 'D4', 'DQ'))
+       or (:user = 'ADIONICIO' and codigo in ('D2', 'D3', 'D4', 'D5', '30', '02', 'DQ'))
+       or (:user = 'METALOPLASTICA' and codigo in ('D2', 'D5', '30', '02', 'D4', 'DQ'))
+   )
+   and tablas_auxiliares.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = tablas_auxiliares.codigo
+      and usuario = :user
+   )
+ order by codigo;
+
+select *
+  from pr_usualma
+ where usuario = 'DRODRIGUEZS'
+   and cod_alm = 'P1';
+
+select *
+  from almacenes
+ where descripcion like '%BSF%';
+
+select cod_alm, descripcion
+  from almacenes
+ where descripcion like '%TRANSITO%'
+ order by cod_alm;
+
+select *
+  from almacenes
+ where descripcion like '%TRAN%';
+
+
+select *
+  from kardex_g
+ where serie = 141
+   and numero = 678;
+
+select *
+  from kardex_d
+ where serie = 141
+   and numero = 678;
+
+select *
+  from almacenes
+ where cod_alm = 'T6';
+
+select *
+  from almacen
+ where cod_art = 'CRYO 330MM/15MIC'
+   and cod_alm in ('T3', 'T6');
+
+
+select *
+  from almacenes
+ where descripcion like '%D2%';
+
+select descripcion, cod_alm
+  from almacenes
+ where estado = 1
+   and cod_alm in (
+   select distinct cod_alm
+     from kardex_g
+    where tp_transac = '10'
+      and ing_sal = 'I'
+      and estado <= 7
+      and cod_alm in
+          (
+            select cod_alm_transito
+              from almacenes
+             where cod_alm_transito is not null
+               and cod_alm_transito = kardex_g.cod_alm
+               and nvl(tipo_alm, '0') not in ('WMS')
+            )
+   )
+ order by 2;
+
+
+select *
+  from almacenes
+ where cod_alm_transito is not null;
+
+select *
+  from almacenes
+ where tipo_alm is not null;
+
+select *
+  from kardex_g
+ where estado <= 7
+   and tp_transac = '10'
+   and ing_sal = 'I'
+   and cod_relacion = '20100084768' and nro_sucur in ('04', '05', '06', '11', '03', '07', '08')
+   and cod_alm in
+       (
+         select cod_alm_transito
+           from almacenes
+          where cod_alm_transito is not null
+            and cod_alm_transito = kardex_g.cod_alm
+            and nvl(tipo_alm, '0') in ('WMS')
+         )
+   and extract(year from fch_transac) = 2024;
+
+
+select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.cod_alm01
+     , g.cod_alm02, g.observacion, g.numero_ref
+  from solimat_g g
+ where g.estado < 4
+   and exists (
+   select distinct -1
+     from solimat_d d
+    where g.serie = d.serie
+      and g.numero = d.numero
+      and d.saldo > 0
+   )
+   and nvl(cod_tipo_solimat, 'OTRO') = 'OTRO'
+   and g.cod_alm01 in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = g.cod_alm01 and usuario = user
+   )
+   and not exists (
+   select 1
+     from almacenes
+    where nvl(tipo_alm, '0') in ('WMS')
+      and (cod_alm = g.cod_alm01 or cod_alm = g.cod_alm02)
+   )
+ order by g.serie, g.numero desc;

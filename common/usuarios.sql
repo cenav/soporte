@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user UALMACEN account unlock;
+alter user KCUCHO account unlock;
 
 alter user ametaloplastica account lock;
 
-alter user RVELA identified by "pava76$cm";
+alter user mmiranda identified by "mamalucy9+";
 
 alter user gfalcon password expire;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'UALMACEN';
+ where username like 'KCUCHO';
 
 -- roxana tarrillo
 
@@ -52,7 +52,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('PEVISA');
+ where co_usrusr in ('CCHIHUAN');
 
 select *
   from all_constraints
@@ -74,7 +74,7 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%spastrana%')
+ where upper(text) like upper('%Embarques Pendientes de ingreso a almacen%')
    and owner = 'PEVISA';
 
 select *
@@ -160,10 +160,9 @@ select *
   from seccrus
  where co_ctrctr = 'M_PLANEAMIENTO_M';
 
-
 select *
   from seccrus
- where co_usrusr in ('JNEYRA', 'PFALMAUX031');
+ where co_usrusr in ('JNEYRA', 'PCALDERON');
 
 -- copia menu a usuario
 insert into tab_menu
@@ -235,21 +234,26 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('KSIGUENAS')
+ where usuario in ('JCABEZAS')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('CONTROL_PRODUCCION')
+ where modulo in ('INCUMPLIMIENTO')
+ order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where modulo in ('AMONESTACION')
  order by usuario, modulo;
 
 select *
   from usuario_modulo_alterno
- where id_usuario = 'DNUNEZM';
+ where id_usuario = 'JMENDEZ';
 
 select *
   from usuario_modulo_alterno
- where id_alterno = 'DNUNEZM'
+ where id_usuario = 'JCABEZAS'
  order by id_usuario;
 
 select *
@@ -382,7 +386,7 @@ insert into usuario_modulo
 select 'ALBERTO', modulo, maestro, supermaestro
   from usuario_modulo u1
  where usuario in ('JCABEZAS')
-   and not exists(
+   and not exists (
    select *
      from usuario_modulo u2
     where u2.usuario in ('ALBERTO')
@@ -554,7 +558,8 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'LARIAS'
+ where usuario = 'ADIONICIO'
+   and cod_alm = 'P1'
  order by cod_alm;
 
 select *
@@ -760,12 +765,11 @@ select u.serie, s.nombres
    and u.estado = '1'
    and s.id_serie = u.serie
    and s.tipo_caja = 'CAJA CHICA'
-   and not exists
-   (
-     select distinct ch.serie
-       from caja_chica ch
-      where ch.serie = u.serie and ch.estado = 1
-     )
+   and not exists (
+   select distinct ch.serie
+     from caja_chica ch
+    where ch.serie = u.serie and ch.estado = 1
+   )
  order by 1;
 
 
@@ -1087,4 +1091,46 @@ select *
 
 select *
   from usuario_modulo
- where usuario = 'PLANILLA10';
+ where usuario = 'KCASTILLO';
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'AMONESTACION'
+   and id_alterno = 'KCASTILLO';
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'AMONESTACION'
+   and id_usuario = 'KCASTILLO';
+
+
+select *
+  from usuario_modulo_alterno
+ where id_modulo = 'PERMISO'
+   and id_alterno = 'KCASTILLO';
+
+select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo, c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion
+     , g.c_codigo as encargado, p.sexo, g.nombre as desc_encargado, h.local
+     , l.descripcion as desc_local, p.f_ingreso, p.fnatal, d.num_doc as dni
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad,
+  trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+  from planilla10.personal p
+       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
+       left join planilla10.tar_secc s on p.seccion = s.codigo
+       left join planilla10.tar_encarga g on p.encargado = g.codigo
+       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
+       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+       left join planilla10.pla_local l on h.local = l.local
+ where p.situacion not in ('8', '9')
+   and (upper(g.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = user and modulo = :global.modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = user and id_modulo = :global.modulo
+   ) or user in (
+   select usuario from usuario_modulo where modulo = :global.modulo and maestro = 'SI'
+   ))

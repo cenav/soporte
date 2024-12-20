@@ -1,12 +1,11 @@
+-- emite uno por uno
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('FOR3829', 3.1, false, op);
+  emite.op('70028-I CS-2', 140, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
-
-select * from articul where cod_art = 'MET 450.538';
 
 --revisar consumo anual
 select *
@@ -73,7 +72,7 @@ select a.dsc_grupo, o.numero as numero_op, o.formu_art_cod_art as codigo, o.cant
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) = to_date('30/05/2024', 'dd/mm/yyyy')
+ where trunc(e.fecha) = to_date('12/12/2024', 'dd/mm/yyyy')
    and e.usuario = 'PEVISA'
    and e.t1 = '25.0.3.33'
    and e.estado = 1

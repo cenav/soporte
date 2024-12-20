@@ -331,3 +331,49 @@ select d.id_proceso, d.id_personal, d.horas_libres_saldo, d.saldo_acumulado
   from det d
 -- running total for previous row is less than :p_horas then include current row
  where d.saldo_acumulado - d.horas_libres_saldo < :p_horas;
+
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.c_codigo as cod_jefe
+     , enc.nombre as encargado
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :user and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user and id_modulo = :modulo
+   ) or :user in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and per.situacion not in ('8', '9')
+ order by per.apellido_paterno;
+
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :user and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user and id_modulo = :modulo
+   ) or :user in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and per.situacion not in ('8', '9')
+ order by per.apellido_paterno;
+

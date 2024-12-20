@@ -5,11 +5,11 @@ select *
 
 select *
   from almacenes
- where cod_alm in ('01', '02', '03', '05', 'V0');
+ where cod_alm in ('01', '02', '03', '05', 'V0', 'BT', 'B1');
 
 select *
   from almacen_local
- where cod_alm in ('01', '02', '03', '05', 'V0', 'B1');
+ where cod_alm in ('01', '02', '03', '05', 'V0', 'B1', 'BT');
 
 select * from locales;
 
@@ -28,8 +28,8 @@ select *
 
 select *
   from pr_usualma
- where usuario in ('DCONTRERAS', 'JNEYRA', 'PEVISA')
-   and cod_alm = 'B1'
+ where usuario in ('DCONTRERAS', 'JNEYRA', 'PEVISA', 'PCALDERON', 'LARIAS')
+   and cod_alm in ('B1', 'BT')
  order by cod_alm;
 
 select *
@@ -142,15 +142,100 @@ select *
 
 select *
   from kardex_g
+ where cod_alm = 'BT';
+
+select *
+  from kardex_g
  where estado <= 7
    and tp_transac = '10'
    and ing_sal = 'I'
    and cod_relacion = '20100084768'
    and nro_sucur in ('04', '05', '06', '11', '03', '07', '08')
-   and cod_alm in
-       (
-         select cod_alm_transito
-           from almacenes
-          where cod_alm_transito is not null
-            and cod_alm_transito = kardex_g.cod_alm
-         );
+   and cod_alm in (
+   select cod_alm_transito
+     from almacenes
+    where cod_alm_transito is not null
+      and cod_alm_transito = kardex_g.cod_alm
+   );
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and serie = 149;
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '35'
+   and serie = 149
+   and numero = 2;
+
+select *
+  from almacenes
+ where descripcion like '%PUNTA HERMOSA%';
+
+select *
+  from kardex_g
+ where estado <= 7
+   and tp_transac = '25'
+   and ing_sal = 'S'
+   and cod_relacion = '20100084768'
+   and nro_sucur in ('03')
+   and pr_procedencia = 'PK_NACIONAL'
+   and tara_co is not null
+   and tara_co > tara_bo
+   and user in ('PQUEZADA', 'PFALMAUX031', 'RGONZALES', 'PEVISA', 'JNEYRA');
+
+select *
+  from kardex_g
+ where estado <= 7
+   and tp_transac = '10'
+   and ing_sal = 'I'
+   and cod_relacion = '20100084768' and nro_sucur in ('04', '05', '06', '11', '03', '07', '08')
+   and cod_alm in (
+   select cod_alm_transito
+     from almacenes
+    where cod_alm_transito is not null
+      and cod_alm_transito = kardex_g.cod_alm
+   )
+   and serie = 149
+   and numero = 2;
+
+-- usuario oracle alamcen faucett PCALDERON
+
+select *
+  from seccrus
+ where co_usrusr in ('PCALDERON', 'JNEYRA');
+
+select *
+  from kardex_d
+ where serie = 148;
+
+select *
+  from sucursales
+ where cod_cliente = '00000998099';
+
+select *
+  from clientes
+ where cod_cliente = '00000998099';
+
+select *
+  from numdoc
+ where tp_transac = '35'
+   and serie = 151;
+
+select *
+  from numdoc
+ where tp_transac = '35'
+   and serie in (
+                 147, 148, 149, 151, 152
+   );
+
+select *
+  from numdoc
+ where serie > 100;
+
+select *
+  from pr_usualma
+ where usuario = 'DCONTRERAS'
+ order by cod_alm;

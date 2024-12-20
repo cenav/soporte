@@ -44,10 +44,10 @@ select *
 select *
   from kardex_g
  where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
+   and tp_transac = '35'
+   and serie = 149
    and numero in (
-                  31972, 31994, 32010, 32013, 32023, 32028, 32039, 32062
+   1
    );
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
@@ -61,18 +61,22 @@ select *
 
 select *
   from transporte
- where cod_transp = '20534452251';
+ where cod_transp = '20416715131';
+
+select *
+  from transporte
+ where nombre like '%BENAVENTE%';
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --    elimina de kardex_g_guia_remision    --
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 131
    and numero in (
-                  30764, 30765, 30766, 30767, 30768, 30769, 30770, 30771
+   980
    );
 
 --:::::::::::::::::::::::::::::::::::::::::--
@@ -149,7 +153,7 @@ select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.
 
 select *
   from sucursales
- where cod_cliente = '20602853901';
+ where cod_cliente = '20601152674';
 
 select *
   from kardex_d

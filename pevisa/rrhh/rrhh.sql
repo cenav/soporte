@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno = 'ALVITES'
+ where apellido_paterno like '%CRUZ%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -21,7 +21,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1084';
+   and c_codigo = 'E1198';
 
 select *
   from planilla10.t_cargo
@@ -83,7 +83,7 @@ select *
 
 select *
   from permiso
- where numero = 64191;
+ where numero = 66835;
 
 select *
   from evaluacion
@@ -110,7 +110,7 @@ select *
 select *
   from usuario_modulo u
  where ((u.modulo = :p_modulo and u.usuario = :p_usuario) or
-        exists(
+        exists (
           select 1
             from usuario_modulo_alterno a
            where u.usuario = a.id_usuario
@@ -335,3 +335,76 @@ select *
 select *
   from vacaciones
  where numero = 19615;
+
+-- capacitaciones que paga la empresa
+  with capa as (
+    select c.id_capacitacion, c.id_tema, c.referencia, e.id_empleado
+         , c.inicio, c.fin, p.meses, add_months(c.fin, p.meses) as permanencia
+      from capacitacion c
+           join capacitacion_empleado e
+                on c.id_capacitacion = e.id_capacitacion
+           left join vw_permanencia_rango p
+                     on e.id_permanencia = p.id_permanencia
+                       and e.id_rango = p.id_rango
+     where c.id_lugar = 5
+       and e.costo_empresa > 0
+     order by inicio desc
+    )
+select listagg(c.id_capacitacion, ' | ') within group ( order by c.id_capacitacion) as capas
+  from capa c
+ where :p_cese between c.inicio and coalesce(c.permanencia, c.fin)
+   and c.id_empleado = :p_empleado;
+
+begin
+  dbms_output.put_line(capacita.permanencia_pendiente(p_fch => sysdate, p_emp => 'E640'));
+end;
+
+begin
+  cesepersonal.envia_correo(p_id_personal => 'E640', p_cese => sysdate, p_motivo => 2);
+end;
+
+
+select * from motivo_cese_sunat;
+
+select *
+  from vw_permanencia_rango
+ where id_permanencia = 1
+   and id_rango = 7;
+
+select *
+  from capacitacion c
+       join capacitacion_empleado e on c.id_capacitacion = e.id_capacitacion
+ where c.id_lugar = 5
+   and e.costo_empresa > 0
+ order by inicio desc;
+
+
+-- E43006
+
+select *
+  from vw_personal
+ where c_codigo = 'E43006';
+
+
+select porcentaje_neto
+  from comision_ingeniero_asigna
+ where cod_personal in ('E4526', 'E1104', 'E957')
+   and cod_tipo in ('ME', 'SE');
+
+select porcentaje_neto
+  from comision_ingeniero_asigna
+ where cod_personal in ('E012')
+   and cod_tipo in ('ME', 'SE');
+
+select b.descripcion as desc_tipo, a.descripcion as desc_premio
+  from comision_ingeniero_tab a
+     , ger_nac_tipo_comision b
+ where a.cod_tipo = b.cod_tipo
+   and a.cod_tipo = :comision_ingeniero_asigna.cod_tipo
+   and a.cod_premio = :comision_ingeniero_asigna.cod_premio;
+
+select * from comision_ingeniero_tab;
+
+select *
+  from amonestacion
+ where numero in (485, 484);

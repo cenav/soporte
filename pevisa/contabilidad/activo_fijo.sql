@@ -113,7 +113,7 @@ select e.cod_activo_fijo, a.descripcion, a.abreviatura, c.descripcion as clase
 
 select *
   from activo_fijo
- where cod_activo_fijo = 'EQ DIV352-2';
+ where cod_activo_fijo = '04NOTE85';
 
 select *
   from activo_fijo_depreciacion
@@ -123,3 +123,8 @@ select *
   from activo_fijo_depreciacion
  where cod_activo_fijo = 'EQ DIV352-2';
 
+select * from activo_fijo_area;
+
+select * from locales;
+
+select * from activo_fijo_estado;

@@ -8,9 +8,9 @@ select *
 select *
   from movdeta
  where ano = 2024
-   and mes = 10
-   and libro = '05'
-   and voucher = 100001;
+   and mes = 9
+   and libro = '39'
+   and voucher = 90004;
 
 select *
   from movfide
@@ -31,14 +31,15 @@ select *
    and libro = '05'
    and voucher = 10001;
 
-select * from nrodoc
-where tipodoc = '00';
+select *
+  from nrodoc
+ where tipodoc = '00';
 
 
 select *
   from cabfpag
- where cod_proveedor = '20182246078'
-   and numero = '0021845';
+ where cod_proveedor = '20601875200'
+   and numero = '0000779';
 
 select *
   from cabfpag
@@ -89,7 +90,11 @@ select *
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 922;
+   and num_ped = 921;
+
+select *
+  from lg_condpag
+ where upper(descripcion) like '%ADEL%30%';
 
 select *
   from itemord
@@ -238,3 +243,9 @@ select *
  where codigo = 'FN';
 
 
+select * from pla_control;
+-- ruc 20101772358
+-- ip publica 144.22.35.216
+
+-- +51 1 6151047
+-- +51 1 6151047

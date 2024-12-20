@@ -243,8 +243,8 @@ select *
   from movfide
  where ano = 2024
    and mes = 10
-   and tipo = 3
-   and voucher = 100003;
+   and tipo = 2
+   and voucher = 103126;
 
 select *
   from factpag
@@ -1458,52 +1458,56 @@ select *
  where tipodoc = '01'
    and serie = 'E001';
 
-insert into pevisa.docuvent ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
-                            , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
-                            , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
-                            , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
-                            , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
-                            , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
-                            , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
-                            , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
-                            , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
-                            , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
-                            , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
-                            , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
-                            , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
-                            , unidad_negocio, tasa_percep, imp_percep, cod_notac)
-values ( '01', 'E001', 33, '9', date '2023-01-20', '10200188409', null, '10200188409', 'Y', '65'
-       , 'P', 'D', 1, 0.00, 0.00, null, 1644.12, 0.00, 1644.12, 0.00, null, 295.94, 1940.06, 0.00
-       , 0.00, '7410101', '7720101', null, '40111100', '12122000', '0', 'S', null, null, 'S', 'V'
-       , 3.8610, 'N', 'N', date '2023-02-19', 0.00, 'P2', '20', '10', '0', null
-       , 'MUERAS CONTRERAS FLORINDA', 'JR MIGUEL GRAU S/N ESQUINA CON JR SAN MARTIN', null, null
-       , null, null, null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-01-20 17:11:41'
-       , '30.0.0.215', null, 'F0', '21', 50, 3, null, null, 0.00, null, null, null, null, null, null
-       , 0.00, 0.00, null);
+insert into pevisa.docuvent
+  ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
+  , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
+  , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
+  , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
+  , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
+  , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
+  , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
+  , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
+  , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
+  , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
+  , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
+  , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
+  , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
+  , unidad_negocio, tasa_percep, imp_percep, cod_notac)
+values
+  ( '01', 'E001', 33, '9', date '2023-01-20', '10200188409', null, '10200188409', 'Y', '65'
+  , 'P', 'D', 1, 0.00, 0.00, null, 1644.12, 0.00, 1644.12, 0.00, null, 295.94, 1940.06, 0.00
+  , 0.00, '7410101', '7720101', null, '40111100', '12122000', '0', 'S', null, null, 'S', 'V'
+  , 3.8610, 'N', 'N', date '2023-02-19', 0.00, 'P2', '20', '10', '0', null
+  , 'MUERAS CONTRERAS FLORINDA', 'JR MIGUEL GRAU S/N ESQUINA CON JR SAN MARTIN', null, null
+  , null, null, null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-01-20 17:11:41'
+  , '30.0.0.215', null, 'F0', '21', 50, 3, null, null, 0.00, null, null, null, null, null, null
+  , 0.00, 0.00, null);
 
 
-insert into pevisa.docuvent ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
-                            , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
-                            , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
-                            , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
-                            , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
-                            , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
-                            , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
-                            , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
-                            , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
-                            , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
-                            , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
-                            , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
-                            , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
-                            , unidad_negocio, tasa_percep, imp_percep, cod_notac)
-values ( '01', 'E001', 34, '9', date '2023-09-13', '20520588486', null, '20520588486', 'i', '27'
-       , 'D', 'D', 1, 0.00, 0.00, null, 6121.11, 0.00, 6121.11, 0.00, 0.00, 1101.80, 7222.91, 0.00
-       , 0.00, '7410101', '7720101', null, '40111100', '12122000', '1', 'S', null, 'F0', 'S', 'V'
-       , 3.7080, 'N', 'N', date '2023-10-13', 0.00, '01', 'E001', '34', '0', null
-       , 'DIVECENTER S.A.C.', 'AV. CANADA NRO. 1160 URB. SANTA CATALINA', null, null, null, null
-       , null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-09-13 10:26:49', '30.0.1.45', null
-       , null, null, null, null, null, null, null, null, null, null, null, null, null, 0.00, 0.00
-       , null);
+insert into pevisa.docuvent
+  ( tipodoc, serie, numero, estado, fecha, cod_cliente, nro_sucur, ruc
+  , cond_pag, cod_vende, origen, moneda, nro_lista, por_desc1, por_desc2
+  , detalle, val_venta, imp_descto, imp_neto, imp_interes, imp_isc
+  , imp_igv, precio_vta, cuota_inic, descto_adic, cta_descto, cta_interes
+  , cta_impisc, cta_impigv, cta_pvta, motivo, pasecc, voucher, cod_alm
+  , cliente_afecto, tipo_cambio, import_cam, calc_int, gnra_letra
+  , f_vencto, porc_comision, tip_doc_ref, ser_doc_ref, nro_doc_ref
+  , flg_impr, ubicacion, nombre, direccion, imp_fletes, sval_venta
+  , simp_descto, simp_neto, simp_interes, simp_fletes, simp_isc, simp_igv
+  , sprecio_vta, creacion_quien, creacion_cuando, creacion_donde
+  , incluye_impuestos, cod_alm_kardex, tp_transac_kardex, serie_kardex
+  , numero_kardex, porcentaje_impuesto_1, tipo_impuesto_1, imp_seguros
+  , simp_seguros, imp_gastos, simp_gastos, imp_otros, simp_otros
+  , unidad_negocio, tasa_percep, imp_percep, cod_notac)
+values
+  ( '01', 'E001', 34, '9', date '2023-09-13', '20520588486', null, '20520588486', 'i', '27'
+  , 'D', 'D', 1, 0.00, 0.00, null, 6121.11, 0.00, 6121.11, 0.00, 0.00, 1101.80, 7222.91, 0.00
+  , 0.00, '7410101', '7720101', null, '40111100', '12122000', '1', 'S', null, 'F0', 'S', 'V'
+  , 3.7080, 'N', 'N', date '2023-10-13', 0.00, '01', 'E001', '34', '0', null
+  , 'DIVECENTER S.A.C.', 'AV. CANADA NRO. 1160 URB. SANTA CATALINA', null, null, null, null
+  , null, null, null, null, 0.00, 'MBERNAL', timestamp '2023-09-13 10:26:49', '30.0.1.45', null
+  , null, null, null, null, null, null, null, null, null, null, null, null, null, 0.00, 0.00
+  , null);
 
 select *
   from docuvent
@@ -1990,10 +1994,6 @@ select *
    );
 
 select * from pla_control;
-
-select *
-  from proveed
- where nombre like '%NAVARRO MALDONADO%';
 
 select *
   from orden_de_compra

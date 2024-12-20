@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   60039
+   60454
    );
 
 --::::::::::::::::::::::::::::::::::::--

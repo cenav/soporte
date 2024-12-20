@@ -1,6 +1,6 @@
 select *
   from cotizacion
- where num_ped in (231196);
+ where num_ped in (235377);
 
 select *
   from itemcot
@@ -12,19 +12,19 @@ select *
 
 select *
   from cotizacion
- where refe_pedido = 252326;
+ where refe_pedido = 256600;
 
 select *
   from pedido
- where num_ped in (252326);
+ where num_ped in (256600);
 
 select *
   from transporte
- where cod_transp = '20452647428';
+ where cod_transp = '20121837634';
 
 select *
   from transporte
- where nombre like '%TRANSERVIS%';
+ where nombre like '%CALIFORNIA%';
 
 select *
   from itemped
@@ -1135,3 +1135,36 @@ select *
 select * from articul_pev;
 
 select sysdate from dual;
+
+select cod_transp, nombre, domicilio, ruc_transp
+  from transporte
+ where estado is null
+ order by cod_transp;
+
+select u.cod_ubc, u.nom_dpt, u.nom_pvc, u.nom_dtt
+     , u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+  from ubigeo u
+ where nacional_internacional = 'N'
+ order by u.nom_dtt;
+
+select *
+  from ubigeo
+ where cod_ubc = '150126';
+
+select c.cod_cliente as ruc_llegada, c.nombre as nombre_llegada, s.nro_sucur, s.direccion, u.cod_ubc
+     , u.nom_dpt, u.nom_pvc, u.nom_dtt, u.nom_dtt || ' ' || u.nom_pvc || ' ' || u.nom_dpt as nombre
+  from ubigeo u
+     , sucursales s
+     , clientes c
+ where s.cod_cliente = c.cod_cliente
+   and u.nacional_internacional = 'N'
+   and s.cod_ubc = u.cod_ubc
+   and nvl(s.estado, 0) < 9
+ order by c.cod_cliente, s.nro_sucur;
+
+
+select *
+  from sucursales
+ where cod_cliente = '20100084768';
+
+-- RM-45 L1-N

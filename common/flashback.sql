@@ -593,38 +593,46 @@ select *
    and libro = '08'
    and voucher in (40182);
 
-insert into pevisa.movglos ( ano, mes, libro, voucher, glosa, fecha, tipo_cambio, estado
-                           , tipo_referencia, nro_referencia, sistema, pase_ctacte, tipo_operacion
-                           , relacion, usuario, fec_reg, tipo_mov, serie, numliq, fecliq
-                           , pase_cta_cte_pro, cod_proveed, moneda, item, serie_orden, numero_order
-                           , c_resp, nro_planilla)
-values ( 2023, 4, '08', 40182, 'NI19 FCI2300016 JIANGSU EASYLAND', date '2023-04-26', 'V', '1', '01'
-       , '0000246', 'CONT', 'S', '10', null, 'GJARAMILLO', date '2023-04-25', 'CRE', 'E001', null
-       , null, 'S', '20510942559', 'D', '30', null, null, null, '25/04/2023');
+insert into pevisa.movglos
+  ( ano, mes, libro, voucher, glosa, fecha, tipo_cambio, estado
+  , tipo_referencia, nro_referencia, sistema, pase_ctacte, tipo_operacion
+  , relacion, usuario, fec_reg, tipo_mov, serie, numliq, fecliq
+  , pase_cta_cte_pro, cod_proveed, moneda, item, serie_orden, numero_order
+  , c_resp, nro_planilla)
+values
+  ( 2023, 4, '08', 40182, 'NI19 FCI2300016 JIANGSU EASYLAND', date '2023-04-26', 'V', '1', '01'
+  , '0000246', 'CONT', 'S', '10', null, 'GJARAMILLO', date '2023-04-25', 'CRE', 'E001', null
+  , null, 'S', '20510942559', 'D', '30', null, null, null, '25/04/2023');
 
 
-insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
-                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
-                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
-                           , serie, f_vencto, cambio, file_cta_cte)
-values ( 2023, 4, '08', 40182, '42122000', 'V', 'P', '20510942559', '01', '0000246'
-       , date '2023-02-10', 'TALLERES LUCAS PERÚ S.A.C.', 0.00, 327.73, 0.00, 85.19, '1', 6, 'N'
-       , 'GJARAMILLO', timestamp '2023-05-03 17:05:41', 'MOD', 'E001', date '2023-05-25', 3.8690
-       , 'P');
-insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
-                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
-                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
-                           , serie, f_vencto, cambio, file_cta_cte)
-values ( 2023, 4, '08', 40182, '28111002', 'V', 'P', '20510942559', '01', '0000246'
-       , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 211.47, 0.00, 54.97, 0.00, '1', 1, 'N'
-       , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
-insert into pevisa.movdeta ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
-                           , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
-                           , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
-                           , serie, f_vencto, cambio, file_cta_cte)
-values ( 2023, 4, '08', 40182, '28111003', 'V', 'P', '20510942559', '01', '0000246'
-       , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 116.26, 0.00, 30.22, 0.00, '1', 1, 'N'
-       , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
+insert into pevisa.movdeta
+  ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+  , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+  , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+  , serie, f_vencto, cambio, file_cta_cte)
+values
+  ( 2023, 4, '08', 40182, '42122000', 'V', 'P', '20510942559', '01', '0000246'
+  , date '2023-02-10', 'TALLERES LUCAS PERÚ S.A.C.', 0.00, 327.73, 0.00, 85.19, '1', 6, 'N'
+  , 'GJARAMILLO', timestamp '2023-05-03 17:05:41', 'MOD', 'E001', date '2023-05-25', 3.8690
+  , 'P');
+insert into pevisa.movdeta
+  ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+  , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+  , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+  , serie, f_vencto, cambio, file_cta_cte)
+values
+  ( 2023, 4, '08', 40182, '28111002', 'V', 'P', '20510942559', '01', '0000246'
+  , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 211.47, 0.00, 54.97, 0.00, '1', 1, 'N'
+  , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
+insert into pevisa.movdeta
+  ( ano, mes, libro, voucher, cuenta, tipo_cambio, tipo_relacion, relacion
+  , tipo_referencia, nro_referencia, fecha, detalle, cargo_s, abono_s
+  , cargo_d, abono_d, estado, columna, generado, usuario, fec_reg, tipo_mov
+  , serie, f_vencto, cambio, file_cta_cte)
+values
+  ( 2023, 4, '08', 40182, '28111003', 'V', 'P', '20510942559', '01', '0000246'
+  , date '2023-02-06', 'TALLERES LUCAS PERÚ S.A.C.', 116.26, 0.00, 30.22, 0.00, '1', 1, 'N'
+  , 'GJARAMILLO', date '2023-04-26', 'CRE', 'E001', null, 3.8470, 'P');
 
 select *
   from kardex_d as of timestamp to_timestamp('19-05-2023 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
@@ -669,43 +677,51 @@ select *
    28
    );
 
-insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
-                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
-                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
-                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
-                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
-                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
-                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
-values ( 'TA', '35', 29, 28, date '2023-03-22', '10', 29, 9021, null, 'C', '20100084768', '00', null
-       , 1, 'D', null, null, 0.00, 0.00, '0', '3', '*', 'S', '0', null, null, null, null
-       , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN29-9021', null
-       , null, null, null, null);
+insert into pevisa.kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+  , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+  , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+  , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+  , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+  , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+  , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped)
+values
+  ( 'TA', '35', 29, 28, date '2023-03-22', '10', 29, 9021, null, 'C', '20100084768', '00', null
+  , 1, 'D', null, null, 0.00, 0.00, '0', '3', '*', 'S', '0', null, null, null, null
+  , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN29-9021', null
+  , null, null, null, null);
 
 
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( 'TA', '35', 29, 28, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
-       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( 'TA', '35', 29, 28, 'RES 733', 22.7000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
-       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null);
-insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                            , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
-                            , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
-                            , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
-                            , pr_canthabi, pr_tipot, pr_numot, pr_numped)
-values ( 'TA', '35', 29, 28, 'SOL 831', 13.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
-       , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
-       , null, null, null, null, null, null);
+insert into pevisa.kardex_d
+  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+  , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+  , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+  , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+  , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values
+  ( 'TA', '35', 29, 28, 'CAR 485', 20.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+  , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+  , null, null, null, null, null, null);
+insert into pevisa.kardex_d
+  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+  , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+  , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+  , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+  , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values
+  ( 'TA', '35', 29, 28, 'RES 733', 22.7000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+  , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+  , null, null, null, null, null, null);
+insert into pevisa.kardex_d
+  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+  , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado, cuenta69
+  , origen, ing_sal, lote, conos, tara, flag, autonum, orden, pr_proveedor
+  , pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
+  , pr_canthabi, pr_tipot, pr_numot, pr_numped)
+values
+  ( 'TA', '35', 29, 28, 'SOL 831', 13.0000, 0.000000, 0.000000, date '2023-03-22', 0.00, 0.00
+  , 0.000, '6', null, '*', 'S', null, null, null, null, null, null, null, null, null, null
+  , null, null, null, null, null, null);
 
 select *
   from kardex_d as of timestamp to_timestamp('21-07-2023 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
@@ -803,8 +819,12 @@ select *
    and cod_personal = 'E420';
 
 select *
-  from kardex_g_guia_remision as of timestamp to_timestamp('05-06-2024 17:30:00',
-                                                           'DD-MM-YYYY HH24:MI:SS')
+  from kardex_g_guia_remision
+    as of timestamp to_timestamp('05-06-2024 17:30:00', 'DD-MM-YYYY HH24:MI:SS')
  where guia_serie = 'T001'
    and guia_numero = 20897;
 
+select *
+  from vehiculo_matpel
+    as of timestamp to_timestamp('30-11-2024 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where id_item = 22;

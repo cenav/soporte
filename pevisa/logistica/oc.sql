@@ -1,20 +1,22 @@
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 30
    and num_ped in (
-   63421
+   743
    );
 
 select *
   from itemord
  where serie = 30
    and num_ped in (
-   721
+   743
    );
 
 select *
   from orden_matriceria
  where num_ped = 240108;
+
+
 
 select *
   from itemmatri
@@ -156,15 +158,14 @@ select *
     where orden_de_compra.c_resp = u.codigo_trabajador
       and u.usuario = user
    ) or user = 'PEVISA')
-   and not exists
-   (
-     select 1
-       from orden_de_compra_calificacion
-      where orden_de_compra.num_ped =
-            orden_de_compra_calificacion.num_ped
-        and orden_de_compra.serie =
-            orden_de_compra_calificacion.serie
-     );
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   );
 
 select *
   from usuarios
@@ -734,15 +735,14 @@ select *
 --     where orden_de_compra.c_resp = u.codigo_trabajador
 --       and u.usuario = user
 --    )
-   and not exists
-   (
-     select 1
-       from orden_de_compra_calificacion
-      where orden_de_compra.num_ped =
-            orden_de_compra_calificacion.num_ped
-        and orden_de_compra.serie =
-            orden_de_compra_calificacion.serie
-     );
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   );
 
 
 select *
@@ -805,9 +805,10 @@ select per.c_codigo
    select id_usuario
      from usuario_modulo_alterno
     where id_alterno = user and id_modulo = 'EVALUACION'
-   ) or user in (
-   select usuario from usuario_modulo where modulo = 'EVALUACION' and maestro = 'SI'
-   ))
+   ) or
+        user in (
+          select usuario from usuario_modulo where modulo = 'EVALUACION' and maestro = 'SI'
+          ))
  order by per.apellido_paterno;
 
 select *
@@ -825,15 +826,14 @@ select *
     where orden_de_compra.c_resp = u.codigo_trabajador
       and u.usuario = user
    )
-   and not exists
-   (
-     select 1
-       from orden_de_compra_calificacion
-      where orden_de_compra.num_ped =
-            orden_de_compra_calificacion.num_ped
-        and orden_de_compra.serie =
-            orden_de_compra_calificacion.serie
-     );
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   );
 
 select *
   from orden_de_compra
@@ -894,20 +894,18 @@ select *
 
 select cod_art, descripcion, unidad, tp_art, cod_alm
   from articul a
- where exists
-   (
-     select 1
-       from almacen l
-      where l.cod_art = a.cod_art
-        and l.cod_alm = :cod_alm01
-     )
-   and exists
-   (
-     select 1
-       from linea_solicitud_material s
-      where s.tipo = 'EMBALAJE'
-        and a.cod_lin = s.cod_lin
-     )
+ where exists (
+   select 1
+     from almacen l
+    where l.cod_art = a.cod_art
+      and l.cod_alm = :cod_alm01
+   )
+   and exists (
+   select 1
+     from linea_solicitud_material s
+    where s.tipo = 'EMBALAJE'
+      and a.cod_lin = s.cod_lin
+   )
    and a.cod_art = 'PLANCHA NYLON 6MM'
  order by cod_art;
 
@@ -968,3 +966,42 @@ select *
   from orden_de_compra
  where cod_proveed = '20600735668'
  order by fecha desc;
+
+select a.cod_art, a.cod_orig, a.descripcion, l.presentacion, l.multiplo_de_compra, l.c_unimed
+     , a.unidad, a.descripcion as observa, l.u_eqv, l.marca, l.porcentaje_tolerancia
+     , a.cod_lin
+  from articul a
+     , artiprov l
+     , activo_fijo f
+ where l.proveedor = :cod_proveed
+   and l.cod_art = a.cod_art
+   and a.cod_art = f.cod_activo_fijo
+   and a.tp_art <> 'Z'
+   and nvl(a.estado, 0) < 8
+   and nvl(l.u_eqv, 1) <> 0
+   and f.cod_estado = '0'
+   and not exists (
+   select 1
+     from orden_de_compra o
+        , itemord i
+    where o.serie = i.serie
+      and o.num_ped = i.num_ped
+      and i.cod_art = f.cod_activo_fijo
+      and i.estado != '9'
+   )
+ order by a.cod_art;
+
+select *
+  from artiprov
+ where proveedor = '20545323002';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'PIST42';
+
+select *
+  from embarques_liberacion
+ where numero_embarque = 4957
+   and cod_art = 'KIT MISC87866-1';
+
+select * from estados_liberacion_producto;

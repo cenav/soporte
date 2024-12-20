@@ -19,7 +19,7 @@ select *
    and numero_recibo = :p_numero_planilla;
 
 -- colocar numero menos uno anterior para que le aparezca el mismo numero que pide
--- toma nota ultimo_recibo_trabajado 5005071
+-- toma nota ultimo_recibo_trabajado 5007108
 select *
   from cobradores_rango_recibos
  where codigo_cobrador = :p_cobrador

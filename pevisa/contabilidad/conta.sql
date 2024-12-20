@@ -2,17 +2,16 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 10
-   and libro = '05'
-   and voucher = 10001;
+   and mes = 9
+   and libro = '10'
+   and voucher = 29336501;
 
 select *
   from movdeta
  where ano = 2024
    and mes = 9
-   and libro = '33'
-   and voucher = 90024
-   and cuenta = '253205';
+   and libro = '28'
+   and voucher = 90043;
 
 select *
   from movdeta
@@ -156,7 +155,8 @@ select *
 
 select *
   from caja_chica
- where numero = 24085;
+ where serie = 2
+   and numero = 240127;
 
 select *
   from caja_chica
@@ -198,14 +198,16 @@ select *
   from pr_tabmaq
  where codigo = 'MQ1PJEB-038 1A';
 
-insert into pevisa.pr_tabmaq ( codigo, descripcion, fecha_fabricacion, numero_serie, id_tipo, estado
-                             , centro_costo, id_seccion, id_modelo, id_marca, local
-                             , fecha_adquisicion, id_pais, consumo_energia, consumo_energia_unidad
-                             , capacidad, alto, largo, ancho, peso, num_importa, linea_maquina
-                             , abreviatura, cod_padre, id_seccion_prod, id_prioridad, observaciones)
-values ( 'MQ1PJEB-038 1A', 'PRENSA CUADRUPLE PAN STONE 1A', date '2024-05-21', null, null, null
-       , '9002', 'C1', null, null, 'SEP', date '2024-05-21', null, null, 'kW', null, null, null
-       , null, null, null, null, 'PRENSA PAN STONE 1A', null, '01', 'S', null);
+insert into pevisa.pr_tabmaq
+  ( codigo, descripcion, fecha_fabricacion, numero_serie, id_tipo, estado
+  , centro_costo, id_seccion, id_modelo, id_marca, local
+  , fecha_adquisicion, id_pais, consumo_energia, consumo_energia_unidad
+  , capacidad, alto, largo, ancho, peso, num_importa, linea_maquina
+  , abreviatura, cod_padre, id_seccion_prod, id_prioridad, observaciones)
+values
+  ( 'MQ1PJEB-038 1A', 'PRENSA CUADRUPLE PAN STONE 1A', date '2024-05-21', null, null, null
+  , '9002', 'C1', null, null, 'SEP', date '2024-05-21', null, null, 'kW', null, null, null
+  , null, null, null, null, 'PRENSA PAN STONE 1A', null, '01', 'S', null);
 
 select *
   from pr_tabmaq
@@ -219,14 +221,37 @@ select *
 
 select *
   from factcob
- where tipdoc = 'LV'
+ where tipdoc = '07'
+   and serie_num = 'F056'
    and numero in (
-                  23420, 23421, 23422, 23423, 23424
+   5522
    );
 
--- PRIMER VCTO. 15/06/2024
--- SEGUNDO VCTO. 15/07/2024
--- TERCER VCTO. 14/08/2024.
+select *
+  from docuvent
+ where tipodoc = '07'
+   and serie = 'F056'
+   and numero = 5522;
+
+select *
+  from movglos
+ where ano = 2024
+   and mes = 11
+   and libro = '60'
+   and voucher = 111320;
+
+select *
+  from movdeta
+ where ano = 2024
+   and mes = 11
+   and libro = '60'
+   and voucher = 111320;
+
+select *
+  from movdeta
+ where ano = 2024
+   and tipo_referencia = '07'
+   and nro_referencia = '5522';
 
 select * from ruta_docvirtual;
 
@@ -498,9 +523,11 @@ select *
   from proveed_pagos_especiales
  where cod_proveed = '20265681299';
 
-insert into pevisa.proveed_pagos_especiales ( cod_proveed, fecha_modificacion, modificado_por
-                                            , creado_por, fecha_creacion, motivo)
-values ('20265681299', null, null, 'MSOTO', timestamp '2024-02-13 15:31:00', null);
+insert into pevisa.proveed_pagos_especiales
+  ( cod_proveed, fecha_modificacion, modificado_por
+  , creado_por, fecha_creacion, motivo)
+values
+  ('20265681299', null, null, 'MSOTO', timestamp '2024-02-13 15:31:00', null);
 
 select *
   from caja
@@ -519,3 +546,27 @@ select *
 select *
   from factpag
  where tipdoc = '00';
+
+select *
+  from activo_fijo_asigna
+ where cod_activo_fijo = 'CPUC15-MONI';
+
+select *
+  from activo_fijo_asigna
+ where cod_empleado = 'E998';
+
+select *
+  from tablas_auxiliares
+ where codigo != '....'
+   and tipo = 1
+   and codigo = '49'
+ order by codigo;
+
+select *
+  from hallazgo_importacion
+ where id_hallazgo = 385;
+
+select *
+  from caja
+ where id_serie = 2
+   and id_numero = 17;

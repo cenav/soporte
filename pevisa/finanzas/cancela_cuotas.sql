@@ -2,7 +2,7 @@
 declare
   cursor vencimientos is
        with fechas as (
-         select date'2024-10-01' as desde, date'2024-10-01' as hasta
+         select date'2024-11-01' as desde, date'2024-11-26' as hasta
            from dual
          )
      select f.desde + level - 1 as dia
@@ -16,7 +16,8 @@ begin
   end loop;
 end;
 
--- genera asiento de pagare que vencia en una fecha pero se pago en otra
+
+-- genera asiento de pagaré que vencía en una fecha pero se pago en otra
 declare
   l_vencimiento date := to_date('15/01/2023', 'dd/mm/yyyy');
   l_pago        date := to_date('16/01/2023', 'dd/mm/yyyy');

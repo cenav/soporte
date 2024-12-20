@@ -2,15 +2,23 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   553656
+   572430
    );
+
+select * from pr_estadopr;
+
+-- 1081223 AR
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   585912
+   589784
    );
+
+select *
+  from articul
+ where cod_art = '180.866NY';
 
 select *
   from pr_formu
@@ -48,7 +56,7 @@ select * from pr_variables;
 
 select *
   from kardex_d d
- where exists(
+ where exists (
    select *
      from kardex_g g
     where g.cod_alm = d.cod_alm
@@ -340,25 +348,24 @@ select pa.numero, pa.nuot_serie, pa.nuot_tipoot_codigo, pa.cant_prog, pa.receta
    and f.receta = 1
    and pa.abre01 = '15758'
    and pa.nuot_tipoot_codigo = 'PA'
-   and not exists
-   (
-     select distinct 1
-       from pr_for_ins i
-          , articul a
-      where i.formu_art_cod_art = pa.formu_art_cod_art
-        and i.art_cod_art = a.cod_art
-        and a.cod_lin in
-            (
-              select cod_lin
-                from pr_grupos_lineas_desarrollo
-               union
-              select '1980'
-                from dual
-               union
-              select 'ZZ'
-                from dual
-              )
-     );
+   and not exists (
+   select distinct 1
+     from pr_for_ins i
+        , articul a
+    where i.formu_art_cod_art = pa.formu_art_cod_art
+      and i.art_cod_art = a.cod_art
+      and a.cod_lin in
+          (
+            select cod_lin
+              from pr_grupos_lineas_desarrollo
+             union
+            select '1980'
+              from dual
+             union
+            select 'ZZ'
+              from dual
+            )
+   );
 
 select *
   from pr_num_ot
@@ -468,7 +475,7 @@ select c.cod_art, c.saldo, c.numero
   from vw_ordenes_curso c
  where c.nuot_tipoot_codigo = 'PR'
    and c.cod_art = '400.973'
-   and exists(
+   and exists (
    select 1
      from emite_op_log e
     where c.nuot_tipoot_codigo = e.tipo
@@ -974,7 +981,7 @@ select distinct o.nuot_tipoot_codigo as tipo, o.nuot_serie as serie, o.numero, o
             on o.nuot_tipoot_codigo = d.ot_nuot_tipoot_codigo
               and o.nuot_serie = d.ot_nuot_serie
               and o.numero = d.ot_numero
- where exists(
+ where exists (
    select *
      from pr_trasab_estado e
     where e.usuario = 'ALBERTO'
@@ -989,7 +996,7 @@ select distinct o.nuot_tipoot_codigo as tipo, o.nuot_serie as serie, o.numero, o
 
 select distinct o.nuot_tipoot_codigo as tipo, o.nuot_serie as serie, o.numero
   from pr_ot o
- where exists(
+ where exists (
    select *
      from pr_trasab_estado e
     where e.usuario = 'ALBERTO'
@@ -1005,7 +1012,7 @@ select distinct o.nuot_tipoot_codigo as tipo, o.nuot_serie as serie, o.numero
             on o.nuot_tipoot_codigo = d.ot_nuot_tipoot_codigo
               and o.nuot_serie = d.ot_nuot_serie
               and o.numero = d.ot_numero
- where exists(
+ where exists (
    select *
      from pr_trasab_estado e
     where e.usuario = 'ALBERTO'
@@ -1260,3 +1267,265 @@ select cod_art, sum(saldo) as saldo_ov
   from vw_ordenes_curso
  where nuot_tipoot_codigo = 'VA'
  group by cod_art;
+
+select f.cod_art, a.cod_lin, f.cod_for, f.canti
+  from pcmasters m
+       join pcformulas f on m.cod_art = f.cod_art
+       join articul a on m.cod_art = a.cod_art
+ where f.cod_for in ('FOR3919', 'FOR3818', 'FOR3828', 'POB 516')
+ order by cod_for;
+
+select * from capacitacion;
+
+select *
+  from pr_ot_bolsas
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 588293;
+
+select numero, formu_art_cod_art, cant_prog, prioridad, nuot_tipoot_codigo, fecha, boling
+  from pr_ot
+ where nuot_tipoot_codigo in ('PR') and estado = 1
+   and numero = 588299
+   and not exists (
+   select 1
+     from pr_ot_anulacion
+    where numero = pr_ot.numero
+      and nuot_tipoot_codigo = pr_ot.nuot_tipoot_codigo
+      and nuot_serie = pr_ot.nuot_serie
+   )
+ order by numero;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 588299;
+
+select *
+  from pr_ot_anulacion
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 588299;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 588299;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo in ('PR')
+   and estado = 1
+   and numero = 588299
+   and not exists (
+   select 1
+     from pr_ot_anulacion
+    where numero = pr_ot.numero
+      and nuot_tipoot_codigo = pr_ot.nuot_tipoot_codigo
+      and nuot_serie = pr_ot.nuot_serie
+   )
+--    and not exists (select 1
+--                      from kardex_g
+--                     where numero_pguia = pr_ot.numero
+--                       and serie_pguia = pr_ot.nuot_serie
+--                       and tipo_pguia = pr_ot.nuot_tipoot_codigo
+--                       and estado < 9)
+   and numero not in
+       (
+         select pr.numero
+           from pr_ordenes_partidas pr
+          where pr.nuot_tipoot_codigo = 'PR'
+         );
+
+select *
+  from pr_ordenes_partidas
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 588299;
+
+select numero, formu_art_cod_art, cant_prog, prioridad, nuot_tipoot_codigo, fecha, boling
+  from pr_ot
+ where nuot_tipoot_codigo in ('PR')
+   and estado = 1
+   and not exists (
+   select 1
+     from pr_ot_anulacion
+    where numero = pr_ot.numero
+      and nuot_tipoot_codigo = pr_ot.nuot_tipoot_codigo
+      and nuot_serie = pr_ot.nuot_serie
+   )
+ order by numero;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo in ('PR')
+   and estado = 1
+   and not exists (
+   select 1
+     from pr_ot_anulacion
+    where numero = pr_ot.numero
+      and nuot_tipoot_codigo = pr_ot.nuot_tipoot_codigo
+      and nuot_serie = pr_ot.nuot_serie
+   )
+   and not exists (
+   select 1
+     from kardex_g
+    where numero_pguia = pr_ot.numero
+      and serie_pguia = pr_ot.nuot_serie
+      and tipo_pguia = pr_ot.nuot_tipoot_codigo
+      and estado < 9
+   );
+
+select distinct pk_tipo, pk_serie, pk_numero, g.cod_cliente, c.nombre, g.estado, scod_alm, sguia_tp
+              , sguia_serie, sguia_numero, sguia_fecha, transporte_medio
+  from pk_glosa g
+     , exclientes c
+ where g.cod_cliente = c.cod_cliente
+   and g.estado = '7'
+   and scod_alm is not null
+   and sguia_tp is not null
+   and sguia_serie is not null
+   and sguia_numero is not null
+   and pk_tipo = 'PK'
+   and pk_serie = '1'
+   and pk_numero = :x_numero;
+
+select *
+  from pk_glosa
+ where estado = '7'
+   and extract(year from fecha) = 2024;
+
+select *
+  from pk_gnumero
+ where pk_numero = 59058;
+
+select *
+  from pk_glosa
+ where pk_numero = 59058;
+
+select cod_art, cantidad from tmp_carga_data;
+
+select *
+  from vw_detalle_orden_sol
+ where ot_numero = 589617;
+
+select *
+  from vw_detalle_orden_sol
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_nuot_serie = 8
+   and not exists (
+   select 1
+     from pr_ot po
+    where po.nuot_tipoot_codigo = vw_detalle_orden_sol.ot_nuot_tipoot_codigo
+      and po.numero = vw_detalle_orden_sol.ot_numero
+      and po.estado < 8
+   )
+ order by ot_numero desc;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 2103610;
+
+
+select gt.id_grupo
+  from grupos_tipo_solicitud gt
+ where gt.tipo_sol = 'PIEZA';
+
+select pd.ot_nuot_tipoot_codigo, pd.ot_nuot_serie, pd.ot_numero, p.formu_art_cod_art, pd.art_cod_art
+     , pd.rendimiento, pd.cod_lin
+  from pr_ot p
+     , pr_ot_det pd
+     , articul a
+     , pr_grupos_lineas pg
+ where p.nuot_tipoot_codigo = pd.ot_nuot_tipoot_codigo
+   and p.nuot_serie = pd.ot_nuot_serie
+   and p.numero = pd.ot_numero
+   and a.cod_art = pd.art_cod_art
+   and a.cod_lin = pg.cod_lin
+   and (
+   pg.id_grupo in (
+     select gt.id_grupo
+       from grupos_tipo_solicitud gt
+      where gt.tipo_sol = 'PIEZA'
+     ) or pd.cod_lin in ('1804', '1440'))
+   and p.numero = 589580;
+
+select *
+  from pr_grupos_lineas
+ where cod_lin in ('1804', '1440');
+
+select *
+  from grupos_tipo_solicitud
+ where tipo_sol = 'PIEZA';
+
+select *
+  from grupos_tipo_solicitud
+ where id_grupo = '%';
+
+select *
+  from pr_ot_det
+ where cod_lin = '1809'
+   and ot_nuot_tipoot_codigo = 'PR'
+ order by ot_numero desc;
+
+select * from vw_resumen_solicitud_vwm;
+
+/*
+CREATE OR REPLACE FORCE VIEW "PEVISA"."VW_RESUMEN_SOLICITUD_VWM" ("ART_COD_ART", "TOTAL") AS
+SELECT pd.ART_COD_ART, NVL (SUM (cant_sol), 0) total
+  FROM PEVISA.PR_OT_DET pd
+         --agregado para colocar la cantidad que requiere produccion...
+       LEFT JOIN TMP_FILTRO_PLAN_PROD_DETALLE tm
+                 ON     pd.OT_NUOT_TIPOOT_CODIGO = tm.OT_NUOT_TIPOOT_CODIGO
+                   AND pd.OT_NUOT_SERIE = tm.OT_NUOT_SERIE
+                   AND pd.OT_NUMERO = tm.OT_NUMERO
+                   AND pd.ART_COD_ART = tm.ART_COD_ART
+ WHERE     pd.OT_NUOT_TIPOOT_CODIGO IN
+           (SELECT OT_NUOT_TIPOOT_CODIGO
+              FROM TMP_FILTRO_PLAN_PROD_DETALLE)
+   AND pd.OT_NUOT_SERIE IN (SELECT OT_NUOT_SERIE
+                              FROM TMP_FILTRO_PLAN_PROD_DETALLE)
+   AND pd.ot_numero IN (SELECT t.ot_numero
+                          FROM TMP_FILTRO_PLAN_PROD_DETALLE t)
+HAVING     GET_GRUPO_PIEZA (pd.ART_COD_ART) IN
+           (SELECT ID_GRUPO
+              FROM GRUPOS_TIPO_SOLICITUD
+             WHERE TIPO_SOL = 'PIEZA')
+   AND pd.ART_COD_ART IN (SELECT t.art_cod_art
+                            FROM TMP_FILTRO_PLAN_PROD_DETALLE t)
+ GROUP BY pd.ART_COD_ART;
+*/
+
+select *
+  from vw_detalle_orden_sol
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 585385
+   and art_cod_art = '290.3902S';
+
+select nvl(sum(cant_for), 0)
+  from vw_soli_general_wms_prod
+ where tipo_solicitud in ('WMS', 'PRODUCCION')
+   and estado not in ('ANULADO')
+   and tipo = 'PR'
+   and serie = 8
+   and numero = 585385
+   and cod_art = '290.3902S';
+
+
+select *
+  from vw_soli_general_wms_prod
+ where tipo_solicitud in ('WMS', 'PRODUCCION')
+   and estado not in ('ANULADO')
+   and tipo = 'PR'
+   and serie = 8
+   and numero = 585385
+   and cod_art = '290.3902S';
+
+select *
+  from wms_orden_sol
+ where tipo = 'PR'
+   and numero = 585385;
+
+select *
+  from wms_orden_oms_item
+ where ot_tipo = 'PR'
+   and ot_numero = 585385;

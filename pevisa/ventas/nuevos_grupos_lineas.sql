@@ -168,3 +168,50 @@ select *
 select *
   from itemcot
  where num_ped = 212571;
+
+select cod_alm, descripcion
+  from almacenes
+ where cod_alm in
+       (select distinct cod_alm
+          from usuarios_almacenes_perfil
+         where usuario = user
+         union all
+        select 'FF'
+          from dual)
+ union all
+select '%', 'TODOS'
+  from dual
+ order by cod_alm;
+
+select distinct cod_alm
+  from usuarios_almacenes_perfil
+ where usuario = 'JNEYRA'
+   and cod_alm in
+       ('F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', '92', 'FH', 'FS', 'FF', 'FI',
+        'FP', 'FT', 'FB', 'FC', 'FQ', 'B1');
+
+
+select '%' as cod_alm, 'TODOS' as descripcion
+  from dual
+ union all
+select a.cod_alm, a.descripcion
+  from almacenes a
+     , pr_usualma u
+ where a.cod_alm = u.cod_alm
+   and u.usuario = 'JNEYRA';
+
+select *
+  from almacenes
+ where cod_alm in
+       ('F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', '92', 'FH', 'FS', 'FF', 'FI',
+        'FP', 'FT', 'FB', 'FC', 'FQ', 'B1')
+   and not exists (select 1
+                     from pr_usualma
+                    where usuario = 'PCALDERON'
+                      and pr_usualma.cod_alm = almacenes.cod_alm);
+
+select *
+  from pr_usualma
+ where usuario = 'PCALDERON';
+
+select sysdate from dual;

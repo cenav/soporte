@@ -44,8 +44,8 @@ select *
 select *
   from tablas_auxiliares
  where codigo != '....'
-   and tipo = 25
- order by tipo;
+   and tipo = 1
+ order by codigo;
 
 
 -- codigos sin movimiento

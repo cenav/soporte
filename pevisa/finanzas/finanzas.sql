@@ -3,14 +3,19 @@ select *
  where ano = 2024
    and mes = 10
    and tipo = '2'
-   and voucher = 103632;
+   and voucher = 103634;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 10
+   and mes = 11
    and tipo = '2'
-   and voucher = 103593;
+   and voucher = 113361;
+
+select *
+  from factpag
+ where cod_proveedor = '20100047218'
+   and numero = '5388829';
 
 -- 0337221
 
@@ -54,6 +59,7 @@ select *
    and tipo = '2'
  order by voucher desc;
 
+--17/11/2024 al  23/11/2024
 select *
   from tab_semanas
  where extract(year from del) = 2024

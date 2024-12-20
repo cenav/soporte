@@ -122,7 +122,7 @@ select *
 
 select *
   from lispred
- where cod_art = '1016-BD';
+ where cod_art = 'RM-45 L1-N';
 
 select *
   from articul
@@ -147,12 +147,32 @@ select 3, cod_art, importe, desc1, desc2, desc3, estado
 select *
   from lispred
  where cod_art in (
-                   '2118-BD', '1532-BD', '2112-BD', '2117-BD', '3002-BD', '5060-BD',
-                   '3520-BD', '3335-BD', '3312-BD', '75605-D-BD', '5712-12E-BD', '5713-W-BD',
-                   '6018-BD', '3119-BD', '8118-BD', '45050-BD', '22120-BD', '22121-BD', '22100-BD',
-                   '22101-BD', '22110-BD', '22111-BD', '22150-BD', '22151-BD', '35000-BD',
-                   '35001-BD', '61100-BD', '57100-BD', '57095-BD', '24610-BD', '24611-BD',
-                   '22610-BD', '22613-BD', '75110-BD', '75120-BD', '75580-BD', '75590-BD'
+   'RM-45 L1-N'
    )
-   and nro_lista = 3;
+   and nro_lista = 6;
 
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.linea, l.grupo, v.importe as precio
+     , pr_medpza as cod_ing, l.grupo_venta
+  from articul a
+     , tab_lineas l
+     , lispred v
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.linea = a.cod_lin
+   and l.grupo is not null
+   and v.cod_art = a.cod_art
+   and v.nro_lista = :nro_lista
+   and l.grupo_venta = :unidad_negocio
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and l.grupo not in (41)
+   and a.cod_art = 'RM-45 L1-N'
+ order by a.cod_art;
+
+select *
+  from tab_lineas
+ where linea = '271';
+
+select *
+  from articul
+ where cod_art = 'RM-45 L1-N';

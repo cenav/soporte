@@ -1,4 +1,4 @@
-call puntualidad.automatico(2024, 7);
+call puntualidad.automatico(2024, 11);
 
 select *
   from proceso_puntualidad

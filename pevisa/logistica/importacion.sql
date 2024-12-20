@@ -173,3 +173,99 @@ select * from paramin;
 select *
   from proveed
  where cod_proveed = '20600612922';
+
+select importada
+     , nacional
+     , f_stock_almacen_total(nacional) as stock_nacional
+     , nacional_a_importada
+     , f_stock_almacen_total(nacional_a_importada) as stock_nacional_importada
+  from pieza_nacional_importada;
+
+select *
+  from pieza_importada_nacional;
+
+select *
+  from lg_pedjam
+ where num_importa = 'MU24056';
+
+select *
+  from articul
+ where cod_art = '180.866NY';
+
+/*
+select distinct numero_embarque, tipo tipo_pedido, cod_proveed, nombre, ncomercial
+        , fecha_recepcion_almacen
+from (select e.numero_embarque, l.num_importa, p.kardex_fecha_ingreso, i.cod_art
+       , fecha_recepcion_almacen, l.tipo, e.cod_proveed, nombre, l.ncomercial
+    from embarques_g e, packing_g p, lg_pedjam l, lg_itemjam i, lg_itemjam_otros o
+       , proveed pr
+   where e.numero_embarque = p.numero_embarque
+     and p.num_importa = l.num_importa
+     and l.num_importa = i.num_importa
+     and i.num_importa = o.num_importa
+     and i.cod_art = o.cod_art
+     and l.cod_proveed = pr.cod_proveed
+     and fecha_recepcion_almacen is not null
+     and (sysdate - fecha_recepcion_almacen) >= 1
+     and nvl(l.estado, 0) > 0
+     and nvl(l.estado, 0) < 8
+     and l.TIPO <> ''MU''
+     and not exists
+           (select 1
+              from kardex_g
+             where nro_doc_ref = e.numero_embarque
+               and cod_relacion = e.cod_proveed));
+*/
+
+select distinct grupo, numero_embarque, tipo as tipo_pedido, cod_proveed, nombre
+              , ncomercial, fecha_recepcion_almacen
+  from (
+         select e.numero_embarque, l.num_importa, p.kardex_fecha_ingreso, i.cod_art
+              , fecha_recepcion_almacen, l.tipo, e.cod_proveed, nombre, l.ncomercial
+              , gn.descripcion as grupo
+           from embarques_g e
+              , packing_g p
+              , lg_pedjam l
+              , lg_itemjam i
+              , lg_itemjam_otros o
+              , proveed pr
+              , pr_programas_compras pg
+              , grupo_negocio gn
+          where e.numero_embarque = p.numero_embarque
+            and p.num_importa = l.num_importa
+            and l.num_importa = i.num_importa
+            and i.num_importa = o.num_importa
+            and i.cod_art = o.cod_art
+            and l.cod_proveed = pr.cod_proveed
+            and l.programa = pg.id_programa
+            and pg.codigo_grupo = gn.codigo_grupo
+            and fecha_recepcion_almacen is not null
+            and (sysdate - fecha_recepcion_almacen) >= 1
+            and nvl(l.estado, 0) > 0
+            and nvl(l.estado, 0) < 8
+            and l.tipo <> 'MU'
+            and not exists (
+            select 1
+              from kardex_g
+             where nro_doc_ref = e.numero_embarque
+               and cod_relacion = e.cod_proveed
+            )
+         );
+
+select *
+  from lg_tipo_pedido
+ where tipo_pedido in (
+                       'AP', 'AP', 'BT', 'PM', 'AP'
+   );
+
+select *
+  from pr_programas_compras
+ where id_programa = 'PGI24375';
+
+select * from grupo_negocio;
+
+select * from lg_pedjam;
+
+begin
+  notif_matriceria_calidad.envia_correo_embarques();
+end;

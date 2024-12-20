@@ -84,7 +84,7 @@ select *
 
 select *
   from exproforma_libre
- where numero = 19684;
+ where numero = 19710;
 
 select *
   from pr_embarques
@@ -790,3 +790,11 @@ select cod_marca
 -- todo lo que mahle ha comprado en el año, facturacion
 -- relacion de la demanda anual estimada de Mahle
 -- explosion de piezas cuanto se consume al año, mayor y menor
+
+select *
+  from exbooking
+ where numero_booking = 'TER-68';
+
+select *
+  from exbooking_d
+ where numero_booking = 'TER-68';

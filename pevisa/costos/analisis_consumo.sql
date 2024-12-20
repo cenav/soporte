@@ -5,7 +5,12 @@ end;
 select *
   from analisis_consumo
  where ano = 2024
-   and mes = 6;
+   and mes = 11;
+
+delete
+  from analisis_consumo
+ where ano = 2024
+   and mes = 11;
 
 select *
   from logger_logs
