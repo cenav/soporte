@@ -18,6 +18,10 @@ select *
  where numero = 199321;
 
 select *
+  from wms_orden_sol
+ where numero = 199321;
+
+select *
   from solimat_d
  where numero = 199321;
 
@@ -61,6 +65,11 @@ select *
 select *
   from wms_orden_sol_item
  where tk_numero = 59;
+
+select *
+  from wms_rec_guia
+ where rec_numero = 671
+   and cod_art = 'BOLSA P0950';
 
 select *
   from wms_orden_sol_item
@@ -238,3 +247,9 @@ select *
 select *
   from solimat_d
  where numero = 199861;
+
+select numero + 1
+  from numdoc
+ where tp_transac = '27'
+   and serie = 3
+   for update of numero;

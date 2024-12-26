@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   572430
+   589788
    );
 
 select * from pr_estadopr;
@@ -13,7 +13,7 @@ select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   589784
+   589788
    );
 
 select *

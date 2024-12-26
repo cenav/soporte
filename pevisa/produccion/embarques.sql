@@ -8,20 +8,19 @@
      where estado_ot < 3
        and prioridad = :p_prioridad
        --AND      color = 'BLUE'
-       and exists
-       (
-         select *
-           from pr_embarques
-          where id_vendedor = :p_id_vendedor
-            and ano_embarque = :p_ano
-            and mes_embarque = :p_mes
-            and id_pedido in (
-            select distinct id_pedido
-              from view_pedidos_pendientes_30
-             where id_vendedor = :p_id_vendedor
-               and prioridad = :p_prioridad
-            )
-         )
+       and exists (
+       select *
+         from pr_embarques
+        where id_vendedor = :p_id_vendedor
+          and ano_embarque = :p_ano
+          and mes_embarque = :p_mes
+          and id_pedido in (
+          select distinct id_pedido
+            from view_pedidos_pendientes_30
+           where id_vendedor = :p_id_vendedor
+             and prioridad = :p_prioridad
+          )
+       )
      group by prioridad, cod_art
     )
 select *
@@ -38,20 +37,19 @@ select *
    where estado_ot < 3
      and prioridad = :p_prioridad
      and color = :c_color_70_por_ciento
-     and exists
-     (
-       select *
-         from pr_embarques
-        where id_vendedor = :p_id_vendedor
-          and ano_embarque = :p_ano
-          and mes_embarque = :p_mes
-          and id_pedido in (
-          select distinct id_pedido
-            from view_pedidos_pendientes_30
-           where id_vendedor = :p_id_vendedor
-             and prioridad = :p_prioridad
-          )
-       )
+     and exists (
+     select *
+       from pr_embarques
+      where id_vendedor = :p_id_vendedor
+        and ano_embarque = :p_ano
+        and mes_embarque = :p_mes
+        and id_pedido in (
+        select distinct id_pedido
+          from view_pedidos_pendientes_30
+         where id_vendedor = :p_id_vendedor
+           and prioridad = :p_prioridad
+        )
+     )
    group by prioridad
           , cod_art;
 
@@ -181,3 +179,15 @@ select *
   select *
     from lg_factura_comercial
    where numero_embarque = 5022;
+
+  select *
+    from muestra
+   where num_importa = 'PVC4095';
+
+  select *
+    from embarques_liberacion
+   where numero_embarque = 4959
+     and num_importa = 'PVC24095'
+     and cod_art = 'AT-B-GM-017-F MLS';
+
+  select * from estados_liberacion_producto;

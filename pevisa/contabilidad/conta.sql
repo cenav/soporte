@@ -567,6 +567,6 @@ select *
  where id_hallazgo = 385;
 
 select *
-  from caja
- where id_serie = 2
-   and id_numero = 17;
+  from caja_chica
+ where serie = 7
+   and numero = 24112;

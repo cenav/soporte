@@ -39,7 +39,7 @@ select *
 select *
   from cabfpag
  where cod_proveedor = '20601875200'
-   and numero = '0000779';
+   and numero = '0000768';
 
 select *
   from cabfpag

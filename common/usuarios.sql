@@ -1,5 +1,5 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user KCUCHO account unlock;
+alter user kcucho account unlock;
 
 alter user ametaloplastica account lock;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'KCUCHO';
+ where username like '%LDANIEL%';
 
 -- roxana tarrillo
 
@@ -71,10 +71,9 @@ select *
   from dba_registry
  where comp_id = 'APEX';
 
-
 select *
   from dba_source
- where upper(text) like upper('%Embarques Pendientes de ingreso a almacen%')
+ where upper(text) like upper('%Factura con diferencia de precios%')
    and owner = 'PEVISA';
 
 select *
@@ -239,7 +238,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('INCUMPLIMIENTO')
+ where modulo in ('AMONESTACION')
  order by usuario, modulo;
 
 select *
@@ -458,7 +457,8 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'MGUIELAC';
+ where co_ctrctr = 'M_RECLAMOS'
+   and co_usrusr = 'DANGELES';
 
 -- ORACLE
 
@@ -1109,28 +1109,15 @@ select *
  where id_modulo = 'PERMISO'
    and id_alterno = 'KCASTILLO';
 
-select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
-     , p.c_cargo, c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion
-     , g.c_codigo as encargado, p.sexo, g.nombre as desc_encargado, h.local
-     , l.descripcion as desc_local, p.f_ingreso, p.fnatal, d.num_doc as dni
-     , trunc(months_between(sysdate, p.fnatal) / 12) as edad,
-  trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
-  from planilla10.personal p
-       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
-       left join planilla10.tar_secc s on p.seccion = s.codigo
-       left join planilla10.tar_encarga g on p.encargado = g.codigo
-       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
-       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
-       left join planilla10.pla_local l on h.local = l.local
- where p.situacion not in ('8', '9')
-   and (upper(g.usuario) in (
-   select usuario
-     from usuario_modulo
-    where usuario = user and modulo = :global.modulo
-    union
-   select id_usuario
-     from usuario_modulo_alterno
-    where id_alterno = user and id_modulo = :global.modulo
-   ) or user in (
-   select usuario from usuario_modulo where modulo = :global.modulo and maestro = 'SI'
-   ))
+declare
+  l_usumod usuario_modulo%rowtype;
+begin
+  l_usumod := api_usuario_modulo.principal_alterno('LDANIEL', 'CAMBIO_TRX');
+  dbms_output.put_line(l_usumod.maestro);
+end;
+
+select * from aut_rol_usuario order by id_rol;
+
+select *
+  from aut_rol_usuario
+ where usuario = 'FELIPE_CRUZ';

@@ -174,7 +174,7 @@ select *
 -- tentativo
 select descripcion as dsc_concepto, id_concepto as idconcepto
   from pevisa.concepto_permiso
- where ((:maestro = 'NO' and flg_solorrhh = 0 and not exists(
+ where ((:maestro = 'NO' and flg_solorrhh = 0 and not exists (
    select rm.id_permiso, p.dsc_permiso
      from usuarios u
           join roles r on u.id_rol = r.id_rol
@@ -184,7 +184,7 @@ select descripcion as dsc_concepto, id_concepto as idconcepto
       and rm.id_modulo = 'PERMISO'
       and p.id_permiso in (20)
    )) or
-        (flg_asocial = 1 and exists(
+        (flg_asocial = 1 and exists (
           select rm.id_permiso, p.dsc_permiso
             from usuarios u
                  join roles r on u.id_rol = r.id_rol
@@ -200,7 +200,7 @@ select descripcion as dsc_concepto, id_concepto as idconcepto
 -- final en base a roles
 select descripcion as dsc_concepto, id_concepto as idconcepto
   from pevisa.concepto_permiso
- where ((exists(
+ where ((exists (
    select rm.id_permiso, p.dsc_permiso
      from usuarios u
           join roles r on u.id_rol = r.id_rol
@@ -210,7 +210,7 @@ select descripcion as dsc_concepto, id_concepto as idconcepto
       and rm.id_modulo = 'PERMISO'
       and p.id_permiso = 0
    )) or
-        (flg_asocial = 1 and exists(
+        (flg_asocial = 1 and exists (
           select rm.id_permiso, p.dsc_permiso
             from usuarios u
                  join roles r on u.id_rol = r.id_rol
@@ -220,7 +220,7 @@ select descripcion as dsc_concepto, id_concepto as idconcepto
              and rm.id_modulo = 'PERMISO'
              and p.id_permiso = 20
           )) or
-        flg_solorrhh != 1 and not exists(
+        flg_solorrhh != 1 and not exists (
           select rm.id_permiso, p.dsc_permiso
             from usuarios u
                  join roles r on u.id_rol = r.id_rol
@@ -376,4 +376,20 @@ select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombre
    ))
    and per.situacion not in ('8', '9')
  order by per.apellido_paterno;
+
+select *
+  from concepto_permiso
+ where id_concepto = 'NAM';
+
+begin
+  bienestar.tiempo_permiso_ok(
+      'NAM'
+    , to_date('24/12/2024 20:45', 'dd/mm/yyyy hh24:mi')
+    , to_date('24/12/2024 23:45', 'dd/mm/yyyy hh24:mi')
+  );
+end;
+
+select *
+  from concepto_permiso
+ where descripcion like '%NUEVO%';
 

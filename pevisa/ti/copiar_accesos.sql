@@ -28,8 +28,8 @@ begin
 end;
 
 declare
-  k_oldusr varchar2(30) := 'ARODRIGUEZ';
-  k_newusr varchar2(30) := 'JHORLY_GUEVARA';
+  k_oldusr varchar2(30) := 'PEVISA';
+  k_newusr varchar2(30) := 'VREYMUNDO';
 begin
   insert into seccrus
   select k_newusr, co_ctrctr, co_clave, nombres
