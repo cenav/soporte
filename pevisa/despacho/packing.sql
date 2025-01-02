@@ -280,7 +280,7 @@ select *
 select nvl(sum(pneto), 0)
   from pk_pesos
  where packlis = 161400
-   and pk_numero = 59682;
+   and pk_numero = 60616;
 
 select *
   from pk_pesos
@@ -328,3 +328,6 @@ select f.numero, f.cod_cliente, f.nombre, f.direcc, f.direc2, c.ciudad, p.nombre
    and g.cond_pago(+) = f.cond_pago
    and k.packlis(+) = rtrim(f.paclis)
    and f.paclis = pk.pk_numero;
+
+-- gpacco
+-- cboza

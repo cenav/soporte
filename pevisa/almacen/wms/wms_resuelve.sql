@@ -6,8 +6,38 @@ select count(*)
    and o.id_ubicacion = '005202001007';
 
 select *
+  from wms_usuarios
+ where nombre like '%EMERSON%';
+
+-- cabecera de solicitudes
+select *
+  from wms_solimat_sol
+ where tipo = 'SM'
+   and numero = 200398;
+
+select *
+  from wms_solimat_sol
+ where estado in ('1', '2');
+
+select *
+  from wms_picking
+ where tk_serie = 2
+   and tk_numero = 356;
+
+select *
   from wms_picking_alm
- where tk_numero = 33;
+ where tk_serie = 2
+   and tk_numero = 356;
+
+select *
+  from wms_picking
+ where tk_numero = 133;
+
+select *
+  from wms_picking_alm
+ where tk_numero = 133;
+
+select * from wms_estado_solicitud;
 
 select *
   from vwms_solicitud
@@ -248,8 +278,74 @@ select *
   from solimat_d
  where numero = 199861;
 
-select numero + 1
-  from numdoc
- where tp_transac = '27'
-   and serie = 3
-   for update of numero;
+select * from wms_rec_guia;
+
+
+select *
+  from wms_orden_rec
+ where rec_numero = '671';
+
+select *
+  from wms_rec_guia
+ where rec_numero = '671';
+
+-- eliminado
+-- select *
+--   from kardex_g
+--  where cod_alm = 'D5'
+--    and tp_transac = '10'
+--    and serie = 1
+--    and numero in (
+--                   1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1177, 1179, 1184
+--    )
+--  order by ing_sal desc, numero_pguia;
+
+select *
+  from kardex_g
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and serie = 1
+   and numero in (
+   1150
+   );
+
+select *
+  from kardex_d
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and serie = 1
+   and numero in (
+   1150
+   );
+
+select *
+  from almacen
+ where cod_art = 'BOLSA 12.59';
+
+select *
+  from kardex_d
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and cod_art = 'BOLSA 12.59'
+   and extract(year from fch_transac) = 2024
+   and extract(month from fch_transac) = 12
+   and pr_numot = '671';
+
+select *
+  from kardex_d
+ where cod_alm = 'T6'
+   and cod_art = 'BOLSA 12.59'
+   and extract(year from fch_transac) = 2024
+   and extract(month from fch_transac) = 12;
+
+select sysdate from dual;
+
+select * from view_monto_completo_resumen_30;
+
+select * from tmp_pedidos_30;
+
+select * from pr_embarques;
+
+select *
+  from pr_programa_embarques_id
+ where estado = '1';

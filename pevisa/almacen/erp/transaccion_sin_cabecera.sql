@@ -44,7 +44,7 @@ begin
   end loop;
 
   dbms_output.put_line('Total registros: ' || l_count);
-end ;
+end;
 
 
 select d.*

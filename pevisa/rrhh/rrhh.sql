@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like '%CRUZ%'
+ where apellido_paterno like '%GAVELAN%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado

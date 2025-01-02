@@ -22,6 +22,7 @@ begin
     emite.op(r.cod_art, r.cantidad, false, l_op);
     dbms_output.put_line(rpad(r.cod_art, 31) || rpad(r.cantidad, 10) || l_op.numero);
   end loop;
+  commit;
 end;
 
 -- emite standard
@@ -64,15 +65,16 @@ begin
   end loop;
 end;
 
--- listado de nro de ordenes emitidas
-select a.dsc_grupo, o.numero as numero_op, o.formu_art_cod_art as codigo, o.cant_prog as cantidad
+-- listado op emitidas
+select a.dsc_grupo as grupo, o.numero as op
+     , o.formu_art_cod_art as codigo, o.cant_prog as cantidad
   from pr_ot o
        join pr_trasab_estado e
             on o.nuot_tipoot_codigo = e.tipo
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) = to_date('12/12/2024', 'dd/mm/yyyy')
+ where trunc(e.fecha) = to_date('28/12/2024', 'dd/mm/yyyy')
    and e.usuario = 'PEVISA'
    and e.t1 = '25.0.3.33'
    and e.estado = 1
@@ -84,7 +86,7 @@ select a.dsc_grupo, o.numero, o.formu_art_cod_art, o.fecha, o.cod_lin, o.cant_pr
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
  where o.nuot_tipoot_codigo = 'PR'
    and to_char(o.fecha, 'yyyymm') = '202404'
-   and not exists(
+   and not exists (
    select 1
      from pr_ot_impresion i
     where i.nuot_tipoot_codigo = o.nuot_tipoot_codigo
@@ -92,8 +94,3 @@ select a.dsc_grupo, o.numero, o.formu_art_cod_art, o.fecha, o.cod_lin, o.cant_pr
       and i.numero = o.numero
    )
    and a.id_grupo = '06';
-
-select *
-  from pr_ot_impresion
- where nuot_tipoot_codigo = 'PR'
-   and numero = 558338;

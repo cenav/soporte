@@ -1,20 +1,21 @@
 -- CREAR EN USUARIOS
 select *
   from usuarios u
- where usuario in ('JHORLY_GUEVARA', 'ARODRIGUEZ');
+ where usuario in ('SVARGAS', 'ISAIAS_MECHATO');
 
-create user jhorly_guevara
+create user omar_torres
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
   profile default
   account unlock;
+
 -- 1 Role for RCARRION
-grant privilegios_usuarios_sig to jhorly_guevara;
-alter user jhorly_guevara default role all;
+grant privilegios_usuarios_sig to omar_torres;
+alter user omar_torres default role all;
 
 
-alter user jhorly_guevara password expire;
+alter user omar_torres password expire;
 
 
 -- PARA COPIAR DESDE OTRO USUARIO

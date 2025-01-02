@@ -16,14 +16,14 @@ declare
 --      where trunc(h.fecha) = to_date('10/09/2024', 'dd/mm/yyyy')
 --        and h.usuario = 'PEVISA'
 --      order by ing_sal desc;
---   A2	59	1	165
+  -- T6	35	141	347
     select *
       from kardex_g
-     where cod_alm = 'D2'
-       and tp_transac = '16'
-       and serie = 3
+     where cod_alm = 'T6'
+       and tp_transac = '35'
+       and serie = 141
        and numero in (
-       156916
+                      347
        )
      order by ing_sal desc, numero_pguia;
 

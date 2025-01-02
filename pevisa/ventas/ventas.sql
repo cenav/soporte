@@ -1,6 +1,6 @@
 select *
   from cotizacion
- where num_ped in (235377);
+ where num_ped in (236914);
 
 select *
   from itemcot

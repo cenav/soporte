@@ -15,9 +15,14 @@ select *
 select *
   from movfide
  where ano = 2024
-   and mes = 10
-   and tipo = '2'
-   and voucher = 103026;
+   and mes = 8
+   and tipo = '1'
+   and voucher = 80005;
+
+
+select *
+  from proveed
+ where cod_proveed = '20100047';
 
 select *
   from factpag
@@ -148,12 +153,11 @@ select u.serie, s.nombres
    and u.estado = '1'
    and s.id_serie = u.serie
    and s.tipo_caja = 'CAJA CHICA'
-   and not exists
-   (
-     select distinct ch.serie
-       from caja_chica ch
-      where ch.serie = u.serie and ch.estado = 1
-     )
+   and not exists (
+   select distinct ch.serie
+     from caja_chica ch
+    where ch.serie = u.serie and ch.estado = 1
+   )
  order by 1;
 
 

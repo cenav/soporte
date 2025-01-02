@@ -36,3 +36,14 @@ select * from aut_objcamval;
 
 select * from aut_permiso;
 
+select *
+  from aut_rol_usuario
+ where usuario = 'FELIPE_CRUZ';
+
+select *
+  from aut_rol_usuario
+ where usuario = 'OLGA';
+
+select *
+  from aut_rol_usuario
+ where usuario = 'JOSE_GAVELAN';

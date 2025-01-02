@@ -1,19 +1,19 @@
 select *
   from kardex_g
- where cod_alm = 'D3'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and serie = 1
    and numero in (
-   599378
+   1169
    );
 
 select *
   from kardex_d
- where cod_alm = '30'
-   and tp_transac = '35'
-   and serie = 131
+ where cod_alm = '15'
+   and tp_transac = '29'
+   and serie = 1
    and numero in (
-   980
+   1876357
    );
 
 select *
@@ -59,11 +59,11 @@ select *
 
 select *
   from kardex_g_historia
- where cod_alm = 'D3'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and serie = 1
    and numero in (
-   599367
+   1169
    );
 
 select *
@@ -2313,12 +2313,12 @@ select *
 select *
   from kardex_g
  where serie = 141
-   and numero = 678;
+   and numero = 687;
 
 select *
   from kardex_d
  where serie = 141
-   and numero = 678;
+   and numero = 687;
 
 select *
   from almacenes
@@ -2404,3 +2404,49 @@ select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.c
       and (cod_alm = g.cod_alm01 or cod_alm = g.cod_alm02)
    )
  order by g.serie, g.numero desc;
+
+-- 03	22	150	784
+select *
+  from kardex_g
+ where num_importa = 'SM 1 199091';
+
+select *
+  from kardex_g_historia
+ where cod_alm = '03'
+   and tp_transac = '22'
+   and serie = 150
+   and numero in (
+                  784, 785
+   );
+
+select *
+  from usuarios_almacenes
+ where usuario = 'PEVISA'
+   and cod_alm in ('D2', 'D5');
+
+select a.tp_transac as tp_transac, b.descripcion as descripcion
+  from usuarios_almacenes_perfil a
+     , transacciones_almacen b
+ where a.usuario = user
+   and a.cod_alm = :KARDEX_G.cod_alm
+   and a.tp_transac = b.tp_transac
+   and b.ingreso_salida = 'I'
+   and a.tp_transac <> '11'
+   and a.estado = 1;
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'PEVISA';
+
+select *
+  from transacciones_almacen
+ where tp_transac = 'D5';
+
+select *
+  from kardex_d
+ where cod_alm = 'D5'
+   and tp_transac = '10'
+   and cod_art = 'BOLSA 12.59'
+   and extract(year from fch_transac) = 2024
+   and extract(month from fch_transac) = 12
+   and pr_numot = '671';

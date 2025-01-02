@@ -67,8 +67,15 @@ select *
 
 select *
   from docuvent
- where serie = 'F055'
-   and numero in (14811, 14872, 15146, 14889);
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero in (9278);
+
+select *
+  from itemdocu
+ where tipodoc = '07'
+   and serie = 'F055'
+   and numero in (9278);
 
 select *
   from exfacturas

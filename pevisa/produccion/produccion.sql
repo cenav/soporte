@@ -1,8 +1,8 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'PR'
+ where nuot_tipoot_codigo = 'VA'
    and numero in (
-   589788
+   11172
    );
 
 select * from pr_estadopr;
@@ -11,10 +11,14 @@ select * from pr_estadopr;
 
 select *
   from pr_ot_det
- where ot_nuot_tipoot_codigo = 'PR'
+ where ot_nuot_tipoot_codigo = 'VA'
    and ot_numero in (
-   589788
+   11172
    );
+
+-- 0.8320
+-- 21.0000
+-- 21.0000
 
 select *
   from articul
@@ -1402,6 +1406,8 @@ select *
  where pk_numero = 59058;
 
 select cod_art, cantidad from tmp_carga_data;
+
+select sum(cantidad) from tmp_carga_data;
 
 select *
   from vw_detalle_orden_sol

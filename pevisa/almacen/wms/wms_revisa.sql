@@ -8,7 +8,7 @@ select
 sum(decode(ing_sal, 'I', cantidad, -cantidad))
   from kardex_d a
  where cod_alm = 'D5' --- D2 ----
-   and cod_art like 'BOLSA P0950'
+   and cod_art like 'RIB 92014'
 ---AND FCH_TRANSAC > :PFECHA1                    --- 05/12/2024 ......
 --AND FCH_TRANSAC <=:PFECHA
    and estado <> '9'
@@ -19,7 +19,7 @@ select rowid, a.*
   from almacen a
  where cod_alm = 'D5'
 ---AND COD_aRT = 'CL-O 70068USCS-3'
-   and cod_art = 'BOLSA P0950';
+   and cod_art = 'RIB 92014';
 
 
 ---- diferencia WMS ERP ---
