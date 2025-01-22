@@ -1,11 +1,11 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'OMAR_TORRES';
+ where username like 'LUZ_LOPEZ';
 
 select *
   from usuarios
- where usuario = 'OMAR_TORRES';
+ where usuario = 'YDOMINGUEZ';
 
 declare
   k_newusr varchar2(30) := 'PAPEL';
@@ -27,10 +27,14 @@ begin
   delete from pr_usualma where usuario = k_newusr;
 end;
 
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'SVARGAS';
-  k_newusr varchar2(30) := 'ISAIAS_MECHATO';
+  k_oldusr varchar2(30) := 'AMANTENIMIENTO';
+  k_newusr varchar2(30) := 'JHUARI';
 begin
+
   insert into seccrus
   select k_newusr, co_ctrctr, co_clave, nombres
     from seccrus s
@@ -84,7 +88,7 @@ begin
     from usuarios_almacenes_perfil
    where usuario = k_oldusr;
 
-  insert into pr_usualma
+  insert into pr_usualma(cod_alm, usuario, nombre)
   select ua.cod_alm, k_newusr, k_newusr
     from pr_usualma ua
    where usuario = k_oldusr
@@ -95,7 +99,7 @@ begin
         and ua2.usuario = k_newusr
      );
 
-  insert into aut_rol_usuario
+  insert into aut_rol_usuario(id_rol, usuario)
   select ru.id_rol, k_newusr
     from aut_rol_usuario ru
    where ru.usuario = k_oldusr
@@ -105,7 +109,46 @@ begin
       where ru2.usuario = ru.usuario
         and ru2.usuario = k_newusr
      );
+
+  insert into usuarios_libros(usuario, libro, mes_predeterminado)
+  select k_newusr, ul.libro, ul.mes_predeterminado
+    from usuarios_libros ul
+   where ul.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_libros ul2
+      where ul2.usuario = ul.usuario
+        and ul2.usuario = k_newusr
+     );
+
+  insert into usuarios_tipos(usuario, tipo, mes_predeterminado)
+  select k_newusr, ut.tipo, ut.mes_predeterminado
+    from usuarios_tipos ut
+   where ut.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_tipos ut2
+      where ut2.usuario = ut.usuario
+        and ut2.usuario = k_newusr
+     );
+
+  insert into usuarios_caja_chica(usuario, serie, estado)
+  select k_newusr, u.serie, u.estado
+    from usuarios_caja_chica u
+   where u.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_caja_chica u2
+      where u2.usuario = u.usuario
+        and u2.serie = u.serie
+        and u2.usuario = k_newusr
+     );
+
 end;
+
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
 
 select co_usrusr, co_ctrctr, co_clave, nombres
   from seccrus s
@@ -160,11 +203,11 @@ select usuario, cod_alm, tp_transac, insertar_registros, consulta, estado
 
 select cod_alm
   from pr_usualma
- where usuario = 'OMAR_TORRES';
+ where usuario = 'JHUARI';
 
 select cod_alm
   from pr_usualma
- where usuario = 'JENNIFER_VARGAS';
+ where usuario = 'DRODRIGUEZS';
 
 select *
   from pr_usualma ua
@@ -178,8 +221,16 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('RODRIGO_ANDIA', 'AVEGA');
+ where co_usrusr in ('EINFANTE', 'JENNY_LEON');
 
 select *
   from aut_rol_usuario
- where usuario = 'JOSE_GAVELAN';
+ where usuario = 'DRODRIGUEZS';
+
+select *
+  from usuarios_libros
+ where usuario = 'YDOMINGUEZ';
+
+select *
+  from usuarios_tipos
+ where usuario = 'YDOMINGUEZ';

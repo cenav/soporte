@@ -2,7 +2,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('70028-I CS-2', 140, false, op);
+  emite.op('TO450.403SIL', 1000, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -65,6 +65,8 @@ begin
   end loop;
 end;
 
+select * from tmp_carga_data;
+
 -- listado op emitidas
 select a.dsc_grupo as grupo, o.numero as op
      , o.formu_art_cod_art as codigo, o.cant_prog as cantidad
@@ -74,11 +76,28 @@ select a.dsc_grupo as grupo, o.numero as op
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) = to_date('28/12/2024', 'dd/mm/yyyy')
-   and e.usuario = 'PEVISA'
-   and e.t1 = '25.0.3.33'
+ where trunc(e.fecha) >= to_date('13/01/2025', 'dd/mm/yyyy')
+   and e.usuario = 'ALBERTO'
+--    and e.t1 = '25.0.3.33'
    and e.estado = 1
  order by a.dsc_grupo;
+
+-- copia op emitidas
+insert into tmp_carga_data(numero)
+select o.numero as op
+  from pr_ot o
+       join pr_trasab_estado e
+            on o.nuot_tipoot_codigo = e.tipo
+              and o.nuot_serie = e.serie
+              and o.numero = e.numero
+       join vw_articulo a on o.formu_art_cod_art = a.cod_art
+ where trunc(e.fecha) >= to_date('13/01/2025', 'dd/mm/yyyy')
+   and e.usuario = 'ALBERTO'
+--    and e.t1 = '25.0.3.33'
+   and e.estado = 1
+ order by a.dsc_grupo;
+
+select numero from tmp_carga_data;
 
 -- ordenes caucho abril no impresas
 select a.dsc_grupo, o.numero, o.formu_art_cod_art, o.fecha, o.cod_lin, o.cant_prog
@@ -94,3 +113,17 @@ select a.dsc_grupo, o.numero, o.formu_art_cod_art, o.fecha, o.cod_lin, o.cant_pr
       and i.numero = o.numero
    )
    and a.id_grupo = '06';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 595587;
+
+update pr_ot
+   set boling = '250101'
+ where nuot_tipoot_codigo = 'PR'
+   and exists (
+   select *
+     from tmp_carga_data
+    where pr_ot.numero = tmp_carga_data.numero
+   );

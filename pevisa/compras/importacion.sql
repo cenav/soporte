@@ -269,3 +269,10 @@ select * from lg_pedjam;
 begin
   notif_matriceria_calidad.envia_correo_embarques();
 end;
+
+select *
+  from embarques_liberacion
+ where numero_embarque = '5010'
+   and cod_art = 'BL450.502SP';
+
+select * from estados_liberacion_producto;

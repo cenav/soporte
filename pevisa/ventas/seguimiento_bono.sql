@@ -86,21 +86,66 @@ select cod_concepto, cod_rango, cuota_desde, cuota_hasta, siguiente_cuota, premi
   from test;
 
 
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (431, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (432, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (433, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (434, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (435, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (436, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (437, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (438, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (439, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (440, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (441, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (442, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (443, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (444, 37);
-insert into pevisa.cominac_concepto_grupo (cod_concepto, cod_grupo) values (445, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (431, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (432, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (433, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (434, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (435, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (436, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (437, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (438, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (439, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (440, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (441, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (442, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (443, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (444, 37);
+insert into pevisa.cominac_concepto_grupo
+  (cod_concepto, cod_grupo)
+values
+  (445, 37);
 
 
 select cod_concepto, "1_CUOTA", "2_CUOTA", "3_CUOTA", "1_PREMIO", "2_PREMIO", "3_PREMIO"
@@ -180,15 +225,14 @@ select cod_concepto, "1_CUOTA", "2_CUOTA", "3_CUOTA", "1_PREMIO", "2_PREMIO", "3
          from cominac_concepto_excluye_clie
         where cod_concepto = c.cod_concepto
        )
-       and not exists
-       (
-         select 1
-           from cominac_concepto_excluye_doc
-          where cod_concepto = c.cod_concepto
-            and tipodoc = v.tipodoc
-            and serie = v.serie
-            and numero = v.numero
-         )
+       and not exists (
+       select 1
+         from cominac_concepto_excluye_doc
+        where cod_concepto = c.cod_concepto
+          and tipodoc = v.tipodoc
+          and serie = v.serie
+          and numero = v.numero
+       )
      group by v.cod_vende, e.nombre, c.cod_concepto
     )
      , resumen as (
@@ -284,15 +328,14 @@ select cod_vende, nombre, venta_dol, cuota_lograda, premio_logrado
          from cominac_concepto_excluye_clie
         where cod_concepto = c.cod_concepto
        )
-       and not exists
-       (
-         select 1
-           from cominac_concepto_excluye_doc
-          where cod_concepto = c.cod_concepto
-            and tipodoc = v.tipodoc
-            and serie = v.serie
-            and numero = v.numero
-         )
+       and not exists (
+       select 1
+         from cominac_concepto_excluye_doc
+        where cod_concepto = c.cod_concepto
+          and tipodoc = v.tipodoc
+          and serie = v.serie
+          and numero = v.numero
+       )
      group by v.cod_vende, e.nombre, c.cod_concepto
     )
      , resumen as (
@@ -346,7 +389,7 @@ select cod_concepto, cod_rango, cuota_desde, cuota_hasta, siguiente_cuota, premi
   from vw_cominac_concepto_rango
  where cod_concepto = 431
    and cod_rango = 1
-   and not exists(
+   and not exists (
    select 1
      from vw_cominac_concepto_rango
     where cod_concepto = 441
@@ -364,7 +407,7 @@ select cod_concepto, cod_rango, cuota_desde, cuota_hasta, siguiente_cuota, premi
   from vw_cominac_concepto_rango
  where cod_concepto = 431
    and cod_rango = 1
-   and not exists(
+   and not exists (
    select 1
      from vw_cominac_concepto_rango
     where cod_concepto = 431
@@ -382,3 +425,20 @@ exception
 end;
 
 select id_seguimiento, cod_concepto from seguimiento_bono_d;
+
+select dsc_seguimiento, id_seguimiento from seguimiento_bono where activo = 1;
+
+select * from seguimiento_bono;
+
+select * from seguimiento_bono_d;
+
+select *
+  from cominac_contrato o
+       join cominac_contrato_item i on o.cod_contrato = i.cod_contrato
+       join cominac_concepto c on i.cod_concepto = c.cod_concepto
+       join vendedores v on o.cod_vendedor = v.cod_vendedor
+ where v.supervisor = '01'
+   and (c.fecha >= '01/01/2024' or c.vigencia_del >= '01/01/2024')
+   and c.cod_tipo = 'BONO';
+
+select sysdate from dual;

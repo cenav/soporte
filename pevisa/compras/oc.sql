@@ -2,20 +2,29 @@ select *
   from orden_de_compra
  where serie = 30
    and num_ped in (
-   743
+   750
    );
 
 select *
+  from orden_de_compra
+ where num_ped = 23278;
+
+select *
   from itemord
- where serie = 30
+ where serie = 6
    and num_ped in (
-   743
+   3549
    );
 
 select *
   from orden_matriceria
  where num_ped = 240108;
 
+select *
+  from itemord
+ where otm_tipo = 'PY'
+   and otm_serie = 1
+   and otm_numero = 24;
 
 
 select *
@@ -185,9 +194,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 1
+ where serie = 2
    and num_ped in (
-                   86401, 86402
+   23278
    )
  order by num_ped;
 
@@ -1005,3 +1014,11 @@ select *
    and cod_art = 'KIT MISC87866-1';
 
 select * from estados_liberacion_producto;
+
+select *
+  from capacitacion
+ where id_capacitacion in (5020, 5026);
+
+select *
+  from caja_chica
+ where numero = 25001;

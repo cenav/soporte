@@ -343,3 +343,9 @@ select c.fecha, c.tipo_cambio, c.import_cam
    and tipo_cambio = 'V'
    and fecha = s.xxx
  order by fecha desc;
+
+select *
+  from movfide_situacion_banco
+ where cta_cte_banco = '191-9411292-0-54'
+   and p_ano = 2024
+   and p_mes = 12;

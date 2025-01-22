@@ -1,6 +1,6 @@
 select *
   from cotizacion
- where num_ped in (236914);
+ where num_ped in (237850);
 
 select *
   from itemcot
@@ -16,15 +16,21 @@ select *
 
 select *
   from pedido
- where num_ped in (256600);
+ where num_ped in (258842);
+
+-- 20608751531
 
 select *
   from transporte
- where cod_transp = '20121837634';
+ where cod_transp = '20608751531';
 
 select *
   from transporte
- where nombre like '%CALIFORNIA%';
+ where nombre like '%MARY%';
+
+select *
+  from clientes
+ where cod_cliente = '10024496193';
 
 select *
   from itemped
@@ -1000,7 +1006,7 @@ select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as line
    and t.linea = l.cod_linea
    and n.cod_art(+) = a.cod_art
    and n.cod_alm(+) = 'F0'
-   and exists(
+   and exists (
    select *
      from tab_lineas lin
           join tab_grupos gpo on lin.grupo = gpo.grupo
@@ -1168,3 +1174,61 @@ select *
  where cod_cliente = '20100084768';
 
 -- RM-45 L1-N
+
+
+select *
+  from vendedores
+ where cod_vendedor = 'B12';
+
+select *
+  from vendedores
+ where cod_vendedor = '26';
+
+select *
+  from vendedores
+ where abreviada = 'JFLORES';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1207';
+
+select *
+  from usuarios
+ where usuario = 'JFLORES';
+
+select *
+  from usuarios_cotizacion
+ where usuario = user
+   and indicador3 = '1';
+
+select *
+  from usuarios_cotizacion
+ where usuario = 'JFLORES'
+   and indicador3 = '1';
+
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29
+   and codigo <> '....'
+   and codigo in (
+   select cod_vendedor
+     from vendedores
+    where abreviada = 'JFLORES'
+   )
+ union all
+select codigo, descripcion, indicador3
+  from tablas_auxiliares
+ where tipo = 29 and codigo <> '....'
+   and exists (
+   select usuario
+     from usuarios_cotizacion
+    where usuario = 'JFLORES'
+      and indicador3 = '1'
+   )
+ order by 1;
+
+select *
+  from tablas_auxiliares
+ where tipo = 29
+   and codigo = '26'
+ order by codigo;

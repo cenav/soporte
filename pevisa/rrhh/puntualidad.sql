@@ -1,4 +1,6 @@
-call puntualidad.automatico(2024, 11);
+call puntualidad.automatico(2024, 12);
+
+call puntualidad.email(2024, 12);
 
 select *
   from proceso_puntualidad
@@ -13,13 +15,13 @@ select *
  where id_proceso = 29
    and meses_consecutivos = 2;
 
-  select p.cod_personal, p.persona, p.cod_encargado, p.encargado, p.tot_he_hr
-       , p.tot_tardanza_hr, p.tingreso_fmt, p.trefrigerio_fmt, p.hes25_fmt, p.hes35_fmt, p.hedn_fmt
-    from vw_puntualidad p
-   where p.idperiodo = 3287
-     and p.tot_tardanza_hr = 0
-     and p.tot_he_hr >= 34
-     and p.cod_personal = 'E43229';
+select p.cod_personal, p.persona, p.cod_encargado, p.encargado, p.tot_he_hr
+     , p.tot_tardanza_hr, p.tingreso_fmt, p.trefrigerio_fmt, p.hes25_fmt, p.hes35_fmt, p.hedn_fmt
+  from vw_puntualidad p
+ where p.idperiodo = 3287
+   and p.tot_tardanza_hr = 0
+   and p.tot_he_hr >= 34
+   and p.cod_personal = 'E43229';
 
 select *
   from planilla10.personal
@@ -66,3 +68,17 @@ select v.idperiodo, v.cod_personal, v.persona, e.codigo as cod_encargado, e.nomb
    and v.cod_personal = 'E43229'
    and v.idperiodo = 3287
  group by v.idperiodo, v.cod_personal, v.persona, e.codigo, e.nombre;
+
+
+declare
+  l_emails     util.t_list := util.t_list();
+  l_emails_txt util.string_type;
+begin
+  l_emails := rrhh.all_bosses_mails_from_employee('E1137');
+  util.add_to_list(l_emails, 'jcabezas@pevisa.com.pe');
+  util.add_to_list(l_emails, 'icatalan@pevisa.com.pe');
+  util.add_to_list(l_emails, 'gthh@pevisa.com.pe');
+--   l_emails_txt := util.concat_list(l_emails, '; ');
+  l_emails_txt := util.concat_list(set(l_emails), '; ');
+  dbms_output.put_line(l_emails_txt);
+end;

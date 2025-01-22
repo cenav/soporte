@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like '%GAVELAN%'
+ where apellido_paterno like '%HUARI%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -16,12 +16,12 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like '%INFANTE%';
+ where apellido_paterno like '%REYMUNDO%';
 
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1198';
+   and c_codigo = 'E1145';
 
 select *
   from planilla10.t_cargo
@@ -408,3 +408,85 @@ select * from comision_ingeniero_tab;
 select *
   from amonestacion
  where numero in (485, 484);
+
+select *
+  from cese_personal
+ where id_personal = 'E017';
+
+
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+    )
+     , jerarquia(c_codigo, nombres, apellido_paterno, c_jefe) as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, c_jefe
+      from empleados e
+     where e.c_codigo = :p_codemp
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from jerarquia b
+           join empleados e on b.c_jefe = e.c_codigo
+     where e.c_codigo != e.c_jefe
+    )
+select b.c_jefe, e.nombres, e.apellido_paterno, e.email
+  from jerarquia b
+       join empleados e on b.c_jefe = e.c_codigo
+ where e.apellido_paterno not in ('WOLFENZON', 'LEVY');
+
+
+select id_proceso, ano, mes, id_personal, id_encargado, encargado, email_encargado
+  from vw_proceso_puntualidad
+ where ano = :p_ano
+   and mes = :p_mes
+ group by id_proceso, ano, mes, id_encargado, encargado, email_encargado, id_personal;
+
+select * from proceso_puntualidad_pers;
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '062';
+
+select h.id_proceso, h.id_periodo, extract(year from h.hasta) as ano
+     , extract(month from h.hasta) as mes, d.id_personal, d.persona, d.id_encargado, d.encargado
+     , p.email_encargado, d.tot_he_hr, d.hes25_fmt, d.hes35_fmt, d.hesdn_fmt, d.horas_libres
+  from proceso_puntualidad h
+       join proceso_puntualidad_pers d on h.id_proceso = d.id_proceso
+       left join vw_personal p on d.id_personal = p.c_codigo;
+
+-- vw_proceso_puntualidad
+select h.id_proceso, h.id_periodo, extract(year from h.hasta) as ano
+     , extract(month from h.hasta) as mes, d.id_personal, d.persona, d.id_encargado, d.encargado
+     , e.c_codigo as cod_encargado, p.email_encargado, d.tot_he_hr, d.hes25_fmt, d.hes35_fmt
+     , d.hesdn_fmt, d.horas_libres
+  from proceso_puntualidad h
+       join proceso_puntualidad_pers d on h.id_proceso = d.id_proceso
+       left join vw_personal p on d.id_personal = p.c_codigo
+       left join planilla10.tar_encarga e on d.id_encargado = e.codigo
+ where extract(year from h.hasta) = 2024
+   and extract(month from h.hasta) = 12;
+
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '034';
+
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E957';
+
+
+select *
+  from planilla10.personal
+ where nombres like '%DANIEL%'
+   and apellido_paterno like '%EZ%';
+
+
+select *
+  from planilla10.hr_personal
+ where c_codigo in (
+   'E1138'
+   );

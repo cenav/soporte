@@ -19,11 +19,11 @@ declare
   -- T6	35	141	347
     select *
       from kardex_g
-     where cod_alm = 'T6'
-       and tp_transac = '35'
-       and serie = 141
+     where cod_alm = 'D2'
+       and tp_transac = '16'
+       and serie = 3
        and numero in (
-                      347
+       156186
        )
      order by ing_sal desc, numero_pguia;
 

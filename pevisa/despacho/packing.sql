@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   60454
+   60711
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -52,28 +52,65 @@ select *
 -- packing por pedido
 select *
   from pk_glosa
- where pk_numero = 59965
-   and packlis = 164888;
+ where pk_numero = 60616
+   and packlis = 165777;
 
 -- cartones (cajas)
 select *
   from pk_pesos
- where pk_numero = 59965
-   and packlis = 164888;
+ where pk_numero = 60616
+   and packlis = 165777;
 
 -- productos en caja
 select *
   from pk_detal
- where pk_numero = 59965
-   and packlis = 164888
-   and caja = 'AQ5';
+ where pk_numero = 60616
+   and packlis = 165777;
 
+-- antiguo
+select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni
+     , round(d.canti * e.preuni, 2) as total_linea, d.ot_numero
+  from pk_detal d
+     , expedido_d e
+ where d.pk_serie = 1
+   and d.pk_numero = 60616
+   and d.numero = 16577
+   and d.numero = e.numero
+   and d.nro_ped = e.nro
+ order by d.numero, d.cod_art, d.numero, d.paleta, d.caja;
 
-select *
-  from pk_glosa
- where pk_numero = 59965
-   and packlis = 164888;
+-- nuevo con pesos
+select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni, p.pneto, p.pbruto
+     , round(d.canti * e.preuni, 2) as total_linea, d.ot_numero
+  from pk_pesos p
+     , pk_detal d
+     , expedido_d e
+ where d.pk_serie = 1
+   and d.pk_numero = 60616
+   and d.numero = 16577
+   and p.pk_numero = d.pk_numero
+   and p.pk_tipo = d.pk_tipo
+   and p.pk_serie = d.pk_serie
+   and p.packlis = d.packlis
+   and p.caja = d.caja
+   and p.embala = d.embala
+   and d.numero = e.numero
+   and d.nro_ped = e.nro
+ order by d.numero, d.cod_art, d.numero, d.paleta, d.caja;
 
+-- relacion pk_glosa > pk_pesos
+-- PACKLIS= PACKLIS AND
+-- PK_NUMERO = PK_NUMERO AND
+-- PK_SERIE = PK_SERIE AND
+-- PK_TIPO = PK_TIPO
+
+-- relacion pk_pesos > pk_detal
+-- PK_DETAL.PK_NUMERO =  PK_PESOS.PK_NUMERO AND
+-- PK_DETAL.PK_TIPO =  PK_PESOS.PK_TIPO  AND
+-- PK_DETAL.PK_SERIE =  PK_PESOS.PK_SERIE  AND
+-- PK_DETAL.PACKLIS  =  PK_PESOS.PACKLIS AND
+-- PK_DETAL.CAJA      =   PK_PESOS.CAJA AND
+-- PK_DETAL.EMBALA  =   PK_PESOS.EMBALA
 
 select count(*)
   from pk_pesos

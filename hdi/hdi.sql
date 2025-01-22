@@ -2023,3 +2023,9 @@ select *
   from factpag
  where cod_proveedor = '20100047218'
    and serie_num = '050';
+
+select *
+  from movfide_situacion_banco
+ where p_ano = 2024
+   and p_mes = 12
+   and cta_cte_banco = '191-9411292-0-54';

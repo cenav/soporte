@@ -828,3 +828,9 @@ select *
   from vehiculo_matpel
     as of timestamp to_timestamp('30-11-2024 10:00:00', 'DD-MM-YYYY HH24:MI:SS')
  where id_item = 22;
+
+select *
+  from pk_detal
+    as of timestamp to_timestamp('02-01-2025 15:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 59965
+   and packlis = 164888;

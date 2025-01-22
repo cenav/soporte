@@ -21,7 +21,7 @@ select *
 
 select *
   from pr_ot po
- where exists(
+ where exists (
    select *
      from pr_trasab_estado pte
     where pte.tipo = po.nuot_tipoot_codigo
@@ -35,7 +35,7 @@ select *
 select *
   from pr_ot po
  where po.boling != '240901'
-   and exists(
+   and exists (
    select *
      from pr_trasab_estado pte
     where pte.tipo = po.nuot_tipoot_codigo
@@ -54,7 +54,7 @@ select *
 update pr_ot po
    set po.boling = '240901'
      , po.origen = '240901'
- where exists(
+ where exists (
    select *
      from pr_trasab_estado pte
     where pte.tipo = po.nuot_tipoot_codigo
@@ -85,12 +85,18 @@ select * from tmp_programa_ordenes_ingresos;
 
 select *
   from pr_programas
---  where estado = 1
-order by id_programa desc;
+ where estado in (1, 2)
+ order by id_programa desc;
+
+select *
+  from pr_programas
+ where id_programa = '250101';
+
+select distinct estado from pr_programas;
 
 select *
   from pr_ot
- where boling = '240801';
+ where boling = '250101';
 
 select *
   from pr_ot p
@@ -99,10 +105,10 @@ select *
    and rownum = 1
    and get_descripcion_grupo_pieza(p.formu_art_cod_art) like 'ANILLOS';
 
--- PARA CREAR NUEVO PROGRAMA  PR
+-- PARA CREAR NUEVO PROGRAMA PR
 -- USANDO UNA ORDEN POR CADA GRUPO
 declare
-  p_nuevo_programa varchar2(06) := '240901';
+  p_nuevo_programa varchar2(06) := '250101';
   cursor c1 is
     select distinct get_descripcion_grupo_pieza(formu_art_cod_art) as grupo
       from pr_ot
@@ -114,7 +120,7 @@ declare
       from pr_ot
      where nuot_tipoot_codigo = 'PR'
        and get_descripcion_grupo_pieza(formu_art_cod_art) <> 'SAOS'
-       and boling in ('240901') --  PROGRAMA NUEVO--
+       and boling in ('250101') --  PROGRAMA NUEVO--
        and estado = 1
      order by 1;
 begin
@@ -132,3 +138,39 @@ begin
   end loop;
   dbms_output.put_line('-----------------------------');
 end;
+
+-- marca las ordenes de nuevo programa
+
+-- uno
+insert into pr_programas_produccion
+select p.boling, gr.id, 2025, 01, gr.descripcion, sum(p.cant_prog), null
+  from pr_ot p
+     , articul a
+     , pr_grupos_lineas gl
+     , pr_grupos gr
+ where p.estado <> '9'
+   and p.boling = '250101'
+   and p.formu_art_cod_art = a.cod_art
+   and gl.tp_art = a.tp_art
+   and gl.cod_fam = a.cod_fam
+   and gl.cod_lin = a.cod_lin
+   and gl.id_grupo = gr.id
+ group by gr.id, gr.descripcion, p.boling
+ order by gr.id;
+
+-- dos
+insert into pr_programas_produccion_d
+  (id_programa, id_grupo, pieza, cantidad_a_producir)
+select p.boling as id_programa, g.id as id_grupo, p.formu_art_cod_art as pieza
+     , sum(p.cant_prog) as cantidad_a_producir
+  from pr_ot p
+     , articul a
+     , pr_grupos_lineas gl
+     , pr_grupos g
+ where p.formu_art_cod_art = a.cod_art
+   and a.cod_lin = gl.cod_lin
+   and gl.id_grupo = g.id
+   and gl.tp_art = a.tp_art
+   and p.boling = '250101'
+   and p.estado <> '9'
+ group by p.boling, g.id, p.formu_art_cod_art;

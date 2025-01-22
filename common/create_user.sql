@@ -1,9 +1,13 @@
 -- CREAR EN USUARIOS
 select *
   from usuarios u
- where usuario in ('SVARGAS', 'ISAIAS_MECHATO');
+ where usuario in ('AMANTENIMIENTO', 'JHUARI');
 
-create user omar_torres
+select *
+  from vw_personal
+ where nombre like '%CHUQUIMAJO%';
+
+create user jhuari
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
@@ -11,11 +15,15 @@ create user omar_torres
   account unlock;
 
 -- 1 Role for RCARRION
-grant privilegios_usuarios_sig to omar_torres;
-alter user omar_torres default role all;
+grant privilegios_usuarios_sig to jhuari;
 
+alter user jhuari default role all;
 
-alter user omar_torres password expire;
+alter user jhuari password expire;
+
+select username, account_status, created, lock_date, expiry_date
+  from dba_users
+ where username like '%DOMINGUEZ%';
 
 
 -- PARA COPIAR DESDE OTRO USUARIO
@@ -60,5 +68,5 @@ select rowid, u.*
 
 select *
   from usuarios_cotizacion
- where usuario in ('MVARGAS', 'JSOTOMAYOR');
+ where usuario in ('SVALENCIA', 'JFLORES');
 

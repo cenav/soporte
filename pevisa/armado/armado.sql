@@ -2,7 +2,7 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and numero in (
-   1081223
+   1077509
    );
 
 select *

@@ -10,15 +10,14 @@ select *
  where ano = 2024
    and mes = 9
    and libro = '39'
-   and voucher = 90004;
+   and voucher = 103024;
 
 select *
   from movfide
  where ano = 2024
-   and mes = 8
-   and tipo = '1'
-   and voucher = 80005;
-
+   and mes = 10
+   and tipo = '2'
+   and voucher = 103024;
 
 select *
   from proveed
@@ -139,7 +138,12 @@ select *
 select *
   from caja_chica
  where serie = 1
-   and numero = 189;
+   and numero = 224;
+
+select *
+  from caja_chica_d
+ where serie = 1
+   and numero = 224;
 
 select *
   from plancta
@@ -224,6 +228,11 @@ select *
    and num_ped = 894;
 
 select *
+  from orden_de_compra_historia
+ where serie = 3
+   and num_ped = 921;
+
+select *
   from lg_condpag
  where cond_pag = '103';
 
@@ -253,3 +262,10 @@ select * from pla_control;
 
 -- +51 1 6151047
 -- +51 1 6151047
+
+
+select *
+  from cambdol
+ where fecha = to_date('07/01/2025', 'dd/mm/yyyy');
+
+select * from movglos_anexos;

@@ -1,11 +1,11 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user kcucho account unlock;
+alter user wcoronel account unlock;
 
-alter user CBOZA account lock;
+alter user odominguez account lock;
 
-alter user mmiranda identified by "mamalucy9+";
+alter user cchihuan identified by "Abc123456*";
 
-alter user gfalcon password expire;
+alter user klopez password expire;
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
@@ -14,7 +14,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%CBOZA%';
+ where username like '%LEON%';
 
 -- roxana tarrillo
 
@@ -52,7 +52,13 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('CCHIHUAN');
+ where co_usrusr in ('PGALVEZ', 'CWONG');
+
+select *
+  from seccrus
+ where co_usrusr in ('PEVISA');
+
+
 
 select *
   from all_constraints
@@ -73,14 +79,13 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%Factura con diferencia de precios%')
+ where upper(text) like upper('%SIN CERRAR%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%spastrana%')
+ where upper(text) like upper('%stock baterias%')
    and owner = 'PEVISA';
-
 
 select *
   from all_source
@@ -116,7 +121,7 @@ select 'APASTRANA', tp_art
 
 select *
   from seccrus
- where co_usrusr in ('MVILLANUEVA');
+ where co_usrusr in ('JENNY_LEON');
 
 select *
   from seccrus
@@ -1121,3 +1126,9 @@ select * from aut_rol_usuario order by id_rol;
 select *
   from aut_rol_usuario
  where usuario = 'FELIPE_CRUZ';
+
+select *
+  from pr_usualma
+ where usuario = 'RICARDO_TOVAR';
+
+select * from paramfa;

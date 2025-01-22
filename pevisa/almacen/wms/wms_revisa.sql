@@ -47,5 +47,8 @@ select x.cod_alm, x.cod_art, sum(decode(x.id, 'A', x.stock, 0)) as stock_wms
          ) x
  group by x.cod_alm, x.cod_art
 having (sum(decode(x.id, 'A', x.stock, 0)) - sum(decode(x.id, 'B', x.stock, 0))) <> 0
- order by 1, 2
+ order by 1, 2;
 
+select *
+  from articul
+ where cod_art = 'CRYO 500MM/25MIC';

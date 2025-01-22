@@ -8,11 +8,11 @@ declare
   cursor cr_ot_anular is
     select *
       from ot_mantto
-     where id_tipo = 'MQ'
-       and id_serie = 7
+     where id_tipo = 'PY'
+       and id_serie = 1
        and id_numero in (
-       10009
-      );
+       24
+       );
 
   function tiene_oc(
     p_tipo   ot_mantto.id_tipo%type

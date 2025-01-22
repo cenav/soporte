@@ -13,14 +13,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_VALIDACION_MATRIZ'
+      job_name => 'JOB_PROVISION_VENCIDA'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'notif_matriceria_calidad.listado'
-    , start_date => timestamp '2024-10-07 06:00:00 -5:00'
+    , job_action => 'REPORT_PROVISION_VENCIDA.ENVIA_CORREO'
+    , start_date => timestamp '2025-01-06 09:00:00 -5:00'
     , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON'
     , auto_drop => false
     , enabled => true
-    , comments => 'envio de correo de validaciones de matriz pendientes'
+    , comments => 'correo de proviciones de cuotas de OC vencidas'
   );
 end;
 
@@ -76,7 +76,13 @@ select *
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and job_name like '%PUNTUA%'
+   and job_name like '%VALID%'
+ order by job_name;
+
+select *
+  from dba_scheduler_jobs
+ where owner = upper('pevisa')
+   and job_action like '%VALID%'
  order by job_name;
 
 select *

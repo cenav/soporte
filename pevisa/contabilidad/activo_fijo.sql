@@ -36,12 +36,12 @@ select d.cod_alm, d.cod_art
      , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
  where d.estado != '9'
-   and exists(
+   and exists (
    select *
      from tmp_carga_data t
     where d.cod_art = t.cod_activo_fijo
    )
-   and exists(
+   and exists (
    select *
      from activo_fijo af
     where d.cod_art = af.cod_activo_fijo
@@ -113,7 +113,9 @@ select e.cod_activo_fijo, a.descripcion, a.abreviatura, c.descripcion as clase
 
 select *
   from activo_fijo
- where cod_activo_fijo = '04NOTE85';
+ where cod_activo_fijo in ('MQ2MATR-046', 'MQ2MATR-063');
+
+select * from activo_fijo_estado order by cod_estado;
 
 select *
   from activo_fijo_depreciacion

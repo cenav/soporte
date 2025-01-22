@@ -33,7 +33,9 @@ select *
    and cod_alm = 'F0'
    and tp_transac = '21'
    and serie = 25
-   and numero in (24513);
+   and numero in (
+   36837
+   );
 
 -- F0	21	25	14665
 
@@ -44,10 +46,10 @@ select *
 select *
   from kardex_g
  where cod_alm = 'F0'
-   and tp_transac = '35'
-   and serie = 149
+   and tp_transac = '21'
+   and serie = 25
    and numero in (
-   1
+   36837
    );
 
 -- TARRILLO PEREZ MARIA HILDA	AV AUGUSTO B LEGUIA 1287 URB SAN LORENZO
@@ -72,11 +74,11 @@ select *
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
- where cod_alm = '30'
-   and tp_transac = '35'
-   and serie = 131
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
    and numero in (
-   980
+   36837
    );
 
 --:::::::::::::::::::::::::::::::::::::::::--
@@ -157,11 +159,15 @@ select *
 
 select *
   from kardex_d
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero in (7371);
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (2629);
 
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T140'
+   and numero = 2629;
 
 select *
   from kardex_g_guia_remision
@@ -655,19 +661,21 @@ select *
    and numero = 2410
    and cod_art = '1416-1-DGR';
 
-insert into pevisa.kardex_g ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
-                            , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
-                            , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
-                            , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
-                            , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
-                            , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
-                            , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped
-                            , nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1
-                            , numero_2)
-values ( '63', '10', 139, 2422, date '2024-08-09', '35', 139, 2422, null, 'C', '20100084768', '04'
-       , null, 1, 'D', '03', null, 0.00, 0.00, '6', '3', '*', 'I', '0', null, null, null, null
-       , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN139', null
-       , null, null, null, null, null, null, null, null, null, null);
+insert into pevisa.kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref
+  , ser_doc_ref, nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur
+  , cond_pag, nro_lista, moneda, cod_vende, cliente_afecto, por_desc1
+  , por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion
+  , cod_transp, domicilio, ruc_transp, nombre, direccion, ruc, tara_co
+  , tara_bo, tara_ca, placa_transp, le_transp, cant_item, num_importa
+  , tipo_pguia, serie_pguia, numero_pguia, pr_procedencia, pr_numped
+  , nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1
+  , numero_2)
+values
+  ( '63', '10', 139, 2422, date '2024-08-09', '35', 139, 2422, null, 'C', '20100084768', '04'
+  , null, 1, 'D', '03', null, 0.00, 0.00, '6', '3', '*', 'I', '0', null, null, null, null
+  , 'PEVISA AUTO PARTS S.A.C.', null, null, null, null, null, null, null, 0, 'GN139', null
+  , null, null, null, null, null, null, null, null, null, null);
 
 select *
   from kardex_d
@@ -688,13 +696,65 @@ begin
        and numero in (2422)
     )
   loop
-    insert into pevisa.kardex_d ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
-                                , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado
-                                , cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
-                                , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta
-                                , pr_cosfob, pr_canthabi, pr_tipot, pr_numot, pr_numped)
-    values ( '63', '10', 139, 2422, r.cod_art, r.cantidad, 0.000000, 0.000000, date '2024-08-09'
-           , 0.00, 0.00, 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null
-           , null, null, null, null, r.cantidad, null, null, null);
+    insert into pevisa.kardex_d
+      ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d
+      , costo_s, fch_transac, por_desc1, por_desc2, imp_vvb, estado
+      , cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
+      , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta
+      , pr_cosfob, pr_canthabi, pr_tipot, pr_numot, pr_numped)
+    values
+      ( '63', '10', 139, 2422, r.cod_art, r.cantidad, 0.000000, 0.000000, date '2024-08-09'
+      , 0.00, 0.00, 0.000, '6', null, '*', 'I', null, null, 0.00, null, null, null, null, null
+      , null, null, null, null, r.cantidad, null, null, null);
   end loop;
 end;
+
+select *
+  from kardex_g
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (2629);
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T140'
+   and numero = 2629;
+
+select *
+  from vendedores
+ where cod_vendedor = 'L2';
+
+select *
+  from vwms_rec_guia;
+
+select g.tp_transac as rec_tipo, g.serie as rec_serie, g.numero as rec_numero
+     , g.fch_transac as rec_fecha, g.cod_alm as alm_origen, a.descripcion, l.cod_local
+     , g.cod_vende as alm_destino, g.glosa, d.cod_art, d.cantidad, d.cantidad as saldo
+     , d.pr_referencia
+  from kardex_g g
+     , kardex_d d
+     , almacenes a
+     , almacen_local l
+ where g.cod_alm like '%'
+   and g.tp_transac = '35'
+   and g.serie like '%'
+   and g.numero like '%'
+   and to_char(g.fch_transac, 'YYYYMM') >= '202411'
+   and g.estado <> '9'
+   and g.cod_vende = 'D5'
+   and d.cod_alm = g.cod_alm
+   and d.tp_transac = g.tp_transac
+   and d.serie = g.serie
+   and d.numero = g.numero
+   and a.cod_alm = d.cod_alm
+   and l.cod_alm = a.cod_alm
+--        AND G.NUMERO = '1768'
+---        ORDER BY G.COD_ALM,G.TP_TRANSAC,G.SERIE,G.NUMERO,ROWNUM
+   and not exists (
+   select w.rec_numero
+     from wms_rec_guia w
+    where w.rec_tipo = g.tp_transac
+      and w.rec_serie = g.serie
+      and w.rec_numero = g.numero
+   )

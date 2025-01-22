@@ -1,9 +1,11 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'VA'
+ where nuot_tipoot_codigo = 'PR'
    and numero in (
-   11172
+                  587333, 585839, 572808, 586030
    );
+
+alter trigger tbu_pr_ot_cambio_anulado disable;
 
 select * from pr_estadopr;
 
@@ -1535,3 +1537,58 @@ select *
   from wms_orden_oms_item
  where ot_tipo = 'PR'
    and ot_numero = 585385;
+
+-- reporte clo
+select cod_art, descripcion, cod_lin, pr_observacion
+  from articul
+ where cod_art like 'CL-O%';
+
+select *
+  from pcformulas
+ where cod_for = '200.2560CS-1';
+
+select to_char(d.fch_transac, 'YYYY') as ano, to_char(d.fch_transac, 'MM') as mes, d.cod_art
+     , a.cod_lin, p.formu_art_cod_art, sum(d.cantidad) as cantidad, sum(p.cant_prog) as cant_prog
+  from kardex_d_consumo d
+     , articul a
+     , tmp_faltantes f
+     , pr_ot p
+ where f.cod_art = a.cod_art
+   and d.cod_art = a.cod_art
+   and d.tp_transac in ('22', '29')
+   and d.fch_transac >= to_date('01/01/2024', 'dd/mm/yyyy')
+   and d.fch_transac <= to_date('31/12/2024', 'dd/mm/yyyy')
+   and p.nuot_tipoot_codigo = d.pr_tipot
+   and p.numero = d.pr_numot
+ group by to_char(d.fch_transac, 'YYYY'), to_char(d.fch_transac, 'MM'), d.cod_art, a.cod_lin
+        , p.formu_art_cod_art;
+
+
+select to_char(d.fch_transac, 'YYYY') as ano, to_char(d.fch_transac, 'MM') as mes, d.cod_art
+     , a.cod_lin, p.formu_art_cod_art, sum(d.cantidad) as cantidad, sum(p.cant_prog) as cant_prog
+  from kardex_d_consumo d
+     , articul a
+     , pr_ot p
+ where d.cod_art = a.cod_art
+   and d.tp_transac in ('22', '29')
+   and d.fch_transac >= to_date('01/01/2024', 'dd/mm/yyyy')
+   and d.fch_transac <= to_date('31/12/2024', 'dd/mm/yyyy')
+   and p.nuot_tipoot_codigo = d.pr_tipot
+   and p.numero = d.pr_numot
+   and a.cod_art = '95242TG'
+ group by to_char(d.fch_transac, 'YYYY'), to_char(d.fch_transac, 'MM'), d.cod_art, a.cod_lin
+        , p.formu_art_cod_art;
+
+select * from kardex_d_consumo;
+
+select *
+  from vacaciones
+ where numero = 19798;
+
+select * from paramfa;
+
+select * from pr_grupos;
+
+select * from articul_varios;
+
+select * from tmp_programa_ordenes_ingresos;

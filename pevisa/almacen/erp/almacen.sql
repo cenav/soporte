@@ -1,10 +1,18 @@
 select *
   from kardex_g
- where cod_alm = 'D5'
-   and tp_transac = '10'
-   and serie = 1
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 138
    and numero in (
-   1169
+   1021
+   );
+
+select *
+  from kardex_g
+ where tp_transac = '35'
+   and serie = 138
+   and numero in (
+   1021
    );
 
 select *
@@ -18,7 +26,11 @@ select *
 
 select *
   from almacen
- where cod_art = 'R-3883620';
+ where cod_art = 'FS 95035 GR';
+
+select *
+  from almacen
+ where cod_art = 'FS 93035 GR';
 
 select *
   from kardex_g
@@ -243,11 +255,11 @@ select *
 
 select *
   from kardex_g
- where cod_alm = '37'
+ where cod_alm = '01'
    and tp_transac = '16'
    and serie = 1
    and numero in (
-   204493
+   207622
    );
 
 select *
@@ -2450,3 +2462,63 @@ select *
    and extract(year from fch_transac) = 2024
    and extract(month from fch_transac) = 12
    and pr_numot = '671';
+
+select *
+  from kardex_g
+ where tp_transac = '16'
+   and serie = 1
+   and numero = 207622;
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T046'
+   and guia_numero = 130;
+
+select *
+  from kardex_d
+ where cod_alm = '91'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 207622
+   and cod_art = 'FS 93035 GR';
+
+select cod_art, descripcion, unidad, tp_art, cod_alm
+  from articul a
+ where exists (
+   select 1
+     from almacen l
+    where l.cod_art = a.cod_art
+      and l.cod_alm = :cod_alm01
+   )
+   and exists (
+   select 1
+     from linea_solicitud_material s
+    where s.tipo = 'EMBALAJE'
+      and a.cod_lin = s.cod_lin
+   )
+   and a.cod_art = 'SOL 820'
+ order by cod_art;
+
+select *
+  from linea_solicitud_material
+ where tipo = 'EMBALAJE'
+   and cod_lin in (
+                   '2155', '2152'
+   );
+
+select *
+  from tab_lineas
+ where linea in (
+                 '2155', '2152'
+   );
+
+select *
+  from articul
+ where cod_art in ('SOL 830', 'SOL 820');
+
+select *
+  from almacen
+ where cod_alm = 'SOL 820';
+
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D5', '27', 3, 156248, DATE '2024-10-30', 'PR', 8, 581154, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/581154', 'PR', '8', 581154, 'ORDPR', null, null, null, null, null, null, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 156248, 'RIBX 66110', 1400.0000, 0.000000, 0.000000, DATE '2024-10-30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 581154, null);

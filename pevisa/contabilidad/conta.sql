@@ -155,8 +155,13 @@ select *
 
 select *
   from caja_chica
- where serie = 7
-   and numero = 24116;
+ where serie = 2
+   and numero = 240134;
+
+select *
+  from caja_chica_d
+ where serie = 2
+   and numero = 240134;
 
 select *
   from caja_chica
@@ -270,12 +275,14 @@ select *
 
 select *
   from gastos_de_viaje_habilitado
- where id_vendedor = 'Z10'
+ where id_vendedor = 'B11'
    and numero = 100;
+
+select * from estado_gasto_viaje;
 
 select *
   from gastos_de_viaje_m
- where id_vendedor = 'Z10'
+ where id_vendedor = 'B11'
    and numero = 100;
 
 select *
@@ -568,5 +575,148 @@ select *
 
 select *
   from caja_chica
- where serie = 7
-   and numero = 24112;
+ where serie = 2
+   and numero = 250001;
+
+select *
+  from caja_chica_d
+ where numero = 250001;
+
+select *
+  from caja_chica
+ where estado = '1';
+
+select *
+  from caja_chica_d
+ where serie = 2
+   and numero = 240134;
+
+insert into pevisa.caja_chica_d
+  ( serie, numero, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+  , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+  , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+  , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+  , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+  , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+  , nro_transac, saldo, nombre_archivo, nombre_xml, nombre_cdr, tipo_bien)
+values
+  ( 2, 250001, 1, 'A5', 'P', '20601218942', '01', 'E001', '0002726', date '2024-12-27'
+  , 'TAXI - ALMC. PUNTA HERMOSA (IDA/VUELTA) LUIS ARIAS', 270.00, null, null, null, null
+  , date '2025-01-06', null, '9125', 'S', null, null, 270.00, null, null, '9800', null, null, null
+  , null, null, null, null, null, null, null, '033', null, null, null, null, null, null, null, null
+  , null, null, null, null, null, null, null);
+insert into pevisa.caja_chica_d
+  ( serie, numero, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+  , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+  , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+  , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+  , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+  , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+  , nro_transac, saldo, nombre_archivo, nombre_xml, nombre_cdr, tipo_bien)
+values
+  ( 2, 250001, 2, 'A7', 'P', '20606428309', '01', 'F201', '0006230', date '2025-01-02'
+  , 'ALMUERZO (J.W.)', 32.40, null, null, null, null, date '2025-01-06', null, '9125', 'S', 4.88
+  , 27.11, 0.41, null, null, '9800', null, null, null, null, null, null, null, null, null, null
+  , '033', null, null, null, null, null, null, null, null, null, null, null, null, null, null
+  , null);
+insert into pevisa.caja_chica_d
+  ( serie, numero, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+  , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+  , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+  , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+  , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+  , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+  , nro_transac, saldo, nombre_archivo, nombre_xml, nombre_cdr, tipo_bien)
+values
+  ( 2, 250001, 3, 'A7', 'P', '20606428309', '01', 'F201', '0006241', date '2025-01-03'
+  , 'BEBIDA (J.W.)', 8.90, null, null, null, null, date '2025-01-06', null, '9125', 'S', 1.34, 7.45
+  , 0.11, null, null, '9800', null, null, null, null, null, null, null, null, null, null, '033'
+  , null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+insert into pevisa.caja_chica_d
+  ( serie, numero, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+  , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+  , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+  , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+  , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+  , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+  , nro_transac, saldo, nombre_archivo, nombre_xml, nombre_cdr, tipo_bien)
+values
+  ( 2, 250001, 4, 'A7', 'P', '20505322674', '01', 'F012', '0025619', date '2025-01-03'
+  , 'ALMUERZO (J.W.)', 39.00, null, null, null, null, date '2025-01-06', null, '9125', 'S', 5.95
+  , 33.05, null, null, null, '9800', null, null, null, null, null, null, null, null, null, null
+  , '033', null, null, null, null, null, null, null, null, null, null, null, null, null, null
+  , null);
+insert into pevisa.caja_chica_d
+  ( serie, numero, item, codigo_motivo, tipo_relacion, codigo_relacion, tipo_referencia
+  , serie_referencia, nro_referencia, fecha_referencia, detalle, importe, valor_compra, impuesto
+  , estado, usuario, fecha_registro, f_vencto, cuenta_contable, moneda, igv, afecto, inafecto
+  , importe_d, ruta, centro_costo, ano, mes, libro, voucher, libro_caja, voucher_caja, item_caja
+  , cuenta_contable_analizada, id_maquina, id_tipo_mantto, codigo_grupo_compra, otm_serie
+  , otm_numero, otm_tipo, cod_art, cantidad, unidad_prv, alm_transac, tpo_transac, ser_transac
+  , nro_transac, saldo, nombre_archivo, nombre_xml, nombre_cdr, tipo_bien)
+values
+  ( 2, 250001, 5, 'SOAT', 'P', '20418896915', '01', 'F226', '0450931', date '2025-01-06'
+  , 'FORLAND - PLACA D3E829 / PRODUCCION (H.O.)', 160.00, null, null, null, null, date '2025-01-06'
+  , null, '1821', 'S', 24.41, 135.59, null, null, null, '9800', null, null, null, null, null, null
+  , null, null, null, null, '033', null, null, null, null, null, null, null, null, null, null, null
+  , null, null, null, null);
+
+select * from paramfa;
+
+select * from paramco;
+
+select c.cod_linea, l.descripcion
+  from cominac_concepto_linea c
+       join tab_lineas l on c.cod_linea = l.linea
+ where c.cod_concepto = '19'
+ order by lpad(c.cod_linea, 4, '0');
+
+select * from tab_lineas;
+
+select l.linea, l.descripcion
+  from tab_grupos g
+       join tab_lineas l on g.grupo = l.grupo
+ where g.ind_vta1 = '1000'
+ order by lpad(l.linea, 4, '0');
+
+
+select l.linea, l.descripcion
+  from tab_grupos g
+       join tab_lineas l on g.grupo = l.grupo
+ where g.grupo = '42'
+ order by lpad(l.linea, 4, '0');
+
+select *
+  from ot_mantto
+ where id_tipo = 'PY'
+   and id_numero = 574;
+
+-- OT sin cerrar
+select lpad(a.id_serie, 3, '0') as id_serie, lpad(a.id_numero, 6, '0') as id_numero
+     , c.descripcion as tipo, a.fecha_solicitud, a.estado, b.descripcion
+     , trunc(sysdate - a.fecha_solicitud) as dias
+     , trunc(months_between(sysdate, a.fecha_solicitud)) as meses, a.desc_solicitud
+  from ot_mantto a
+     , estado_otm b
+     , ot_mantto_tipo c
+ where a.estado = b.id_estado
+   and trunc(months_between(sysdate, a.fecha_solicitud)) >= 4
+   and a.fecha_cierre_mantto is null
+   and a.estado not in (4, 8, 9)
+   and a.id_tipo = c.id_tipo
+   and not exists (
+   select 1
+     from ot_mantto_justifica j
+    where j.id_tipo = a.id_tipo
+      and j.id_serie = a.id_serie
+      and j.id_numero = a.id_numero
+   )
+ order by 3;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'YDOMINGUEZ';
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'EESPINO';

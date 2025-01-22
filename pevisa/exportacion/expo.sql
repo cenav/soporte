@@ -143,14 +143,30 @@ select *
 select *
   from factcob
  where tipdoc = 'LV'
-   and numero = '21527';
+   and numero = '23886';
 
 select *
   from factcob
  where tipdoc = 'LV'
    and numero in (
-                  22867, 22868, 22869, 22870, 22871, 22872, 22873, 22874, 22875, 22876, 22877, 22878
+   23886
    );
+
+select *
+  from factcob_canje
+ where tipdoc = 'LV'
+   and numero = 23886;
+
+select *
+  from canjedoc
+ where tpodoc = 'LV'
+   and nrodoc = 23886;
+
+select *
+  from factcob_canje
+ where doccanje = 'J1'
+   and sercanje = '1'
+   and nrocanje = '97589';
 
 select *
   from tab_lineas
@@ -805,3 +821,65 @@ select *
 select *
   from exbooking_d
  where numero_booking = 'TER-68';
+
+select get_nuevo_precio_grupo(
+           p_pais => 50
+         , p_codart => 'CATALOGO PEVISA'
+         , p_vol => 5
+         , p_categoria => 2
+       )
+  from dual;
+
+select *
+  from lista_de_precios_paises
+ where id_pais = '50';
+
+select tab_grupos.id_mega_grupo
+  from articul_pev
+     , tab_grupos
+ where cod_art = 'CATALOGO PEVISA'
+   and tab_grupos.grupo = articul_pev.grupo;
+
+select grupo
+  from tab_mega_grupos
+ where id = '99';
+
+select sum(nvl(por_desc1, 0) + nvl(por_desc2, 0))
+  from tab_descuentos_paises
+ where id_pais = '50'
+   and id_mega_grupo = '99';
+
+
+select decode(3, 1, vta01, 2, vta02, 3, vta03, 0)
+  from exfactores_vta
+ where cod_art = 'CATALOGO PEVISA'
+   and pais = '4';
+
+-- falta
+select *
+  from exfactores_vta
+ where cod_art = 'RT 158 PLUS';
+
+
+select t.id_mega_grupo, t.grupo
+  from articul_pev a
+     , tab_grupos t
+ where a.cod_art = 'RT 158 PLUS'
+   and t.grupo = a.grupo;
+
+select *
+  from articul_pev
+ where cod_art = 'RT 158 PLUS';
+
+select *
+  from tab_grupos
+ where grupo = '27';
+
+select * from tab_mega_grupos;
+
+select f_maximo_descuento_pais_grupo(:p_pais, :p_mega_grupo, 'S')
+  from dual;
+
+select *
+  from exbooking
+ where numero_booking = '23154105';
