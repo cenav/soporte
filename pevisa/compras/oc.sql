@@ -1,9 +1,25 @@
 select *
   from orden_de_compra
- where serie = 30
+ where serie = 4
    and num_ped in (
-   750
+   64028
    );
+
+select * from orden_de_compra_estado;
+
+select *
+  from orden_de_compra
+ where num_ped = 64103;
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and extract(year from fecha) = 2025
+   and c_resp in ('E001', 'E139', 'E830', 'E832');
+
+select *
+  from planilla10.personal
+ where nombres like '%ANNIE%';
 
 select *
   from orden_de_compra
@@ -11,9 +27,16 @@ select *
 
 select *
   from itemord
- where serie = 6
+ where serie = 30
    and num_ped in (
-   3549
+   788
+   );
+
+select *
+  from orden_de_compra_historia
+ where serie = 3
+   and num_ped in (
+   45752
    );
 
 select *
@@ -488,7 +511,9 @@ select h.c_codigo, planilla10.pr_nombre(h.c_codigo) as nombre
    )
  order by 1;
 
-select * from lg_personal_compras_series;
+select *
+  from lg_personal_compras_series
+ where codigo_personal = 'E618';
 
 select *
   from orden_de_compra
@@ -1022,3 +1047,94 @@ select *
 select *
   from caja_chica
  where numero = 25001;
+
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and fecha between add_months(sysdate, -6) and sysdate
+   and serie in (3, 4, 8)
+   and (exists (
+   select 1
+     from usuarios u
+    where orden_de_compra.c_resp =
+          u.codigo_trabajador
+      and u.usuario = :p_user
+   )
+   or :p_user = 'PEVISA')
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   )
+   and serie = 3
+   and num_ped = 45751;
+
+select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped = 45751;
+
+select *
+  from orden_de_compra
+ where estado = '2'
+   and c_resp = 'E017'
+   and extract(year from fecha) = 2025;
+
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and fecha between add_months(sysdate, -6) and sysdate
+   and serie in (3, 4, 8)
+   and (exists (
+   select 1
+     from usuarios u
+    where orden_de_compra.c_resp =
+          u.codigo_trabajador
+      and u.usuario = :p_user
+   )
+   or :p_user = 'PEVISA')
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   );
+
+select *
+  from usuarios
+ where codigo_trabajador = 'E159';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%WOLFENZON%'
+   and situacion not in ('8', '9');
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%PASTRANA%'
+   and situacion not in ('8', '9');
+
+select *
+  from orden_de_compra
+ where estado = '2'
+   and c_resp in ('E832', 'E830');
+
+select *
+  from lg_personal_compras_series
+ where serie_orden_de_compra in (3, 13)
+   and codigo_personal in ('E139', 'E001');
+
+select *
+  from lg_personal_compras_series s
+       join vw_personal p on s.codigo_personal = p.c_codigo
+ where s.serie_orden_de_compra in (3, 13);
+
+
+select * from proceso_cominac_concepto;
+
+select sysdate from dual;

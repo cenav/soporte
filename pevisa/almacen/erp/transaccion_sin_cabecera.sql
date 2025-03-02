@@ -121,3 +121,7 @@ select *
    and extract(month from fch_transac) = 5
    and tipo_pguia = 'FC'
    and serie_pguia = '1';
+
+select sysdate from dual;
+
+select * from pr_variables;

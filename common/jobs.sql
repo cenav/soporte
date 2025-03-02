@@ -39,14 +39,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_ACTUALIZA_PARAM_PRODUCCION'
+      job_name => 'JOB_MATRIZ_VS_PIEZA'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'sp_actualiza_param_produccion'
-    , start_date => timestamp '2024-10-15 00:00:00 -5:00'
+    , job_action => 'pkg_matriz_vs_pieza_xls.listado'
+    , start_date => timestamp '2025-02-09 23:50:00 -5:00'
     , repeat_interval => 'FREQ=DAILY'
     , auto_drop => false
     , enabled => true
-    , comments => 'actualiza parametro de boleta y fecha de produccion'
+    , comments => 'herramental vs pieza registrado por operarios de produccion'
   );
 end;
 
@@ -60,7 +60,7 @@ end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
-call dbms_scheduler.drop_job('JOB_CORREO_CALIDAD_EMBARQUES');
+call dbms_scheduler.drop_job('JOB_MATRIZ_VS_PIEZA');
 
 --call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
 
@@ -76,7 +76,7 @@ select *
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and job_name like '%VALID%'
+   and job_name like '%PUNTUALIDAD%'
  order by job_name;
 
 select *

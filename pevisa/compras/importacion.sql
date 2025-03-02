@@ -276,3 +276,7 @@ select *
    and cod_art = 'BL450.502SP';
 
 select * from estados_liberacion_producto;
+
+select *
+  from embarques_g
+ where numero_embarque = 5148;

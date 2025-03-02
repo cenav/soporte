@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   60711
+   61110
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -42,7 +42,7 @@ select *
 select *
   from pk_gnumero
  where pk_numero in (
-   59965
+   60880
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -98,25 +98,34 @@ select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni, p.pneto, p.pbruto
    and d.nro_ped = e.nro
  order by d.numero, d.cod_art, d.numero, d.paleta, d.caja;
 
--- relacion pk_glosa > pk_pesos
--- PACKLIS= PACKLIS AND
--- PK_NUMERO = PK_NUMERO AND
--- PK_SERIE = PK_SERIE AND
--- PK_TIPO = PK_TIPO
 
--- relacion pk_pesos > pk_detal
--- PK_DETAL.PK_NUMERO =  PK_PESOS.PK_NUMERO AND
--- PK_DETAL.PK_TIPO =  PK_PESOS.PK_TIPO  AND
--- PK_DETAL.PK_SERIE =  PK_PESOS.PK_SERIE  AND
--- PK_DETAL.PACKLIS  =  PK_PESOS.PACKLIS AND
--- PK_DETAL.CAJA      =   PK_PESOS.CAJA AND
--- PK_DETAL.EMBALA  =   PK_PESOS.EMBALA
+--::::::::::::::::::::::::::::::::::::--
+--        estado = 7 cerrado      --
+--::::::::::::::::::::::::::::::::::::--
 
-select count(*)
-  from pk_pesos
- where packlis = 161400
-   and caja = 'AA8'
-   and pk_numero = 59682;
+-- cierra packing estado 7
+select *
+  from pk_gnumero
+ where pk_numero in (
+   59965
+   );
+
+update pk_paletas_cierre c
+   set pk_tipo = 'PK'
+ where pk_numero in (
+   59965
+   )
+   and pk_tipo = 'P'
+   and not exists (
+   select 1
+     from pk_paletas_cierre z
+    where z.pk_tipo = 'PK'
+      and z.pk_numero = c.pk_numero
+      and z.numero_paleta = c.numero_paleta
+   );
+
+--::::::::::::::::::::::::::::::::::::--
+--::::::::::::::::::::::::::::::::::::--
 
 
 select sum(canti)

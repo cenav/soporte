@@ -9,9 +9,20 @@ select *
 select *
   from movdeta
  where ano = 2024
-   and mes = 9
-   and libro = '28'
-   and voucher = 90043;
+   and mes = 12
+   and libro = '08'
+   and voucher = 121120;
+
+select *
+  from tmp_moviart_dos
+ where docto = 'FCN24327';
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero = 10758;
 
 select *
   from movdeta
@@ -155,8 +166,8 @@ select *
 
 select *
   from caja_chica
- where serie = 2
-   and numero = 240134;
+ where serie = 7
+   and numero = 25018;
 
 select *
   from caja_chica_d
@@ -274,9 +285,13 @@ select *
    );
 
 select *
+  from usuarios
+ where usuario = 'MMIRANDA';
+
+select *
   from gastos_de_viaje_habilitado
  where id_vendedor = 'B11'
-   and numero = 100;
+   and numero = 101;
 
 select * from estado_gasto_viaje;
 
@@ -720,3 +735,88 @@ select *
 select *
   from usuarios_caja_chica
  where usuario = 'EESPINO';
+
+select * from ruta_docvirtual;
+
+
+select h.c_codigo, planilla10.pr_nombre(h.c_codigo) as nombre
+  from planilla10.personal h
+ where h.tipo_tra = 'E'
+   and h.situacion < '8'
+   and h.c_codigo in (
+   select lg.codigo_personal
+     from lg_personal_compras_series lg
+    where lg.serie_orden_de_compra = :ORDEN.serie
+   )
+ order by 1;
+
+select * from lg_personal_compras_series;
+
+-- usuarios aprobacion oc
+select l.serie_orden_de_compra, l.codigo_personal, p.nombre
+  from lg_personal_compras_series l
+       join vw_personal p on l.codigo_personal = p.c_codigo
+ order by codigo_personal, serie_orden_de_compra;
+
+select * from paramlg;
+
+select user, a.cod_art, 1, 0
+  from tmp_articul_costos_pais a
+ where usuario = user
+ group by user, a.cod_art;
+
+
+insert into tmp_articul_costos_pais
+  (usuario, cod_art, pais, cantidad, vta01, vta02, vta03, ventas, costo, detalle_1, detalle_2)
+values
+  ( user, :EXFACTORES_VTA.cod_art, :EXFACTORES_VTA.pais, 1, :EXFACTORES_VTA.vta01
+  , :EXFACTORES_VTA.vta02, :EXFACTORES_VTA.vta03, x_venta, x_costo_nn, :EXFACTORES_VTA.pais
+  , :EXFACTORES_VTA.x_abreviada);
+
+insert into tmp_articul_costos_pais
+  (usuario, cod_art, pais, cantidad, vta01, vta02, vta03, ventas, costo, detalle_1, detalle_2)
+values
+  ( user, :EXFACTORES_VTA.cod_art, :EXFACTORES_VTA.pais, 1, :EXFACTORES_VTA.vta01
+  , :EXFACTORES_VTA.vta02, :EXFACTORES_VTA.vta03, x_venta, x_costo_nn, :EXFACTORES_VTA.pais
+  , :EXFACTORES_VTA.x_abreviada);
+
+insert into tmp_articul_costos_pais
+  (usuario, cod_art, pais, cantidad, vta01, vta02, vta03, ventas, costo, detalle_1, detalle_2)
+select user, cod_art, pais, 1, pvta1, pvta2, pvta3, catalogo, estado, vta01, vta02, vta03, vta04
+     , vta05, c2, c3
+  from exfactores_vta
+ where nvl(estado, '0') = '0'
+   and cod_art in (
+   select cod_art
+     from articul_pev
+    where linea <> 'ZZ'
+   )
+   and pais = 1;
+
+
+select *
+  from tmp_articul_costos_pais
+ where usuario = 'PEVISA';
+
+delete tmp_ventas
+ where usuario = user;
+
+begin
+  insert into tmp_ventas
+  select user, a.cod_art, 1, 0
+    from tmp_articul_costos_pais a
+   where usuario = user
+   group by user, a.cod_art;
+exception
+  when others then null;
+end;
+
+begin
+  pr_explosion_para_costear_1niv();
+end;
+
+select * from log_auditoria;
+
+select *
+  from vendedores
+ where cod_vendedor = 'E1';

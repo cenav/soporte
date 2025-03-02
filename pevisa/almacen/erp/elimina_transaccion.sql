@@ -3,27 +3,30 @@ declare
   l_total_g simple_integer := 0;
   l_total_d simple_integer := 0;
 
-  cursor trx is
---     select cod_alm, tp_transac, serie, numero
---       from tmp_carga_data;
---     select g.*
---       from kardex_g g
---            join kardex_g_historia h
---                 on g.cod_alm = h.cod_alm
---                   and g.tp_transac = h.tp_transac
---                   and g.serie = h.serie
---                   and g.numero = h.numero
---      where trunc(h.fecha) = to_date('10/09/2024', 'dd/mm/yyyy')
---        and h.usuario = 'PEVISA'
---      order by ing_sal desc;
-  -- T6	35	141	347
+--   cursor trx is --> transacciones de una orden por codigo de pieza
+--     select *
+--       from kardex_g
+--      where exists (
+--        select *
+--          from kardex_d
+--         where kardex_g.cod_alm = kardex_d.cod_alm
+--           and kardex_g.tp_transac = kardex_d.tp_transac
+--           and kardex_g.serie = kardex_d.serie
+--           and kardex_g.numero = kardex_d.numero
+--           and pr_tipot = 'PR'
+--           and pr_numot = 590741
+--           and cod_art in ('RIBX 90003', 'RING 90003N')
+--        );
+
+
+  cursor trx is --> por número de transaccion
     select *
       from kardex_g
-     where cod_alm = 'D2'
+     where cod_alm = '37'
        and tp_transac = '16'
-       and serie = 3
+       and serie = 1
        and numero in (
-       156186
+       207999
        )
      order by ing_sal desc, numero_pguia;
 

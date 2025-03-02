@@ -14,8 +14,18 @@ select *
 
 select *
   from factpag
- where cod_proveedor = '20100047218'
-   and numero = '5388829';
+ where cod_proveedor = '20611401486'
+   and numero = '0000043'
+ union all
+select *
+  from factpag
+ where cod_proveedor = '20611401486'
+   and numero = '0000037';
+
+select *
+  from orden_de_compra
+ where serie = 5
+   and num_ped in (2916, 2912, 2926, 2929, 2942);
 
 -- 0337221
 
@@ -67,8 +77,24 @@ select *
 
 select *
   from pagos_h
- where serie_planilla = 42
-   and numero_planilla in (135);
+ where serie_planilla = 34
+   and numero_planilla in (2327);
+
+select *
+  from pagos_h
+ where serie_planilla in (:serie_planilla, :serie_planilla_d)
+   and estado = 2
+   and forma_de_pago = 'TRAN'
+   and (
+         select count(1)
+           from pagos_i
+          where serie_planilla = pagos_h.serie_planilla
+            and numero_planilla = pagos_h.numero_planilla
+            and tipdoc in ('AV', 'CV')
+         ) > 0;
+
+select distinct estado
+  from pagos_h;
 
 select *
   from pagos_i
@@ -249,7 +275,7 @@ select * from embarques_d;
 select *
   from docu_ag
  where numero in (
-                  5477, 5555
+   5835
    );
 
 select *
@@ -319,7 +345,11 @@ select *
   from item_ag
  where numero = 5258;
 
-select * from pagos_i;
+select *
+  from pagos_i
+ where serie_planilla = 3
+   and numero_planilla = 3466
+   and cod_proveedor = 'E43495';
 
 select *
   from pagos_h
@@ -349,3 +379,25 @@ select *
  where cta_cte_banco = '191-9411292-0-54'
    and p_ano = 2024
    and p_mes = 12;
+
+select *
+  from orden_de_compra
+ where serie = 13
+   and num_ped = 5495;
+
+select c.fecha, c.tipo_cambio, c.import_cam
+  from cambdol c
+     , (
+    select to_date('13/02/2025', 'dd/mm/yyyy') as xxx
+      from dual
+    ) s
+ where to_number(to_char(fecha, 'YYYY')) = 2025
+   and to_number(to_char(fecha, 'MM')) = 1
+   and tipo_cambio = 'VG'
+   and fecha <= s.xxx
+ order by fecha desc;
+
+select *
+  from cambdol
+ where tipo_cambio = 'C'
+   and fecha = to_date('05/02/2025', 'dd/mm/yyyy');

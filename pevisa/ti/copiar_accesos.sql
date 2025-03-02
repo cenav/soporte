@@ -1,15 +1,20 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'LUZ_LOPEZ';
+ where username like '%VGOMEZ%';
 
 select *
   from usuarios
- where usuario = 'YDOMINGUEZ';
+ where usuario = 'JMEJIA';
+
+select *
+  from usuarios
+ where nombres like '%MEJIA%';
 
 declare
-  k_newusr varchar2(30) := 'PAPEL';
+  k_newusr varchar2(30) := 'VVELAZCO';
 begin
+
   delete from seccrus where co_usrusr = k_newusr;
 
   delete from tab_menu where usuario = k_newusr;
@@ -25,14 +30,17 @@ begin
   delete from usuarios_almacenes_perfil where usuario = k_newusr;
 
   delete from pr_usualma where usuario = k_newusr;
+
+  delete from usuarios_cotizacion where usuario = k_newusr;
+
 end;
 
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'AMANTENIMIENTO';
-  k_newusr varchar2(30) := 'JHUARI';
+  k_oldusr varchar2(30) := 'NYABAR';
+  k_newusr varchar2(30) := 'APINEDO';
 begin
 
   insert into seccrus
@@ -79,14 +87,27 @@ begin
    where id_alterno = k_oldusr;
 
   insert into usuarios_almacenes
-  select k_newusr, cod_alm, estado
-    from usuarios_almacenes
-   where usuario = k_oldusr;
+  select k_newusr, ua.cod_alm, ua.estado
+    from usuarios_almacenes ua
+   where ua.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_almacenes ua2
+      where ua2.cod_alm = ua.cod_alm
+        and ua2.usuario = k_newusr
+     );
 
   insert into usuarios_almacenes_perfil
-  select k_newusr, cod_alm, tp_transac, insertar_registros, consulta, estado
-    from usuarios_almacenes_perfil
-   where usuario = k_oldusr;
+  select k_newusr, ua.cod_alm, ua.tp_transac, ua.insertar_registros, ua.consulta, ua.estado
+    from usuarios_almacenes_perfil ua
+   where ua.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_almacenes_perfil ua2
+      where ua2.cod_alm = ua.cod_alm
+        and ua2.tp_transac = ua.tp_transac
+        and ua2.usuario = k_newusr
+     );
 
   insert into pr_usualma(cod_alm, usuario, nombre)
   select ua.cod_alm, k_newusr, k_newusr
@@ -144,11 +165,27 @@ begin
         and u2.usuario = k_newusr
      );
 
+  insert into usuarios_cotizacion( usuario, indicador1, indicador2, indicador3, minimo
+                                 , aprobacion_netos, cod_supervisor)
+  select k_newusr, u.indicador1, u.indicador2, u.indicador3, u.minimo
+       , u.aprobacion_netos, u.cod_supervisor
+    from usuarios_cotizacion u
+   where u.usuario = k_oldusr
+     and not exists (
+     select *
+       from usuarios_cotizacion u2
+      where u2.usuario = u.usuario
+        and u2.usuario = k_newusr
+     );
 end;
 
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
+
+select *
+  from usuarios_cotizacion
+ where usuario in ('VGOMEZ', 'JZANABRIA');
 
 select co_usrusr, co_ctrctr, co_clave, nombres
   from seccrus s
@@ -162,7 +199,11 @@ select co_usrusr, co_ctrctr, co_clave, nombres
 
 select *
   from seccrus
- where co_usrusr = 'OMAR_TORRES';
+ where co_usrusr = 'VVELAZCO';
+
+select *
+  from tab_lineas
+ where linea in ('144', '233', '271');
 
 select *
   from tab_menu t
@@ -203,11 +244,11 @@ select usuario, cod_alm, tp_transac, insertar_registros, consulta, estado
 
 select cod_alm
   from pr_usualma
- where usuario = 'JHUARI';
+ where usuario = 'ACOLLAZOS';
 
 select cod_alm
   from pr_usualma
- where usuario = 'DRODRIGUEZS';
+ where usuario = 'MGUITERREZ';
 
 select *
   from pr_usualma ua
@@ -221,7 +262,11 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('EINFANTE', 'JENNY_LEON');
+ where co_usrusr in ('JMEJIA');
+
+select *
+  from seccrus
+ where co_ctrctr like '%WMS%';
 
 select *
   from aut_rol_usuario
@@ -234,3 +279,11 @@ select *
 select *
   from usuarios_tipos
  where usuario = 'YDOMINGUEZ';
+
+select *
+  from usuario_modulo
+ where usuario = 'JQUISPEB';
+
+select *
+  from usuario_modulo
+ where usuario = 'CNAVARRO';

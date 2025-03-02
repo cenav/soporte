@@ -2,12 +2,14 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  587333, 585839, 572808, 586030
+   601144
    );
 
 alter trigger tbu_pr_ot_cambio_anulado disable;
 
 select * from pr_estadopr;
+
+select * from pr_variables;
 
 -- 1081223 AR
 
@@ -24,7 +26,7 @@ select *
 
 select *
   from articul
- where cod_art = '180.866NY';
+ where cod_art = 'R-23682-30020';
 
 select *
   from pr_formu
@@ -54,7 +56,7 @@ select *
 select *
   from pr_trasab_estado
  where tipo = 'PR'
-   and numero = 573591
+   and numero = 572610
  order by fecha desc;
 
 
@@ -1592,3 +1594,50 @@ select * from pr_grupos;
 select * from articul_varios;
 
 select * from tmp_programa_ordenes_ingresos;
+
+select *
+  from pr_ot_cierres
+ where nuot_tipoot_codigo = 'VA'
+   and numero = 11176;
+
+-- ingresos por produccion 2024
+select d.cod_alm, w.descripcion as almacen, d.tp_transac, t.descripcion as transaccion, a.cod_art
+     , sum(case extract(month from d.fch_transac) when 01 then d.cantidad else 0 end) as ene
+     , sum(case extract(month from d.fch_transac) when 02 then d.cantidad else 0 end) as feb
+     , sum(case extract(month from d.fch_transac) when 03 then d.cantidad else 0 end) as mar
+     , sum(case extract(month from d.fch_transac) when 04 then d.cantidad else 0 end) as abr
+     , sum(case extract(month from d.fch_transac) when 05 then d.cantidad else 0 end) as may
+     , sum(case extract(month from d.fch_transac) when 06 then d.cantidad else 0 end) as jun
+     , sum(case extract(month from d.fch_transac) when 07 then d.cantidad else 0 end) as jul
+     , sum(case extract(month from d.fch_transac) when 08 then d.cantidad else 0 end) as ago
+     , sum(case extract(month from d.fch_transac) when 09 then d.cantidad else 0 end) as sep
+     , sum(case extract(month from d.fch_transac) when 10 then d.cantidad else 0 end) as oct
+     , sum(case extract(month from d.fch_transac) when 11 then d.cantidad else 0 end) as nov
+     , sum(case extract(month from d.fch_transac) when 12 then d.cantidad else 0 end) as dic
+     , sum(d.cantidad) as total
+  from kardex_d d
+       join articul a on d.cod_art = a.cod_art
+       left join almacenes w on d.cod_alm = w.cod_alm
+       left join transacciones_almacen t on d.tp_transac = t.tp_transac
+ where a.cod_lin in (
+                     '800', '801', '810', '826', '829', '852', '854'
+   )
+   and extract(year from d.fch_transac) = 2024
+   and d.tp_transac = '18'
+--    and w.descripcion not like '%FAUCETT%'
+--    and a.cod_art = 'PHD 115.770'
+ group by d.cod_alm, d.tp_transac, a.cod_art, w.descripcion, t.descripcion
+ order by cod_art;
+
+select * from almacenes;
+
+select *
+  from emite_op_log
+ where not exists (
+   select 1
+     from pr_ot
+    where numero = emite_op_log.numero
+      and estado = '9'
+   )
+   and creacion_quien = 'PEVISA'
+ order by creacion_cuando desc;

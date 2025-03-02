@@ -281,7 +281,7 @@ select * from cabfpag;
 select *
   from comisiones_planilla
  where ano = 2024
-   and mes = 3
+   and mes = 12
    and origen = 'PROD';
 
 select *
@@ -317,3 +317,19 @@ select * from cominac_concepto_rango;
 select *
   from cominac_concepto_venta_grupal
  where cod_concepto = 458;
+
+select *
+  from comisiones_planilla
+ where ano = 2024
+   and mes = 12
+   and origen = 'PROD';
+
+select * from comision_ingeniero;
+
+select *
+  from proceso_bono_oa
+ order by periodo_ini desc, codigo desc;
+
+select *
+  from proceso_bono_oa
+ where extract(year from periodo_ini) = 2024;

@@ -283,3 +283,7 @@ select lpad(a.id_serie, 3, '0') as id_serie, lpad(a.id_numero, 6, '0') as id_num
 begin
   pkg_notificaciones.notificar_cierre_otm();
 end;
+
+select *
+  from personal_mantto
+ where admin = 'S';

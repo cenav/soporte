@@ -1,16 +1,25 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'AR'
+ where nuot_tipoot_codigo = 'SA'
    and numero in (
-   1077509
+   4137
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1081223
+   1065871
    );
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'SA'
+   and numero in (
+   3480
+   );
+
+select * from estado_cambio_oa;
 
 select *
   from pr_ot
@@ -110,8 +119,10 @@ select p.c_codigo as cod_personal
   from planilla10.personal p
        join planilla10.tar_secc s on p.seccion = s.codigo
  where c_area = '004'
-   and p.situacion not in (select codigo
-                             from planilla10.t_situacion_cesado);
+   and p.situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 
 select * from planilla10.t_area;
@@ -142,11 +153,13 @@ select *
   from produccion_armado a
  where a.id_linea_prod = '05'
    and a.estado = 2
-   and not exists (select *
-                     from pr_ot o
-                    where a.numero_oa = o.numero
-                      and o.nuot_tipoot_codigo = 'AR'
-                      and o.estado = '9');
+   and not exists (
+   select *
+     from pr_ot o
+    where a.numero_oa = o.numero
+      and o.nuot_tipoot_codigo = 'AR'
+      and o.estado = '9'
+   );
 
 select *
   from produccion_armado
@@ -156,10 +169,12 @@ select *
   from produccion_armado
  where id_linea_prod = '05'
    and estado <> 5
-   and nvl((select estado
-              from pr_ot
-             where numero = produccion_armado.numero_oa
-               and nuot_tipoot_codigo = 'AR'), 0) = 4;
+   and nvl((
+             select estado
+               from pr_ot
+              where numero = produccion_armado.numero_oa
+                and nuot_tipoot_codigo = 'AR'
+             ), 0) = 4;
 
 select estado
   from pr_ot
@@ -176,10 +191,12 @@ select *
   from produccion_armado
  where id_linea_prod = '05'
    and estado <> 5
-   and nvl((select estado
-              from pr_ot
-             where numero = produccion_armado.numero_oa
-               and nuot_tipoot_codigo = 'AR'), 0) = 4;
+   and nvl((
+             select estado
+               from pr_ot
+              where numero = produccion_armado.numero_oa
+                and nuot_tipoot_codigo = 'AR'
+             ), 0) = 4;
 
 
 select *
@@ -198,11 +215,13 @@ select distinct estado from produccion_armado;
 
 select *
   from produccion_armado a
- where not exists (select *
-                     from pr_ot o
-                    where a.numero_oa = o.numero
-                      and o.nuot_tipoot_codigo = 'AR'
-                      and o.estado = '9');
+ where not exists (
+   select *
+     from pr_ot o
+    where a.numero_oa = o.numero
+      and o.nuot_tipoot_codigo = 'AR'
+      and o.estado = '9'
+   );
 
 
 select *
@@ -217,39 +236,43 @@ select rtrim(p.apellido_paterno) || ' ' || rtrim(p.apellido_materno) || ', ' ||
   from planilla10.personal p
        join planilla10.tar_secc s on p.seccion = s.codigo
  where c_area = '004'
-   and p.situacion not in (select codigo
-                             from planilla10.t_situacion_cesado);
+   and p.situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 select c.cod_caja, c.estado, c.abrev_cli, c.cantidad, c.tipo_caja, c.nvl_contenido, c.dato_agrupa
      , c.recibe, h.linea_prod, max(fecha)
-  from (select c.cod_caja, c.estado, null as abrev_cli, c.cantidad, c.tipo_caja, c.nvl_contenido
-             , '' as dato_agrupa, c.recibe
-          from produccion_armado_cajas c
-             , produccion_armado_log l
-         where c.cod_caja = l.cod_caja(+)
-           and l.id_linea_prod is null and c.estado = '1'
-         union
-        select c.cod_caja, c.estado, decode(substr(p.dato_agrupa, 1, 1), '2', 'LIMA',
-                                            p.abrev_cli) as abrev_cli
-             , c.cantidad, c.tipo_caja
-             , c.nvl_contenido, p.dato_agrupa, c.recibe
-          from produccion_armado_log l
-             , produccion_armado p
-             , produccion_armado_cajas c
-         where l.numero_oa = p.numero_oa and l.cod_caja = c.cod_caja
-           and c.estado in (1, 2) and (nvl_contenido = 'NLL' or c.estado = 1)
-           and p.dato_agrupa = :x_dato_agrupa
-         union
-        select c.cod_caja as cod_caja, c.estado, decode(substr(p.dato_agrupa, 1, 1), '2', 'LIMA',
-                                                        p.abrev_cli) as abrev_cli
-             , c.cantidad
-             , c.tipo_caja, c.nvl_contenido, p.dato_agrupa, c.recibe
-          from produccion_armado_log l
-             , produccion_armado p
-             , produccion_armado_cajas c
-         where l.numero_oa = p.numero_oa and l.cod_caja = c.cod_caja
-           and c.estado = '1'
-           and p.dato_agrupa <> :x_dato_agrupa) c
+  from (
+    select c.cod_caja, c.estado, null as abrev_cli, c.cantidad, c.tipo_caja, c.nvl_contenido
+         , '' as dato_agrupa, c.recibe
+      from produccion_armado_cajas c
+         , produccion_armado_log l
+     where c.cod_caja = l.cod_caja(+)
+       and l.id_linea_prod is null and c.estado = '1'
+     union
+    select c.cod_caja, c.estado, decode(substr(p.dato_agrupa, 1, 1), '2', 'LIMA',
+                                        p.abrev_cli) as abrev_cli
+         , c.cantidad, c.tipo_caja
+         , c.nvl_contenido, p.dato_agrupa, c.recibe
+      from produccion_armado_log l
+         , produccion_armado p
+         , produccion_armado_cajas c
+     where l.numero_oa = p.numero_oa and l.cod_caja = c.cod_caja
+       and c.estado in (1, 2) and (nvl_contenido = 'NLL' or c.estado = 1)
+       and p.dato_agrupa = :x_dato_agrupa
+     union
+    select c.cod_caja as cod_caja, c.estado, decode(substr(p.dato_agrupa, 1, 1), '2', 'LIMA',
+                                                    p.abrev_cli) as abrev_cli
+         , c.cantidad
+         , c.tipo_caja, c.nvl_contenido, p.dato_agrupa, c.recibe
+      from produccion_armado_log l
+         , produccion_armado p
+         , produccion_armado_cajas c
+     where l.numero_oa = p.numero_oa and l.cod_caja = c.cod_caja
+       and c.estado = '1'
+       and p.dato_agrupa <> :x_dato_agrupa
+    ) c
      , produccion_armado_cajas_his h
  where c.cod_caja = h.cod_caja
    and h.estado = '1'
@@ -315,17 +338,14 @@ select p.c_codigo as cod_personal
   from planilla10.personal p
        join planilla10.tar_secc s on p.seccion = s.codigo
  where c_area = '008'
-   and p.situacion not in (select codigo
-                             from planilla10.t_situacion_cesado);
+   and p.situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 select * from planilla10.t_area;
 
 select * from prod_term_personal;
-
-select cod_personal, nombre
-  into :PRODUCCION_ARMADO_CAJAS.inspector, :PRODUCCION_ARMADO_CAJAS.x_inspector
-  from prod_term_personal
- where cod_personal = :GLOBAL.inspector;
 
 select cod_personal, nombre from prod_term_personal;
 
@@ -336,14 +356,18 @@ select c_codigo, nombre
 select c_codigo, nombre, situacion
   from vw_personal
  where c_area = '004'
-   and situacion not in (select codigo
-                           from planilla10.t_situacion_cesado);
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 select nombre as nombres, c_codigo
   from vw_personal
  where c_area = '004'
-   and situacion not in (select codigo
-                           from planilla10.t_situacion_cesado);
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
 
 -- ordenes linea armado
 select *
@@ -360,24 +384,28 @@ select *
  where numero_oa = 995309;
 
 select distinct o.numero, o.formu_art_cod_art, o.cant_prog, 0 as cant_resul, o.abre02, o.abre01
-              , '<SIN LINEA>' as linea_prod, '0' as estado, decode((select count(pd.saldo)
-                                                                      from pr_ot_det pd
-                                                                     where pd.ot_nuot_serie = 3
-                                                                       and pd.ot_nuot_tipoot_codigo = 'AR'
-                                                                       and length(pd.cod_lin) = 3
-                                                                       and (
-                                                                       to_number(pd.cod_lin) between 800 and 831 or
-                                                                       to_number(pd.cod_lin) between 850 and 854)
-                                                                       and saldo = 0
-                                                                       and pd.estado <> '9'
-                                                                       and ot_numero = o.numero), 0,
+              , '<SIN LINEA>' as linea_prod, '0' as estado, decode((
+                                                                     select count(pd.saldo)
+                                                                       from pr_ot_det pd
+                                                                      where pd.ot_nuot_serie = 3
+                                                                        and pd.ot_nuot_tipoot_codigo = 'AR'
+                                                                        and length(pd.cod_lin) = 3
+                                                                        and (
+                                                                        to_number(pd.cod_lin) between 800 and 831 or
+                                                                        to_number(pd.cod_lin) between 850 and 854)
+                                                                        and saldo = 0
+                                                                        and pd.estado <> '9'
+                                                                        and ot_numero = o.numero
+                                                                     ), 0,
                                                                    'COMPLETO',
                                                                    'INCOMPLETO') as surtido
   from pr_ot o
  where o.nuot_tipoot_codigo = 'AR'
    and o.estado = 4
-   and o.numero not in (select p.numero_oa
-                          from produccion_armado p)
+   and o.numero not in (
+   select p.numero_oa
+     from produccion_armado p
+   )
    and o.formu_art_cod_art not like 'RPKN%'
    and o.formu_art_cod_art not like 'ATZ%'
    and o.formu_art_cod_art not like 'CVM%'
@@ -389,10 +417,12 @@ select p.numero_oa, p.formu_art_cod_art, p.cant_prog, p.cant_resul, p.abrev_cli,
   from produccion_armado p
  where p.estado = 6
    and p.id_linea_prod <> '05'
-   and nvl((select estado
-              from pr_ot
-             where numero = p.numero_oa
-               and nuot_tipoot_codigo = 'AR'), 0) = 4
+   and nvl((
+             select estado
+               from pr_ot
+              where numero = p.numero_oa
+                and nuot_tipoot_codigo = 'AR'
+             ), 0) = 4
  order by 8 desc, 5, 6;
 
 select *
@@ -455,11 +485,13 @@ select *
 
 select id_pedido
   from view_pedidos_pendientes_38
- where exists (select 1
-                 from pr_embarques p
-                      join pr_programa_embarques_id i
-                           on p.ano_embarque = i.ano and p.mes_embarque = i.mes and i.estado = 1
-                where p.id_pedido = view_pedidos_pendientes_38.id_pedido);
+ where exists (
+   select 1
+     from pr_embarques p
+          join pr_programa_embarques_id i
+               on p.ano_embarque = i.ano and p.mes_embarque = i.mes and i.estado = 1
+    where p.id_pedido = view_pedidos_pendientes_38.id_pedido
+   );
 
 select *
   from view_pedidos_pendientes_38
@@ -501,8 +533,10 @@ select ex.cod_vende as id_vendedor, t.descripcion as nombre_vendedor, e.numero a
                         '85')
    and t.tipo = 13
    and t.codigo = ex.cod_vende
-   and tmp.usuario = (select usuario_30
-                        from exparamexpo)
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
    and tmp.vendedor = ex.cod_vende
    and tmp.numero = e.numero
    and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
@@ -535,8 +569,10 @@ select '77', t.descripcion as nombre_vendedor, e.numero, e.fecha, ex.nombre as n
                         '85')
    and t.tipo = 13
    and t.codigo = '77'
-   and tmp.usuario = (select usuario_30
-                        from exparamexpo)
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
    and tmp.vendedor = '77'
    and tmp.numero = e.numero
    and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
@@ -570,8 +606,10 @@ select '78', t.descripcion as nombre_vendedor, e.numero, e.fecha, ex.nombre as n
                         '85')
    and t.tipo = 13
    and t.codigo = '78'
-   and tmp.usuario = (select usuario_30
-                        from exparamexpo)
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
    and tmp.vendedor = '78'
    and tmp.numero = e.numero
    and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
@@ -603,8 +641,10 @@ select ex.cod_vende as id_vendedor, t.descripcion as nombre_vendedor, e.numero a
  where e.estado not in ('8', '9', 'T', '85')
    and t.tipo = 13
    and t.codigo = ex.cod_vende
-   and tmp.usuario = (select usuario_30
-                        from exparamexpo)
+   and tmp.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
    and tmp.vendedor = ex.cod_vende
    and tmp.numero = e.numero
    and nvl(tmp.n0, 0) <> nvl(tmp.n6, 0)
@@ -745,12 +785,14 @@ select *
  where d.pr_tipot = 'AR'
    and d.fch_transac = to_date('14/05/2024', 'dd/mm/yyyy')
    and d.estado != '9'
-   and not exists (select *
-                     from kardex_g g
-                    where g.cod_alm = d.cod_alm
-                      and g.tp_transac = d.tp_transac
-                      and g.serie = d.serie
-                      and g.numero = d.numero)
+   and not exists (
+   select *
+     from kardex_g g
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+   )
  order by cod_alm, tp_transac, serie, numero;
 
 select distinct d.cod_alm, tp_transac, d.serie, d.numero, d.fch_transac, d.pr_tipot, d.pr_numot
@@ -763,12 +805,14 @@ select distinct d.cod_alm, tp_transac, d.serie, d.numero, d.fch_transac, d.pr_ti
  where d.pr_tipot = 'AR'
    and d.fch_transac = to_date('14/05/2024', 'dd/mm/yyyy')
    and d.estado != '9'
-   and not exists (select *
-                     from kardex_g g
-                    where g.cod_alm = d.cod_alm
-                      and g.tp_transac = d.tp_transac
-                      and g.serie = d.serie
-                      and g.numero = d.numero)
+   and not exists (
+   select *
+     from kardex_g g
+    where g.cod_alm = d.cod_alm
+      and g.tp_transac = d.tp_transac
+      and g.serie = d.serie
+      and g.numero = d.numero
+   )
  order by cod_alm, tp_transac, serie, numero;
 
 select *
@@ -802,11 +846,13 @@ select o.nuot_tipoot_codigo, o.nuot_serie, o.numero, o.estado, o.fecha
  where o.nuot_tipoot_codigo = 'AR'
    and o.estado = 1
    and a.tp_art = 'A'
-   and not exists (select *
-                     from pr_ot_impresion i
-                    where i.nuot_tipoot_codigo = o.nuot_tipoot_codigo
-                      and i.nuot_serie = o.nuot_serie
-                      and i.numero = o.numero);
+   and not exists (
+   select *
+     from pr_ot_impresion i
+    where i.nuot_tipoot_codigo = o.nuot_tipoot_codigo
+      and i.nuot_serie = o.nuot_serie
+      and i.numero = o.numero
+   );
 
 update pr_ot
    set estado = '9'
@@ -1000,3 +1046,16 @@ select id_pedido
           join grupo_cliente_cliente gcc on gc.cod_grupo = gcc.cod_grupo
     where gc.es_simulacion = 1
    );
+
+
+select *
+  from kardex_d
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and extract(month from fch_transac) = 12
+   and extract(year from fch_transac) = 2024;
+
+select cod_personal, nombre
+  from prod_term_personal;
+

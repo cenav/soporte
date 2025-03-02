@@ -1,9 +1,9 @@
 -- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user wcoronel account unlock;
+alter user kcucho account unlock;
 
-alter user odominguez account lock;
+alter user fhuaman account lock;
 
-alter user cchihuan identified by "Abc123456*";
+alter user pevisa identified by "desarrollo";
 
 alter user klopez password expire;
 
@@ -14,7 +14,13 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%LEON%';
+ where username like '%PEVISA%';
+
+-- alter trigger tbu_movglos_cierre enable;
+
+select *
+  from dba_objects
+ where object_name = 'NT_STRINGS';
 
 -- roxana tarrillo
 
@@ -79,12 +85,12 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%SIN CERRAR%')
+ where upper(text) like upper('%REPORTE STOCK BATERIAS%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%stock baterias%')
+ where upper(text) like upper('%Aumento Salarial Programado%')
    and owner = 'PEVISA';
 
 select *
@@ -190,10 +196,6 @@ select *
 
 select *
   from usuarios
- where usuario = 'ADIONICIO';
-
-select *
-  from usuarios
  where usuario in ('DRODRIGUEZS', 'DCHAMPI');
 
 select *
@@ -238,17 +240,24 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('JCABEZAS')
+ where usuario in ('LILY')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('AMONESTACION')
+ where modulo in ('VA_RETPEDCOT')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('AMONESTACION')
+ where modulo = 'VA_RETPEDCOT'
+ order by usuario, modulo;
+
+select * from modulo;
+
+select *
+  from usuario_modulo
+ where modulo in ('PLANEAMIENTO')
  order by usuario, modulo;
 
 select *
@@ -262,7 +271,7 @@ select *
 
 select *
   from usuarios
- where usuario like '%NINAMANGO%';
+ where usuario like '%DELGADO%';
 
 select *
   from usuario_modulo
@@ -558,12 +567,17 @@ select 'MVILLANUEVA', cod_alm, tp_transac, insertar_registros, consulta, estado
 
 select *
   from almacenes_perfil
- where cod_alm = '30'
+ where cod_alm = 'A1'
  order by tp_transac;
 
 select *
+  from usuarios_almacenes_perfil
+ where usuario = 'MJUAREZ'
+   and cod_alm = 'A1';
+
+select *
   from pr_usualma
- where usuario = 'ADIONICIO'
+ where usuario = 'MJUAREZ'
    and cod_alm = 'P1'
  order by cod_alm;
 
@@ -1132,3 +1146,103 @@ select *
  where usuario = 'RICARDO_TOVAR';
 
 select * from paramfa;
+
+select *
+  from otm_serie_usuario
+ where usuario = 'JCABEZAS'
+   and id_tipo = 'MQ';
+
+select *
+  from ot_mantto_serie
+ where id_tipo = 'MQ'
+ order by id_serie;
+
+select *
+  from otm_serie_usuario
+ where usuario = 'PEVISA';
+
+select *
+  from ot_mantto
+ where id_serie = 1
+   and id_numero = 3397;
+
+select *
+  from ot_mantto_serie
+ where id_serie = 1;
+
+select *
+  from otm_serie_usuario
+ where usuario = 'NYABAR';
+
+select *
+  from tab_menu
+ where sistema = 'M_LOGIST_M'
+   and cod_menu = '1600'
+   and cod_menu = '1612'
+   and estado = '1';
+
+select *
+  from tab_menu
+ where sistema = 'M_LOGIST_M'
+   and cod_menu in ('1600', '1612')
+   and estado = '1';
+
+select *
+  from tab_menu
+ where cod_menu = '300233'
+   and estado = '0'
+   and usuario = 'OLGA';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%VASQUE%'
+   and nombres like '%JESUS%'
+   and situacion not in ('8', '9');
+
+select *
+  from planilla10.personal
+ where encargado = '073';
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '073';
+
+select *
+  from usuarios
+ where usuario = 'JVASQUEZ';
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado
+     , per.f_ingreso
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :usuario and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :usuario and id_modulo = :modulo
+   ) or :usuario in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and per.situacion not in ('8', '9')
+ order by enc.nombre, per.apellido_paterno;
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado
+     , per.f_ingreso
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and per.c_codigo = 'E1226';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E139';

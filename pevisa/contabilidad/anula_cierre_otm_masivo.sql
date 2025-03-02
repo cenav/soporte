@@ -9,8 +9,8 @@ declare
     select *
       from ot_mantto
      where id_tipo = 'MQ'
-       and id_serie = 7
-       and id_numero = 9576;
+       and id_serie = 1
+       and id_numero = 2091;
 
   cursor cr_activos_anular(p_tipo varchar2, p_serie number, p_numero number) is
     select *
@@ -143,6 +143,8 @@ begin
                         end if;
 
                         actualiza_estado(rc.id_tipo, rc.id_serie, rc.id_numero);
+      else
+        actualiza_estado(rc.id_tipo, rc.id_serie, rc.id_numero);
     end case;
   end loop;
 

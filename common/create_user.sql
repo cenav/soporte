@@ -1,30 +1,35 @@
 -- CREAR EN USUARIOS
 select *
   from usuarios u
- where usuario in ('AMANTENIMIENTO', 'JHUARI');
+ where usuario in ('VGOMEZ', 'JZANABRIA');
 
 select *
   from vw_personal
- where nombre like '%CHUQUIMAJO%';
+ where nombre like '%VELAZCO%'
+   and situacion not in ('8', '9');
 
-create user jhuari
+select *
+  from planilla10.personal
+ where nombres like '%VICTOR%'
+   and apellido_paterno like '%VELAZCO%'
+   and situacion not in ('8', '9');
+
+create user apinedo
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
   profile default
   account unlock;
 
--- 1 Role for RCARRION
-grant privilegios_usuarios_sig to jhuari;
+grant rol_developer_medium to apinedo;
 
-alter user jhuari default role all;
+alter user apinedo default role all;
 
-alter user jhuari password expire;
+alter user apinedo password expire;
 
 select username, account_status, created, lock_date, expiry_date
   from dba_users
  where username like '%DOMINGUEZ%';
-
 
 -- PARA COPIAR DESDE OTRO USUARIO
 select rowid, s.*
@@ -68,5 +73,8 @@ select rowid, u.*
 
 select *
   from usuarios_cotizacion
- where usuario in ('SVALENCIA', 'JFLORES');
+ where usuario in ('SVALENCIA', 'ACOLLAZOS');
 
+select *
+  from vendedores
+ where cod_vendedor = 'L2';

@@ -3,21 +3,21 @@ select *
  where ano = 2024
    and mes = 10
    and libro = '05'
-   and voucher = 100001;
+   and voucher = 100002;
 
 select *
   from movdeta
  where ano = 2024
    and mes = 9
    and libro = '39'
-   and voucher = 103024;
+   and voucher = 100002;
 
 select *
   from movfide
  where ano = 2024
    and mes = 10
-   and tipo = '2'
-   and voucher = 103024;
+   and tipo = '1'
+   and voucher = 100002;
 
 select *
   from proveed
@@ -269,3 +269,35 @@ select *
  where fecha = to_date('07/01/2025', 'dd/mm/yyyy');
 
 select * from movglos_anexos;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'YDOMINGUEZ';
+
+select *
+  from movglos m
+ where m.ano = 2024
+   and m.mes = 12
+   and m.libro = '38'
+   and m.voucher = 120001;
+
+select *
+  from saldosc_tmp
+ where ano = 2024
+   and mes = 12
+   and libro = '38'
+   and voucher = 120001;
+
+select *
+  from movglos_historia m
+ where m.ano = 2024
+   and m.mes = 12
+   and m.libro = '38'
+   and m.voucher = 120001;
+
+select *
+  from cabfcob
+ where ano = 2024
+   and mes = 12
+   and libro = '38'
+   and voucher = 120001;

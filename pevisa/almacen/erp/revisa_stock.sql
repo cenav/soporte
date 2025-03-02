@@ -40,7 +40,7 @@ select a.cod_art
               where d.estado <> '9'
                 and d.cod_art = a.cod_art
                 and d.cod_art = :p_articulo
-              group by d.cod_alm, d.cod_art
+              group by d.cod_art
              ), 0) as stock_kdx
   from almacen a
  where a.cod_art = :p_articulo
@@ -286,5 +286,44 @@ select d.cod_art, a.cod_lin, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.can
        join articul a on d.cod_art = a.cod_art
  where d.estado <> '9'
    and d.cod_alm = :p_almacen
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.cod_lin;
+
+-- hasta 31 12 2024
+select cod_alm, cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado != '9'
+   and d.cod_alm = :p_almacen
+   and d.cod_art = :p_articulo
+   and d.fch_transac < to_date('01/01/2025', 'dd/mm/yyyy')
+ group by d.cod_alm, d.cod_art;
+
+-- movimientos enero 2025
+select cod_alm, t.tp_transac, t.descripcion, ing_sal, cod_art, d.fch_transac
+     , decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad) as stock
+  from kardex_d d
+       join transacciones_almacen t on d.tp_transac = t.tp_transac
+ where d.estado != '9'
+   and d.cod_alm = :p_almacen
+   and d.cod_art = :p_articulo
+   and d.fch_transac >= to_date('01/01/2025', 'dd/mm/yyyy')
+ order by fch_transac;
+
+select cod_alm, cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado != '9'
+   and d.cod_alm = :p_almacen
+   and d.cod_art = :p_articulo
+ group by d.cod_alm, d.cod_art;
+
+select d.cod_alm, d.cod_art, a.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join articul a on d.cod_art = a.cod_art
+ where d.estado != '9'
+   and d.cod_alm = '01'
+   and a.cod_lin = 'ZZ'
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art, a.cod_lin;

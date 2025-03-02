@@ -11,7 +11,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado_cajas_his
- where cod_caja = '315533'
+ where cod_caja = '1093630'
  order by estado;
 
 --::::::::::::::::::::::::::::--
@@ -19,7 +19,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1050256;
+ where numero_oa = 1094109;
 
 select *
   from produccion_armado_cajas

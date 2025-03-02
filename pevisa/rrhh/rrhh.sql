@@ -8,7 +8,24 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like '%HUARI%'
+ where apellido_paterno like 'PEÑA'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from vw_personal
+ where nombre like '%CHRIST%';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like 'FUENTES'
+   and nombres like '%JESUS%';
+
+select *
+  from planilla10.personal
+ where nombres like '%DANIEL%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -21,7 +38,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1145';
+   and c_codigo = 'E1228';
 
 select *
   from planilla10.t_cargo
@@ -87,9 +104,7 @@ select *
 
 select *
   from evaluacion
- where id_evaluacion in (8466, 8480);
-
-select * from estado_evaluacion;
+ where id_evaluacion in (9896, 9894);
 
 select * from estado_evaluacion;
 
@@ -414,28 +429,6 @@ select *
  where id_personal = 'E017';
 
 
-  with empleados as (
-    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
-      from planilla10.personal p
-           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
-           left join planilla10.tar_encarga e on p.encargado = e.codigo
-           left join planilla10.personal j on e.c_codigo = j.c_codigo
-    )
-     , jerarquia(c_codigo, nombres, apellido_paterno, c_jefe) as (
-    select e.c_codigo, e.nombres, e.apellido_paterno, c_jefe
-      from empleados e
-     where e.c_codigo = :p_codemp
-     union all
-    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
-      from jerarquia b
-           join empleados e on b.c_jefe = e.c_codigo
-     where e.c_codigo != e.c_jefe
-    )
-select b.c_jefe, e.nombres, e.apellido_paterno, e.email
-  from jerarquia b
-       join empleados e on b.c_jefe = e.c_codigo
- where e.apellido_paterno not in ('WOLFENZON', 'LEVY');
-
 
 select id_proceso, ano, mes, id_personal, id_encargado, encargado, email_encargado
   from vw_proceso_puntualidad
@@ -476,17 +469,21 @@ select *
 
 select *
   from planilla10.personal
- where c_codigo = 'E957';
+ where c_codigo = 'E567';
 
 
 select *
   from planilla10.personal
- where nombres like '%DANIEL%'
-   and apellido_paterno like '%EZ%';
+ where nombres like '%OMAR%';
+
+select id_proceso, ano, mes, id_encargado, encargado, email_encargado, cod_encargado
+  from vw_proceso_puntualidad
+ where ano = 2025
+   and mes = 1
+ group by id_proceso, ano, mes, id_encargado, encargado, email_encargado, cod_encargado;
 
 
-select *
-  from planilla10.hr_personal
- where c_codigo in (
-   'E1138'
-   );
+select id_log, accion, cod_id_pk, tabla, columna, old, new, fecha, usuario, ip, txt
+  from log_auditoria;
+
+select * from log_auditoria;

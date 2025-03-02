@@ -5,7 +5,7 @@ select *
 select *
   from exfacturas
  where numero in (
-   19684
+   55019734
    );
 
 select *
@@ -210,12 +210,12 @@ select *
 select packing_agrupar
   from expedidos
  where numero in (
-                  16305, 16306
+   16755
    );
 
 select *
   from expedidos
- where numero = 16333;
+ where numero = 16755;
 
 select *
   from expedido_d
@@ -883,3 +883,15 @@ select f_maximo_descuento_pais_grupo(:p_pais, :p_mega_grupo, 'S')
 select *
   from exbooking
  where numero_booking = '23154105';
+
+select *
+  from log_auditoria
+ where tabla = 'PROVEED';
+
+select *
+  from expednac
+ where numero = 496;
+
+select *
+  from expednac_d
+ where numero = 496;

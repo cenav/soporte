@@ -834,3 +834,14 @@ select *
     as of timestamp to_timestamp('02-01-2025 15:00:00', 'DD-MM-YYYY HH24:MI:SS')
  where pk_numero = 59965
    and packlis = 164888;
+
+select *
+  from pr_forsec
+    as of timestamp to_timestamp('06-02-2025 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where codigo_proceso in ('LIMP', 'EMBO');
+
+create table pr_forces_060225 as
+select *
+  from pr_forsec
+    as of timestamp to_timestamp('06-02-2025 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where codigo_proceso in ('LIMP', 'EMBO');

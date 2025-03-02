@@ -102,8 +102,17 @@ select *
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T138'
-   and guia_numero = 868;
+ where guia_serie = 'T118'
+   and guia_numero = 553;
+
+select *
+  from kardex_g_guia_remision_detalle
+ where guia_serie = 'T183'
+   and guia_numero = 125;
+
+select *
+  from articul
+ where cod_art = 'SERV. TEMP-REVEN-S-0 -K-100';
 
 --------------------------------------
 -- vuelve a enviar guia exportacion --
@@ -113,7 +122,7 @@ select *
  where cod_alm = '01'
    and tp_transac = '26'
    and serie = 19
-   and numero in (23706);
+   and numero in (24467);
 
 /*
 INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T019', 23349, DATE '2024-10-09', '150103', '070101', 'AV. ARGENTINA NRO. 2085 URB. PLAYA RIMAC PROV. CONST. DEL CA', '20100010217', '01', '26', 19, 23349, '09', '20605584129', '01', '06', 1.00, 347.5000, '04', '00', '01', null, null, '036919 / 036900 / 036977', '118-2024-40-106902', '50', 'Declaración Aduanera de Mercancías', null, '1', 59448, 'PK', null, null, null, null, TIMESTAMP '2024-10-09 13:43:05', null, null, 'COMERCIALIZADORA AUTOREPUESTOS UNIVERSAL LUBAMAQUI CIA.LTDA', '30', 'AMBATO - ECUADOR', null);
@@ -176,19 +185,51 @@ select *
    and serie = 25
    and numero in (12380);
 
+
+-- 02	35	141	729
 select *
-  from kardex_g
- where cod_alm = 'D3'
-   and tp_transac = '35'
-   and serie = 139
-   and numero in (2422);
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '25'
+   and serie = 118
+   and numero in (543);
 
 select *
   from kardex_d
- where cod_alm = 'D3'
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
+   and numero in (553);
+
+select *
+  from kardex_d
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
+   and numero in (553)
+   and cod_art = 'CHP 95234/20 GR';
+
+select *
+  from kardex_d
+ where cod_art = 'CHP 95234/20 GR'
+   and cod_alm = 'F8'
+   and cantidad = 10;
+
+select *
+  from kardex_g
+ where serie = 118
+   and numero = 553;
+
+select *
+  from almacenes
+ where cod_alm = 'F8';
+
+select *
+  from kardex_d
+ where cod_alm = '02'
    and tp_transac = '35'
-   and serie = 139
-   and numero in (2422);
+   and serie = 141
+   and numero in (729);
 
 select *
   from kardex_g_guia_remision
@@ -717,6 +758,45 @@ select *
    and numero in (2629);
 
 select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (2629);
+
+select *
+  from kardex_g
+ where serie = 140
+   and numero = 2629;
+
+select *
+  from kardex_d
+ where serie = 140
+   and numero = 2629
+   and cod_alm = 'T6';
+
+select *
+  from almacen
+ where cod_alm in ('T3', 'T6')
+   and cod_art in (
+                   'CL-O 290.3791ZN', 'CL-O 1027CS-2', 'CL-O 1037CS-2', 'CL-O 290.4076ZN'
+   )
+ order by cod_alm, cod_art;
+
+select *
+  from almacenes
+ where cod_alm = 'T3';
+
+select *
+  from almacenes
+ where cod_alm like 'T%';
+
+select *
+  from kardex_d
+ where cod_art = 'CL-O 290.3791ZN'
+ order by fch_transac desc;
+
+select *
   from kardex_g_guia_remision
  where guia_serie = 'T140'
    and numero = 2629;
@@ -757,4 +837,11 @@ select g.tp_transac as rec_tipo, g.serie as rec_serie, g.numero as rec_numero
     where w.rec_tipo = g.tp_transac
       and w.rec_serie = g.serie
       and w.rec_numero = g.numero
-   )
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '99'
+   and tp_transac = '183'
+   and serie = 999
+   and numero = 125;

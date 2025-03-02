@@ -3,7 +3,7 @@ declare
     select cod_caja as codigo_caja
       from vw_cajas_armado
      where cod_caja in (
-       352032
+                        380585, 380607
        );
 begin
   dbms_output.put_line('=====================');
@@ -45,7 +45,8 @@ begin
 --
     -------------------------------------------------- 4. Inserta el historial de la caja
     insert into produccion_armado_cajas_his
-    values ((r.codigo_caja), 1, sysdate, 'CAJA ABIERTA A PEDIDO DE DAVID', user, '07', null);
+    values
+      ((r.codigo_caja), 1, sysdate, 'CAJA ABIERTA A PEDIDO DE DAVID', user, '07', null);
     dbms_output.put_line('4.. CODIGO_CAJA: ' || r.codigo_caja || '  procesados...: ' ||
                          sql%rowcount);
     --

@@ -1,32 +1,114 @@
 select *
   from kardex_g
- where cod_alm = '30'
-   and tp_transac = '35'
-   and serie = 138
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
    and numero in (
-   1021
-   );
-
-select *
-  from kardex_g
- where tp_transac = '35'
-   and serie = 138
-   and numero in (
-   1021
+   542
    );
 
 select *
   from kardex_d
- where cod_alm = '15'
-   and tp_transac = '29'
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
+   and numero in (
+   542
+   )
+   and cod_art = 'F 200.028 NA';
+
+-- insert into pevisa.kardex_d
+--   ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
+--   , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
+--   , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
+--   , pr_numot, pr_numped)
+-- values
+--   ( 'F8', '10', 118, 542, 'F 200.028 NA', 160.0000, 0.000000, 0.000000, date '2025-02-14', 0.00
+--   , 0.00, 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null, null
+--   , null, null, null, null, null, null);
+
+select *
+  from kardex_d
+ where cod_alm = '37'
+   and tp_transac = '16'
    and serie = 1
    and numero in (
-   1876357
+   207999
+   );
+
+select *
+  from kardex_g_historia
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   207999
+   );
+
+select *
+  from kardex_g_historia
+ where cod_alm = '37'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   208002
+   );
+
+select *
+  from kardex_g
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero in (
+   301425
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '22'
+   and serie = 1
+   and numero in (
+   301425
    );
 
 select *
   from almacen
- where cod_art = 'FS 95035 GR';
+ where cod_art = 'SOL 831';
+
+select *
+  from numdoc
+ where tp_transac = '19'
+   and serie = 1;
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('22', '28');
+
+select *
+  from kardex_d
+ where cod_alm = 'D5'
+   and tp_transac = '27'
+   and serie = 3
+   and numero in (
+   158049
+   );
+
+select *
+  from kardex_d
+ where cod_alm = 'D2'
+   and tp_transac = '16'
+   and serie = 3
+   and numero in (
+   157695
+   );
+
+-- 3226.0000
+-- 2091.0000
+select *
+  from almacen
+ where cod_art = 'RIB20045'
+   and stock > 0;
 
 select *
   from almacen
@@ -40,11 +122,6 @@ select *
    and numero in (
    204300
    );
-
-select *
-  from numdoc
- where tp_transac = '27'
-   and serie = 1;
 
 select *
   from kardex_dpk
@@ -2501,6 +2578,7 @@ select cod_art, descripcion, unidad, tp_art, cod_alm
 
 select *
   from linea_solicitud_material
+
  where tipo = 'EMBALAJE'
    and cod_lin in (
                    '2155', '2152'
@@ -2522,3 +2600,110 @@ select *
 
 -- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D5', '27', 3, 156248, DATE '2024-10-30', 'PR', 8, 581154, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/581154', 'PR', '8', 581154, 'ORDPR', null, null, null, null, null, null, null);
 -- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 156248, 'RIBX 66110', 1400.0000, 0.000000, 0.000000, DATE '2024-10-30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 581154, null);
+
+select cod_alm, tp_transac, serie, numero
+  from tmp_carga_data;
+
+select *
+  from kardex_g
+ where tipo_pguia = 'PR'
+   and serie_pguia = '8'
+   and numero_pguia = 590741;
+
+select *
+  from kardex_g
+ where exists (
+   select *
+     from kardex_d
+    where kardex_g.cod_alm = kardex_d.cod_alm
+      and kardex_g.tp_transac = kardex_d.tp_transac
+      and kardex_g.serie = kardex_d.serie
+      and kardex_g.numero = kardex_d.numero
+      and pr_tipot = 'PR'
+      and pr_numot = 590741
+      and cod_art in ('RIBX 90003', 'RING 90003N')
+   );
+
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D2', '16', 3, 157747, TIMESTAMP '2025-01-17 11:14:30', 'TK', 2, 646, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/590741', 'PR', '8', 590741, 'ORDPR', null, null, null, null, null, null, null);
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D2', '16', 3, 157823, TIMESTAMP '2025-01-21 11:35:30', 'TK', 2, 698, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/590741', 'PR', '8', 590741, 'ORDPR', null, null, null, null, null, null, null);
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D5', '27', 3, 157826, TIMESTAMP '2025-01-17 11:14:30', 'TK', 2, 646, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/590741', 'PR', '8', 590741, 'ORDPR', null, null, null, null, null, null, null);
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('D5', '27', 3, 157910, TIMESTAMP '2025-01-21 11:35:30', 'TK', 2, 698, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP/590741', 'PR', '8', 590741, 'ORDPR', null, null, null, null, null, null, null);
+
+select *
+  from kardex_d
+ where pr_tipot = 'PR'
+   and pr_numot = 590741
+   and cod_art in ('RIBX 90003', 'RING 90003N')
+ order by ing_sal desc;
+
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 157826, 'RING 90003N', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-17 11:14:30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 157826, 'RIBX 90003', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-17 11:14:30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 157910, 'RING 90003N', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-21 11:35:30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D5', '27', 3, 157910, 'RIBX 90003', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-21 11:35:30', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D2', '16', 3, 157823, 'RING 90003N', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-21 11:35:30', 0.00, 0.00, 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D2', '16', 3, 157747, 'RING 90003N', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-17 11:14:30', 0.00, 0.00, 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D2', '16', 3, 157823, 'RIBX 90003', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-21 11:35:30', 0.00, 0.00, 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('D2', '16', 3, 157747, 'RIBX 90003', 1500.0000, 0.000000, 0.000000, TIMESTAMP '2025-01-17 11:14:30', 0.00, 0.00, 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 590741, null);
+
+select * from almacen;
+
+
+create or replace trigger tbiu_transaccion_iqbf
+  before insert or update
+  on kardex_d
+  for each row
+begin
+  if iqbf.es_almacen_controlado(:new.cod_alm) and :new.ing_sal = 'S' and
+     iqbf.existe(:new.cod_art) and
+     not iqbf.es_transaccion_controlada(:new.tp_transac) then
+    raise_application_error(-20001, 'IQBF debe usar transacciones 22 o 29');
+  end if;
+end;
+
+
+begin
+  if iqbf.es_almacen_controlado(:cod_alm) and
+     not iqbf.es_transaccion_controlada(:p_transaccion) then
+    raise_application_error(-20001, 'IQBF debe usar transacciones 22 o 29');
+  end if;
+end;
+
+-- stock baterias
+select get_marca_articulo(l.cod_art) as marca, get_deslinea(a.cod_lin) as descri_linea
+     , l.cod_art, f_stock_almacen(l.cod_art, 'F0') as stock_f0
+  from lispred l
+     , articul a
+ where l.cod_art = a.cod_art (+)
+   and f_lista_precio(l.cod_art, 1) > 0
+   and l.nro_lista = 1
+---AND L.COD_ART = K.COD_ART
+----AND K.COD_ALM = 'F0'
+   and a.grupo = '41'
+   and a.indicador <> 'XX'
+   and a.cod_lin <> 'ZZ'
+   and a.cod_lin <> '515'
+   and f_stock_almacen(l.cod_art, 'F0') > 0
+ order by 1, 2, 3;
+
+select *
+  from tab_grupos
+ where descripcion like '%BOSCH%';
+
+select *
+  from articul
+ where grupo = '41'
+   and cod_lin != 'ZZ';
+
+select *
+  from articul a
+       join tab_lineas l on a.cod_lin = l.linea
+       join tab_grupos g on l.grupo = g.grupo
+ where g.grupo = '41';
+
+select *
+  from kardex_d
+ where fch_transac > to_date('03/03/2025', 'dd/mm/yyyy');
+
+select *
+  from kardex_g
+ where to_char(fch_transac, 'YYYY') = '0025';

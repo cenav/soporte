@@ -1,22 +1,22 @@
 select *
   from cotizacion
- where num_ped in (237850);
+ where num_ped in (241367);
 
 select *
   from itemcot
- where num_ped = 231196;
-
-select *
-  from itemped
- where num_ped in (242761);
-
-select *
-  from cotizacion
- where refe_pedido = 256600;
+ where num_ped = 241367;
 
 select *
   from pedido
- where num_ped in (258842);
+ where num_ped in (261802);
+
+select *
+  from itemped
+ where num_ped in (261802);
+
+select *
+  from cotizacion
+ where refe_pedido = 261802;
 
 -- 20608751531
 
@@ -26,7 +26,13 @@ select *
 
 select *
   from transporte
- where nombre like '%MARY%';
+ where nombre like '%MARVISUR%';
+
+-- cambia transportista
+-- cod_transp
+select *
+  from pedido
+ where num_ped in (261802);
 
 select *
   from clientes
@@ -129,7 +135,7 @@ select *
 
 select *
   from vendedores
- where cod_vendedor = 'N5';
+ where cod_vendedor = 'B10';
 
 select *
   from pedido
@@ -1232,3 +1238,102 @@ select *
  where tipo = 29
    and codigo = '26'
  order by codigo;
+
+select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nombre, p.moneda
+     , p.total_pedido
+  from pedido p
+       left join vendedores v on p.cod_vende = v.cod_vendedor
+ where nvl(p.estado, '0') in ('0', '1', '2', '3', '4', '5', '6')
+   and extract(year from fecha) >= 2025
+ order by p.fecha desc;
+
+select distinct estado
+  from pedido
+ where nvl(estado, '0') != '9'
+ order by estado;
+
+select *
+  from pedido
+ where num_ped = 262717;
+
+select *
+  from cotizacion
+ where refe_pedido = 262717;
+
+
+-- for LOV
+select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nombre as vendedor
+     , v.supervisor, p.moneda, p.total_pedido
+  from pedido p
+       left join vendedores v on p.cod_vende = v.cod_vendedor
+ where nvl(p.estado, '0') in ('0', '1', '2', '3', '4', '5', '6')
+   and extract(year from fecha) >= 2025
+   and ((exists (
+   select 1
+     from vendedores
+    where abreviada = :user
+      and indicador1 = 'GC' --> [G]erente [C]omecial
+   )
+   and cod_vendedor in (
+     select e.cod_vendedor
+       from vendedores e
+            join vendedores j on e.supervisor = j.cod_vendedor
+      where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end
+     ))
+   or (exists (
+     select *
+       from usuario_modulo
+      where modulo = 'VA_RETPEDCOT'
+        and maestro = 'SI'
+        and supermaestro = 'SI'
+        and usuario = :user
+     )))
+ order by p.fecha desc, p.num_ped desc;
+
+select *
+  from vendedores
+ where indicador1 = 'GC';
+
+select v.cod_vendedor, v.nombre, j.cod_vendedor as cod_jefe, j.nombre as jefe
+  from vendedores v
+       join vendedores j on v.supervisor = j.cod_vendedor
+ where j.abreviada = 'RRODRIGUEZ';
+
+select v.cod_vendedor, v.nombre as empleado, j.cod_vendedor as id_jefe, j.nombre as jefe
+     , j.abreviada
+  from vendedores v
+       join vendedores j on v.supervisor = j.cod_vendedor
+ where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end;
+
+select *
+  from vendedores
+ where abreviada = 'JCHIRINOS';
+
+select *
+  from vendedores
+ where abreviada = :user
+   and indicador1 = 'GC'; --> [G]erente [C]omecial
+
+select *
+  from vendedores v
+       join vendedores j on v.supervisor = j.cod_vendedor
+ where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end
+
+select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nombre as vendedor
+     , v.supervisor, p.moneda, p.total_pedido
+  from pedido p
+       left join vendedores v on p.cod_vende = v.cod_vendedor
+ where nvl(p.estado, '0') in ('0', '1', '2', '3', '4', '5', '6')
+   and extract(year from fecha) >= 2025
+   and (exists (
+   select 1
+     from vendedores
+    where abreviada = :user
+      and indicador1 = 'GC' --> [G]erente [C]omecial
+   )
+   and p.cod_vende in (
+     select v.cod_vendedor
+       from vendedores v
+            join vendedores j on v.supervisor = j.cod_vendedor
+      where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end
+     ));

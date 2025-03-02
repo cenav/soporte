@@ -48,3 +48,49 @@ select *
    and mes = 1
    and libro = '08'
    and voucher = 10001;
+
+select id_log, accion, cod_id_pk, tabla, columna, old, new, fecha, usuario, ip, txt
+  from log_auditoria
+ where tabla = 'EXCLIENTES';
+
+select distinct tabla from log_auditoria;
+
+select *
+  from exclientes
+ where nombre like '%%';
+
+-- trazabilidad de los accesos
+select *
+  from sig_conexiones
+ where programa = 'ECLIENTE_2018'
+ order by creacion_cuando desc;
+
+select *
+  from sig_conexiones
+ where usuario = 'EVALIENTE'
+ order by creacion_cuando desc;
+
+select * from sig_conexiones
+where programa = 'AF_LIBRO_ELECTRONICO_ARRENDAMIENTO_FINANCIERO';
+
+select distinct c.usuario, nvl(u.nombres, c.usuario) as nombre
+  from sig_conexiones c
+       left join usuarios u on c.usuario = u.usuario
+ order by c.usuario;
+
+select distinct programa from sig_conexiones order by programa;
+
+select os_username, /* nombre de usuario SO */
+  username, /* nombre de usuario BD */
+  terminal, decode(returncode, '0', 'Conectado',
+                   '1005', 'Solo username, sin password',
+                   '1017', 'Password incorrecto',
+                   returncode) as estado
+     , /* comprobacion de error */
+  to_char(timestamp, 'DD-MON-YY HH24:MI:SS'), /* hora de entrada */
+  to_char(logoff_time, 'DD-MON-YY HH24:MI:SS') /* hora de salida */
+  from dba_audit_session
+ where username in ('KSIGUENAS')
+--AND returncode = '1017'
+ order by timestamp desc;
+

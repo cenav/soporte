@@ -14,7 +14,7 @@ select o.nuot_tipoot_codigo as tipo, o.numero, trunc(o.fecha) as fecha, o.estado
  where o.nuot_tipoot_codigo = 'AR'
    and o.estado = '1'
    and o.formu_art_cod_art = 'SA5975-1'
-   and not exists(
+   and not exists (
    select 1
      from pr_ot_impresion i
     where o.nuot_tipoot_codigo = i.nuot_tipoot_codigo
@@ -165,3 +165,48 @@ select *
 select *
   from pr_ot_impresion
  where numero = 535585;
+
+select *
+  from vw_ordenes_pedido_pendiente
+ where pedido = 16739;
+
+select id_pedido
+  from view_pedidos_pendientes_38
+ where exists (
+   select 1
+     from pr_embarques p
+          join pr_programa_embarques_id i
+               on p.ano_embarque = i.ano
+                 and p.mes_embarque = i.mes
+                 and i.estado = 1
+    where p.id_pedido =
+          view_pedidos_pendientes_38.id_pedido
+   )
+   and id_pedido = 16336
+ union
+select id_pedido
+  from view_pedidos_pendientes_38
+ where cod_cliente in (
+   select gcc.cod_cliente
+     from grupo_cliente gc
+          join grupo_cliente_cliente gcc on gc.cod_grupo = gcc.cod_grupo
+    where gc.es_simulacion = 1
+   )
+   and id_pedido = 16336;
+
+select *
+  from pr_embarques
+ where id_pedido = 16739;
+
+select *
+  from pr_programa_embarques_id
+ where estado = 1;
+
+select *
+  from pr_programa_embarques_id
+ where ano = 2025
+   and mes = 2;
+
+select *
+  from expedidos
+ where numero = 16739;
