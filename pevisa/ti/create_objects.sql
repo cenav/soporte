@@ -1,28 +1,75 @@
-create table pim_articul (
-  cod_art     varchar2(30 byte)  not null,
-  descripcion varchar2(100 byte) not null,
-  cod_lin     varchar2(4 byte),
-  unidad      varchar2(4 byte)   not null,
-  cod_upc     varchar2(15 byte),
-  estado      varchar2(1 byte)   not null,
-  fecha_crea  date          default sysdate,
-  pr_imagen   varchar2(1 byte),
-  usuario     varchar2(10 byte),
-  cod_alm     varchar2(2 byte),
-  grupo       number(3),
-  peso_std    number(16, 8) default 0
-)
-;
-
-
-create unique index pk_pim_articul on pim_articul
-  (cod_art)
-;
-
-alter table pim_articul
-  add (
-    constraint pk_pim_articul
-      primary key
-        (cod_art)
-        using index pk_pim_articul
-        enable validate);
+create or replace trigger pevisa.tbd_articul
+  before delete
+  on pevisa.articul
+  for each row
+declare
+  x_item number;
+begin
+  begin
+    select distinct -1
+      into x_item
+      from kardex_d
+     where cod_art = :old.cod_art;
+  exception
+    when others then x_item := 0;
+  end;
+  if x_item = 0 then
+    begin
+      select distinct -2
+        into x_item
+        from pr_ot_det
+       where art_cod_art = :old.cod_art;
+    exception
+      when others then x_item := 0;
+    end;
+  end if;
+  if x_item = 0 then
+    begin
+      select distinct -3
+        into x_item
+        from expedido_d
+       where cod_art = :old.cod_art;
+    exception
+      when others then x_item := 0;
+    end;
+  end if;
+  if x_item = 0 then
+    begin
+      select distinct -4
+        into x_item
+        from lg_itemjam
+       where cod_art = :old.cod_art
+         and nvl(estado, '0') != '9';--le falta el estado para que pueda eliminar
+    exception
+      when others then x_item := 0;
+    end;
+  end if;
+  if x_item = 0 then
+    begin
+      select distinct -5
+        into x_item
+        from itemord
+       where cod_art = :old.cod_art
+         and nvl(estado, '0') != '9';
+    exception
+      when others then x_item := 0;
+    end;
+  end if;
+  if x_item <> 0 then
+    if x_item = -1 then
+      raise_application_error(-20001, :old.cod_art || '  Codigo tiene movimientos en el almacen');
+    end if;
+    if x_item = -2 then
+      raise_application_error(-20001, :old.cod_art || '  Codigo tiene ordenes');
+    end if;
+    if x_item = -3 then
+      raise_application_error(-20001, :old.cod_art || '  Codigo tiene pedidos');
+    end if;
+    if x_item = -4 then
+      raise_application_error(-20001, :old.cod_art || '  Codigo tiene pedidos de importacion');
+    end if;
+    if x_item = -5 then
+      raise_application_error(-20001, :old.cod_art || '  Codigo tiene ordenes de compra');
+    end if;
+  end if;
+end;

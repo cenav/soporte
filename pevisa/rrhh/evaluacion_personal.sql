@@ -18,3 +18,6 @@ select per.c_codigo
    and per.situacion not in ('8', '9')
  order by per.apellido_paterno;
 
+select *
+  from evaluacion
+ where id_evaluacion = 10277;

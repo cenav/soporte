@@ -8,7 +8,7 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like 'PEÑA'
+ where apellido_paterno like '%JUAREZ%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
@@ -16,12 +16,11 @@ select *
 
 select *
   from vw_personal
- where nombre like '%CHRIST%';
+ where nombre like '%CRUZ%';
 
 select *
   from planilla10.personal
- where apellido_paterno like 'FUENTES'
-   and nombres like '%JESUS%';
+ where nombres like '%JESUS%';
 
 select *
   from planilla10.personal
@@ -38,7 +37,8 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1228';
+   and c_codigo = 'E230';
+
 
 select *
   from planilla10.t_cargo
@@ -476,6 +476,7 @@ select *
   from planilla10.personal
  where nombres like '%OMAR%';
 
+
 select id_proceso, ano, mes, id_encargado, encargado, email_encargado, cod_encargado
   from vw_proceso_puntualidad
  where ano = 2025
@@ -486,4 +487,87 @@ select id_proceso, ano, mes, id_encargado, encargado, email_encargado, cod_encar
 select id_log, accion, cod_id_pk, tabla, columna, old, new, fecha, usuario, ip, txt
   from log_auditoria;
 
+
 select * from log_auditoria;
+
+
+select *
+  from permiso
+ where numero = 69248;
+
+
+select * from planilla10.t_area order by c_area;
+
+
+select *
+  from usuario_modulo
+ where modulo = 'ACCIDENTES';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%JUAREZ%';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E1240';
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '077';
+
+declare
+  l_emails util.t_list := util.t_list();
+begin
+  l_emails := rrhh.all_bosses_mails_from_employee('E43137');
+  for i in 1 .. l_emails.count loop
+    dbms_output.put_line(l_emails(i));
+  end loop;
+end;
+
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+    )
+     , jerarquia(c_codigo, nombres, apellido_paterno, c_jefe) as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, c_jefe
+      from empleados e
+     where e.c_codigo = :p_codigo
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from jerarquia b
+           join empleados e on b.c_jefe = e.c_codigo
+     where e.c_codigo != e.c_jefe
+    )
+select b.c_jefe, e.nombres, e.apellido_paterno, e.email
+  from jerarquia b
+       join empleados e on b.c_jefe = e.c_codigo
+ where e.apellido_paterno not in ('WOLFENZON', 'LEVY');
+
+select codigo, nombre, ecorreo
+  from planilla10.tar_encarga
+ where c_codigo in (
+   select c_codigo from planilla10.personal where situacion < '8'
+   )
+   and c_codigo in (
+   select codigo_trabajador
+     from usuarios
+    where usuario like case when :user in ('PEVISA', 'KCASTILLO') then '%' else :user end
+   )
+ order by 1;
+
+select codigo_trabajador
+  from usuarios
+ where usuario like case when :user in ('PEVISA', 'KCASTILLO') then '%' else :user end;
+
+select codigo, nombre, ecorreo
+  from planilla10.tar_encarga
+ where c_codigo in (
+   select c_codigo from planilla10.personal where situacion < '8'
+   )
+   and ((:supermaestro = 'SI' and upper(usuario) like '%') or
+        (upper(usuario) = :usuario));
+
+select * from planilla10.tar_encarga;

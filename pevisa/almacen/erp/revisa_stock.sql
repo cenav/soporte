@@ -51,9 +51,56 @@ select a.cod_art
         where d.estado <> '9'
           and d.cod_art = a.cod_art
           and d.cod_art = :p_articulo
-        group by d.cod_alm, d.cod_art
+        group by d.cod_art
        ), 0);
 
+
+select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = :p_articulo
+ group by d.cod_alm, d.cod_art;
+
+select *
+  from almacen
+ where cod_art = 'MAT4 90020';
+
+select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = :p_articulo
+   and d.fch_transac < to_date('01/03/2025', 'dd/mm/yyyy')
+ group by d.cod_alm, d.cod_art;
+
+select d.*
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = :p_articulo
+--    and d.cod_alm = 'TD'
+   and d.fch_transac >= to_date('01/03/2025', 'dd/mm/yyyy')
+ order by fch_transac, ing_sal desc;
+
+
+/*
+433
+489
+530
+*/
+
+select *
+  from kardex_g
+ where cod_alm = 'M4'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (2918, 2964);
+
+select *
+  from almacenes
+ where cod_alm = 'M1';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('10', '35');
 
 -- MAT1 92046
 -- MAT1 95120
@@ -78,6 +125,7 @@ select 'KARDEX' as origen, cod_alm, cod_art
    and d.cod_art = :p_articulo
  group by d.cod_alm, d.cod_art;
 
+select * from tmp_carga_data;
 
 -- stock por almacen
 select cod_alm, cod_art
@@ -85,7 +133,6 @@ select cod_alm, cod_art
   from kardex_d d
  where d.estado != '9'
    and d.cod_alm = :p_almacen
-   and d.cod_art = '23686'
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art;
 

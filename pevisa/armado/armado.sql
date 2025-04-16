@@ -1,23 +1,30 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'SA'
+ where nuot_tipoot_codigo = 'AR'
    and numero in (
-   4137
+   1097387
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1065871
+   1100230
    );
 
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'SA'
-   and numero in (
-   3480
-   );
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '16647';
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1081418;
+
+select *
+  from pr_ot_impresion
+ where numero = 1081418;
 
 select * from estado_cambio_oa;
 
@@ -1059,3 +1066,28 @@ select *
 select cod_personal, nombre
   from prod_term_personal;
 
+select *
+  from pr_ot
+ where numero in (
+   select numero_ot
+     from pr_ot_a_partir
+    where numero_ot = pr_ot.numero
+      and cantidad_juego = pr_ot.cant_prog
+      and partir >= multiplo
+   )
+   and nuot_tipoot_codigo = 'AR'
+   and estado = '1'
+   and not exists (
+   select 1
+     from pr_ot_impresion
+    where nuot_tipoot_codigo = pr_ot.nuot_tipoot_codigo
+      and nuot_serie = pr_ot.nuot_serie
+      and numero = pr_ot.numero
+   );
+
+select * from pr_ot_a_partir;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero = '1094193';

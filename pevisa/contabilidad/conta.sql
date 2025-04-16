@@ -2,16 +2,28 @@
 select *
   from movglos
  where ano = 2024
-   and mes = 9
-   and libro = '10'
-   and voucher = 29336501;
+   and mes = 8
+   and libro = '25'
+   and voucher = 80042;
 
 select *
   from movdeta
  where ano = 2024
-   and mes = 12
-   and libro = '08'
-   and voucher = 121120;
+   and mes = 8
+   and libro = '25'
+   and voucher = 80042;
+
+select *
+  from usuarios_libros
+ where usuario = 'JENNY_LEON';
+
+select *
+  from usuarios_libros
+ where usuario = 'KLOPEZ';
+
+select *
+  from usuarios
+ where usuario = 'JENNY_LEON';
 
 select *
   from tmp_moviart_dos
@@ -145,9 +157,10 @@ select *
 
 select *
   from nrolibr
- where ano = 2022
-   and mes = 6
+ where ano = 2024
+   and mes = 8
    and libro = '05';
+
 
 select *
   from serie_caja
@@ -167,7 +180,7 @@ select *
 select *
   from caja_chica
  where serie = 7
-   and numero = 25018;
+   and numero = 25027;
 
 select *
   from caja_chica_d
@@ -288,9 +301,33 @@ select *
   from usuarios
  where usuario = 'MMIRANDA';
 
+begin
+  gastoviaje.mail_generado('B11', 102);
+end;
+
 select *
   from gastos_de_viaje_habilitado
  where id_vendedor = 'B11'
+   and numero = 102;
+
+select *
+  from gastos_de_viaje
+ where id_vendedor = 'B12'
+   and num_habilitado = 105;
+
+select *
+  from gastos_de_viaje_m
+ where id_vendedor = 'B11'
+   and numero = 102;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = 'B12'
+   and numero = 105;
+
+select *
+  from gastos_de_viaje_habilitado
+ where id_vendedor = 'B13'
    and numero = 101;
 
 select * from estado_gasto_viaje;
@@ -820,3 +857,44 @@ select * from log_auditoria;
 select *
   from vendedores
  where cod_vendedor = 'E1';
+
+
+select *
+  from proveed
+ where cod_proveed = '10766633078';
+
+select *
+  from factpag
+ where cod_proveedor = '10766633078'
+   and saldo != 0
+ order by f_vencto desc;
+
+
+select *
+  from caja
+ where id_serie = 2
+   and id_numero = 33;
+
+select estado_cerrado from parametros;
+
+select *
+  from nrolibr
+ where ano = 2024
+   and mes = 8
+   and libro = '08';
+
+select *
+  from nrolibr
+ where ano = 2024
+   and mes = 8;
+
+select * from paramco;
+
+select * from grupo_venta;
+
+select l.linea, l.descripcion as dsc_linea, g.grupo, g.descripcion as dsc_grupo
+     , m.cod_grupo_venta as megragrupo, m.descripcion as dsc_megagrupo
+  from tab_lineas l
+       left join tab_grupos g on l.grupo = g.grupo
+       left join grupo_venta m on g.ind_vta1 = m.cod_grupo_venta
+ order by lpad(l.linea, 4, '0');

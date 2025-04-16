@@ -1,11 +1,10 @@
--- CREATE USER ksiguenas PROFILE 'profile_usuario_sig';
-alter user kcucho account unlock;
+alter user powerbi account unlock;
 
-alter user fhuaman account lock;
+alter user msotomayor account lock;
 
-alter user pevisa identified by "desarrollo";
+alter user powerbi identified by "pevisa.pbi";
 
-alter user klopez password expire;
+alter user apinedo password expire;
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
@@ -14,13 +13,13 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%PEVISA%';
+ where username like 'POWERBI';
 
 -- alter trigger tbu_movglos_cierre enable;
 
 select *
   from dba_objects
- where object_name = 'NT_STRINGS';
+ where object_name = 'PLA_CONTROL';
 
 -- roxana tarrillo
 
@@ -56,15 +55,16 @@ select *
   from seccrus
  where co_ctrctr = 'M_PLANEAMIENTO_M';
 
+
 select *
   from seccrus
- where co_usrusr in ('PGALVEZ', 'CWONG');
+ where co_usrusr in ('FURTEAGA', 'OLGA')
+ order by co_usrusr;
+
 
 select *
   from seccrus
  where co_usrusr in ('PEVISA');
-
-
 
 select *
   from all_constraints
@@ -85,12 +85,12 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%REPORTE STOCK BATERIAS%')
+ where upper(text) like upper('%contratos que vencen%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%Aumento Salarial Programado%')
+ where upper(text) like upper('%indicar tiempo%')
    and owner = 'PEVISA';
 
 select *
@@ -192,7 +192,8 @@ select *
  where sistema = 'M_CONSULTAS_M';
 
 select *
-  from modulo;
+  from modulo
+ where descripcion like '%COSTO%';
 
 select *
   from usuarios
@@ -240,24 +241,36 @@ select *
 
 select *
   from usuario_modulo
- where usuario in ('LILY')
+ where usuario in ('RICARDO_TOVAR')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('VA_RETPEDCOT')
+ where modulo in ('FORMATO_CALIDAD')
+   and maestro = 'NO'
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo = 'VA_RETPEDCOT'
+ where modulo like '%EVALUACION%'
+   and usuario = 'EVALIENTE'
  order by usuario, modulo;
+
+select *
+  from usuario_modulo
+ where usuario in ('MZONCO', 'LROCA', 'MGUTIERREZ')
+   and modulo in ('EVALUACION_PENDIENTE')
+ order by usuario, modulo;
+
+select *
+  from aut_rol_usuario
+ where usuario in ('MZONCO', 'LROCA', 'MGUTIERREZ');
 
 select * from modulo;
 
 select *
   from usuario_modulo
- where modulo in ('PLANEAMIENTO')
+ where modulo in ('HENCARGA_COSTO')
  order by usuario, modulo;
 
 select *
@@ -466,7 +479,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'AAVELLANEDA'
+ where co_usrusr = 'CNAVARRO'
  order by co_ctrctr;
 
 select *
@@ -577,8 +590,8 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'MJUAREZ'
-   and cod_alm = 'P1'
+ where usuario = 'RICARDO_TOVAR'
+   and cod_alm = '03'
  order by cod_alm;
 
 select *
@@ -650,18 +663,22 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'MPEREZ'
-   and cod_alm = 'A1';
+ where usuario = 'PEVISA'
+   and cod_alm = '30';
 
 select *
   from usuarios_almacenes
- where usuario = 'MPEREZ'
-   and cod_alm in ('A1', '62');
+ where usuario = 'PEVISA'
+   and cod_alm in ('30', '37');
 
 select *
   from usuarios_almacenes_perfil
- where usuario = 'MPEREZ'
-   and cod_alm in ('A1', '62');
+ where usuario = 'PEVISA'
+   and cod_alm in ('30', '37');
+
+select *
+  from almacenes_perfil
+ where cod_alm in ('30', '37');
 
 select *
   from transacciones_almacen
@@ -1246,3 +1263,8 @@ select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombre
 select *
   from planilla10.personal
  where c_codigo = 'E139';
+
+select *
+  from tab_menu
+ where sistema = 'M_PRECIOS_M'
+   and usuario = 'FURTEAGA';

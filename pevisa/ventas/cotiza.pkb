@@ -140,6 +140,7 @@ create or replace package body cotiza as
          where cod_tipo = 'BCH'
            and cod_categoria = p_categoria;
 
+
         -----------------------------------------------------------------------------------------
         update itemcot
            set por_desc1 = p_ddescto1
@@ -252,6 +253,44 @@ create or replace package body cotiza as
     end;
 
     commit;
+  end;
+
+
+  procedure retorna_emitida(
+    p_doc    varchar2
+  , p_serie  number
+  , p_numero number
+  ) is
+  begin
+    for r in (
+      select c.serie, c.num_ped as num_cot, c.refe_pedido as num_ped, c.fecha, c.estado
+        from cotizacion c
+       where ((p_doc = 'C' and c.serie = p_serie and c.num_ped = p_numero) or
+              (p_doc = 'P' and c.serie = p_serie and c.refe_pedido = p_numero))
+      )
+    loop
+      update pedido
+         set estado = '9'
+       where serie = r.serie
+         and num_ped = r.num_ped;
+
+      update itemped
+         set estado = '9'
+           , saldo  = 0
+       where serie = r.serie
+         and num_ped = r.num_ped;
+
+      update cotizacion
+         set estado      = '0'
+           , refe_pedido = null
+       where serie = r.serie
+         and num_ped = r.num_cot;
+
+      update itemcot
+         set estado = '0'
+       where serie = r.serie
+         and num_ped = r.num_cot;
+    end loop;
   end;
 
 end cotiza;

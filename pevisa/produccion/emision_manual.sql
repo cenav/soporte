@@ -2,7 +2,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('TO450.403SIL', 1000, false, op);
+  emite.op('92011/16', 2000, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -10,7 +10,7 @@ end;
 --revisar consumo anual
 select *
   from vw_articulo
- where cod_art in ('450.254', '450.287SIL');
+ where cod_art in ('92011/16');
 
 select cod_art, cantidad from tmp_carga_data;
 
@@ -76,11 +76,11 @@ select a.dsc_grupo as grupo, o.numero as op
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) >= to_date('13/01/2025', 'dd/mm/yyyy')
-   and e.usuario = 'ALBERTO'
---    and e.t1 = '25.0.3.33'
+ where trunc(e.fecha) = to_date('10/04/2025', 'dd/mm/yyyy')
+   and e.usuario = 'PEVISA'
+   and e.t1 = '25.0.3.33'
    and e.estado = 1
- order by a.dsc_grupo;
+ order by a.dsc_grupo, cantidad desc;
 
 -- copia op emitidas
 insert into tmp_carga_data(numero)
@@ -127,3 +127,31 @@ update pr_ot
      from tmp_carga_data
     where pr_ot.numero = tmp_carga_data.numero
    );
+
+select * from vw_personal where nombre like '%ROJAS%INGA%';
+
+select *
+  from permiso
+ where id_personal = 'E42643'
+ order by fecha desc;
+
+select *
+  from planilla10.personal
+ where apellido_paterno like 'OSORIO';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E43177';
+
+select o.numero as op
+  from pr_ot o
+       join pr_trasab_estado e
+            on o.nuot_tipoot_codigo = e.tipo
+              and o.nuot_serie = e.serie
+              and o.numero = e.numero
+       join vw_articulo a on o.formu_art_cod_art = a.cod_art
+ where trunc(e.fecha) >= to_date('21/03/2025', 'dd/mm/yyyy')
+   and e.usuario = 'ALBERTO'
+--    and e.t1 = '25.0.3.33'
+   and e.estado = 1
+ order by a.dsc_grupo;

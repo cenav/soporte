@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   61110
+   61645
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -377,3 +377,28 @@ select f.numero, f.cod_cliente, f.nombre, f.direcc, f.direc2, c.ciudad, p.nombre
 
 -- gpacco
 -- cboza
+
+-- no se puede anular por probelma en saldo
+select d.numero as pedido, d.nro_ped as nro, p.numero as numero_orden, p.estado as estado_orden
+     , e.estado_pk, e.canti, e.saldo_pk, sum(d.canti) as cantidad_packing
+     , e.canti - f_cantidad_empacada_orden(p.numero) as saldo_real
+  from pk_detal d
+     , expedido_d e
+     , pr_ot p
+ where pk_numero = :paclis
+   and d.numero = e.numero
+   and d.nro_ped = e.nro
+   and d.ot_numero = p.numero
+   and d.ot_tipo = p.nuot_tipoot_codigo
+   and p.numero = 1087676
+ group by d.numero, d.nro_ped, p.numero, p.estado, e.estado_pk, e.saldo_pk, e.canti, p.estado;
+
+select sum(d.canti) as cantidad_empacada_orden
+  from pk_detal d
+ where ot_numero = :p_numero_de_orden
+   and estado <> '9'
+ group by ot_numero;
+
+select *
+  from pk_detal
+ where ot_numero = :p_numero_de_orden;

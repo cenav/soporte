@@ -110,3 +110,19 @@ select nvl(sum(cant_pedir), 0) as cant_reprocesa
    and p.ot_ser = 8
    and p.ot_nro = 582934
    and pd.art_cod_art = 'RC 014';
+
+
+select *
+  from wms_orden_sol
+--  where tipo = 'PR'
+ where tk_serie = 3
+   and tk_numero = 210;
+
+select *
+  from wms_orden_sol_item
+ where tk_serie = 3
+   and tk_numero = 210;
+
+select *
+  from wms_orden_sol
+ where oms_numero = 201430;

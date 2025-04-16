@@ -1,8 +1,8 @@
 begin
-  --   pkg_cominac.genera_contrato(2024, 2, 'S', 44, 'SI');
-  pkg_cominac.genera_periodo(2024, 4, 'S');
+  pkg_cominac.genera_contrato(2025, 2, 'S', 17024, 'SI');
+  --   pkg_cominac.genera_periodo(2024, 4, 'S');
   -- pkg_cominac.elimina_periodo(2023, 2);
--- pkg_cominac.elimina_proceso(2087);
+-- pkg_cominac.elimina_proceso(4266);
 end;
 
 -- Elimina comision en un intervalo de numeros de proceso
@@ -333,3 +333,46 @@ select *
 select *
   from proceso_bono_oa
  where extract(year from periodo_ini) = 2024;
+
+select * from bono_obrero;
+
+select *
+  from tab_lineas
+ where grupo = '16'
+order by linea;
+
+select *
+  from tab_lineas
+ where grupo = '16';
+
+select *
+  from tab_grupos;
+
+
+select *
+  from tab_grupos
+where ind_vta1 = '2000';
+
+
+select linea
+  from tab_lineas
+ where grupo = '16'
+ minus
+select cod_linea
+  from cominac_concepto_linea
+ where cod_concepto = 466;
+
+
+select cod_linea
+  from cominac_concepto_linea
+ where cod_concepto = 466
+ minus
+select linea
+  from tab_lineas
+ where grupo = '16';
+
+
+-- 104
+-- 161
+-- 217
+-- 238

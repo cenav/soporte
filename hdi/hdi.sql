@@ -14,7 +14,7 @@ select *
    and mes = 2
    and libro = '25'
    and voucher in (
-   23161
+   23097
    );
 
 select *
@@ -241,10 +241,10 @@ select *
 
 select *
   from movfide
- where ano = 2024
-   and mes = 10
+ where ano = 2025
+   and mes = 2
    and tipo = 2
-   and voucher = 103126;
+   and voucher = 23097;
 
 select *
   from factpag

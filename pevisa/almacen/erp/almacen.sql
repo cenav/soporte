@@ -1,21 +1,47 @@
 select *
   from kardex_g
- where cod_alm = 'F8'
-   and tp_transac = '10'
-   and serie = 118
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
    and numero in (
-   542
+                  3156, 3157
    );
 
 select *
   from kardex_d
- where cod_alm = 'F8'
-   and tp_transac = '10'
-   and serie = 118
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
    and numero in (
-   542
-   )
-   and cod_art = 'F 200.028 NA';
+   3154
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '37'
+   and tp_transac = '15'
+   and cod_art = 'BO 1.6NAE-300';
+
+select *
+  from almacen
+ where cod_art = 'BO 1.6NAE-300';
+
+select *
+  from kardex_g
+ where tip_doc_ref = 'TK'
+   and ser_doc_ref = 2
+   and nro_doc_ref = 998;
+
+select * from orden_de_compra_historia;
+
+select *
+  from almacen
+ where cod_art = 'KIT AUT MS 5887 SR A';
+
+select *
+  from almacen
+ where cod_art = 'MET 400.717'
+   and cod_alm = '05';
 
 -- insert into pevisa.kardex_d
 --   ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
@@ -83,7 +109,7 @@ select *
 
 select *
   from transacciones_almacen
- where tp_transac in ('22', '28');
+ where tp_transac in ('18');
 
 select *
   from kardex_d
@@ -304,7 +330,33 @@ select *
 select *
   from solimat_g
  where serie = 1
-   and numero = 196082;
+   and numero = 203700;
+
+
+select *
+  from solimat_d
+ where numero = 203700;
+
+
+select *
+  from solimat_g
+ where fecha = to_date('16/04/2025', 'dd/mm/yyyy');
+
+
+select *
+  from solimat_d
+ where numero in (
+                  203697, 203692, 203683, 203684, 203685, 203686, 203687, 203688, 203690, 203696,
+                  203699, 203677, 203676, 203693, 203694, 203695, 203689, 203680, 203682, 203700,
+                  203675, 203698, 203678, 203679, 203681, 203691
+   )
+   and cod_art like '%BATCH%';
+
+
+select *
+  from solimat_d
+ where serie = 1
+   and numero = 203395;
 
 select serie, numero, cod_art, cantidad
   from solimat_d
@@ -561,7 +613,7 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'MGUIELAC'
+ where usuario = 'PEVISA'
  order by cod_alm;
 
 select *
@@ -1744,14 +1796,6 @@ select distinct d.tp_transac, t.descripcion
        join transacciones_almacen t on d.tp_transac = t.tp_transac
  where d.cod_art = 'BL450.539SIL NKS';
 
-select a.cod_alm, t.descripcion, a.nombre
-  from pr_usualma a
-     , tablas_auxiliares t
- where a.cod_alm = t.codigo
-   and t.tipo = '33'
-   and a.usuario = :PR_OT.xusuario
- order by a.cod_alm;
-
 select *
   from pr_usualma
  where usuario = 'MDIAZH'
@@ -2066,34 +2110,6 @@ select o.numero as numero_ot, o.formu_art_cod_art as art_cod_art, o.cant_prog
  order by fecha desc, o.numero;
 
 
-insert into kardex_g
-  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref
-  , nro_doc_ref, glosa, tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista
-  , moneda, cod_vende, cliente_afecto, por_desc1, por_desc2, motivo, estado
-  , origen, ing_sal, flg_impr, ubicacion, cod_transp, domicilio, ruc_transp
-  , nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp, le_transp
-  , cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-  , pr_numped)
-values
-  ( xcod_alm, :LR_DATA.tran_i, :LR_DATA.serie_i, :LR_DATA.numero_i, :LR_DATA.fecha, null, null, null
-  , null, null, null, null, null, null, null, null, null, 0, 0, '0', '2', 'P', 'I', '0', null, null
-  , null, null, null, null, null, null, null, null, null, null, null, :LR_DATA.boleta_i
-  , :PR_OT.nuot_tipoot_codigo, :PR_OT.nuot_serie, :PR_OT.numero, 'OTPRD', 0);
-
-
-insert into kardex_g
-  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
-  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
-  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
-  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
-  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-  , pr_numped)
-values
-  ( xcod_alm, :LR_DATA.tran_s, :LR_DATA.serie_s, :LR_DATA.numero_s, :LR_DATA.fecha, null, null, null
-  , null, null, ' ', null, null, null, null, null, null, 0, 0, '0', '2', 'D', 'S', '0', null, null
-  , null, null, null, null, null, null, null, null, null, null, null, :LR_DATA.boleta_s
-  , :PR_OT.nuot_tipoot_codigo, :PR_OT.nuot_serie, :PR_OT.numero, 'OTPRD', 0);
-
 -- movimiento almacen ultimos 3 meses
 select g.cod_alm, g.tp_transac, g.serie, g.numero, g.fch_transac, g.num_importa as boleta
      , g.numero_pguia as orden, a.cod_lin, d.cod_art, d.cantidad
@@ -2278,12 +2294,6 @@ select *
   from pr_usualma
  where usuario = 'PFALMAUX002';
 
-select cuenta69
-  from tfamlin
- where :KARDEX_D.tp_art = tp_art
-   and :KARDEX_D.cod_fam = cod_fam
-   and :KARDEX_D.cod_lin = cod_lin;
-
 select *
   from articul
  where cod_art = 'CRYO 330MM/15MIC-HP-MU';
@@ -2297,15 +2307,6 @@ select *
 select *
   from tab_lineas
  where linea = '873';
-
-select a.cod_art, a.descripcion, a.unidad, m.stock, a.tp_art, a.cod_fam, a.cod_lin
-  from almacen m
-     , articul a
- where m.cod_alm = '08'
-   and m.cod_art = a.cod_art
-   and a.estado <> '9'
-   and a.cod_art = 'CRYO 330MM/15MIC-HP-MU'
- order by a.cod_art
 
 select codigo, descripcion, :user as usuario
   from tablas_auxiliares
@@ -2513,16 +2514,6 @@ select *
  where usuario = 'PEVISA'
    and cod_alm in ('D2', 'D5');
 
-select a.tp_transac as tp_transac, b.descripcion as descripcion
-  from usuarios_almacenes_perfil a
-     , transacciones_almacen b
- where a.usuario = user
-   and a.cod_alm = :KARDEX_G.cod_alm
-   and a.tp_transac = b.tp_transac
-   and b.ingreso_salida = 'I'
-   and a.tp_transac <> '11'
-   and a.estado = 1;
-
 select *
   from usuarios_almacenes_perfil
  where usuario = 'PEVISA';
@@ -2707,3 +2698,307 @@ select *
 select *
   from kardex_g
  where to_char(fch_transac, 'YYYY') = '0025';
+
+select *
+  from pr_usualma
+ where usuario = 'DCONTRERAS'
+   and cod_alm = 'D5';
+
+select *
+  from kardex_d
+ where extract(year from fch_transac) = 2025
+   and extract(month from fch_transac) in (2, 3)
+   and cod_art = 'MAT5 90020';
+
+select *
+  from almacen
+ where cod_art = 'MAT5 90020';
+
+select *
+  from expednac
+ where numero = 499;
+
+select *
+  from expednac_d
+ where numero = 499;
+
+-- TL02 - 11
+
+
+select *
+  from tablas_auxiliares
+ where codigo = '....'
+   and descripcion like '%ALMACEN%';
+
+select *
+  from tablas_auxiliares
+ where tipo = 33
+ order by codigo;
+
+select *
+  from kardex_d
+ where cod_alm = '56';
+
+select *
+  from almacenes
+ order by cod_alm;
+
+select *
+  from pr_usualma
+ where cod_alm = 'CP';
+
+select *
+  from almacenes
+ where cod_alm in ('48', '02');
+
+select *
+  from lineas_bloqueadas_almacen
+ where cod_alm = '48';
+
+select *
+  from articul
+ where cod_art in (
+                   '180.1381NA', '300.721NA', 'AT-B-GM-070-CS', 'AT-B-GM-070-HS MLS'
+   );
+
+select *
+  from articul_historia
+ where cod_art = 'AT-B-GM-070-HS MLS';
+
+select *
+  from pcarticul_historia
+ where cod_art = 'AT-B-GM-070-CS';
+
+select *
+  from kardex_g
+ where cod_alm = '48'
+   and tp_transac = '43'
+   and serie = 1
+   and numero = 45;
+
+select *
+  from kardex_d
+ where cod_alm = '48'
+   and tp_transac = '43'
+   and serie = 1
+   and numero = 45;
+
+select *
+  from numdoc
+ where tp_transac = '43'
+   and serie = 1;
+
+select *
+  from solimat_g
+ where numero = 201590;
+
+select *
+  from linea_solicitud_material s
+ where s.tipo = 'MATRICERIA'
+ order by cod_lin;
+
+-- 2037
+-- 2038
+-- 2039
+-- 2041
+-- 2042
+-- 2044
+-- 2045
+-- 2047
+
+select cod_art, descripcion, unidad, tp_art, cod_alm
+  from articul a
+ where (:cod_alm01 = '62' and exists (
+   select 1
+     from almacen l
+    where l.cod_art = a.cod_art
+      and l.cod_alm = :cod_alm01
+   ))
+    or (:cod_alm01 = '30' and exists (
+   select 1
+     from articul aa
+    where cod_art in
+          ('REFRIGERANTE APEX 7030WG', 'ESP 1016', 'RIBEIJNOEMULSGREASE', 'T-NUT TM16XP2.0 B18',
+           'FN M16XP2.0', 'STB 26', 'PIED-PEV-0007', 'ABRAZADERA DE PIVOTE VCA-404',
+           'LAF 1.0-1200-2400', 'REFRIGERANTE VP700 CNC', 'PIED-PEV-0001', 'PIED-PEV-0019',
+           'ELECTRODO 1/16 TIG', 'PERNO M16X50', 'PERNO M16X60', 'PERNO M16X70', 'PERNO M16X80',
+           'REFRIGERANTE VP800P CNC', 'CHUCK AUTOAJUSTABLE BT40 1-13',
+           'CHUCK AUTOAJUSTABLE BT40 3-16', 'CHUCK PORTABROCA MORSE 3', 'CONO MORSE DE 5 A 2',
+           'CONO MORSE DE 5 A 3', 'PINZA CNC ER-20 DIAM.2', 'PINZA CNC ER-20 DIAM.3',
+           'PINZA CNC ER-20 Ø10', 'PINZA CNC ER-20 Ø12', 'PINZA CNC ER-20 Ø4',
+           'PINZA CNC ER-20 Ø6', 'PINZA CNC ER-20 Ø8', 'PINZA CNC ER-32 14',
+           'PINZA CNC ER-32 DIAM.10', 'PINZA CNC ER-32 DIAM.12', 'PINZA CNC ER-32 DIAM.16',
+           'PINZA CNC ER-32 DIAM.18', 'PINZA CNC ER-32 DIAM.20', 'PINZA CNC ER-32 DIAM.4',
+           'PINZA CNC ER-32 DIAM.6', 'PINZA CNC ER-32 DIAM.8', 'PORTA TIPO WELDOM DIAM.16-75',
+           'PORTA TIPO WELDOM DIAM.20-75', 'PORTA TIPO WELDOM DIAM.25-75',
+           'PORTA TIPO WELDOM DIAM.32-90', 'PORTAPINZA BT40 ER20-080',
+           'PORTAPINZA BT40 ER32-070', 'TUERCA PINZA ER-20', 'TUERCA PINZA ER-32',
+           'VISE DE PRESICION 160', 'SENSOR 3D PARA CNC', 'PIED-PEV-0012')
+      and a.cod_art = aa.cod_art
+   ))
+    or (:cod_alm01 = '02' and exists (
+   select 1
+     from articul aa
+    where cod_art in
+          ('ESP 1001', 'ESP 1002', 'ESP 1003', 'ESP 1004', 'ESP 1005', 'ESP 1006', 'ESP 1007',
+           'ESP 1008', 'ESP 1009', 'ESP 1010', 'ESP 1011', 'ESP 1012', 'ESP 1013', 'ESP 1014',
+           'ESP 1015', 'ASTM #1', 'ESP 1024', 'ESP 1031', 'ESP 1036', 'ESP 1037', 'ESP 1038',
+           'ESP 1041')
+      and a.cod_art = aa.cod_art
+   ))
+   and exists (
+     select 1
+       from almacen l
+      where l.cod_art = a.cod_art
+        and l.cod_alm = :cod_alm01
+     )
+   and exists (
+     select 1
+       from linea_solicitud_material s
+      where s.tipo = 'EMBALAJE'
+        and a.cod_lin = s.cod_lin
+     )
+ order by cod_art;
+
+select *
+  from articul
+ where cod_art = 'SOL 830';
+
+select *
+  from almacen
+ where cod_art = 'SOL 830'
+   and cod_alm = '02';
+
+select *
+  from linea_solicitud_material
+ where cod_lin = '2152';
+
+select *
+  from articul
+ where cod_art = 'ETIQ MH BOM-JM048361FR';
+
+select get_costos('ETIQ MH BOM-JM048361FR', '32') from dual;
+
+select costo_unit_d
+  from vlg_compra_nac
+ where cod_art = 'ETIQ MH BOM-JM048361FR';
+
+select *
+  from solimat_g
+ where numero = 203243;
+
+select *
+  from solimat_d
+ where numero = 203243;
+
+select *
+  from solimat_d
+ where cod_art = 'ETIQ MH BOM-JM048361FR';
+
+select *
+  from solimat_g
+ order by fecha desc;
+
+select *
+  from almacenes
+ where cod_alm in ('09', '18');
+
+select *
+  from tablas_auxiliares
+ where codigo = '....';
+
+select *
+  from tablas_auxiliares
+ where tipo = 33
+ order by codigo;
+
+select *
+  from pr_usualma
+ where cod_alm in (
+                   'D4', '20', '93', '79', '32', '17', '09', '18'
+   )
+ order by cod_alm;
+
+select *
+  from usuarios_almacenes_perfil
+ where cod_alm in (
+                   'D4', '20', '93', '79', '32', '17', '09', '18'
+   )
+ order by cod_alm;
+
+select *
+  from almacenes
+ where cod_alm = 'DM';
+
+select *
+  from pr_usualma
+ where cod_alm = 'DM';
+
+select *
+  from pr_usualma
+ where usuario = 'DCONTRERAS'
+   and cod_alm = '30';
+
+select *
+  from tipo_archivo
+ order by id_tipo_archivo;
+
+select *
+  from numdoc
+ where tp_transac = '16'
+   and serie = 1;
+
+select *
+  from kardex_d
+ where tp_transac = '16'
+   and serie = 1
+   and numero = 209082;
+
+select *
+  from almacenes
+ where cod_alm = 'D5';
+
+select *
+  from almacenes
+ where cod_alm = '30';
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'D5';
+
+select *
+  from almacen_local
+ where cod_alm in ('D5', 'D2', '30', '37');
+
+select distinct cod_local
+  from almacen_local
+ where cod_alm in ('D5', 'D2', '30', '37');
+
+select distinct cod_local
+  from almacen_local
+ where cod_alm in (:p_origen, :p_destino);
+
+select count(distinct cod_local)
+  from almacen_local
+ where cod_alm in (:p_origen, :p_destino);
+
+select count(*)
+  from almacen_local
+ where cod_alm in ('30', 'D2')
+ group by cod_local;
+
+select *
+  from kardex_d_historia
+ where usuario = 'ADIONICIO';
+
+select *
+  from kardex_g_historia
+ where usuario = 'ADIONICIO';
+
+select *
+  from kardex_g
+ where serie = 140;
+
+select *
+  from numdoc
+ where serie = 140;

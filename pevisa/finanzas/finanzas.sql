@@ -72,7 +72,7 @@ select *
 --17/11/2024 al  23/11/2024
 select *
   from tab_semanas
- where extract(year from del) = 2024
+ where extract(year from del) = 2025
  order by al;
 
 select *
@@ -401,3 +401,14 @@ select *
   from cambdol
  where tipo_cambio = 'C'
    and fecha = to_date('05/02/2025', 'dd/mm/yyyy');
+
+select *
+  from pagos_i
+ where serie_planilla = 80
+   and numero_planilla = 44465;
+
+select *
+  from prestamo_banco_cuota
+ where cod_banco = '09'
+   and cod_prestamo = '43667'
+ order by nro_cuota;

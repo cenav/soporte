@@ -1,31 +1,37 @@
 -- CREAR EN USUARIOS
+select username, account_status, created, lock_date, expiry_date
+  from dba_users
+ where username like '%MREQUIS%';
+
 select *
   from usuarios u
- where usuario in ('VGOMEZ', 'JZANABRIA');
+ where usuario in ('EVASQUEZ', 'ASOCIAL');
 
 select *
   from vw_personal
- where nombre like '%VELAZCO%'
+ where nombre like '%VILLAR%'
    and situacion not in ('8', '9');
 
-select *
-  from planilla10.personal
- where nombres like '%VICTOR%'
-   and apellido_paterno like '%VELAZCO%'
-   and situacion not in ('8', '9');
+---------------------------
+---------------------------
+---------------------------
 
-create user apinedo
+create user mrequis
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
   profile default
   account unlock;
 
-grant rol_developer_medium to apinedo;
+grant privilegios_usuarios_sig to mrequis;
 
-alter user apinedo default role all;
+alter user mrequis default role all;
 
-alter user apinedo password expire;
+alter user mrequis password expire;
+
+---------------------------
+---------------------------
+---------------------------
 
 select username, account_status, created, lock_date, expiry_date
   from dba_users
@@ -78,3 +84,7 @@ select *
 select *
   from vendedores
  where cod_vendedor = 'L2';
+
+select * from articul_archivos;
+
+select * from tipo_archivo;

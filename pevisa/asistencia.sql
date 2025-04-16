@@ -58,3 +58,7 @@ select *
 select *
   from menu
  where lower(dsc_menu) like '%asignaciones%';
+
+select * from asistencia.vw_marcas_asistencia;
+
+grant select on asistencia.vw_marcas_asistencia to pevisa with grant option;

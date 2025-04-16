@@ -1,11 +1,15 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MREQUIS';
+ where username like '%APINEDO%';
 
 select *
   from usuarios
- where usuario = 'MREQUIS';
+ where usuario = 'EMURO';
+
+select *
+  from usuarios
+ where nombres like '%MEJIA%';
 
 declare
   k_newusr varchar2(30) := 'VVELAZCO';
@@ -35,8 +39,8 @@ end;
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'ASOCIAL';
-  k_newusr varchar2(30) := 'MREQUIS';
+  k_oldusr varchar2(30) := 'PEVISA';
+  k_newusr varchar2(30) := 'APINEDO';
 begin
 
   insert into seccrus
@@ -116,17 +120,6 @@ begin
         and ua2.usuario = k_newusr
      );
 
-  insert into aut_rol_usuario(id_rol, usuario)
-  select ru.id_rol, k_newusr
-    from aut_rol_usuario ru
-   where ru.usuario = k_oldusr
-     and not exists (
-     select *
-       from aut_rol_usuario ru2
-      where ru2.usuario = ru.usuario
-        and ru2.usuario = k_newusr
-     );
-
   insert into usuarios_libros(usuario, libro, mes_predeterminado)
   select k_newusr, ul.libro, ul.mes_predeterminado
     from usuarios_libros ul
@@ -161,18 +154,6 @@ begin
         and u2.usuario = k_newusr
      );
 
-  insert into usuarios_cotizacion( usuario, indicador1, indicador2, indicador3, minimo
-                                 , aprobacion_netos, cod_supervisor)
-  select k_newusr, u.indicador1, u.indicador2, u.indicador3, u.minimo
-       , u.aprobacion_netos, u.cod_supervisor
-    from usuarios_cotizacion u
-   where u.usuario = k_oldusr
-     and not exists (
-     select *
-       from usuarios_cotizacion u2
-      where u2.usuario = u.usuario
-        and u2.usuario = k_newusr
-     );
 end;
 
 ------------------------------------------------
@@ -195,15 +176,7 @@ select co_usrusr, co_ctrctr, co_clave, nombres
 
 select *
   from seccrus
- where co_usrusr = 'MREQUIS';
-
-select distinct sistema
-  from tab_menu
- where usuario = 'JOSORIO';
-
-select *
-  from tab_menu
- where usuario = 'JOSORIO';
+ where co_usrusr = 'APINEDO';
 
 select *
   from tab_lineas
@@ -270,15 +243,11 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('EVASQUEZ');
+ where co_usrusr in ('JMEJIA');
 
 select *
   from seccrus
- where co_ctrctr like '%WMS%';
-
-select *
-  from aut_rol_usuario
- where usuario = 'DRODRIGUEZS';
+ where co_ctrctr like '%APINEDO%';
 
 select *
   from usuarios_libros
@@ -294,4 +263,4 @@ select *
 
 select *
   from usuario_modulo
- where usuario = 'JVILLAR';
+ where usuario = 'CNAVARRO';

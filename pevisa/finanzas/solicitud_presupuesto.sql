@@ -1,7 +1,11 @@
+begin
+  caja_mail.solicitud(2, 28);
+end;
+
 select *
   from caja
  where id_serie = 2
-   and id_numero = 19;
+   and id_numero = 28;
 
 select *
   from caja_d

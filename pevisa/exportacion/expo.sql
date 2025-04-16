@@ -895,3 +895,47 @@ select *
 select *
   from expednac_d
  where numero = 496;
+
+-- oa valorizada
+select o.numero as orden, o.formu_art_cod_art
+     , case o.destino when '1' then p.numero else n.numero end as pedido
+     , case o.destino when '1' then p.nro else n.nro end as item_pedido
+     , case o.destino when '1' then p.totlin else n.totlin end as valor_usd
+  from pr_ot o
+       left join expedido_d p
+                 on o.abre01 = p.numero
+                   and o.per_env = p.nro
+                   and o.destino = 1
+       left join expednac_d n
+                 on o.abre01 = n.numero
+                   and o.per_env = n.nro
+                   and o.destino = 2
+ where o.nuot_tipoot_codigo = 'AR'
+   and exists (
+   select 1
+     from tmp_carga_data t
+    where t.numero = o.numero
+   );
+
+select numero from tmp_carga_data;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1064041;
+
+select *
+  from expedido_d
+ where numero = 16647;
+
+select *
+  from expedido_d
+ where numero = 16790;
+
+select *
+  from exclientes
+ where cod_cliente = '991455';
+
+select *
+  from exclientes
+ where abreviada = 'MAXIFORCE';

@@ -1,11 +1,42 @@
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 22
    and num_ped in (
-   64028
+   819
    );
 
+select *
+  from orden_de_compra
+ where serie = 25
+   and num_ped between 110 and 122;
+
+
+select *
+  from orden_de_compra_historia
+ where serie = 25
+   and num_ped between 110 and 122
+   and glosa = 'APROBADO';
+
+select *
+  from orden_de_compra
+ where num_ped in (
+   45137
+   );
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20545323002'
+ order by fecha desc;
+
+select *
+  from proveed
+ where nombre like '%STG%';
+
 select * from orden_de_compra_estado;
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E136';
 
 select *
   from orden_de_compra
@@ -36,8 +67,16 @@ select *
   from orden_de_compra_historia
  where serie = 3
    and num_ped in (
-   45752
+   805
    );
+
+select *
+  from orden_de_compra_historia
+ where num_ped in (
+   805
+   )
+   and serie = 30
+ order by creacion_cuando;
 
 select *
   from orden_matriceria
@@ -161,7 +200,7 @@ select *
 
 select *
   from proveed
- where nombre like '%BORHUA%';
+ where nombre like '%REPLICA%';
 
 select *
   from orden_de_compra
@@ -1138,3 +1177,41 @@ select *
 select * from proceso_cominac_concepto;
 
 select sysdate from dual;
+
+select *
+  from orden_de_compra
+ where estado in ('2', '3', '4')
+   and fecha between add_months(sysdate, -6) and sysdate
+   and serie in (3, 4, 8)
+   and (exists (
+   select 1
+     from usuarios u
+    where orden_de_compra.c_resp =
+          u.codigo_trabajador
+      and u.usuario = :user
+   )
+   or :user = 'PEVISA')
+   and not exists (
+   select 1
+     from orden_de_compra_calificacion
+    where orden_de_compra.num_ped =
+          orden_de_compra_calificacion.num_ped
+      and orden_de_compra.serie =
+          orden_de_compra_calificacion.serie
+   );
+
+select *
+  from usuarios
+ where usuario = 'JOSE_GAVELAN';
+
+select *
+  from usuarios
+ where usuario = 'CWONG';
+
+select *
+  from expednac
+ where numero = 500;
+
+select *
+  from expednac_d
+ where numero = 500;

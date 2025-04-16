@@ -19,14 +19,15 @@ declare
 --        );
 
 
+--   TD	10	140	2964
   cursor trx is --> por número de transaccion
     select *
       from kardex_g
-     where cod_alm = '37'
+     where cod_alm = 'D5'
        and tp_transac = '16'
-       and serie = 1
+       and serie = 3
        and numero in (
-       207999
+       159671
        )
      order by ing_sal desc, numero_pguia;
 

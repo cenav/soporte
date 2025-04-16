@@ -1,16 +1,15 @@
 select *
   from tmp_moviart_dos
- where ano = 2022
-   and mes in (12)
-   and id in ('S')
---    and motivo = '1'
+ where ano = 2025
+   and mes in (1)
+   and id in ('I')
+   and motivo = '1'
 --    AND ordtra IS NULL;
 --    and (cta like '26%')
-   and (cta like '23%' or cta like '24%' or cta like '26%' or cta like '20%' or cta like '25%' or
-        cta like '21%')
+   and (cta like '24%' or cta like '25%' or cta like '26%' or cta like '3%' or cta like '9%');
 --    and tp_transac in ('26%')
-   and cod_ope in
-       ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '36', '37', '48');
+--    and cod_ope in
+--        ('12', '14', '28', '86', '93', '95', '97', '39', '80', '81', '85', '36', '37', '48');
 --    and docto like 'PK%';
 -- AND ordtra IN ('VENTA NA');
 -- AND ordtra IN ('598272', '590102', '590174', '590178', '592854', '597853', '595823', '590104', '590103')
@@ -832,3 +831,17 @@ select *
 -- 32	29	1	1795946
 -- 37	18	2	574885
 -- 38	18	2	574886
+
+select *
+  from kardex_g
+ where cod_alm = '25'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1904556;
+
+select *
+  from kardex_d
+ where cod_alm = '25'
+   and tp_transac = '29'
+   and serie = 1
+   and numero = 1904556;

@@ -3,7 +3,7 @@ declare
     select numero
       from pr_ot
      where numero in (
-                      1060958, 1058529
+       394664
        )
        and nuot_tipoot_codigo = 'AR';
 begin
@@ -22,3 +22,9 @@ begin
     dbms_output.put_line(sql%rowcount);
   end loop;
 end;
+
+-- elimina solo el historial de una caja
+select *
+  from produccion_armado_cajas_his
+ where cod_caja = 394664
+ order by fecha;

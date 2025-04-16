@@ -301,3 +301,5 @@ select *
    and mes = 12
    and libro = '38'
    and voucher = 120001;
+
+select * from tab_semanas;

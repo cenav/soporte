@@ -11,14 +11,13 @@ select *
    and oms_serie = 1
    and oms_numero = 848;
 
-select *
-  from wms_picking_alm
- where tk_serie = 2
-   and tk_numero = 1197;
+-- 373
+-- BH 0.23-200
 
 select *
   from wms_picking_alm
- where tk_numero = 757;
+ where tk_serie = 3
+   and tk_numero = 372;
 
 select *
   from wms_usuarios
@@ -536,3 +535,123 @@ select a.cod_art, a.cod_art, b.saldo, b.tk_numero
    and b.cod_art = a.cod_art
    and b.saldo > 0
    and rownum = 1;
+
+select *
+  from wms_ubicaciones
+ where id_ubicacion in ('030101007002', '030101007001');
+
+select *
+  from articul
+ where cod_art = 'BH 0.32-171';
+
+select *
+  from tab_lineas
+ where linea = '1622';
+
+select *
+  from tab_lineas
+ where linea like '16%';
+
+select *
+  from tab_lineas
+ where descripcion like '%BOBINA%';
+
+select *
+  from tab_lineas
+ where linea = '2028';
+
+select *
+  from wms_lineas_solicitud
+ where tipo_sol = 'MATER'
+ order by linea;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 599251;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 599251;
+
+select *
+  from articul
+ where cod_art = 'BH 0.23-605';
+
+-- linea de la bobina debe estar correcta en la orden
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and art_cod_art = 'BH 0.32-171';
+
+select *
+  from wms_usuarios
+ where nombre like '%LASTRERA%';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 601410;
+
+select * from vwms_fis_ubicacion_bolsa;
+
+select * from vwms_fis_ubicacion_bolsa;
+
+select * from wms_orden_sol;
+
+select *
+  from almacenes
+ where nvl(tipo_alm, '0') in ('WMS');
+
+select *
+  from almacenes
+ where cod_alm = '30';
+
+select distinct tipo_alm from almacenes;
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm = '30';
+
+select d.art_cod_art as art, a.cod_interno as cod_wms
+     , round(d.rendimiento * o.cant_prog, 4) as total, d.cant_despachada, a.und as unidad, a.linea
+     , substr(get_deslinea(a.linea), 1, 180) as deslin
+  from pr_ot o
+     , pr_ot_det d
+     , pcarticul a
+ where o.numero like :WMS_DEVOL_SOL.pr_referencia
+   and o.nuot_tipoot_codigo in ('PR', 'VA') and o.estado between '1' and '5'
+   and d.ot_numero = o.numero
+   and a.cod_art = d.art_cod_art
+   and exists (
+   select w.cod_art from wms_alm_ubicacion w where w.cod_art = d.art_cod_art and estado <> '9'
+   );
+
+
+select *
+  from view_salidas_pre_guias
+ where not exists (
+   select 1
+     from kardex_g_guia_remision r
+    where cod_alm = view_salidas_pre_guias.cod_alm
+      and tp_transac = view_salidas_pre_guias.tp_transac
+      and serie = view_salidas_pre_guias.serie
+      and numero = view_salidas_pre_guias.numero
+   )
+   and cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (
+   3154
+   );
+
+select *
+  from view_salidas_pre_guias
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 140
+   and numero in (
+   3154
+   );

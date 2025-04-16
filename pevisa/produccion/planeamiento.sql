@@ -210,3 +210,92 @@ select *
 select *
   from expedidos
  where numero = 16739;
+
+select get_descripcion_grupo_pieza(pp.cod_pza) as descripcion_grupo, a.cod_lin, pp.cod_pza
+     , pp.art_cod_art as color, sum(pp.saldo) as saldo
+     , sum(f_compras_en_curso(pp.cod_pza)) as compras_en_curso
+     , decode(pp.art_cod_art, 'G',
+              'Desarrollo',
+              'M', 'Inc. Importado',
+              'R', 'Inc. Nacional',
+              'B', 'Azul',
+              'Otro'
+       ) as descripcion_color
+     , f_stock_almacen(cod_pza, '42') as stock_alm_42
+  from tmp_faltantes_importados pp
+     , articul a
+ where pp.cod_pza = a.cod_art
+ group by get_descripcion_grupo_pieza(pp.cod_pza), pp.cod_pza, a.cod_lin, pp.cod_pza, pp.art_cod_art
+ order by 2, 3;
+
+  with detalle as (
+    select pp.numero, get_descripcion_grupo_pieza(pp.cod_pza) as descripcion_grupo, a.cod_lin
+         , pp.cod_pza, pp.color, sum(pp.saldo) as saldo
+      from pr_prioridad_pedido_color pp
+         , articul a
+     where pp.cod_pza = a.cod_art
+--	             AND    GET_GRUPO_PIEZA (PP.COD_PZA) <> '11'
+       and pp.prioridad in (
+       select prioridad
+         from temp_priori_selecionadas
+        where usuario = user
+       )
+     group by pp.numero, get_descripcion_grupo_pieza(pp.cod_pza), a.cod_lin, pp.cod_pza, pp.color
+    )
+select *
+  from detalle
+ where detalle.numero = 16456;
+
+
+select *
+  from pr_prioridad_pedido_color
+ where numero = 16532;
+
+select *
+  from pr_prioridad_pza_30
+ where prioridad = 6103
+   and numero = 16532
+   and cod_pza = '66044SR';
+
+select p.ranking, p.nom_cliente, p.nro_pedido, p.itm_pedido, p.fch_pedido, p.ot_numero, p.cod_jgo
+     , p.cod_pza, p.valor, p.cantidad, p.rendimiento, p.stock_actual, p.cant_final, p.saldo_stock
+     , p.stock_inicial, p.nom_color as color_pza, j.nom_color as color_jgo
+  from vw_surte_jgo j
+     , vw_surte_pza p
+ where j.nro_pedido = p.nro_pedido
+   and j.itm_pedido = p.itm_pedido
+   and cod_pza = '95313-CHGR'
+ order by p.ranking;
+
+select *
+  from vw_surte_sao
+ where cod_sao = '300.539A';
+
+-- resta ordenes que estan impresas al stock actual de las piezas
+  with impresas as (
+    select o.art_cod_art, sum(o.cant_formula) as impreso
+      from vw_ordenes_impresas_piezas o
+--                    join param_surte p on p.id_param = 1
+--              where o.dias_impreso <= p.dias_impreso_bien
+     group by o.art_cod_art
+    )
+     , stock as (
+    select distinct art_cod_art, stock
+      from vw_ordenes_pedido_pendiente
+    )
+select s.art_cod_art, s.stock, i.impreso as impreso
+     , greatest(s.stock - nvl(i.impreso, 0), 0) as stock
+  from stock s
+       left join impresas i on s.art_cod_art = i.art_cod_art
+ where i.art_cod_art = '95313-CHGR';
+
+select o.art_cod_art, sum(o.cant_formula) as impreso
+  from vw_ordenes_impresas_piezas o
+ where o.art_cod_art = '95313-CHGR'
+ group by o.art_cod_art;
+
+
+select o.pedido, o.pedido_item as item, o.nuot_tipoot_codigo as tipo, o.numero
+     , o.formu_art_cod_art as formula, o.art_cod_art as pieza, o.cant_prog
+  from vw_ordenes_impresas_piezas o
+ where o.art_cod_art = '95313-CHGR';

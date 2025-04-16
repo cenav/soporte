@@ -4,13 +4,13 @@ end;
 
 select *
   from analisis_consumo
- where ano = 2024
-   and mes = 11;
+ where ano = 2025
+   and mes = 2;
 
-delete
-  from analisis_consumo
- where ano = 2024
-   and mes = 11;
+-- delete
+--   from analisis_consumo
+--  where ano = 2025
+--    and mes = 3;
 
 select *
   from logger_logs

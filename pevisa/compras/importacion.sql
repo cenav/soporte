@@ -1,3 +1,6 @@
+select tope_anticipo_imp_mensual
+  from paramlg;
+
 select p.id_programa, p.descripcion
   from pr_programas_compras p
      , planeamiento_compras c
@@ -20,11 +23,9 @@ select *
 
 select * from planeamiento_compras;
 
-select *
-  from vendedores
- where cod_vendedor = '38';
-
-select * from orden_de_compra;
+-- tope maximo anticipo
+select * --> tope_anticipo_imp_mensual
+  from paramlg;
 
 select *
   from lg_dua
@@ -280,3 +281,11 @@ select * from estados_liberacion_producto;
 select *
   from embarques_g
  where numero_embarque = 5148;
+
+select *
+  from lg_monedas
+ where fecha = to_date('27/03/2025', 'dd/mm/yyyy');
+
+select * from moneda;
+
+select * from tipo_archivo;

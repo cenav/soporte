@@ -2,7 +2,7 @@ select *
   from ot_mantto
  where id_tipo = 'MQ'
    and id_serie = 2
-   and id_numero in (2909);
+   and id_numero in (2993, 2997);
 
 select *
   from solimat_d
@@ -287,3 +287,35 @@ end;
 select *
   from personal_mantto
  where admin = 'S';
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'MQ1PJEB-058';
+
+select *
+  from ot_mantto
+ where id_activo_fijo = 'MQ1PJEB-058';
+
+select *
+  from pr_tabmaq
+ where codigo = 'MQ1PJEB-044';
+
+select * from pr_ot;
+
+select * from pr_ot_det;
+
+select * from pr_ot_detalles;
+
+select * from pr_ot_det_consumo;
+
+select * from kardex_d;
+
+select * from pr_grupos;
+
+select *
+  from pr_grupos_lineas
+ where id_grupo = '01';
+
+select * from prod_subgrupo_linea_rel;
+
+select * from tab_lineas;

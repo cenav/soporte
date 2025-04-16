@@ -1,14 +1,14 @@
 select *
   from cotizacion
- where num_ped in (241367);
+ where num_ped in (243601);
 
 select *
   from itemcot
- where num_ped = 241367;
+ where num_ped in (243601);
 
 select *
   from pedido
- where num_ped in (261802);
+ where num_ped in (242674);
 
 select *
   from itemped
@@ -151,8 +151,8 @@ select cod_cliente, ruc, c.nombre as nom_cliente, c.grupo, g.nombre as nom_grupo
 select *
   from docuvent
  where tipodoc = '08'
-   and serie = 'F050'
-   and numero = 16541;
+   and serie = 'F055'
+   and numero = 922;
 
 select *
   from factcob
@@ -1337,3 +1337,57 @@ select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nom
             join vendedores j on v.supervisor = j.cod_vendedor
       where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end
      ));
+
+-- LOV cotizacion
+select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nombre as vendedor
+     , v.supervisor, p.moneda, p.total_pedido
+  from cotizacion p
+       left join vendedores v on p.cod_vende = v.cod_vendedor
+ where nvl(p.estado, '0') in ('0', '1', '2', '3', '4', '5', '6')
+   and extract(year from fecha) >= 2025
+   and ((exists (
+   select 1
+     from vendedores
+    where abreviada = :usuario
+      and indicador1 = 'GC'
+   )
+   and cod_vendedor in (
+     select e.cod_vendedor
+       from vendedores e
+            join vendedores j on e.supervisor = j.cod_vendedor
+      where j.abreviada = case :usuario when 'RRODRIGUEZ' then 'RR VTAS' else :usuario end
+     ))
+   or (exists (
+     select 1
+       from usuario_modulo
+      where modulo = 'VA_RETPEDCOT'
+        and maestro = 'SI'
+        and supermaestro = 'SI'
+        and usuario = :usuario
+     )))
+ order by p.fecha desc, p.num_ped desc;
+
+-- ZDELAPUENTE
+select *
+  from vendedores
+ where cod_vendedor = 'E2';
+
+select *
+  from vendedores
+ where abreviada = 'PEVISA';
+
+select *
+  from cotizacion
+ where unidad_negocio in ('01', '02')
+   and cod_vende like '%'
+   and num_ped = 242674;
+
+
+select *
+  from clientes
+ where categoria_ventas is not null
+    or categoria_pagos is not null;
+
+select *
+  from pedido
+ where num_ped = 262839;
