@@ -250,10 +250,10 @@ select *
 
 select *
   from factcob
- where tipdoc = '07'
-   and serie_num = 'F056'
+ where tipdoc = '08'
+   and serie_num = 'F055'
    and numero in (
-   5522
+   923
    );
 
 select *
@@ -518,7 +518,8 @@ select *
 
 select *
   from factpag
- where tipdoc = 'PO';
+ where tipdoc = 'LV'
+   and numero = 923;
 
 select to_date('23/09/2024', 'dd/mm/yyyy') + 30 from dual;
 

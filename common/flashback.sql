@@ -898,8 +898,23 @@ select *
    and numero = 3145;
 
 
+select *
+  from kardex_g
+    as of timestamp to_timestamp('23-04-2025 10:30:00', 'DD-MM-YYYY HH24:MI:SS')
+ where tipo_pguia = 'PR'
+   and serie_pguia = '8'
+   and numero_pguia = '606357';
+--    and tp_transac = '18';
 
-INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('30', '35', 140, 3145, DATE '2025-04-14', 'TK', 3, 367, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'SM 1 203630', 'SM', '1', 203630, 'SOLIMAT', null, null, null, null, null, null, null);
+select *
+  from kardex_g
+ where tipo_pguia = 'PR'
+   and serie_pguia = '8'
+   and numero_pguia = '606356'
+   and tp_transac = '18'
+   and cod_alm = '37';
 
-INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('30', '35', 140, 3145, 'BO 0.6PQ-254', 1140.0000, 0.000000, 0.000000, DATE '2025-04-14', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'SM', 203630, null);
+select *
+  from pk_glosa as of timestamp to_timestamp('30-05-2025 17:45:00', 'DD-MM-YYYY HH24:MI:SS')
+ where numero = 61450;
 

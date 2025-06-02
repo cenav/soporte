@@ -2,7 +2,7 @@
 declare
   cursor vencimientos is
        with fechas as (
-         select date'2025-04-01' as desde, date'2025-04-05' as hasta
+         select date'2025-04-01' as desde, date'2025-04-27' as hasta
            from dual
          )
      select f.desde + level - 1 as dia

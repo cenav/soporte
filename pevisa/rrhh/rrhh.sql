@@ -570,4 +570,9 @@ select codigo, nombre, ecorreo
    and ((:supermaestro = 'SI' and upper(usuario) like '%') or
         (upper(usuario) = :usuario));
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.personal
+ where c_codigo in (
+                    'E41830', 'E43400', 'E43495', 'E43563', 'E43664'
+   );
+

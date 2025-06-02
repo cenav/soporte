@@ -27,6 +27,11 @@ select *
  where serie = 5
    and num_ped in (2916, 2912, 2926, 2929, 2942);
 
+select *
+  from orden_de_compra_calificacion
+ where serie = 3
+   and num_ped = 46033;
+
 -- 0337221
 
 select *

@@ -4,7 +4,7 @@
 -- cambiar a estado 5
 select *
   from produccion_armado_cajas
- where cod_caja = 1071693;
+ where cod_caja = 1103660;
 
 --::::::::::::::::::::::::::::--
 --    Elimina Caja Armado     --
@@ -19,7 +19,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1101528;
+ where numero_oa = 1093596;
 
 select *
   from produccion_armado_cajas

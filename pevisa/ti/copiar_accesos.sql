@@ -5,7 +5,7 @@ select username, account_status, created, lock_date, expiry_date
 
 select *
   from usuarios
- where usuario = 'MREQUIS';
+ where usuario = 'FORIUNDO';
 
 declare
   k_newusr varchar2(30) := 'VVELAZCO';
@@ -35,8 +35,8 @@ end;
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'ASOCIAL';
-  k_newusr varchar2(30) := 'MREQUIS';
+  k_oldusr varchar2(30) := 'MVARGAS';
+  k_newusr varchar2(30) := 'FORIUNDO';
 begin
 
   insert into seccrus
@@ -179,9 +179,10 @@ end;
 ------------------------------------------------
 ------------------------------------------------
 
+
 select *
   from usuarios_cotizacion
- where usuario in ('VGOMEZ', 'JZANABRIA');
+ where usuario in ('FORIUNDO', 'MVARGAS');
 
 select co_usrusr, co_ctrctr, co_clave, nombres
   from seccrus s
@@ -252,7 +253,7 @@ select cod_alm
 
 select cod_alm
   from pr_usualma
- where usuario = 'MGUITERREZ';
+ where usuario = 'MMILLONES';
 
 select *
   from pr_usualma ua
@@ -270,7 +271,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('EVASQUEZ');
+ where co_usrusr in ('MREQUIS');
 
 select *
   from seccrus

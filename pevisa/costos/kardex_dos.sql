@@ -158,8 +158,8 @@ select nro_doc, replace(nro_doc, ':', '')
 
 select *
   from analisis_consumo
- where ano = 2024
-   and mes = 2;
+ where ano = 2025
+   and mes = 4;
 
 select *
   from tmp_moviart_dos

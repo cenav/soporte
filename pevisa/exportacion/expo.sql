@@ -1,3 +1,5 @@
+-- pedido que no se ve AutoZone 16755, 16794, 16787
+
 select *
   from exbooking_d
  where numero_booking = 'AER-113';
@@ -24,8 +26,7 @@ select *
 
 select *
   from exproforma_d
- where numero = 19416
-   and nro = 38;
+ where numero = 20017;
 
 select *
   from exproforma_d
@@ -939,3 +940,78 @@ select *
 select *
   from exclientes
  where abreviada = 'MAXIFORCE';
+
+select *
+  from expedidos
+ where numero = 16847;
+
+select *
+  from exproformas
+ where numero = 20058;
+
+select *
+  from exproforma_d
+ where numero = 20058;
+
+select *
+  from exproformas_expedidos
+ where numero_proforma = 20058;
+
+select *
+  from exproformas_expedidos
+ where numero_pedido = 16845;
+
+select numero, fecha, nombre, tbruto, cod_cliente, zona as vendedor, packing_agrupar
+  from exproformas
+ where estado not in ('8', '9')
+ order by numero desc;
+
+select d.numero, d.nro, d.id, d.cod_cliente, d.fecha
+     , d.cod_eqi, d.cod_art, d.descri1, d.descri2, d.descri3
+     , a.partida, d.cantp, d.canti, d.preuni, d.saldo
+     , d.totlin, d.saldo_ot, d.por_desc1, d.por_desc2, d.pneto
+     , d.nro_en_pedido, d.aprobacion, d.precio_lista, d.precio_aprobado, d.precio_solicitado
+     , d.tipo_aprobacion
+  from exproforma_d d
+     , articul_pev a
+ where d.numero = :proforma
+   and d.cod_art is not null
+   and nvl(d.nro_en_pedido, 0) = 0
+   and nvl(d.id, '0') = '0'
+   and a.cod_art = d.cod_art;
+
+select *
+  from expedidos
+ where numero = 16847;
+
+select *
+  from expedidos
+ where numero = 16847;
+
+select *
+  from expedido_d
+ where numero = 16847;
+
+select * from exparamexpo;
+
+select *
+  from pr_consul
+ where pedido = 16847;
+
+
+select d.cod_cliente, d.partida, d.preuni, k.cod_art, k.cod_eqi, k.numero, k.nro_ped
+     , d.cod_art as cod_art_ped, d.cod_eqi as cod_eqi_ped
+  from pk_detal k
+     , expedido_d d
+ where k.pk_numero = 62122
+   and k.numero = d.numero
+   and k.nro_ped = d.nro
+   and nvl(d.id, ' ') <> 'AN'
+   and (k.cod_art <> d.cod_art
+   or k.cod_eqi <> d.cod_eqi
+   );
+
+select *
+  from expedido_d
+ where numero = 16575
+   and nro = 29;

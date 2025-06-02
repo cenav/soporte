@@ -48,3 +48,12 @@ select *
 
 -- cot 242621
 -- ped 263206
+
+-- 243601 copia a nueva cotizacion
+
+select distinct s.id_subgrupo, s.dsc_subgrupo, p.nombre
+  from prod_subgrupo s
+       join prod_grupo_subgrupo_rel r on s.id_subgrupo = r.id_subgrupo
+       left join vw_personal p on s.id_encargado = p.c_codigo
+ where (r.id_grupo = :id_grupo or :id_grupo is null)
+   and (r.id_megagrupo = :id_megagrupo or :id_megagrupo is null);

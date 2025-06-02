@@ -1,8 +1,8 @@
 select *
   from orden_de_compra
- where serie = 22
+ where serie = 13
    and num_ped in (
-   819
+   5698
    );
 
 select *
@@ -67,7 +67,7 @@ select *
   from orden_de_compra_historia
  where serie = 3
    and num_ped in (
-   805
+   1044
    );
 
 select *
@@ -1215,3 +1215,19 @@ select *
 select *
   from expednac_d
  where numero = 500;
+
+select *
+  from articul
+ where cod_art = 'MAT1 3838CS-5-CEM/1-1';
+
+select *
+  from pr_grupos
+ where id in ('34', '35', '36', '13');
+
+select *
+  from pr_grupos
+ where id = '37';
+
+select *
+  from pr_grupos_lineas
+ where cod_lin = '2540';

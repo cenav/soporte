@@ -1,6 +1,6 @@
-alter user powerbi account unlock;
+alter user pchumacero account unlock;
 
-alter user msotomayor account lock;
+alter user MVARGAS account lock;
 
 alter user powerbi identified by "pevisa.pbi";
 
@@ -13,7 +13,7 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'POWERBI';
+ where username like 'MVARGAS';
 
 -- alter trigger tbu_movglos_cierre enable;
 
@@ -58,9 +58,8 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('FURTEAGA', 'OLGA')
+ where co_usrusr in ('ECARDENAS', 'LOBISPO', 'FURTEAGA')
  order by co_usrusr;
-
 
 select *
   from seccrus
@@ -85,17 +84,17 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%contratos que vencen%')
+ where upper(text) like upper('%KOCAMPO%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%indicar tiempo%')
-   and owner = 'PEVISA';
+ where upper(text) like upper('%inicio de labores%')
+   and owner = 'PLANILLA10';
 
 select *
   from all_source
- where upper(text) like upper('%Activación de código%')
+ where upper(text) like upper('%contratos que vencen%')
    and owner = 'PEVISA';
 
 select owner, table_name
@@ -140,19 +139,14 @@ select usuario, nombres, estado, email, codigo_trabajador
 
 select c_codigo, nombre, email, email_p, situacion
   from vw_personal
- where c_codigo = 'E017'
-   and situacion not in (
+ where c_codigo = 'E017' and situacion not in (
    select codigo
      from planilla10.t_situacion_cesado
    );
-
-select *
-  from vw_personal
- where nombre like '%SUAREZ%';
-
+select * from vw_personal where nombre like '%GOMEZ%';
 select *
   from planilla10.personal
- where c_codigo = 'E1089';
+ where c_codigo = 'EI';
 
 select *
   from planilla10.tar_encarga
@@ -197,7 +191,11 @@ select *
 
 select *
   from usuarios
- where usuario in ('DRODRIGUEZS', 'DCHAMPI');
+ where usuario in ('ECARDENAS', 'LOBISPO');
+
+select *
+  from planilla10.personal
+ where c_codigo = '';
 
 select *
   from planilla10.personal
@@ -246,14 +244,13 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('FORMATO_CALIDAD')
-   and maestro = 'NO'
+ where modulo in ('CAMBIO_OT')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo like '%EVALUACION%'
-   and usuario = 'EVALIENTE'
+ where modulo in ('CAMBIO_OT')
+   and usuario in ('CNAVARRO', 'PEVISA')
  order by usuario, modulo;
 
 select *
@@ -590,8 +587,8 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'RICARDO_TOVAR'
-   and cod_alm = '03'
+ where usuario in ('ECARDENAS', 'LOBISPO', 'FURTEAGA')
+   and cod_alm in ('03', '79')
  order by cod_alm;
 
 select *
@@ -1268,3 +1265,78 @@ select *
   from tab_menu
  where sistema = 'M_PRECIOS_M'
    and usuario = 'FURTEAGA';
+
+select *
+  from usuarios
+ where usuario in ('ECARDENAS', 'FURTEAGA', 'LOBISPO');
+
+select *
+  from vw_personal
+ where nombre like '%URTEAGA%';
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = '03'
+ order by 1;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '03';
+
+select *
+  from almacen_punto_partida_llegada
+ where cod_alm = '03';
+
+select nro_sucur, direccion
+  from sucursales
+ where cod_cliente = '20100084768'
+   and nro_sucur = (
+   select punto
+     from almacen_punto_partida_llegada
+    where cod_alm = '79'
+   );
+
+select *
+  from almacenes
+ where cod_alm = '79';
+
+select *
+  from almacenes
+ where cod_alm = 'TL';
+
+select *
+  from tablas_auxiliares
+ where codigo in ('79', 'TL')
+   and tipo = 33;
+
+select *
+  from almacenes
+ where descripcion like '%TRANSITO%'
+ order by cod_alm;
+
+select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.cod_alm01
+     , g.cod_alm02, g.observacion, g.numero_ref
+  from solimat_g g
+ where g.estado < 4
+   and exists (
+   select distinct -1
+     from solimat_d d
+    where g.serie = d.serie
+      and g.numero = d.numero
+      and d.saldo > 0
+   )
+   and nvl(cod_tipo_solimat, 'OTRO') = 'OTRO'
+   and g.cod_alm01 = '03'
+   and g.cod_alm02 = '79'
+   and g.cod_alm01 in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = g.cod_alm01 and usuario = user
+   )
+ order by g.serie, g.numero desc;
+
+select *
+  from solimat_g
+ where numero = 161444;

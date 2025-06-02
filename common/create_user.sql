@@ -1,11 +1,11 @@
 -- CREAR EN USUARIOS
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%MREQUIS%';
+ where username like '%MVARGAS%';
 
 select *
   from usuarios u
- where usuario in ('EVASQUEZ', 'ASOCIAL');
+ where usuario in ('FORIUNDO', 'MVARGAS');
 
 select *
   from vw_personal
@@ -16,18 +16,18 @@ select *
 ---------------------------
 ---------------------------
 
-create user mrequis
+create user foriundo
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
   profile default
   account unlock;
 
-grant privilegios_usuarios_sig to mrequis;
+grant privilegios_usuarios_sig to foriundo;
 
-alter user mrequis default role all;
+alter user foriundo default role all;
 
-alter user mrequis password expire;
+alter user foriundo password expire;
 
 ---------------------------
 ---------------------------

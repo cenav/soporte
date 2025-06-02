@@ -8,7 +8,19 @@ select * from wms_estado_solicitud order by id_estado;
 select *
   from wms_orden_sol
  where tipo = 'PR'
-   and numero in (575573);
+   and numero in (390);
+
+select *
+  from wms_orden_sol
+ where tipo = 'PR'
+   and numero in (590817)
+   and oms_numero = 1584;
+
+select *
+  from pr_ordenes_solicitud_oms
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 590817
+   and oms_numero = 1584;
 
 select * from wms_estado_solicitud;
 
@@ -126,3 +138,86 @@ select *
 select *
   from wms_orden_sol
  where oms_numero = 201430;
+
+select codigo, descripcion
+  from tablas_auxiliares
+ where tipo = '33'
+   and codigo <> '....'
+   and not exists (
+   select 1
+     from almacenes
+    where tipo_alm = 'WMS'
+      and almacenes.cod_alm = tablas_auxiliares.codigo
+   )
+ order by codigo;
+
+select *
+  from almacenes
+ where cod_alm = 'D5';
+
+select *
+  from almacenes
+ where tipo_alm = 'WMS';
+
+select a.cod_alm, t.descripcion, a.nombre
+  from pr_usualma a
+     , tablas_auxiliares t
+ where a.cod_alm = t.codigo
+   and t.tipo = '33'
+   and a.usuario = :PR_OT.xusuario
+   and not exists (
+   select 1
+     from almacenes
+    where tipo_alm = 'WMS'
+      and almacenes.cod_alm = t.codigo
+   )
+ order by a.cod_alm;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+select * from wms_rec_oms;
+
+select *
+  from wms_orden_sol
+ where oms_tipo = 'WS'
+   and oms_numero = 390;
+
+
+-- INSERT INTO PEVISA.WMS_ORDEN_SOL (TIPO, SERIE, NUMERO, FECHA_OT, JUEGO, NRO_PEDIDO, REF_CLIENTE, DESTINO, CANT_PROG, TOT_ITEMS, ESTADO, PICKER, TK_SERIE, TK_NUMERO, TK_ITEM, FECHA_REC, FECHA_DES, FECHA_ANU, OMS_TIPO, OMS_SERIE, OMS_NUMERO) VALUES ('PR', '8', 607314, TIMESTAMP '2025-04-30 14:53:57', 'CL-O PL95350-1ZN', null, null, null, 30.00, null, '8', '43469', '2', 2724, 1, TIMESTAMP '2025-05-14 11:29:03', null, null, 'WS', '2', 390);
+
+select *
+  from wms_orden_sol
+ where tipo = 'PR'
+   and numero = 602953;
+
+select *
+  from vw_solicitud_oms_pendientes
+ where numero = 602953;
+
+select *
+  from wms_orden_sol_item
+ where numero = 602953;
+
+select * from wms_estado_solicitud;
+
+select count(*)
+  from pr_ot o
+     , pr_ot_det d
+ where o.numero like 607202
+   and o.nuot_tipoot_codigo in ('PR', 'VA')
+   and o.estado between '1' and '5'
+   and d.ot_numero = o.numero
+   and exists (
+   select w.cod_art
+     from wms_alm_ubicacion w
+    where w.cod_art = d.art_cod_art
+      and estado <> '9'
+   );
+
+select *
+  from wms_alm_ubicacion
+ where cod_art in (
+                   'BH 0.23 - 300 ETIQ E-01', 'FOR3913', 'NI 2900 0.6-300', 'NI 2900 0.8-300'
+   );

@@ -655,3 +655,59 @@ select *
    and numero in (
    3154
    );
+
+select *
+  from wms_picking_alm
+ where cod_art = 'BLAF 0.23-406N-T5';
+
+select pd.ot_nuot_tipoot_codigo, pd.ot_nuot_serie, pd.ot_numero, p.formu_art_cod_art, pd.art_cod_art
+     , pd.rendimiento
+  from pr_ot p
+     , pr_ot_det pd
+     , articul a
+ where p.nuot_tipoot_codigo = pd.ot_nuot_tipoot_codigo
+   and p.nuot_serie = pd.ot_nuot_serie
+   and p.numero = pd.ot_numero
+   and a.cod_art = pd.art_cod_art
+   --AND A.COD_LIN = PG.COD_LIN
+   and pd.cod_lin in (
+   select wl.linea
+     from wms_lineas_solicitud wl
+    where wl.tipo_sol = 'MATER'
+   )
+   and p.numero = 606821;
+
+select *
+  from view_vws_libera_orden
+ where nuot_tipoot_codigo = 'PR'
+   and nuot_serie = '8'
+   and numero = 606821;
+
+select pr.nuot_tipoot_codigo, pr.nuot_serie, pr.numero
+     , cant_prog - cant_ingresado
+  + nvl((
+          select cant_ingresado
+            from pr_ot p
+           where p.nuot_tipoot_codigo = pr.nuot_tipoot_codigo
+             and p.nuot_serie = pr.nuot_serie
+             and p.numero = pr.numero
+             and numero in
+                 (
+                   select w.numero
+                     from wms_libera_orden_surte w
+                    where w.nuot_tipo_ot = p.nuot_tipoot_codigo
+                      and w.nuot_serie = p.nuot_serie
+                      and w.numero = p.numero
+                   )
+          ),
+        0) as cantfinal
+  from pr_ot pr
+ where estado < 9;
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%YABAR%';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E1196';

@@ -34,7 +34,7 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (
-   36837
+   44714
    );
 
 -- F0	21	25	14665
@@ -78,7 +78,7 @@ select *
    and tp_transac = '21'
    and serie = 25
    and numero in (
-   36837
+   45668
    );
 
 select *
@@ -89,8 +89,6 @@ select *
    and numero in (
    3154
    );
-
-INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T140', 3145, DATE '2025-04-14', '150103', '150103', 'CAL.RENE DESCARTES NRO. 146 URB. SANTA RAQUEL ET. DOS', '20100084768', '30', '35', 140, 3145, '04', '20100084768', '07', '11', 2.00, 1140.0000, '05', '06', '02', null, null, null, null, null, null, 1140.0000, '1', 203630, 'SM', '20100084768', 'TRASLADO ENTRE ESTABLECIMIENTO', '0004', '0000', TIMESTAMP '2025-04-14 18:16:30', null, null, null, null, null, null);
 
 --:::::::::::::::::::::::::::::::::::::::::--
 --           cheka correlativo             --
@@ -113,17 +111,98 @@ select *
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T118'
-   and guia_numero = 553;
+ where guia_serie = 'T001'
+   and guia_numero = 45668;
+
+select max(guia_numero)
+  from kardex_g_guia_remision
+ where guia_serie = 'T001';
 
 select *
-  from kardex_g_guia_remision_detalle
- where guia_serie = 'T183'
-   and guia_numero = 125;
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '21'
+   and serie = 25
+   and numero in (
+   45668
+   );
 
 select *
-  from articul
- where cod_art = 'SERV. TEMP-REVEN-S-0 -K-100';
+  from kardex_g
+ where cod_alm = '';
+
+select *
+  from kardex_d
+ where cod_alm = 'D3'
+   and tp_transac = '35'
+   and serie = 139
+   and numero = 3821;
+
+select *
+  from kardex_d
+ where cod_alm = 'T4'
+   and serie = 139
+   and numero = 3821;
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
+select *
+  from kardex_g
+ where cod_alm = '72'
+   and tp_transac = '10'
+   and serie = 138
+   and numero = 1295;
+
+select *
+  from kardex_d
+ where cod_art = 'PLZN 0.23-535-1300'
+   and cantidad = 445;
+
+select *
+  from almacenes
+ where cod_alm = '72';
+
+select *
+  from almacenes
+ where cod_alm = '30';
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'D2';
+
+select descripcion, cod_alm
+  from almacenes
+ where estado = 1
+   and cod_alm in (
+   select distinct cod_alm
+     from kardex_g
+    where tp_transac = '10'
+      and ing_sal = 'I'
+      and estado <= 7
+      and cod_alm in (
+      select cod_alm_transito
+        from almacenes
+       where cod_alm_transito is not null
+         and cod_alm_transito = kardex_g.cod_alm
+         and nvl(tipo_alm, '0') != 'WMS'
+      )
+   )
+ order by 2;
+
+select distinct cod_alm
+  from kardex_g
+ where tp_transac = '10'
+   and ing_sal = 'I'
+   and estado <= 7
+   and cod_alm in (
+   select cod_alm_transito
+     from almacenes
+    where cod_alm_transito is not null
+      and cod_alm_transito = '72'
+      and nvl(tipo_alm, '0') not in ('WMS')
+   );
 
 --------------------------------------
 -- vuelve a enviar guia exportacion --
@@ -856,3 +935,18 @@ select *
    and tp_transac = '183'
    and serie = 999
    and numero = 125;
+
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = user
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );

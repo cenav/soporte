@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   61645
+   61450
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -402,3 +402,38 @@ select sum(d.canti) as cantidad_empacada_orden
 select *
   from pk_detal
  where ot_numero = :p_numero_de_orden;
+
+select distinct pk_tipo, pk_serie, pk_numero, g.cod_cliente, c.nombre, g.estado, scod_alm, sguia_tp
+              , sguia_serie, sguia_numero, sguia_fecha, transporte_medio
+  from pk_glosa g
+     , exclientes c
+ where g.cod_cliente = c.cod_cliente
+   and g.estado = '7'
+   and scod_alm is not null
+   and sguia_tp is not null
+   and sguia_serie is not null
+   and sguia_numero is not null
+   and pk_tipo = 'PK'
+   and pk_serie = '1'
+   and pk_numero = 61450;
+
+select *
+  from pk_glosa
+ where numero = 61449;
+
+select *
+  from pk_gnumero
+ where pk_numero = 61450;
+
+select *
+  from pk_gnumero
+ where pk_numero = 61450;
+
+select *
+  from pk_glosa
+ where pk_numero = 61450;
+
+select *
+  from pk_glosa
+ order by fecha desc;
+

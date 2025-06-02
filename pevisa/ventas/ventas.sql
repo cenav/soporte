@@ -1,14 +1,31 @@
 select *
   from cotizacion
- where num_ped in (243601);
+ where serie = 24
+   and num_ped in (5767);
 
 select *
   from itemcot
- where num_ped in (243601);
+ where serie = 24
+   and num_ped in (5767);
+
+select *
+  from cotizacion
+ where serie = 27
+   and num_ped = 3;
+
+select *
+  from itemcot
+ where serie = 27
+   and num_ped = 3
+ order by item;
 
 select *
   from pedido
- where num_ped in (242674);
+ where num_ped in (267144);
+
+select *
+  from clientes
+ where cod_cliente = '10024496193';
 
 select *
   from itemped
@@ -16,7 +33,7 @@ select *
 
 select *
   from cotizacion
- where refe_pedido = 261802;
+ where refe_pedido = 267144;
 
 -- 20608751531
 
@@ -1390,4 +1407,144 @@ select *
 
 select *
   from pedido
- where num_ped = 262839;
+ where num_ped = 266611;
+
+select serie, automatico, descmax
+     , decode(serie, 21, 'Consumo', 22, 'Liquidacion', 23, 'Muestras', 24, 'Obsequios',
+              null) as des_serie
+  from nrodoc
+ where tipodoc = (
+   select tpedido
+     from paramfa
+   );
+
+select p.num_ped, p.cod_cliente, p.nombre
+  from cotizacion p
+ where p.serie = :pedido.serie
+ order by p.num_ped;
+
+
+select p.num_ped, p.cod_cliente, p.nombre
+  from cotizacion p
+ where p.serie = :serie
+ order by p.num_ped;
+
+select *
+  from cotizacion
+ where serie = 27
+   and num_ped = 3
+   and unidad_negocio in ('01', '02');
+
+select *
+  from caja
+ where id_serie = 1
+   and id_numero = 258;
+
+select *
+  from serie_caja_usuario
+ where usuario = 'PEVISA'
+ order by id_serie;
+
+select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moneda
+--      , v.nombre as vendedor, c.numero_ref, c.nro_sucur, s.nombre_sucursal
+  from cotizacion c
+     , vendedores v
+     , sucursales s
+ where c.estado in ('0', '5')
+   and v.cod_vendedor = c.cod_vende
+   and s.cod_cliente(+) = c.cod_cliente
+   and s.nro_sucur(+) = c.nro_sucur
+   and (
+         select count(*)
+           from itemcot x
+          where x.num_ped = c.num_ped
+            and x.serie = c.serie
+            and x.precio_sugerido > 0
+         ) = 0
+   and c.serie = 24
+   and c.num_ped = 5767;
+
+union
+select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moneda
+     , v.nombre as vendedor, c.numero_ref, c.nro_sucur, s.nombre_sucursal
+  from cotizacion c
+     , vendedores v
+     , sucursales s
+ where c.estado in ('0', '5')
+   and v.cod_vendedor = c.cod_vende
+   and c.cod_cliente in '20100085578'
+   and s.cod_cliente(+) = c.cod_cliente
+   and s.nro_sucur(+) = c.nro_sucur
+ order by 1, 2 desc;
+
+
+select nro_sucur, direccion, vendedor
+  from sucursales
+ where cod_cliente = '10024496193' and estado <> 9
+ order by nro_sucur;
+
+-- 025-0045668
+
+select user, p.numero, p.zona, p.cod_cliente
+     , c.nombre || '  ' || p.referencia as nombre, d.nro, d.cod_art, d.canti, d.preuni, d.estado_pk
+     , a.grupo, t.descripcion, d.saldo_pk
+  from expedstock p
+     , expedstock_d d
+     , articul_pev a
+     , exclientes c
+     , tablas_auxiliares t
+ where p.estado not in ('8', '7', '9', 'T', '85')
+   and p.cod_cliente = c.cod_cliente
+   and d.numero = p.numero
+   and nvl(d.id, '0') = '0'
+   and d.estado_pk not in ('9', '8', 'T')
+   and d.cod_art = a.cod_art
+   and t.tipo = 39
+   and t.codigo = d.estado_pk;
+
+select user, p.zona as vendedor, p.numero, p.zona, p.cod_cliente, c.nombre, d.nro, d.cod_art
+     , d.canti, d.preuni, d.estado_pk, a.grupo, t.descripcion, d.saldo_pk
+     , o.numero as numero_orden_armado, o.nuot_tipoot_codigo, o.estado as estado_orden_armado
+  from expedidos p
+     , expedido_d d
+     , articul_pev a
+     , exclientes c
+     , tablas_auxiliares t
+     , pr_ot o
+ where nvl(p.zona, '0') in ('02', '05', '70', '00', '97', '99')
+   and p.estado not in ('8', '7', '9', 'T', '85')
+   and p.cod_cliente = c.cod_cliente
+   and d.numero = p.numero
+   and nvl(d.id, '0') = '0'
+   and d.estado_pk not in ('9', '8', 'T')
+   and d.cod_art = a.cod_art
+   and t.tipo = 39
+   and t.codigo = d.estado_pk
+   and o.abre01 = to_char(d.numero)
+   and o.per_env = d.nro
+   and o.estado < 9
+   --and o.estado = 7
+   and not exists (
+   select d.ot_tipo, d.ot_serie, d.ot_numero, g.fecha_despacho
+     from pk_detal d
+        , pk_gnumero g
+    where d.ot_numero = o.numero
+      and d.ot_serie = o.nuot_serie
+      and d.ot_tipo = o.nuot_tipoot_codigo
+      and g.pk_numero = d.pk_numero
+      and g.fecha_despacho is not null
+   )
+   and d.numero = 16602
+   and a.cod_art = 'EK BV 66101 R';
+
+select *
+  from pk_detal
+ where numero = 16551;
+
+select * from pk_gnumero where pk_numero = 61207;
+
+select * from excomirepre_2017;
+
+select * from excomirepre_2018;
+
+select * from excomision_repre;

@@ -2,7 +2,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('92011/16', 2000, false, op);
+  emite.op('90035MLS/1.25', 90, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -76,7 +76,7 @@ select a.dsc_grupo as grupo, o.numero as op
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) = to_date('10/04/2025', 'dd/mm/yyyy')
+ where trunc(e.fecha) = to_date('29/04/2025', 'dd/mm/yyyy')
    and e.usuario = 'PEVISA'
    and e.t1 = '25.0.3.33'
    and e.estado = 1

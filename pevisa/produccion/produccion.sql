@@ -1,9 +1,24 @@
+-- 5298 total para repartir
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   602873
+                  1036489
    );
+
+/*
+GRAF08
+589569 90.84
+606357 425.67
+606358 252
+606359 todo le restante
+*/
+
+select *
+  from pr_forsec
+ where cod_art = '90035CS-1';
+
+select * from pr_ot_sec;
 
 select *
   from articul
@@ -14,26 +29,33 @@ select *
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
-   and numero = 602873;
+   and numero = 607202;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
-   and ot_numero = 602865;
+   and ot_numero = 607202;
+
+select * from vw_detalle_orden_sol_mat;
 
 select *
   from vw_detalle_orden_sol_mat
  where ot_nuot_tipoot_codigo = 'PR'
-   and ot_numero = 602866;
+   and ot_numero = 595553;
 
-select *
-  from articul
- where cod_art = 'NI 2900 0.8-245';
+select nvl(sum(cant_for), 0)
+  from vw_soli_general_wms_prod
+ where tipo_solicitud in ('WMS', 'PRODUCCION')
+   and estado not in ('ANULADO')
+   and tipo = :ot_nuot_tipoot_codigo
+   and serie = :ot_nuot_serie
+   and numero = :ot_numero
+   and cod_art = :art_cod_art;
 
 select *
   from articul
  where cod_art in (
-                   'NI 2900 0.8-245', 'BH 0.32-245', 'NI 2900 1.0-245'
+   'BH 0.23-245'
    );
 
 select *
@@ -62,7 +84,8 @@ select * from pr_variables;
 
 select *
   from pr_ot_bolsas
- where numero = 583526;
+ where numero = 583526
+   and nuot_tipoot_codigo = 'PR';
 
 -- 1081223 AR
 
@@ -331,6 +354,8 @@ select f.art_cod_art, f.cantidad, f.almacen, a.descripcion, a.c_pro
    and formu_receta = 1
    and art_cod_art = cod_art
    and rtrim(a.flag_cal) is null;
+
+select * from pr_for_ins;
 
 select *
   from pr_formu f
@@ -1694,3 +1719,243 @@ select t.abreviada, t.codigo
 
 select *
   from tipo_cambio_ot c;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+   602873
+   )
+ union all
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'VA'
+   and numero in (
+   11509
+   );
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'VA'
+   and extract(year from fecha) = 2025
+   and extract(month from fecha) = 04;
+
+select *
+  from pr_ot_bolsas
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 599253;
+
+select *
+  from articul_consumo
+ where cod_art = '39/64" IB';
+
+select *
+  from articul
+ where cod_art = '26/64" IB';
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = 'DNUNEZM'
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from pr_usualma
+ where usuario = 'DNUNEZM'
+ order by cod_alm;
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+ order by cod_alm;
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = '35'
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = '15'
+   and n.serie = t.serie
+ order by 1;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = '03';
+
+select *
+  from almacen_trasaccion_serie
+ where serie = '141';
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = '15'
+ order by 1;
+
+select *
+  from pr_usualma
+ where usuario = 'DRODRIGUEZS'
+   and cod_alm in ('D2', 'ES');
+
+-- hgns1.hostgator.com
+-- hgns2.hostgator.com
+
+select *
+  from ruta_docvirtual
+ where docvirtual = 'DESARROLLO';
+
+select * from pr_for_ins;
+
+select distinct usuario
+  from vw_solicita_cambio_ot
+ order by usuario;
+
+select *
+  from wms_lineas_solicitud
+ where tipo_sol = 'MATER';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_nuot_serie = 8
+   and ot_numero = 608191;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_nuot_serie = 8
+--    and exists (
+--    select *
+--      from wms_lineas_solicitud
+--     where tipo_sol = 'MATER'
+--       and linea = pr_ot_det.cod_lin
+--    )
+ order by ot_numero desc;
+
+
+
+select nvl(sum(wd.cant_pedido), '0')
+  from wms_orden_sol w
+     , wms_orden_sol_item wd
+ where w.tipo = wd.tipo
+   and w.serie = wd.serie
+   and w.numero = wd.numero
+   and nvl(w.estado, '0') in (0, 1, 2, 8)
+   and nvl(wd.estado, '0') in (0, 1, 2, 8)
+   and componente = 'BH 0.32-184';
+
+select nvl(sum(wd.cant_pedido), '0')
+  from wms_orden_sol w
+     , wms_orden_sol_item wd
+ where w.tipo = wd.tipo and w.serie = wd.serie and w.numero = wd.numero
+   and nvl(w.estado, '0') in (0, 1, 2, 8) and nvl(wd.estado, '0') in (0, 1, 2, 8)
+   and componente = 'BH 0.32-184'
+   --TOMAR EL STOCK DE ALMACEN DESCARTES... D5
+   and alm = '30'
+   and nvl(w.estado, '0') not in (9);
+
+-- juarez.25
+
+select wd.*
+  from wms_orden_sol w
+     , wms_orden_sol_item wd
+ where w.tipo = wd.tipo and w.serie = wd.serie and w.numero = wd.numero
+   and nvl(w.estado, '0') in (0, 1, 2, 8) and nvl(wd.estado, '0') in (0, 1, 2, 8)
+   and componente = 'BH 0.32-184'
+   --TOMAR EL STOCK DE ALMACEN DESCARTES... D5
+   and alm = '30'
+   and nvl(w.estado, '0') not in (9);
+
+select * from wms_estado_solicitud;
+
+-- orden de produccion de muestra para cambio de cantidad WMS
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and nuot_serie = 8
+   and numero = 563592;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_nuot_serie = 8
+   and ot_numero = 563592;
+
+select *
+  from solicita_cambio_ot
+ where ot_tpo = 'PR'
+   and ot_nro = 607551;
+
+select *
+  from solicita_cambio_ot_log
+ where id_solicitud = 21945;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and estado = 1;
+
+select *
+  from articul
+ where cod_art = 'CRYO 330MM/19MIC';
+
+select *
+  from pr_ot_det d
+ where d.ot_nuot_tipoot_codigo = 'PR'
+   and d.art_cod_art = 'CRYO 330MM/15MIC'
+   and exists (
+   select *
+     from pr_ot o
+    where o.nuot_tipoot_codigo = d.ot_nuot_tipoot_codigo
+      and o.nuot_serie = d.ot_nuot_serie
+      and o.numero = d.ot_numero
+      and o.estado in (2)
+   );
+
+-- Ordenes cambiadas de material para Diana Contreras
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+                     513807, 522700, 528659, 542361, 542570, 551456, 551487, 551518, 553341, 553342,
+                     553507, 553627, 553628, 553675, 556236, 556275, 559621, 564474, 564486, 564528,
+                     564871, 565242, 565278, 565309, 565353, 565418, 565727, 565776, 565785, 565831,
+                     565834, 566071, 566097, 570073, 570404, 572477, 572478, 572479, 572480, 572815,
+                     573034, 575450, 577019, 578078, 579435, 580967, 580968, 582916, 582976, 583268,
+                     584828, 585383, 585412, 586048, 586226, 586227, 586356, 586441, 590734, 591104,
+                     591293, 591294, 591295, 591419, 591426, 591763, 591994, 592094, 592096, 592098,
+                     592181, 592448, 592532, 592533, 592651, 592692, 592775, 592797, 592849, 600450,
+                     600457, 603205, 603705, 604017, 607907
+   )
+   and art_cod_art = 'CRYO 330MM/15MIC';
+
+select cod_concepto
+  from cominac_contrato_item
+ where cod_contrato = 17018;
+
+select *
+  from cominac_concepto_excluye_clie
+ where cod_concepto in (
+                        12, 13, 14, 15, 16, 23, 59, 94, 103, 115, 116, 123, 203, 210, 249, 298, 333,
+                        366, 390, 403, 428, 479, 487
+   );
+
+insert into cominac_concepto_excluye_clie(cod_concepto, cod_cliente)
+select cod_concepto, '20601479886'
+  from cominac_contrato_item
+ where cod_contrato = 17018;
+
+select *
+  from clientes
+ where cod_cliente = '20601479886';

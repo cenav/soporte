@@ -1,20 +1,41 @@
 select *
   from kardex_g
- where cod_alm = '30'
-   and tp_transac = '35'
-   and serie = 140
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 25061;
+
+select *
+  from clientes
+ where cod_cliente = 'NIT 422989029';
+
+select *
+  from clientes
+ where nombre like '%MSIETE%';
+
+-- 00000998099
+
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '08'
+   and serie = 1
    and numero in (
-                  3156, 3157
+   26182
    );
 
 select *
   from kardex_d
- where cod_alm = '30'
-   and tp_transac = '35'
-   and serie = 140
+ where cod_alm = '03'
+   and tp_transac = '28'
+   and serie = 1
    and numero in (
-   3154
+   1252
    );
+
+select *
+  from almacen
+ where cod_art = 'BLAF 0.35-695N-T5';
 
 select *
   from kardex_d
@@ -109,7 +130,7 @@ select *
 
 select *
   from transacciones_almacen
- where tp_transac in ('18');
+ where tp_transac in ('19');
 
 select *
   from kardex_d
@@ -613,7 +634,8 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'PEVISA'
+ where usuario = 'DCONTRERAS'
+   and cod_alm = '37'
  order by cod_alm;
 
 select *
@@ -3002,3 +3024,189 @@ select *
 select *
   from numdoc
  where serie = 140;
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = :user
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from pr_usualma
+ where usuario = 'JOSORIO'
+   and cod_alm in ('D2', '37');
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = '37'
+ order by 1;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '37';
+
+select *
+  from almacenes
+ where cod_alm = '30';
+
+select *
+  from almacenes
+ where cod_alm = '37';
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = '35'
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = '37'
+   and n.serie = t.serie
+ order by 1;
+
+select * from almacen_trasaccion_serie;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = '30';
+
+select *
+  from almacen_trasaccion_serie
+ where tp_transac = '35'
+ order by serie;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = 'D2';
+
+select cod_auto, placa || ' ' || marca || ' ' || mtc
+  from transp_auto
+ where cod_transp = :kardex_g.cod_transp;
+
+
+select * from transp_auto;
+
+select *
+  from kardex_g
+ where tipo_pguia = 'PR'
+   and serie_pguia = 8
+   and numero_pguia = 602953;
+
+select *
+  from almacenes
+ where cod_alm = '79';
+
+select max(fch_transac)
+  from kardex_g
+ where cod_alm = '79';
+
+select *
+  from almacenes
+ order by cod_alm;
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E567';
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = :usuario
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select distinct n.tp_transac, t.descripcion, n.tp_mov
+  from numdoc n
+     , tablas_auxiliares t
+ where n.tp_mov = 'S'
+   and n.tp_transac in (35)
+   and t.tipo = '32'
+   and n.tp_transac = t.codigo
+ order by n.tp_transac;
+
+select *
+  from pr_usualma
+ where cod_alm = '79';
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '79';
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = :tp_transac
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = :cod_alm
+   and n.serie = t.serie
+ order by 1;
+
+select *
+  from almacen_trasaccion_serie
+ where cod_alm = '79';
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = :cod_alm
+ order by 1;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '79';
+
+select *
+  from kardex_d
+ where cod_alm = '79'
+   and fch_transac > to_date('01/05/2025', 'dd/mm/yyyy');
+
+select *
+  from solimat_g
+ where cod_alm02 = '79'
+   and fecha > to_date('01/05/2025', 'dd/mm/yyyy');
+
+select *
+  from solimat_d
+ where numero = 204430;
+
+select *
+  from kardex_d
+ where cod_alm = 'TL';
+
+select *
+  from kardex_d
+ where cod_art = '15';
+
+select *
+  from kardex_d_historia
+ where cod_art = '380.647'
+   and extract(year from fecha) = 2025;
+
+select *
+  from almacenes
+ where cod_alm = '24';
+
+select *
+  from kardex_d_historia
+ where cod_art = 'BO 1.2TG-171';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '29';
+

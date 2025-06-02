@@ -361,7 +361,7 @@ select cod_alm, cod_art
      , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
  where d.estado != '9'
-   and d.cod_alm = :p_almacen
+--    and d.cod_alm = :p_almacen
    and d.cod_art = :p_articulo
  group by d.cod_alm, d.cod_art;
 
@@ -374,3 +374,22 @@ select d.cod_alm, d.cod_art, a.cod_lin
    and a.cod_lin = 'ZZ'
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art, a.cod_lin;
+
+select *
+  from almacen
+ where cod_alm = '03'
+   and cod_art = '380.647';
+
+select *
+  from kardex_d_historia
+ where cod_art = 'CAR 405';
+
+select *
+  from kardex_d
+ where cantidad = 1600
+   and extract(year from fch_transac) = 2025
+   and cod_art = 'CAR 405';
+
+select * from solicita_cambio_trx_det;
+
+select * from solicita_cambio_trx;

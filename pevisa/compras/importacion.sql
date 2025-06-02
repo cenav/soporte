@@ -289,3 +289,5 @@ select *
 select * from moneda;
 
 select * from tipo_archivo;
+
+select * from paramin;
