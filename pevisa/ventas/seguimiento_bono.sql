@@ -260,8 +260,10 @@ select cod_vende, nombre, venta_dol, cuota_lograda, premio_logrado
      , cuota_1, cuota_2, cuota_3, premio_1, premio_2, premio_3
   from resumen;
 
--- seguimiento bono
+select * from seguimiento_bono;
+
 -- create or replace view vw_seguimiento_bono as
+-- seguimiento bono
   with concepto as (
     select s.id_seguimiento, c.cod_vendedor, e.cod_concepto, e.cod_tipo_venta, e.vigencia_del
          , e.vigencia_al, e.lineas
@@ -269,6 +271,8 @@ select cod_vende, nombre, venta_dol, cuota_lograda, premio_logrado
            join cominac_contrato_item i on c.cod_contrato = i.cod_contrato
            join cominac_concepto e on i.cod_concepto = e.cod_concepto
            join seguimiento_bono_d s on e.cod_concepto = s.cod_concepto
+     where s.id_seguimiento = 2
+--        and e.cod_concepto = 516
     )
      , rangos as (
     select cod_concepto
@@ -299,7 +303,8 @@ select cod_vende, nombre, venta_dol, cuota_lograda, premio_logrado
              from cominac_concepto_venta_grupal
             where cod_concepto = c.cod_concepto
            )))
-       and fecha between c.vigencia_del and c.vigencia_al
+--        and fecha between c.vigencia_del and c.vigencia_al
+       and fecha between to_date('01/04/2025', 'dd/mm/yyyy') and to_date('30/06/2025', 'dd/mm/yyyy')
        and ((c.lineas = 'TODO'
        and cod_lin like '%')
        or (c.lineas = 'ESTABLECIDO'

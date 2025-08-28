@@ -8,15 +8,30 @@ select *
 
 select *
   from planilla10.personal
- where apellido_paterno like '%JUAREZ%'
+ where apellido_paterno like '%SALCEDO%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
    );
 
 select *
+  from planilla10.personal
+ where apellido_paterno like '%SAAVEDRA%'
+   and nombres like '%N%';
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'AJC';
+
+select *
   from vw_personal
- where nombre like '%CRUZ%';
+ where nombre like '%PERCY%';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E1046';
+
+-- montalvo valdez
 
 select *
   from planilla10.personal
@@ -37,7 +52,7 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E230';
+   and c_codigo = 'E618';
 
 
 select *
@@ -104,7 +119,7 @@ select *
 
 select *
   from evaluacion
- where id_evaluacion in (9896, 9894);
+ where id_evaluacion in (10996);
 
 select * from estado_evaluacion;
 
@@ -576,3 +591,430 @@ select *
                     'E41830', 'E43400', 'E43495', 'E43563', 'E43664'
    );
 
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, a.idpersonal
+     , enc.nombre as encargado
+     , trunc(months_between(sysdate, per.f_ingreso) / 12) || ' años' as anos_servicio, per.sector
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+     , asistencia.personal a
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and per.c_codigo = a.cod_personal(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :user and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user and id_modulo = :modulo
+   ) or :user in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and per.situacion not in ('8', '9')
+ order by enc.nombre, per.apellido_paterno;
+
+select *
+  from vw_personal
+ where nombre like '%JORGE ALBERTO%';
+
+declare
+  correos       util.t_list := util.t_list();
+  l_correos_txt varchar2(32767);
+begin
+  correos := rrhh.all_bosses_mails_from_employee('E43708');
+
+  correos.extend(1);
+  correos(correos.count) := 'gthh@pevisa.com.pe';
+
+  correos.extend(1);
+  correos(correos.count) := 'icatalan@pevisa.com.pe';
+
+  correos := set(correos);
+  l_correos_txt := util.concat_list(correos, '; ');
+
+--   dbms_output.put_line(l_correos_txt);
+  for i in 1 .. correos.count loop
+    dbms_output.put_line(l_correos_txt);
+  end loop;
+end;
+
+select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo
+     , c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion, g.c_codigo as encargado
+     , p.sexo
+     , g.nombre as desc_encargado, h.local, l.descripcion as desc_local, p.f_ingreso, p.fnatal
+     , d.num_doc as dni, i.descripcion as situacion, p.f_cese, p.conini, p.confin
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+     , e.desc_perfil, e.ultimo_emo, e.proximo_emo, e.desc_perfil_covid, e.ultimo_covid
+     , e.proximo_covid
+     , e.desc_perfil_toxi, e.ultimo_toxi, e.proximo_toxi, u.talla_polo, u.talla_pantalon
+     , u.talla_calzado
+  from planilla10.personal p
+       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
+       left join planilla10.tar_secc s on p.seccion = s.codigo
+       left join planilla10.tar_encarga g on p.encargado = g.codigo
+       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
+       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+       left join planilla10.pla_local l on h.local = l.local
+       left join planilla10.t_situacion i on p.situacion = i.codigo
+       left join vw_trabajador_emo e on p.c_codigo = e.c_codigo
+       left join tmp_uniforme u on p.c_codigo = u.id_personal
+ where (upper(g.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :user and modulo = 'MATRIZ_PERSONAL'
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :user and id_modulo = 'MATRIZ_PERSONAL'
+   ) or :user in (
+   select usuario from usuario_modulo where modulo = 'MATRIZ_PERSONAL' and maestro = 'SI'
+   ))
+ order by 2;
+
+select *
+  from modulo
+ where id_modulo = 'MATRIZ_PERSONAL';
+
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+    )
+     , jerarquia(c_codigo, nombres, apellido_paterno, c_jefe) as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, c_jefe
+      from empleados e
+     where e.c_codigo = :p_codemp
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from jerarquia b
+           join empleados e on b.c_jefe = e.c_codigo
+     where e.c_codigo != e.c_jefe
+    )
+select b.c_jefe, e.nombres, e.apellido_paterno, e.email
+  from jerarquia b
+       join empleados e on b.c_jefe = e.c_codigo
+ where e.apellido_paterno not in ('WOLFENZON', 'LEVY');
+
+select * from planilla10.tar_encarga;
+
+-- Felipe Cruz E1198
+select *
+  from planilla10.personal
+ where encargado = '068';
+
+-- Ricardo Tovar E1199
+select *
+  from planilla10.personal
+ where encargado = '071';
+
+select *
+  from usuarios
+ where usuario = 'HREMUZGO';
+
+select *
+  from vw_personal
+ where nombre like '%OMAR%';
+
+select *
+  from planilla10.personal
+ where encargado = '068';
+
+-- todos los empleados de un jefe
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+     where p.situacion not in (
+       select s.codigo
+         from planilla10.t_situacion_cesado s
+       )
+    )
+     , autorizados as (
+    select 'E567' as c_codigo
+      from dual
+    -- Puedes agregar más autorizados con UNION ALL si lo deseas
+    )
+     , jerarquia(c_codigo, nombres, apellido_paterno, c_jefe) as (
+-- Empezamos desde el jefe indicado
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+     where (:p_codemp in (
+       select c_codigo
+         from autorizados
+       ))
+        or e.c_codigo = :p_codemp
+     union all
+-- Buscamos todos los que tienen como jefe a alguien en la jerarquía actual
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+           join jerarquia j
+                on e.c_jefe = j.c_codigo
+    )
+select e.c_codigo, e.nombres, e.apellido_paterno
+  from jerarquia e
+--  where e.c_codigo != :p_codemp --> si no queremos que aparezca el jefe
+ where e.apellido_paterno not in ('WOLFENZON', 'LEVY')
+ order by e.apellido_paterno, e.nombres;
+
+
+-- muestra todos los empleados debajo del arbol de una jefatura
+-- si está autorizado puede ver todos los trabajadores asi no esten bajo su cargo
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+     where p.situacion not in (
+       select s.codigo
+         from planilla10.t_situacion_cesado s
+       )
+    )
+     , autorizados as (
+    select u.codigo_trabajador as c_codigo
+      from usuario_modulo um
+           join usuarios u on um.usuario = u.usuario
+     where um.modulo = 'MATRIZ_PERSONAL'
+       and um.supermaestro = 'SI'
+    )
+     , raiz as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+     where (:p_codemp in (
+       select c_codigo
+         from autorizados
+       ) or e.c_codigo = :p_codemp)
+    )
+     , jerarquia (c_codigo, nombres, apellido_paterno, c_jefe, nivel) as (
+    select r.c_codigo, r.nombres, r.apellido_paterno, r.c_jefe, 1 as nivel
+      from raiz r
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe, j.nivel + 1
+      from empleados e
+           join jerarquia j on e.c_jefe = j.c_codigo
+     where e.c_codigo != j.c_codigo -- evita ciclos directos
+    )
+select j.c_codigo, j.nombres, j.apellido_paterno, e.email
+  from jerarquia j
+       join empleados e on j.c_codigo = e.c_codigo
+--  where j.c_codigo != :p_codemp
+ where j.apellido_paterno not in ('WOLFENZON', 'LEVY')
+ order by j.nivel, j.apellido_paterno, j.nombres;
+
+
+select u.codigo_trabajador
+  from usuario_modulo um
+       join usuarios u on um.usuario = u.usuario
+ where um.modulo = 'MATRIZ_PERSONAL'
+   and um.supermaestro = 'SI';
+
+select *
+  from usuario_modulo
+ where modulo = 'MATRIZ_PERSONAL';
+
+select *
+  from usuarios
+ where usuario = 'CNAVARRO';
+
+-- VERSION PARA MATRIZ PERSONAL
+-- muestra todos los empleados debajo del arbol de una jefatura
+-- si está autorizado puede ver todos los trabajadores asi no esten bajo su cargo
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+     where ((p.situacion not in (
+       select s.codigo
+         from planilla10.t_situacion_cesado s
+       ) and :p_cesado = 0) or :p_cesado = 1)
+    )
+     , autorizados as (
+    select u.codigo_trabajador as c_codigo
+      from usuario_modulo um
+           join usuarios u on um.usuario = u.usuario
+     where um.modulo = :p_modulo
+       and um.supermaestro = 'SI'
+    )
+     , raiz as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+     where (:p_codemp in (
+       select c_codigo
+         from autorizados
+       ) or e.c_codigo = :p_codemp)
+    )
+     , jerarquia (c_codigo, nombres, apellido_paterno, c_jefe, nivel) as (
+    select r.c_codigo, r.nombres, r.apellido_paterno, r.c_jefe, 1 as nivel
+      from raiz r
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe, j.nivel + 1
+      from empleados e
+           join jerarquia j on e.c_jefe = j.c_codigo
+     where e.c_codigo != j.c_codigo -- evita ciclos directos
+    )
+select j.c_codigo, j.nombres, j.apellido_paterno, j.c_jefe, j.nivel
+  from jerarquia j;
+
+begin
+  sp_carga_personal_jefatura(p_codemp => 'E590', p_cesado => 1, p_modulo => 'MATRIZ_PERSONAL');
+end;
+
+
+select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo, c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion
+     , g.c_codigo as encargado, p.sexo, g.nombre as desc_encargado, h.local
+     , l.descripcion as desc_local, p.f_ingreso, p.fnatal, d.num_doc as dni
+     , i.descripcion as situacion, p.f_cese, p.conini, p.confin
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+     , e.desc_perfil, e.ultimo_emo, e.proximo_emo, e.desc_perfil_covid, e.ultimo_covid
+     , e.proximo_covid, e.desc_perfil_toxi, e.ultimo_toxi, e.proximo_toxi, u.talla_polo
+     , u.talla_pantalon, u.talla_calzado
+  from planilla10.personal p
+       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
+       left join planilla10.tar_secc s on p.seccion = s.codigo
+       left join planilla10.tar_encarga g on p.encargado = g.codigo
+       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
+       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+       left join planilla10.pla_local l on h.local = l.local
+       left join planilla10.t_situacion i on p.situacion = i.codigo
+       left join vw_trabajador_emo e on p.c_codigo = e.c_codigo
+       left join tmp_uniforme u on p.c_codigo = u.id_personal
+ where exists (
+   select 1
+     from tmp_codigo_empleado t
+    where t.c_codigo = p.c_codigo
+   )
+ order by 2;
+
+-- BACKUP
+select p.c_codigo, p.apellido_paterno || ' ' || p.apellido_materno || ', ' || p.nombres as nombre
+     , p.c_cargo
+     , c.descripcion as desc_cargo, p.seccion, s.nombre as desc_seccion, g.c_codigo as encargado
+     , p.sexo
+     , g.nombre as desc_encargado, h.local, l.descripcion as desc_local, p.f_ingreso, p.fnatal
+     , d.num_doc as dni, i.descripcion as situacion, p.f_cese, p.conini, p.confin
+     , trunc(months_between(sysdate, p.fnatal) / 12) as edad
+     , trunc(months_between(sysdate, p.f_ingreso) / 12) || ' años' as tiempo_empresa
+     , e.desc_perfil, e.ultimo_emo, e.proximo_emo, e.desc_perfil_covid, e.ultimo_covid
+     , e.proximo_covid
+     , e.desc_perfil_toxi, e.ultimo_toxi, e.proximo_toxi, u.talla_polo, u.talla_pantalon
+     , u.talla_calzado
+  from planilla10.personal p
+       left join planilla10.t_cargo c on p.c_cargo = c.c_cargo
+       left join planilla10.tar_secc s on p.seccion = s.codigo
+       left join planilla10.tar_encarga g on p.encargado = g.codigo
+       left join planilla10.doc_per d on p.c_codigo = d.c_codigo and d.c_doc = 'LE'
+       left join planilla10.hr_personal h on p.c_codigo = h.c_codigo
+       left join planilla10.pla_local l on h.local = l.local
+       left join planilla10.t_situacion i on p.situacion = i.codigo
+       left join vw_trabajador_emo e on p.c_codigo = e.c_codigo
+       left join tmp_uniforme u on p.c_codigo = u.id_personal
+ where (upper(g.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = user and modulo = :global.modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = user and id_modulo = :global.modulo
+   ) or user in (
+   select usuario from usuario_modulo where modulo = :global.modulo and maestro = 'SI'
+   ))
+ order by 2;
+
+select * from planilla10.tar_encarga;
+
+select *
+  from planilla10.personal
+ where encargado = '069';
+
+-- E012
+-- E42373
+-- E1211
+-- E43788
+-- E43795
+-- E1241
+-- E1242
+-- E1226
+-- E43772
+-- E43776
+-- E43777
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1210';
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%VASQUEZ%';
+
+select *
+  from planilla10.personal
+ where nombres like '%ESTHER%';
+
+select *
+  from usuario_modulo
+ where modulo = 'PERMISO'
+   and usuario = 'JCABEZAS';
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'JQUISPEB'
+   and id_modulo = 'PERMISO';
+
+declare
+  l_codigo varchar2(10);
+begin
+  l_codigo := api_usuarios.onerow(:usuario).codigo_trabajador;
+  sp_carga_personal_jefatura(p_codemp => l_codigo, p_cesado => 0, p_modulo => 'PERMISO');
+  commit;
+end;
+
+select * from tmp_codigo_empleado;
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, enc.nombre as encargado
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and (upper(enc.usuario) in (
+   select usuario
+     from usuario_modulo
+    where usuario = :usuario and modulo = :modulo
+    union
+   select id_usuario
+     from usuario_modulo_alterno
+    where id_alterno = :usuario and id_modulo = :modulo
+   ) or :usuario in (
+   select usuario from usuario_modulo where modulo = :modulo and maestro = 'SI'
+   ))
+   and exists (
+   select 1
+     from tmp_codigo_empleado t
+    where t.c_codigo = per.c_codigo
+   )
+ order by enc.nombre, per.apellido_paterno;
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'JQUISPEB';
+
+select u.codigo_trabajador as c_codigo
+  from usuario_modulo um
+       join usuarios u on um.usuario = u.usuario
+ where um.modulo = :p_modulo
+   and um.supermaestro = 'SI';

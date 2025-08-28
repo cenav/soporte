@@ -1,10 +1,10 @@
 select *
   from evaluacion
- where id_evaluacion in (9579);
+ where id_evaluacion in (10996);
 
 select *
   from respuesta
- where id_evaluacion in (9579);
+ where id_evaluacion in (10996);
 
 select *
   from evaluacion

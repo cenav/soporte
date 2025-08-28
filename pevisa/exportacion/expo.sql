@@ -92,7 +92,7 @@ select *
 
 select *
   from exproforma_libre
- where numero = 19710;
+ where numero = 20202;
 
 select *
   from pr_embarques
@@ -119,899 +119,220 @@ select *
 
 select numorde from paramlg;
 
-select *
-  from itemord
- where serie = 3
- order by num_ped desc;
+select * from grupo_cliente;
 
-select *
-  from caja_chica_d
- where serie = 5
-   and numero = 20445;
+select * from grupo_cliente_cliente;
 
-select *
-  from kardex_d
- where cod_alm = '01'
-   and tp_transac = '25'
-   and serie = 118
-   and numero = 88;
+select nvl(sum(total_no_despachado), 0) as total
+  from vw_facturado_no_embarcado
+ where nombre = :VIEW_PRIORIDADES_PENDIENTES.nombre_cliente;
 
-select *
-  from docuvent
- where tipodoc = '01'
-   and numero = 15887;
+select nvl(sum(total_no_despachado), 0) as total
+  from vw_facturado_no_embarcado
+ where nombre = 'AUTOZONE MX';
 
-select *
-  from factcob
- where tipdoc = 'LV'
-   and numero = '23886';
-
-select *
-  from factcob
- where tipdoc = 'LV'
-   and numero in (
-   23886
+-- vw_facturado_no_embarcado
+select f.numero, f.fecha, f.cod_cliente
+     , coalesce(gc.dsc_grupo, c.nombre) as nombre
+     , case
+         when f.tflete != 1
+           then
+           case
+             when f.tflete + f.tseguro > 0 then f.tbruto - f.tflete
+             else f.tbruto
+           end
+         else
+           f.tbruto
+       end
+  as total_mercaderia
+     , p.pk_numero, p.fecha_despacho, case
+                                        when p.fecha_despacho is not null
+                                          then
+                                          (case
+                                             when f.tflete != 1
+                                               then
+                                               case
+                                                 when f.tflete + f.tseguro > 0
+                                                   then
+                                                   f.tbruto - f.tflete
+                                                 else
+                                                   f.tbruto
+                                               end
+                                             else
+                                               f.tbruto
+                                           end)
+                                        else
+                                          0
+                                      end
+  as total_despachado
+     , case
+         when p.fecha_despacho is null
+           then
+           (case
+              when f.tflete != 1
+                then
+                case
+                  when f.tflete + f.tseguro > 0
+                    then
+                    f.tbruto - f.tflete
+                  else
+                    f.tbruto
+                end
+              else
+                f.tbruto
+            end)
+         else
+           0
+       end
+  as total_no_despachado
+---f.total,
+     , case
+         when f.fflete != 1 then f.tbruto
+         else f.tbruto + f.tseguro + f.tflete + f.tgasto
+       end
+---f.tbruto + f.tseguro + f.tflete,
+     , ep.nombre as pais
+  from exfacturas f
+       join exclientes c on f.cod_cliente = c.cod_cliente
+       left join pk_gnumero p on f.paclis = p.pk_numero
+       left join expaises ep on c.pais = ep.pais
+       left join grupo_cliente_cliente gcc on f.cod_cliente = gcc.cod_cliente
+       left join grupo_cliente gc on gcc.cod_grupo = gc.cod_grupo
+ where f.fecemb is null
+   and f.estado != '9'
+   and f.zona in ('02', '05')
+   and f.cond_pago != '111'
+   and not exists (
+   select 1
+     from exfacturas_his h
+    where f.numero = h.numero and h.accion = '92'
    );
 
-select *
-  from factcob_canje
- where tipdoc = 'LV'
-   and numero = 23886;
-
-select *
-  from canjedoc
- where tpodoc = 'LV'
-   and nrodoc = 23886;
-
-select *
-  from factcob_canje
- where doccanje = 'J1'
-   and sercanje = '1'
-   and nrocanje = '97589';
-
-select *
-  from tab_lineas
- where descripcion like '%HANKOOK%';
-
-select *
-  from tab_lineas
- where linea = '116';
-
-select *
-  from tab_grupos
- where grupo = 18;
-
-select *
-  from grupo_venta
- where cod_grupo_venta = '4000';
-
-select l.linea, l.descripcion as dsc_linea, g.grupo, g.descripcion as dsc_grupo
-     , m.cod_grupo_venta as megagrupo, m.descripcion as dsc_megagrupo
-  from tab_lineas l
-       join tab_grupos g on l.grupo = g.grupo
-       join grupo_venta m on g.ind_vta1 = m.cod_grupo_venta
- where linea = '132';
-
-select * from pr_grupos;
-
-select *
-  from kardex_dpk
- where cod_alm = '01'
-   and tp_transac = '25'
-   and serie = 118
-   and numero = 88;
-
-select *
-  from kardex_g
- where cod_alm = '01'
-   and tp_transac = '25'
-   and serie = 118
-   and numero in (88, 89, 90);
-
-select packing_agrupar
-  from expedidos
- where numero in (
-   16755
-   );
-
-select *
-  from expedidos
- where numero = 16755;
-
-select *
-  from expedido_d
- where numero = 16333;
-
-
-select *
-  from expedido_d
- where numero = 16331
-   and cod_art = 'KIT AUT JD 87862-2';
-
-select *
-  from pr_ot
- where abre01 = 16331
-   and numero = 1040291;
-
-select *
-  from pr_ot
- where abre01 = '16331'
-   and per_env = '166';
-
-select *
-  from pr_ot_det
- where ot_nuot_tipoot_codigo = 'AR'
-   and ot_numero = 1040291;
-
-select codigo, descripcion from packing_agrupar;
-
-select cod_cliente, nombre, ruc, lista_precio, vendedor, cond_pag, dscto_1, dscto_2, cliente_afecto
-     , dscto_max, nivel_cp, direccion
-  from clientes
- where nvl(estado, '0') in ('0', '4')
-   and zona = '900' and cod_cliente like '00000%'
-   and cod_cliente = '00000990559'
- order by nombre;
-
-select *
-  from clientes
- where cod_cliente = '00000990559';
-
-select *
-  from pk_gnumero
- where pk_numero in (56366);
-
-
-select *
-  from solicita_emision
- where numero = 1228;
-
-select *
-  from solicita_emision_det
- where numero = 1228;
-
-select *
-  from tab_lineas
- where linea = '526';
-
-select *
-  from exproforma_d
- where numero = 18961
-   and cod_art in (
-                   'CH 95234 TG', 'CHP 88087 GR', 'MS 80104 E', 'MS 80020 A', 'MS 95233 MLS E',
-                   'OS 88075 VM', 'FS 87796 MLS', 'MS 88087 A'
-   )
- order by nro;
-
-select *
-  from exproforma_d
- where cantidad_libre is not null;
-
-
-select *
-  from tablas_auxiliares
- where codigo = '....';
-
-select *
-  from tablas_auxiliares
- where tipo = 2
- order by codigo;
+select * from exfacturas;
 
 select *
   from articul
- where cod_art in ('NC1', 'NC6');
+ where cod_art = 'SB V 41015 R';
 
 select *
-  from docuvent
- where tipodoc = '07'
-   and serie = 'F055'
-   and numero = '8008';
+  from expedido_d
+ where numero = 16913
+   and cod_art = 'V 41015 R';
 
 select *
-  from itemdocu
- where tipodoc = '07'
-   and serie = 'F055'
-   and numero = '8008';
-
-select * from pla_control;
-
-select *
-  from ex_prefacturas
- where numero = 9051657;
+  from exproforma_d
+ where numero = 20154
+   and cod_art = 'V 41015 R';
 
 
-select *
-  from exclientes
- where cod_cliente = 990249;
-
-select *
-  from exproforma_libre
- where numero = 19415;
-
-
-
-select *
-  from caja_chica
- where serie = 7
-   and numero = 22274;
-
-select *
-  from caja_chica_d
- where serie = 7
-   and numero = 22274;
-
-select *
-  from caja_chica
- where serie = 7
-   and numero = 24001;
-
-select *
-  from caja_chica_d
- where serie = 7
-   and numero = 24001;
-
-select *
-  from kardex_g_guia_remision
- where guia_numero = 22128;
-
-select *
-  from view_salidas_pre_guias
- where numero = 22128;
-
-select *
-  from kardex_g_guia_remision
- where guia_numero = 22128;
-
--- insert into pevisa.kardex_g_guia_remision ( guia_serie, guia_numero, fecha_traslado, ubigeo_partida
---                                           , ubigeo_llegada, direccion_llegada, ruc, cod_alm
---                                           , tp_transac, serie, numero, motivo_traslado
---                                           , transporte_empresa, transporte_chofer, transporte_unidad
---                                           , bultos, peso, nro_sucursal_partida, nro_sucursal_llegada
---                                           , modalidad_traslado, detalle, contenedor, precinto
---                                           , numero_documento_relacionado
---                                           , codigo_documento_relacionado
---                                           , descri_documento_relacionado, peso_items, pk_serie
---                                           , pk_numero, pk_tipo, ruc_llegada
---                                           , descripcion_motivo_traslado
---                                           , codigo_establecimiento_partida
---                                           , codigo_establecimiento_llegada, fecha_emision
---                                           , precinto_linea, carreta, marca_1, cartones, marca_2
---                                           , marca_3)
--- values ( 'T019', 22128, date '2024-03-06', '150103', '070101'
---        , 'PARCELA 1 TERRENO RIBEREÑO AL MAR  CALLE G S/', '20508782013', '01', '26', 19, 22128, '09'
---        , '20502900006', '06', '42', 1.00, 381.0000, '04', '00', '01', null, null, '035922 / 036481'
---        , '118-2024-40-022042', '50', 'Declaración Aduanera de Mercancías', null, '1', 57498, 'PK'
---        , null, null, null, null, timestamp '2024-03-06 06:55:29', null, null, 'ENGINETECH', '18'
---        , 'U.S.A.', null);
-
-select * from clientes_corporacion;
-
-select * from clientes_sucursal;
-
-select * from corporacion_sucursal;
-
-select * from exclientes_varios;
-
-select *
-  from exclientes
- where nombre like '%ELRI%';
-
-select *
-  from expedidos
- where cod_cliente = '998034';
-
-select cuenta, descripcion
-  from plancta
- where titulo = 'D'
-   and (cuenta like '2%'
-   or cuenta in
-      ('336901', '92330103', '92590102', '92590103', '337101', '333301', '333101', '925902',
-       '925904', '336903', '915506', '925908')
-   or cuenta like '33%'
-   or cuenta like '9125%'
-   or cuenta like '9155%')
-   and nvl(txt2, '1') = '1'
- order by cuenta;
-
-select *
-  from plancta
- where txt2 is not null;
-
-select *
-  from plancta
- where cuenta in (
-                  '231103', '231104', '231106', '231109', '231118', '231119', '231122', '231123',
-                  '231125', '231203', '231204', '231205', '231206', '231207', '231208', '231209',
-                  '231210', '231211', '231212', '231213', '231214', '231216', '231217', '231218',
-                  '231220', '231224', '231230', '231233', '231236', '231240', '231241', '231242',
-                  '231247'
-   );
-
-select * from cierre_contabilidad;
-
--- ultimo cierre 11
-
-select *
-  from exproforma_libre
- where numero in (
-                  19174, 19175
-   );
-
-
-select d.fecha, '01' as tipo, d.serie, i.numero2 as numero, d.cod_cliente
-     , replace(c.nombre, ',', ' ') as nombre, i.cod_art, lin.descripcion, a.unidad, i.canti
-     , round(i.fob / i.canti, 2) as fob_uni_d
-     , round((i.fob / i.canti) * dc.import_cam, 4) as fob_uni_s, case
-                                                                   when d.fflete != 1
-                                                                     then
-                                                                     case
-                                                                       when (d.tflete + d.tseguro) > 0
-                                                                         then
-                                                                         round(i.totlin - i.flete, 2)
-                                                                     end
-                                                                   else
-                                                                     round(i.totlin, 2)
-                                                                 end
-  as total_fob_d
---      , dc.import_cam, d.pais, p.nombre as nom_pais
-     , round(i.gastos * dc.import_cam, 4) as total_gastos_s, round(i.gastos, 2) as total_gastos_d
-     , round(i.flete * dc.import_cam, 4) as total_flete_s, round(i.flete, 2) as total_flete_d
-     , round(i.seguro * dc.import_cam, 4) as total_seguro_s, round(i.seguro, 2) as total_seguro_d
-     , case
-         when d.fflete != 1
-           then
-           case
-             when (d.tflete + d.tseguro) > 0
-               then
-               round(i.totlin - i.flete, 2)
-                 + round(i.flete, 2)
-                 + round(i.seguro, 2)
-                 + round(i.gastos, 2)
-           end
-         else
-           round(i.totlin, 2)
-             + round(i.flete, 2)
-             + round(i.seguro, 2)
-             + round(i.gastos, 2)
-       end
-  as total_venta_d
-     , case
-         when d.fflete != 1
-           then
-           case
-             when (d.tflete + d.tseguro) > 0
-               then
-               round((i.totlin - i.flete) * dc.import_cam, 2)
-           end
-         else
-           round(i.totlin * dc.import_cam, 2)
-       end
-  as cuadre_fob_s
-     , case
-         when d.fflete != 1
-           then
-           case
-             when (d.tflete + d.tseguro) > 0
-               then
-               round(
-                   ((i.totlin - i.flete)
-                     + i.flete
-                     + i.seguro
-                     + i.gastos)
-                     * dc.import_cam,
-                   2)
-           end
-         else
-           round(
-               (i.totlin + i.flete + i.seguro + i.gastos) * dc.import_cam,
-               2)
-       end
-  as cuadre_total_s
-  from exfacturas d
-     , exfactura_d i
-     , docuvent dc
+select d.numero, d.nro, d.cod_art, d.canti, d.cod_eqi, a.descripcion
+  from expednac_d d
      , articul a
-     , exclientes c
---      , expaises p
-     , tab_lineas lin
- where d.numero = i.numero
-   and a.cod_lin = lin.linea
-   and d.estado <> '9'
-   and substr(d.numero, 4) = dc.numero
-   and d.serie = dc.serie
-   and d.fecha = dc.fecha
-   and a.cod_art = i.cod_art
-   and c.cod_cliente = d.cod_cliente
-   and dc.tipo_cambio = 'V'
-   and extract(year from d.fecha) = 2023
-   and extract(month from d.fecha) = 11
-   and d.numero = 55016786;
---    and p.pais = d.pais;
-
-select *
-  from exfacturas
- where numero = 55016786;
-
-select *
-  from exfactura_d
- where numero = 55016786;
-
-select *
-  from docuvent
- where numero = 16786;
-
-select *
-  from exclientes
- where cod_cliente = '996057';
-
-select d.tipodoc, t.descripcion, d.serie, d.numero as numero_factura, d.fecha, d.cod_cliente
-     , cod_vende
-     , decode(d.estado, '9', '<<*** A N U L A D O ***>>', f_cliente_nombre(d.cod_cliente)) as nombre
-     , decode(d.estado, '9', 0, decode(imp_igv, 0, 0, (decode(:P_MONEDA, 'D', decode(d.moneda, 'S',
-                                                                                     (d.imp_neto / d.import_cam),
-                                                                                     d.imp_neto),
-                                                              d.simp_neto)))) as imp_neto
-     , decode(d.estado, '9', 0, decode(imp_igv, 0, (decode(:P_MONEDA, 'D', decode(d.moneda, 'S',
-                                                                                  (d.imp_neto / d.import_cam),
-                                                                                  d.imp_neto),
-                                                           d.simp_neto)), 0)) as imp_exon
-     , decode(d.estado, '9', 0,
-              decode(:P_MONEDA, 'D', decode(d.moneda, 'S', (d.imp_igv / d.import_cam), d.imp_igv),
-                     d.simp_igv)) as imp_igv
-     , decode(d.estado, '9', 0, decode(:P_MONEDA, 'D',
-                                       decode(d.moneda, 'S', (d.precio_vta / d.import_cam),
-                                              d.precio_vta), d.sprecio_vta)) as precio_vta
-     , decode(d.estado, '9', 0, decode(:P_MONEDA, 'D',
-                                       decode(d.moneda, 'S', (d.imp_fletes / d.import_cam),
-                                              d.imp_fletes), d.simp_fletes)) as imp_fletes
-     , decode(d.estado, '9', 0, decode(:P_MONEDA, 'D',
-                                       decode(d.moneda, 'S', (d.imp_seguros / d.import_cam),
-                                              d.imp_seguros), d.simp_seguros)) as imp_seguros
-     , decode(d.estado, '9', 0, decode(:P_MONEDA, 'D',
-                                       decode(d.moneda, 'S', (d.imp_gastos / d.import_cam),
-                                              d.imp_gastos), d.simp_gastos)) as imp_gastos
-     , decode(d.estado, '9', 0, decode(:P_MONEDA, 'D',
-                                       decode(d.moneda, 'S', (d.imp_descto / d.import_cam),
-                                              d.imp_descto), d.simp_descto)) as imp_descto
-     , d.tip_doc_ref, d.ser_doc_ref, d.nro_doc_ref, decode(d.tipodoc, '07', d.detalle,
-                                                           (decode(d.tipodoc, '08', d.detalle, null))) as detall
-  from docuvent d
-     , tablas_auxiliares t
- where d.fecha between :fecha1 and :fecha2
-   and t.tipo = 2
-   and (t.codigo = d.tipodoc)
-   and nvl(d.origen, '0') = 'EXPO'
-   and d.numero = 15050
- order by d.tipodoc, d.serie, d.numero, d.fecha;
-
-select *
-  from docuvent
- where serie = 'F055'
-   and numero = 15050;
-
-select * from clientes_corporacion;
-
-select * from clientes_sucursal;
-
-select * from corporacion_sucursal;
-
-select * from exclientes_varios;
-
-
-select *
-  from exprovision_comision
- where periodo_ano = 2024
-   and periodo_mes = 2;
-
-  with requerimiento as (
-    select cod_art, sum(cant_requerida) as cant_requerida
-         , sum(cant_separado) as cant_separado, sum(faltante) as cant_faltante
-         , sum(stock) as stock_requerida
-      from vw_requerimiento_articulo
-     where es_stock = 0
-     group by cod_art
-    )
-select a.cod_art, a.descripcion, a.cod_lin, g.id_grupo, g.dsc_grupo, r.cant_requerida
-     , r.cant_separado, r.cant_faltante, r.stock_requerida
-     , a.s_act - r.cant_separado as cant_disponible, a.pr_golpez as golpes
-     , a.pr_golpza as cavidades
-  from articul a
-       left join requerimiento r on a.cod_art = r.cod_art
-       left join vw_articulo_grupo g on a.cod_art = g.cod_art;
-
-select *
-  from expedido_d
- where numero = 15032
-   and nro = 79;
-
-select *
-  from expedidos
- where numero = 16175;
-
-select *
-  from pr_embarques
- where ano_embarque = 2024
-   and mes_embarque = 3
-   and id_pedido = 16175;
-
-select *
-  from pr_embarques
- where ano_embarque = 2024
-   and mes_embarque = 3
-   and id_pedido = 16156;
-
-select *
-  from pr_consul
- where pedido = 16175;
-
--- COD_ART	CANTIDAD
--- CH 86030 TG	10
--- V 86030-I R	20
--- CH 86031 TG	10
--- CHP 93009A GR	10
-
-select *
-  from exproforma_d
- where numero = 19218
-   and cod_art in (
-                   'CHP 93009A GR', ''
-   );
-
-select *
-  from exfacturas_his
- where accion in ('73', '74', '75')
-   and numero in (
-                  55017847, 55017848, 55017849, 55017850, 55017851, 55017852, 55017853, 55017854,
-                  55017855, 55017856, 55017857, 55017858, 55017859, 55017860, 55017861, 55017862,
-                  55017863, 55017864, 55017865, 55017866, 55017867, 55017868, 55017869, 55017870,
-                  55017871, 55017872, 55017873, 55017874, 55017875, 55017876, 55017877
-   );
-
-update exfacturas_his
-   set fecha = to_date('24/04/2024', 'dd/mm/yyyy')
- where accion in ('73', '74', '75')
-   and numero in (
-                  55017847, 55017848, 55017849, 55017850, 55017851, 55017852, 55017853, 55017854,
-                  55017855, 55017856, 55017857, 55017858, 55017859, 55017860, 55017861, 55017862,
-                  55017863, 55017864, 55017865, 55017866, 55017867, 55017868, 55017869, 55017870,
-                  55017871, 55017872, 55017873, 55017874, 55017875, 55017876, 55017877
-   );
-
-select *
-  from exfacturas
- where numero in (
-                  55017847, 55017848, 55017849, 55017850, 55017851, 55017852, 55017853, 55017854,
-                  55017855, 55017856, 55017857, 55017858, 55017859, 55017860, 55017861, 55017862,
-                  55017863, 55017864, 55017865, 55017866, 55017867, 55017868, 55017869, 55017870,
-                  55017871, 55017872, 55017873, 55017874, 55017875, 55017876, 55017877
-   );
-
-select * from view_prodterm_paletas;
-
-select * from tmp_carga_data;
-
-select *
-  from exproforma_d_aprobar
- where numero = 19416
-   and estado_respuesta is null and cantidad_libre is null;
-
-select * from exproforma_libre;
-
-select *
-  from expedidos
- where numero = 16333;
-
-select *
-  from expedidos
- where numero = 16335;
-
-select *
-  from expedido_d
- where numero = 16333
-   and saldo_pk != 0;
-
-select *
-  from expedido_d
- where numero = 16333
-   and estado_pk = 8;
-
-
-select max(nro)
-  from expedido_d
- where numero = 16582;
-
-select *
-  from expedido_d
- where numero = 16582
-   and cod_art = 'KIT MH CHP 30050 GR';
-
-select *
-  from expedido_d
- where numero = 16333
-   and estado_pk = '1';
-
-select *
-  from pr_ot
- where abre01 = '16333'
-   and per_env in (
-                   '11', '12', '14', '20', '31', '33', '44', '51', '58', '89'
-   );
-
-select numero, fecha
-  from expedidos
- where numero in (
-   select pedido
-     from pr_consul
-    where prioridad = :prioridad_no_trabaja
-      and estado < 9
+ where d.numero = :pedido
+   and d.estado_pk in ('A', '0')
+   and nvl(d.saldo_ot, 0) = 0
+   and nvl(d.id, 0) = '0'
+   and d.cod_art = a.cod_art
+   and a.cod_art not in (
+   select cod_lin
+     from pr_grupos_lineas_desarrollo
+    union all
+   select cod_lin
+     from pr_grupos_lineas_validacion
+    union all
+   select '1980'
+     from dual
+    union all
+   select 'ZZ'
+     from dual
+    union all
+   select '99'
+     from dual
    )
- order by 1;
+ order by d.cod_art;
 
 select *
-  from pr_consul
- where pedido = 16333;
-
-select distinct estado
-  from pr_consul;
+  from pr_formu
+ where art_cod_art = 'RP 45R-55B24RS-N';
 
 select *
-  from embarques_expo_g
- where numero_embarque = 1127;
-
-select *
-  from expedido_d
- where numero = 16293
-   and nro in (
-               3, 21, 12
-   );
-
-select *
-  from expedido_d
- where numero = 16109
-   and nro in (
-               55, 78, 79, 80, 74
-   );
-
-select *
-  from expedido_d
- where numero = 16582
-   and cod_art in ('KIT MH CHP 30050 GR');
-
-select *
-  from pr_ot
- where abre01 = '16293'
-   and per_env = '11';
-
-select *
-  from pr_ot
- where abre01 = '16582'
-   and per_env = '47';
-
-select * from exproformas;
-
-select * from exproformas_param;
-
-select * from clientes_corporacion;
-
-select * from exclientes where cod_cliente = '996057';
-
--- 996057
-
-select *
-  from pevisa.exproformas
- where texto8 is not null
-   and extract(year from fecha) = 2024;
-
-select *
-  from exclientes_marcas;
-
-select cod_marca
-  from exclientes_marcas
- where cod_cliente = '996057'
-   and grupo = 'JUEGOS Y CULATAS'
- order by 1;
-
--- todo lo que mahle ha comprado en el año, facturacion
--- relacion de la demanda anual estimada de Mahle
--- explosion de piezas cuanto se consume al año, mayor y menor
-
-select *
-  from exbooking
- where numero_booking = 'TER-68';
-
-select *
-  from exbooking_d
- where numero_booking = 'TER-68';
-
-select get_nuevo_precio_grupo(
-           p_pais => 50
-         , p_codart => 'CATALOGO PEVISA'
-         , p_vol => 5
-         , p_categoria => 2
-       )
-  from dual;
-
-select *
-  from lista_de_precios_paises
- where id_pais = '50';
-
-select tab_grupos.id_mega_grupo
-  from articul_pev
-     , tab_grupos
- where cod_art = 'CATALOGO PEVISA'
-   and tab_grupos.grupo = articul_pev.grupo;
-
-select grupo
-  from tab_mega_grupos
- where id = '99';
-
-select sum(nvl(por_desc1, 0) + nvl(por_desc2, 0))
-  from tab_descuentos_paises
- where id_pais = '50'
-   and id_mega_grupo = '99';
+  from pr_formu
+ where art_cod_art = 'R-AGM L4-N';
 
 
-select decode(3, 1, vta01, 2, vta02, 3, vta03, 0)
-  from exfactores_vta
- where cod_art = 'CATALOGO PEVISA'
-   and pais = '4';
+select sum(decode(c.cod_vende, '05', d.imp_neto, 0)) as oct
+     , sum(decode(c.cod_vende, '02', d.imp_neto, 0)) as car
+  from docuvent d
+     , exclientes c
+ where d.fecha >= :x_fecha_del
+   and d.fecha <= :x_fecha_al
+   and substr(d.cod_cliente, 6, 6) = c.cod_cliente
+   and d.origen = 'EXPO'
+   and d.estado < 9;
 
--- falta
-select *
-  from exfactores_vta
- where cod_art = 'RT 158 PLUS';
+-- detalle facturacion
+select case c.cod_vende
+         when '02' then 'CARLOS'
+         when '05' then 'OCTAVIO'
+         else c.cod_vende
+       end as vendedor
+     , case d.tipodoc when '01' then 'FACT' when '07' then 'NC' else d.tipodoc end as documento
+     , d.numero, d.fecha, d.nombre, d.imp_neto
+  from docuvent d
+     , exclientes c
+ where d.fecha >= :x_fecha_del
+   and d.fecha <= :x_fecha_al
+   and substr(d.cod_cliente, 6, 6) = c.cod_cliente
+   and d.origen = 'EXPO'
+   and c.cod_vende in ('02')
+   and d.estado < 9;
 
+select * from grupo_cliente;
 
-select t.id_mega_grupo, t.grupo
-  from articul_pev a
-     , tab_grupos t
- where a.cod_art = 'RT 158 PLUS'
-   and t.grupo = a.grupo;
+select * from grupo_cliente_cliente;
 
-select *
-  from articul_pev
- where cod_art = 'RT 158 PLUS';
+-- Olga pedido muestra
+-- Anular y cerrar
+-- el pedido no se anuló sino se cerró
+-- descontar de comisión
 
-select *
-  from tab_grupos
- where grupo = '27';
-
-select * from tab_mega_grupos;
-
-select f_maximo_descuento_pais_grupo(:p_pais, :p_mega_grupo, 'S')
-  from dual;
-
-select *
-  from exbooking
- where numero_booking = '23154105';
-
-select *
-  from log_auditoria
- where tabla = 'PROVEED';
-
-select *
-  from expednac
- where numero = 496;
-
-select *
-  from expednac_d
- where numero = 496;
-
--- oa valorizada
-select o.numero as orden, o.formu_art_cod_art
-     , case o.destino when '1' then p.numero else n.numero end as pedido
-     , case o.destino when '1' then p.nro else n.nro end as item_pedido
-     , case o.destino when '1' then p.totlin else n.totlin end as valor_usd
-  from pr_ot o
-       left join expedido_d p
-                 on o.abre01 = p.numero
-                   and o.per_env = p.nro
-                   and o.destino = 1
-       left join expednac_d n
-                 on o.abre01 = n.numero
-                   and o.per_env = n.nro
-                   and o.destino = 2
- where o.nuot_tipoot_codigo = 'AR'
-   and exists (
-   select 1
-     from tmp_carga_data t
-    where t.numero = o.numero
-   );
-
-select numero from tmp_carga_data;
-
-select *
-  from pr_ot
- where nuot_tipoot_codigo = 'AR'
-   and numero = 1064041;
-
-select *
-  from expedido_d
- where numero = 16647;
-
-select *
-  from expedido_d
- where numero = 16790;
-
-select *
-  from exclientes
- where cod_cliente = '991455';
-
-select *
-  from exclientes
- where abreviada = 'MAXIFORCE';
-
-select *
-  from expedidos
- where numero = 16847;
-
-select *
-  from exproformas
- where numero = 20058;
-
-select *
-  from exproforma_d
- where numero = 20058;
-
-select *
-  from exproformas_expedidos
- where numero_proforma = 20058;
-
-select *
-  from exproformas_expedidos
- where numero_pedido = 16845;
-
-select numero, fecha, nombre, tbruto, cod_cliente, zona as vendedor, packing_agrupar
-  from exproformas
- where estado not in ('8', '9')
- order by numero desc;
-
-select d.numero, d.nro, d.id, d.cod_cliente, d.fecha
-     , d.cod_eqi, d.cod_art, d.descri1, d.descri2, d.descri3
-     , a.partida, d.cantp, d.canti, d.preuni, d.saldo
-     , d.totlin, d.saldo_ot, d.por_desc1, d.por_desc2, d.pneto
-     , d.nro_en_pedido, d.aprobacion, d.precio_lista, d.precio_aprobado, d.precio_solicitado
-     , d.tipo_aprobacion
-  from exproforma_d d
-     , articul_pev a
- where d.numero = :proforma
-   and d.cod_art is not null
-   and nvl(d.nro_en_pedido, 0) = 0
-   and nvl(d.id, '0') = '0'
-   and a.cod_art = d.cod_art;
-
-select *
-  from expedidos
- where numero = 16847;
-
-select *
-  from expedidos
- where numero = 16847;
-
-select *
-  from expedido_d
- where numero = 16847;
-
-select * from exparamexpo;
-
-select *
-  from pr_consul
- where pedido = 16847;
-
-
-select d.cod_cliente, d.partida, d.preuni, k.cod_art, k.cod_eqi, k.numero, k.nro_ped
-     , d.cod_art as cod_art_ped, d.cod_eqi as cod_eqi_ped
-  from pk_detal k
+select nvl(t.abreviada, 'OFICINA') as p_vende
+     , nvl(e.zona, '00') as vende
+     , to_char(e.fecha, 'YYYY') as p_ano
+     , to_char(e.fecha, 'MM') as p_mes
+     , e.numero
+     , p.zona
+     , p.abrevia
+     , e.nombre
+     , e.cod_cliente
+     , sum(round(d.preuni * d.canti / e.fflete, 2)) as total
+  from expedidos e
      , expedido_d d
- where k.pk_numero = 62122
-   and k.numero = d.numero
-   and k.nro_ped = d.nro
-   and nvl(d.id, ' ') <> 'AN'
-   and (k.cod_art <> d.cod_art
-   or k.cod_eqi <> d.cod_eqi
-   );
-
-select *
-  from expedido_d
- where numero = 16575
-   and nro = 29;
+     , expaises p
+     , exclientes c
+     , extablas_expo t
+ where d.numero = e.numero
+   and nvl(d.id, '0') = '0'
+   and e.pais like '%'
+   and e.cod_cliente like '%'
+   and (nvl(e.estado, '0') <> '9'
+   and nvl(e.estado, '0') <> '85')
+   and (not (nvl(e.estado, '0') = '8' and nvl(e.zona, '00') = '00'))
+   and p.pais(+) = e.pais
+   and c.cod_cliente = e.cod_cliente
+   and t.tipo = '13'
+   and t.codigo(+) = nvl(e.zona, '00')
+   and nvl(e.tipo, '0') <> '04'
+   and extract(year from e.fecha) = 2025
+   and extract(month from e.fecha) = 8
+   and e.zona = '02'
+ group by nvl(t.abreviada, 'OFICINA')
+        , nvl(e.zona, '00')
+        , to_char(e.fecha, 'YYYY')
+        , to_char(e.fecha, 'MM')
+        , e.numero
+        , p.zona
+        , p.abrevia
+        , e.nombre
+        , e.cod_cliente
+;

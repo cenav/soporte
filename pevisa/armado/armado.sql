@@ -1,15 +1,15 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'AR'
+ where nuot_tipoot_codigo = 'SA'
    and numero in (
-   1036489
+   7219
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1100230
+   1117516
    );
 
 select *
@@ -1091,3 +1091,40 @@ select *
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'AR'
    and numero = '1094193';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'FC'
+   and numero = 516;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'FC'
+   and ot_numero = 505;
+
+-- felipe levano transportes useda
+
+select *
+  from expednac
+ where numero = 505;
+
+select *
+  from expednac_d
+ where numero = 505;
+
+select *
+  from articul
+ where cod_art in ('R-EFB L5-60038-N', 'RP 20-U1R200-N');
+
+select cod_art, sum(stock)
+  from almacen
+ where cod_art in ('R-EFB L5-60038-N', 'RP 20-U1R200-N')
+ group by cod_art;
+
+select *
+  from vw_personal
+ where c_codigo = 'E567';
+
+select *
+  from articul
+ where cod_art = '400.539';

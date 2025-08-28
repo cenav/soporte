@@ -35,7 +35,7 @@ using (
                 and o.numero = i.ot_numero
          join articul a on i.art_cod_art = a.cod_art
    where o.nuot_tipoot_codigo = 'PR'
-     and o.numero in (595553, 599461, 602572, 602569)
+     and o.numero in (611808)
   ) s
 on (d.ot_nuot_tipoot_codigo = s.ot_nuot_tipoot_codigo
   and d.ot_nuot_serie = s.ot_nuot_serie
@@ -44,7 +44,6 @@ on (d.ot_nuot_tipoot_codigo = s.ot_nuot_tipoot_codigo
 when matched then
   update
      set d.cod_lin = s.cod_lin;
-
 
 -- actualiza por fecha
 merge into pr_ot_det d
@@ -57,8 +56,8 @@ using (
                 and o.numero = i.ot_numero
          join articul a on i.art_cod_art = a.cod_art
    where o.nuot_tipoot_codigo = 'PR'
-     and o.estado = '1'
-     and o.fecha >= to_date('19/05/2025', 'dd/mm/yyyy')
+--      and o.estado = '1'
+     and trunc(o.fecha) >= to_date('01/07/2025', 'dd/mm/yyyy')
   ) s
 on (d.ot_nuot_tipoot_codigo = s.ot_nuot_tipoot_codigo
   and d.ot_nuot_serie = s.ot_nuot_serie
@@ -68,6 +67,43 @@ when matched then
   update
      set d.cod_lin = s.cod_lin;
 
+-- actualiza linea cabecera por numero de op
+merge into pr_ot g
+using (
+  select o.nuot_tipoot_codigo, o.nuot_serie, o.numero, o.formu_art_cod_art, a.cod_lin
+    from pr_ot o
+         join articul a on o.formu_art_cod_art = a.cod_art
+   where o.nuot_tipoot_codigo = 'PR'
+     and o.numero in (611808)
+  ) s
+on (g.nuot_tipoot_codigo = s.nuot_tipoot_codigo
+  and g.nuot_serie = s.nuot_serie
+  and g.numero = s.numero)
+when matched then
+  update
+     set g.cod_lin = s.cod_lin;
+
+-- actualiza linea cabecera por fecha
+merge into pr_ot g
+using (
+  select o.nuot_tipoot_codigo, o.nuot_serie, o.numero, o.formu_art_cod_art, a.cod_lin
+    from pr_ot o
+         join articul a on o.formu_art_cod_art = a.cod_art
+   where o.nuot_tipoot_codigo = 'PR'
+     and trunc(o.fecha) >= to_date('01/07/2025', 'dd/mm/yyyy')
+  ) s
+on (g.nuot_tipoot_codigo = s.nuot_tipoot_codigo
+  and g.nuot_serie = s.nuot_serie
+  and g.numero = s.numero)
+when matched then
+  update
+     set g.cod_lin = s.cod_lin;
+
+select *
+  from pr_ot_lin
+ where nuot_tipoot_codigo = 'PR'
+   and nuot_serie = 8
+   and numero = 611808;
 
 select *
   from pr_for_ins

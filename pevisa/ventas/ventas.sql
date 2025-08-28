@@ -1,45 +1,37 @@
 select *
   from cotizacion
- where serie = 24
-   and num_ped in (5767);
-
-select *
-  from itemcot
- where serie = 24
-   and num_ped in (5767);
+ where serie = 21
+   and num_ped in (272914);
 
 select *
   from cotizacion
- where serie = 27
-   and num_ped = 3;
+ where refe_pedido in (272914);
 
 select *
   from itemcot
- where serie = 27
-   and num_ped = 3
- order by item;
+ where serie = 20
+   and num_ped in (254410);
+
+select *
+  from itemcot
+ where serie = 21
+   and num_ped in (619);
 
 select *
   from pedido
- where num_ped in (267144);
-
-select *
-  from clientes
- where cod_cliente = '10024496193';
+ where serie = 21
+   and num_ped in (618);
 
 select *
   from itemped
- where num_ped in (261802);
+ where num_ped in (272914);
 
-select *
-  from cotizacion
- where refe_pedido = 267144;
 
 -- 20608751531
 
 select *
   from transporte
- where cod_transp = '20608751531';
+ where cod_transp = '20555954884';
 
 select *
   from transporte
@@ -1334,7 +1326,7 @@ select *
 select *
   from vendedores v
        join vendedores j on v.supervisor = j.cod_vendedor
- where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end
+ where j.abreviada = case :user when 'RRODRIGUEZ' then 'RR VTAS' else :user end;
 
 select p.num_ped, p.cod_cliente, p.nombre, p.estado, p.fecha, p.cod_vende, v.nombre as vendedor
      , v.supervisor, p.moneda, p.total_pedido
@@ -1548,3 +1540,155 @@ select * from excomirepre_2017;
 select * from excomirepre_2018;
 
 select * from excomision_repre;
+
+-- felipe levano transportes useda
+
+select *
+  from vendedores
+ where nombre like '%LEVANO%';
+
+
+select *
+  from cotizacion
+ where cod_vende = '70'
+   and extract(year from fecha) = 2025
+ order by fecha desc;
+
+select *
+  from cotizacion
+ where serie = 20
+   and num_ped = 250882;
+
+select *
+  from itemcot
+ where serie = 20
+   and num_ped = 250882;
+
+select * from seguimiento_bono;
+
+select * from seguimiento_bono_d;
+
+select *
+  from cominac_concepto
+ order by cod_concepto desc;
+
+select *
+  from evaluacion
+ where id_evaluacion = 10813;
+
+select * from estado_evaluacion;
+
+select *
+  from cotizacion
+ where cod_cliente = '20504203370'
+ order by fecha desc;
+
+select * from tab_descuento_gpolin;
+
+select decode(substr(n.cod_ubc, 1, 2), '07', 'L'
+  , decode(substr(n.cod_ubc, 1, 4), '1501', 'L', 'P'))
+  as ubica
+     , decode(c.cond_pag, 'A', 2, 0) as dscto3
+     , decode(c.cliente_afecto, 'S', i.valor, 0) as p_iva
+     , c.tasa_seguro as p_tasa_seguro
+     , c.flete as p_flete
+     , nvl(n.grupo_bateria, 0) as categoria_cliente
+     , c.cod_cliente
+  from cotizacion c
+     , clientes n
+     , impuesto i
+ where c.serie = 20
+   and c.num_ped = 252960
+   and n.cod_cliente = c.cod_cliente
+   and i.codigo = '1';
+
+select nvl(valor2, 0)
+  from tablas_auxiliares
+ where tipo = '24'
+   and codigo = to_char('40');
+
+select *
+  from itemcot
+ where serie = 20
+   and num_ped = 252960;
+
+select *
+  from itemcot
+ where serie = 20
+   and num_ped = 252960
+   and cod_art = 'RM-45 L1-N'
+   and f_lista_precio(cod_art, 90) > 0
+   and cod_lin = '271'
+   and cantidad >= 5;
+
+select *
+  from articul
+ where cod_art = '380.49';
+
+select *
+  from articul
+ where cod_art = '380.490';
+
+select *
+  from kardex_d
+ where cod_art = '87830GR';
+
+-- 16909
+
+-- round((1-(:itemped.xtotal_costo/:itemped.xtot_linea))*100,0)
+
+select round((1 - ((round(:cantidad * :x_costo, 2)) / :xtot_linea)) * 100, 0)
+  from dual;
+
+select *
+  from cotizacion
+ where num_ped = 253003;
+
+select impcam
+  from lispreg
+ where nro_lista = '02';
+
+select get_costos_ec(:cod_art, :nro_lista, :x_import_cam, :unidad_negocio)
+  from dual;
+
+select *
+  from articul
+ where cod_art like '%MS 80030 E';
+
+select gp.cod_grupo_venta
+     , gc.descripcion
+     , gc.moneda_rango
+     , gc.tipo_cliente
+     , gc.tipo_rango
+     , sum(i.cantidad) as kantidad
+     , sum(round(i.cantidad * i.precio, 2)) as importes
+     , get_rango_descuento(gp.cod_grupo_venta
+  , p_ubica
+  , decode(gc.tipo_rango
+                             , 'I'
+                             , sum(round(i.cantidad * i.precio, 2))
+                             , sum(i.cantidad))
+  , '1') as dd1
+     , get_rango_descuento(gp.cod_grupo_venta
+  , p_ubica
+  , decode(gc.tipo_rango
+                             , 'I'
+                             , sum(round(i.cantidad * i.precio, 2))
+                             , sum(i.cantidad))
+  , '2') as dd2
+  from itemcot i
+     , articul a
+     , tab_descuento_gpolin gp
+     , tab_descuento_comercial gc
+ where i.serie = z_serie
+   and i.num_ped = z_numero
+   and a.cod_art = i.cod_art
+   and gp.cod_grupo = a.grupo
+   and gp.cod_linea = a.cod_lin
+   and gc.cod_grupo_venta = gp.cod_grupo_venta
+ group by gp.cod_grupo_venta
+        , gc.descripcion
+        , gc.moneda_rango
+        , gc.tipo_cliente
+        , gc.tipo_rango
+ order by 1;

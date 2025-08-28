@@ -23,12 +23,10 @@ declare
   cursor trx is --> por número de transaccion
     select *
       from kardex_g
-     where cod_alm = '03'
-       and tp_transac = '08'
-       and serie = 1
-       and numero in (
-       26182
-       )
+     where cod_alm = 'F8'
+       and tp_transac = '10'
+       and serie = 118
+       and numero in (542)
      order by ing_sal desc, numero_pguia;
 
 begin

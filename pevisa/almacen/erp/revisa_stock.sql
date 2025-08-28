@@ -40,6 +40,7 @@ select a.cod_art
               where d.estado <> '9'
                 and d.cod_art = a.cod_art
                 and d.cod_art = :p_articulo
+                and d.cod_alm = a.cod_alm
               group by d.cod_art
              ), 0) as stock_kdx
   from almacen a
@@ -63,7 +64,11 @@ select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as 
 
 select *
   from almacen
- where cod_art = 'MAT4 90020';
+ where cod_art = :p_articulo;
+
+select *
+  from articul
+ where cod_art like 'HJ 23-320%';
 
 select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
@@ -393,3 +398,57 @@ select *
 select * from solicita_cambio_trx_det;
 
 select * from solicita_cambio_trx;
+
+begin
+  pr_stock_minimo_iqf('ENVIAR_CORREO_SIEMPRE');
+end;
+
+select a.cod_art, a.descripcion, a.cod_lin, round(
+    f_consumo_articulo(a.cod_art, (sysdate - 120), sysdate) / 4 * 3, 0) as promedio_3_meses
+     , round(f_stock_almacen(a.cod_art, '02'), 0) as stock_almacen_02
+     , round(f_stock_almacen(a.cod_art, '21'), 0) as stock_laboratorio, round(
+    f_consumo_articulo(a.cod_art, (sysdate - 120), sysdate), 0) as consumo
+     , round(
+    f_consumo_articulo(a.cod_art, (sysdate - 120), sysdate) / 4, 0) as promedio
+     , round(
+    f_stock_almacen(a.cod_art, '02') /
+    nullif((f_consumo_articulo(a.cod_art, (sysdate - 120), sysdate) / 4), 0), 2) as meses
+     , round(f_cantidad_requerida(a.cod_art), 0) as cantidad_requerida
+     , round(f_compras_en_curso(a.cod_art), 0) as compras_en_curso, round(
+    f_stock_almacen(a.cod_art, '02') - f_cantidad_requerida(a.cod_art) +
+    f_compras_en_curso(a.cod_art), 0) as stock_finalizando_programa
+  from articul a
+ where procedencia like 'IQF';
+
+
+select u.usuario, u.email, c.stock_minimo_iqf
+  from usuarios u
+     , correos_programas c
+ where u.usuario = c.usuario
+   and stock_minimo_iqf = 'SI';
+
+select *
+  from correos_programas
+ where stock_minimo_iqf = 'SI';
+
+select *
+  from usuarios
+ where usuario = 'PEVISA';
+
+select *
+  from kardex_d
+ where cod_alm = '03'
+   and tp_transac = '51'
+   and serie = 1
+   and numero in (
+   26557
+   )
+   and cod_art = '400.028';
+
+select *
+  from kardex_d_otros
+ where observaciones is not null;
+
+select *
+  from kardex_d_otros
+ where id_subgrupo is not null ;

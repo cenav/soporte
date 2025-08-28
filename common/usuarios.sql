@@ -1,8 +1,8 @@
-alter user pchumacero account unlock;
+alter user troquelado account unlock;
 
-alter user MVARGAS account lock;
+alter user lrojas account lock;
 
-alter user powerbi identified by "pevisa.pbi";
+alter user mmiranda identified by "mamalucy9+";
 
 alter user apinedo password expire;
 
@@ -13,13 +13,25 @@ alter user uarmado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'MVARGAS';
+ where username like '%LDANIEL%';
+
+-- drop user evasquez cascade;
 
 -- alter trigger tbu_movglos_cierre enable;
 
+
+-- revisar correos cuando se eliminan
+select u.usuario, u.email, c.cambio_linea_a_produccion
+  from usuarios u
+     , correos_programas c
+ where u.usuario = c.usuario
+   and c.cambio_linea_a_produccion = 'SI';
+
+select * from correos_programas;
+
 select *
   from dba_objects
- where object_name = 'PLA_CONTROL';
+ where object_name = 'Stock Minimo IQF';
 
 -- roxana tarrillo
 
@@ -53,17 +65,18 @@ select s.owner as syn_owner
 -- acceso MGVENTAS
 select *
   from seccrus
- where co_ctrctr = 'M_PLANEAMIENTO_M';
+ where co_ctrctr = 'M_SOLIMAT_M';
 
+-- rodrichx
 
 select *
   from seccrus
- where co_usrusr in ('ECARDENAS', 'LOBISPO', 'FURTEAGA')
+ where co_usrusr in ('JCABEZAS', 'BETY', 'CNAVARRO')
  order by co_usrusr;
 
 select *
   from seccrus
- where co_usrusr in ('PEVISA');
+ where co_usrusr in ('JCABEZAS');
 
 select *
   from all_constraints
@@ -75,7 +88,7 @@ select *
 
 select *
   from sig_conexiones
- where usuario = 'YBERROSPI'
+ where usuario = 'JCABEZAS'
  order by creacion_cuando desc;
 
 select *
@@ -84,12 +97,12 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%KOCAMPO%')
+ where upper(text) like upper('%asiscont3%')
    and owner = 'PEVISA';
 
 select *
   from dba_source
- where upper(text) like upper('%inicio de labores%')
+ where upper(text) like upper('%Inasistencias%')
    and owner = 'PLANILLA10';
 
 select *
@@ -177,9 +190,8 @@ select cod_menu, descripcion, menus, titulo, nivel, 'JPOZO', estado, sistema, id
 
 select *
   from tab_menu
- where usuario = 'PEVISA'
-   and sistema = 'M_PRODUC_M'
-   and upper(descripcion) like '%ANALI%';
+ where usuario = 'JCABEZAS'
+   and sistema = 'M_COSTO_M';
 
 select *
   from tab_menu
@@ -191,7 +203,17 @@ select *
 
 select *
   from usuarios
- where usuario in ('ECARDENAS', 'LOBISPO');
+ where usuario in ('LDANIEL');
+
+select * from aut_rol_usuario;
+
+select *
+  from usuario_modulo
+ where usuario = 'EVASQUEZ';
+
+select *
+  from usuarios_almacenes
+ where usuario = 'EVASQUEZ';
 
 select *
   from planilla10.personal
@@ -244,7 +266,7 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('CAMBIO_OT')
+ where modulo in ('DISTRIBUCION_GASTO')
  order by usuario, modulo;
 
 select *
@@ -1340,3 +1362,79 @@ select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.c
 select *
   from solimat_g
  where numero = 161444;
+
+begin
+  correo_stock_embalaje();
+end;
+
+select sysdate from dual;
+
+select *
+  from kardex_d a
+ where serie = 131
+   and numero in (1386);
+
+select *
+  from numdoc
+ where tp_transac = '35'
+   and serie = 131;
+
+select *
+  from sistabgen
+ where sisdatcod = 220;
+
+select u.usuario, u.email, c.stock_minimo_iqf
+  from usuarios u
+     , correos_programas c
+ where u.usuario = c.usuario
+   and stock_minimo_iqf = 'SI';
+
+
+begin
+  pr_stock_minimo_iqf('ENVIAR_CORREO_SIEMPRE');
+end;
+
+select *
+  from correos_programas
+ where usuario = 'DCONTRERAS';
+
+select *
+  from usuarios
+ where usuario = 'DCONTRERAS';
+
+select sysdate from dual;
+
+select resource_name, limit
+  from dba_profiles
+ where profile = 'DEFAULT'
+   and resource_name = 'IDLE_TIME';
+
+select p.numero, p.formu_art_cod_art, p.cant_prog, p.fecha, g.descripcion
+     , substr(to_char(100000000 + p.numero), 2, 8) as orden_etiqueta
+     , substr(to_char(100 + p.nuot_serie), 2, 2) as serie_etiqueta, p.nuot_tipoot_codigo
+     , p.nuot_serie, nvl(peso_por_bolsa, 0) as peso_por_bolsa
+  from pr_ot p
+     , pr_grupos_lineas gl
+     , pr_grupos g
+     , pr_formu f
+ where p.nuot_tipoot_codigo in ('PR', 'VA')
+   and p.estado in (1, 2, 3, 4)
+   and p.cod_lin = gl.cod_lin(+)
+   and gl.id_grupo = g.id(+)
+   and p.formu_art_cod_art = f.art_cod_art
+ order by p.numero;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 609555;
+
+select *
+  from pr_formu
+ where art_cod_art = 'CL-O 200.3364CS-1';
+
+select *
+  from pr_grupos_lineas
+ where cod_lin = '1062';
+
+

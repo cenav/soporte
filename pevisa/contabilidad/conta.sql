@@ -899,3 +899,13 @@ select l.linea, l.descripcion as dsc_linea, g.grupo, g.descripcion as dsc_grupo
        left join tab_grupos g on l.grupo = g.grupo
        left join grupo_venta m on g.ind_vta1 = m.cod_grupo_venta
  order by lpad(l.linea, 4, '0');
+
+select * from factpag; -- ampliar a 20
+
+select * from movdeta; -- ya está
+
+select * from pagos_i; -- ampliar a 20
+
+select *
+  from centro_de_costos
+ where estado is not null;

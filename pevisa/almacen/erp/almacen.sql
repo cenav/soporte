@@ -1,28 +1,88 @@
 select *
   from kardex_g
- where cod_alm = '01'
-   and tp_transac = '26'
-   and serie = 19
-   and numero = 25061;
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
+   and numero in (542);
+
+-- 663.69
+select *
+  from kardex_d
+ where cod_alm = 'F8'
+   and tp_transac = '10'
+   and serie = 118
+   and numero in (542);
 
 select *
-  from clientes
- where cod_cliente = 'NIT 422989029';
+  from tab_lineas_tipo_linea
+ where cod_tipo = 2;
+
+insert into pevisa.kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
+  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
+  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
+  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
+  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+  , pr_numped, nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1, numero_2)
+values
+  ( '03', '40', 1, 12202, date '2025-06-09', 'AR', 3, 1036489, null, null, null, null, null, null
+  , null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null
+  , 0.0000, 0.0000, 0.0000, null, null, 0, 'DVHS 4955596 GR', 'AR', '3', 1023787, 'ORDPR', null
+  , null, null, null, null, null, null);
+
+
+insert into pevisa.kardex_d
+  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
+  , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
+  , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
+  , pr_numot, pr_numped)
+values
+  ( '03', '40', 1, 12202, '200.2523FIB', 5.0000, 0.000000, 0.000000, date '2025-06-09', 0.00, 0.00
+  , 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00
+  , 0.0000, 0.0000, 'AR', 1023787, null);
+
+insert into pevisa.kardex_g
+  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
+  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
+  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
+  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
+  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
+  , pr_numped, nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1, numero_2)
+values
+  ( '08', '40', 1, 12201, date '2025-06-09', 'AR', 3, 1023787, null, null, null, null, null, null
+  , null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null
+  , 0.0000, 0.0000, 0.0000, null, null, 0, 'DVHS 4955596 GR', 'AR', '3', 1023787, 'ORDPR', null
+  , null, null, null, null, null, null);
+
+insert into pevisa.kardex_d
+  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
+  , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
+  , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
+  , pr_numot, pr_numped)
+values
+  ( '08', '40', 1, 12201, 'CAJA PHD-25', 5.0000, 0.000000, 0.000000, date '2025-06-09', 0.00, 0.00
+  , 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00
+  , 0.0000, 0.0000, 'AR', 1023787, null);
 
 select *
-  from clientes
- where nombre like '%MSIETE%';
-
--- 00000998099
+  from almacen
+ where cod_art = 'SOL 814';
 
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '08'
+ where cod_alm = 'F0'
+   and tp_transac = '28'
    and serie = 1
-   and numero in (
-   26182
-   );
+   and numero = 1304
+   and cod_art = 'YR-TA18H +LINE';
+
+-- 1208.9100
+-- 3074.5700
+
+select *
+  from almacen
+ where cod_art = 'FOR3930'
+   and cod_alm = 'D2';
 
 select *
   from kardex_d
@@ -33,9 +93,11 @@ select *
    1252
    );
 
+
+
 select *
   from almacen
- where cod_art = 'BLAF 0.35-695N-T5';
+ where cod_art = 'FOR3930';
 
 select *
   from kardex_d
@@ -351,8 +413,9 @@ select *
 select *
   from solimat_g
  where serie = 1
-   and numero = 203700;
+   and numero = 205360;
 
+select * from kardex_g;
 
 select *
   from solimat_d
@@ -1015,7 +1078,7 @@ select *
 
 select *
   from almacenes
- where cod_alm like '%B%'
+ where cod_alm like '57'
  order by cod_alm;
 
 select *
@@ -3210,3 +3273,326 @@ select *
   from transacciones_almacen
  where tp_transac = '29';
 
+select u.usuario, u.email, c.stock_minimo_iqf
+  from usuarios u
+     , correos_programas c
+ where u.usuario = c.usuario
+   and stock_minimo_iqf = 'SI';
+
+select cod_alm, tp_transac, serie, numero, cod_art, cantidad, docto
+  from tmp_carga_data;
+
+select sum(cantidad)
+  from tmp_carga_data;
+
+-- update tmp_carga_data set cod_alm = lpad(cod_alm, 2, '0');
+
+select sum(cantidad)
+  from kardex_d
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_d.cod_alm = tmp_carga_data.cod_alm
+      and kardex_d.tp_transac = tmp_carga_data.tp_transac
+      and kardex_d.serie = tmp_carga_data.serie
+      and kardex_d.numero = tmp_carga_data.numero
+      and kardex_d.cod_art = tmp_carga_data.cod_art
+   );
+
+select *
+  from kardex_g
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_g.cod_alm = tmp_carga_data.cod_alm
+      and kardex_g.tp_transac = tmp_carga_data.tp_transac
+      and kardex_g.serie = tmp_carga_data.serie
+      and kardex_g.numero = tmp_carga_data.numero
+   );
+
+-- que no tienen detalle pero si cabecera
+select *
+  from kardex_g
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_g.cod_alm = tmp_carga_data.cod_alm
+      and kardex_g.tp_transac = tmp_carga_data.tp_transac
+      and kardex_g.serie = tmp_carga_data.serie
+      and kardex_g.numero = tmp_carga_data.numero
+   )
+   and not exists (
+   select *
+     from kardex_d
+    where kardex_g.cod_alm = kardex_d.cod_alm
+      and kardex_g.tp_transac = kardex_d.tp_transac
+      and kardex_g.serie = kardex_d.serie
+      and kardex_g.numero = kardex_d.numero
+   )
+ order by ing_sal desc;
+
+select cod_alm, cod_art, sum(cantidad)
+  from kardex_d
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_d.cod_alm = tmp_carga_data.cod_alm
+      and kardex_d.tp_transac = tmp_carga_data.tp_transac
+      and kardex_d.serie = tmp_carga_data.serie
+      and kardex_d.numero = tmp_carga_data.numero
+      and kardex_d.cod_art = tmp_carga_data.cod_art
+   )
+ group by cod_alm, cod_art;
+
+select cod_alm, cod_art, sum(cantidad)
+  from tmp_carga_data
+ group by cod_alm, cod_art;
+
+select *
+  from kardex_g
+ where num_importa = 'P1-090625';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';
+
+select sum(cantidad)
+  from kardex_d
+ where cod_alm = '29'
+   and tp_transac = '27'
+   and serie = 1
+   and numero in (
+   1627422
+   );
+
+select *
+  from usuarios_almacenes
+ where usuario = 'PEVISA';
+
+select *
+  from almacenes_perfil
+ where cod_alm = 'P1';
+
+
+select sum(cantidad)
+  from kardex_d
+ where cod_alm = 'P1'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+   209809
+   );
+
+select *
+  from pr_usualma
+ where usuario in ('ECARDENAS', 'FURTEAGA', 'LOBISPO')
+   and cod_alm = '05';
+
+select *
+  from kardex_d
+ where cod_art = 'CL-O PL 80243-1ZN'
+ order by fch_transac desc;
+
+select cod_art, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = 'CL-O PL 80243-1ZN'
+   and trunc(d.fch_transac) <= to_date('30/04/2025', 'dd/mm/yyyy')
+ group by d.cod_art;
+
+select cod_art, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = 'CL-O PL 80243-1ZN'
+   and d.fch_transac <= to_date('31/03/2025', 'dd/mm/yyyy')
+ group by d.cod_art;
+
+select d.*, to_char(fch_transac, 'MM')
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = 'CL-O PL 80243-1ZN'
+   and extract(year from d.fch_transac) = 2025
+   and extract(month from d.fch_transac) = 4;
+
+
+select *
+  from articul
+ where cod_art = 'CL-O PL 80243-1ZN';
+
+--4163
+
+-- permiso 3:47
+
+select *
+  from kardex_g
+ where fch_transac >= to_date('20/06/2025', 'dd/mm/yyyy');
+
+select *
+  from kardex_d
+ where cod_art = '400.096-MU-1';
+
+select *
+  from kardex_d
+ where cod_art = '400.1069SIL-MU-1';
+
+select *
+  from solimat_g
+ where numero = 205360;
+
+select *
+  from solimat_d
+ where numero = 205360;
+
+select *
+  from vw_personal
+ where nombre like '%YABAR%';
+
+select *
+  from kardex_d
+ where cod_art = 'LIGA'
+   and extract(year from fch_transac) = 2025
+   and extract(month from fch_transac) = 7
+ order by fch_transac desc;
+
+select *
+  from numdoc
+ where tp_transac in ('27', '16')
+   and serie = 1;
+
+select *
+  from kardex_g
+ where tp_transac = '16'
+   and serie = 1
+   and numero = 210095
+ order by numero desc;
+
+select *
+  from kardex_d
+ where cod_alm = '02'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 210095;
+
+select * from kardex_d;
+
+select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.cod_alm01
+     , g.cod_alm02, g.observacion, g.numero_ref
+  from solimat_g g
+ where g.estado < 4
+   and exists (
+   select distinct -1
+     from solimat_d d
+    where g.serie = d.serie
+      and g.numero = d.numero
+      and d.saldo > 0
+   )
+   and nvl(cod_tipo_solimat, 'OTRO') = 'OTRO'
+--    and g.cod_alm01 in (
+--    select cod_alm
+--      from pr_usualma
+--     where cod_alm = g.cod_alm01 and usuario = user
+--    )
+   and not exists (
+   select 1
+     from almacenes
+    where nvl(tipo_alm, '0') in ('WMS')
+      and (cod_alm = g.cod_alm01 or cod_alm = g.cod_alm02)
+   )
+   and g.numero = :nro_doc_ref
+ order by g.serie, g.numero desc;
+
+select *
+  from solimat_g
+ where numero = 205949;
+
+select *
+  from solimat_d
+ where numero = 205949;
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm = '31';
+
+select *
+  from kardex_g
+ where cod_alm = 'F0'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 210102;
+
+select *
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 210102;
+
+select *
+  from numdoc
+ where tp_transac = '16'
+   and serie = 1;
+
+select *
+  from solimat_d
+ where numero = 205949;
+
+select *
+  from transacciones_almacen
+ where descripcion like '%TRANSFERENCIA%';
+
+select *
+  from kardex_d
+ where cod_art = 'CHATARRA LAF'
+   and cod_alm = '31'
+   and tp_transac = '27'
+ order by fch_transac desc;
+
+select *
+  from kardex_d
+ where cod_art = 'CHATARRA LAF'
+   and cod_alm = 'F0'
+   and tp_transac = '16'
+ order by fch_transac desc;
+
+select *
+  from kardex_g
+ where cod_alm = '31'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1631945;
+
+select *
+  from kardex_d
+ where cod_alm = '31'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1631945;
+
+select *
+  from kardex_d
+ where cod_alm = '31'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1631945;
+
+select *
+  from numdoc
+ where tp_transac = '27'
+   and serie = 1;
+
+select *
+  from almacenes
+ where cod_alm in ('56', '57')
+ order by cod_alm;
+
+select *
+  from tablas_auxiliares
+ where codigo != '....'
+   and tipo = 33
+   and codigo = '56';
+
+select *
+  from kardex_d
+ where cod_alm = '56'
+ order by fch_transac desc;

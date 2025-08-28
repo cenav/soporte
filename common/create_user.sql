@@ -1,33 +1,48 @@
 -- CREAR EN USUARIOS
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%MVARGAS%';
+ where username like '%PFALMAUX%';
 
 select *
   from usuarios u
- where usuario in ('FORIUNDO', 'MVARGAS');
+ where usuario in ('EALVITES', 'AALACHE');
 
 select *
   from vw_personal
- where nombre like '%VILLAR%'
+ where nombre like '%LEON%'
    and situacion not in ('8', '9');
 
 ---------------------------
 ---------------------------
 ---------------------------
 
-create user foriundo
+create user aalache
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
-  profile default
+  profile profile_usuario_sig
   account unlock;
 
-grant privilegios_usuarios_sig to foriundo;
+grant privilegios_usuarios_sig to aalache;
 
-alter user foriundo default role all;
+alter user aalache default role all;
 
-alter user foriundo password expire;
+alter user aalache password expire;
+
+---------------------------
+---------------------------
+---------------------------
+
+-- PROFILES
+-- profile_usuario_sig
+-- profile_usuario_sig_expo
+-- profile_usuario_aplicaciones
+alter profile profile_usuario_aplicaciones
+  limit
+  sessions_per_user 10; -- Cambia el límite a 10 sesiones simultáneas
+
+alter user ecardenas
+  profile profile_usuario_sig;
 
 ---------------------------
 ---------------------------
@@ -79,7 +94,7 @@ select rowid, u.*
 
 select *
   from usuarios_cotizacion
- where usuario in ('SVALENCIA', 'ACOLLAZOS');
+ where usuario in ('VILLACRESIS', 'ACOLLAZOS');
 
 select *
   from vendedores
@@ -88,3 +103,5 @@ select *
 select * from articul_archivos;
 
 select * from tipo_archivo;
+
+select * from estado_vacaciones;

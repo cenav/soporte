@@ -11,14 +11,37 @@ select *
   from proceso_puntualidad
  order by id_proceso desc;
 
-select *
-  from proceso_puntualidad_pers
- where id_personal = 'E43229';
+begin
+  puntualidad.elimina(43);
+end;
 
 select *
   from proceso_puntualidad_pers
- where id_proceso = 29
-   and meses_consecutivos = 2;
+ where id_personal = 'E42948'
+   and id_proceso = 42;
+
+select *
+  from proceso_puntualidad_pers
+ where id_proceso = 41
+   and horas_libres_saldo > 0;
+
+update proceso_puntualidad_pers
+   set horas_libres_saldo = horas_libres
+ where id_proceso = 42;
+
+select max(p.id_proceso) as penultimo_proceso
+  from (
+         select id_proceso
+           from proceso_puntualidad
+          where id_proceso < 42
+          order by id_proceso desc
+         ) p
+ where rownum = 1;
+
+select *
+  from proceso_puntualidad_pers
+ where id_proceso = 41;
+
 
 select p.cod_personal, p.persona, p.cod_encargado, p.encargado, p.tot_he_hr
      , p.tot_tardanza_hr, p.tingreso_fmt, p.trefrigerio_fmt, p.hes25_fmt, p.hes35_fmt, p.hedn_fmt
@@ -122,7 +145,7 @@ begin
     util.add_to_list(l_emails, 'icatalan@pevisa.com.pe');
     util.add_to_list(l_emails, 'gthh@pevisa.com.pe');
     dbms_output.put_line(r.encargado);
---     for i in 1 .. l_emails.count loop
+    --     for i in 1 .. l_emails.count loop
 --       if l_emails(i) is not null then
 --         dbms_output.put_line('    ' || i || ':' || l_emails(i));
 --       end if;

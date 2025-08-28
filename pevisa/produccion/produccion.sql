@@ -3,8 +3,40 @@ select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  1036489
+   614709
    );
+
+select numero, fecha, usuario, observacion as ip
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  614709, 614710, 614711, 614712, 614713, 614714, 614715, 614716, 614717, 614718,
+                  614719, 614720, 614721, 614722, 614723
+   );
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  614709, 614710, 614711, 614712, 614713, 614714, 614715, 614716, 614717, 614718,
+                  614719, 614720, 614721, 614722, 614723
+   );
+
+select *
+  from solicita_emision_ot
+ where numero = 2520;
+
+select *
+  from pr_trasab_estado
+ where tipo = 'PR'
+   and numero in (
+   569657
+   );
+
+select *
+  from pr_ot_anulacion
+ where nuot_tipoot_codigo = 'PR'
+   and trunc(fecha) = to_date('25/08/2025', 'dd/mm/yyyy');
 
 /*
 GRAF08
@@ -18,23 +50,24 @@ select *
   from pr_forsec
  where cod_art = '90035CS-1';
 
+
 select * from pr_ot_sec;
 
 select *
   from articul
  where cod_art in (
-                   'BH 0.23-222', 'NI 2900 0.8-222', 'NI 2900 1.0-222'
+   'PLZN 0.35-695-1300'
    );
 
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'PR'
-   and numero = 607202;
+ where nuot_tipoot_codigo = 'VA'
+   and numero = 12004;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
-   and ot_numero = 607202;
+   and ot_numero = 611808;
 
 select * from vw_detalle_orden_sol_mat;
 
@@ -84,7 +117,7 @@ select * from pr_variables;
 
 select *
   from pr_ot_bolsas
- where numero = 583526
+ where numero = 583452
    and nuot_tipoot_codigo = 'PR';
 
 -- 1081223 AR
@@ -1959,3 +1992,97 @@ select cod_concepto, '20601479886'
 select *
   from clientes
  where cod_cliente = '20601479886';
+
+-- 610229
+select p.numero, p.formu_art_cod_art, p.cant_prog, p.fecha, g.descripcion
+     , substr(to_char(100000000 + p.numero), 2, 8) as orden_etiqueta
+     , substr(to_char(100 + p.nuot_serie), 2, 2) as serie_etiqueta, p.nuot_tipoot_codigo
+     , p.nuot_serie, nvl(peso_por_bolsa, 0) as peso_por_bolsa
+  from pr_ot p
+     , pr_grupos_lineas gl
+     , pr_grupos g
+     , pr_formu f
+ where p.nuot_tipoot_codigo = 'PR'
+   and p.estado in (1, 2, 3, 4)
+   and p.cod_lin = gl.cod_lin
+   and gl.id_grupo = g.id
+   and p.formu_art_cod_art = f.art_cod_art
+ order by p.numero;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 610229;
+
+select cod_art, nvl(sum(stock), 0) as stock_03
+  from almacen
+ where cod_alm in ('03', '05')
+ group by cod_art;
+
+select * from almacen;
+
+select o.formu_art_cod_art as pieza, d.art_cod_art as cod_art, d.rendimiento, d.cod_lin
+     , cant_formula - cant_surtida as total, almacen
+  from pr_ot_det d
+     , pr_ot o
+ where d.ot_numero = o.numero
+   and d.ot_nuot_serie = o.nuot_serie
+   and d.ot_nuot_tipoot_codigo = o.nuot_tipoot_codigo
+   and d.ot_numero = 1110096
+   and d.ot_nuot_serie = 3
+   and cant_formula - cant_surtida > 0
+   and d.estado <> 9
+ order by d.cod_lin;
+
+
+select numero, fecha, estado, cant_prog, nuot_serie, nuot_tipoot_codigo as tipo, formu_art_cod_art
+     , serie_ot_fab, numero_ot_fab, abre01, abre02, cod_eqi, pais, empaque, usuario, origen
+     , prioridad, fecha_prioridad, destino
+  from pr_ot
+ where nuot_tipoot_codigo in ('AR', 'PA', 'SA') -- SOLO ARMADOS
+   and estado < 6
+   and numero = 1110096
+ order by prioridad, numero;
+
+select *
+  from pr_ot_det
+ where ot_numero = 1110096
+   and ot_nuot_serie = 3
+   and estado <> 9;
+
+select count(1)
+  from articul
+ where cod_art = '90010SB';
+
+select get_stock_corrida_produccion('ARO 66110'), nvl(pr_stk_separado, 0)
+  from articul
+ where cod_art = 'ARO 66110';
+
+select *
+  from articul
+ where cod_art = '90010SB'
+   and s_act = pr_stk_separado;
+
+select *
+  from articul
+ where s_act = pr_stk_separado
+   and cod_art like 'ARO 66110';
+
+select *
+  from articul
+ where s_act = pr_stk_separado;
+
+select *
+  from articul
+ where s_act = pr_stk_separado;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 603994;
+
+select *
+  from pr_ot_bolsas
+ where numero = 603994;
+
+select * from pr_forsec;

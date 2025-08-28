@@ -38,7 +38,7 @@ select * from aut_permiso;
 
 select *
   from aut_rol_usuario
- where usuario = 'MZONCO';
+ where usuario = 'ICATALAN';
 
 select *
   from aut_rol_usuario
@@ -84,3 +84,19 @@ select *
   from aut_permiso
  where id_rol = 'RH_PRMSO_ASOCIAL'
    and id_objeto = 'RH_PRMSO';
+
+select *
+  from aut_permiso
+ where id_objeto = 'RH_PRMSO'
+   and id_campo in ('ACTVD', 'CPTO_PRMSO')
+   and valor in ('18', 'EGT');
+
+select *
+  from aut_permiso
+ where id_objeto = 'RH_PRMSO'
+   and id_campo in ('CPTO_PRMSO')
+   and valor in ('PTD');
+
+select *
+  from concepto_permiso
+ where id_concepto = 'PTD';

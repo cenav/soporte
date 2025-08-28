@@ -21,3 +21,9 @@ select per.c_codigo
 select *
   from evaluacion
  where id_evaluacion = 10277;
+
+select * from periodo_evaluacion;
+
+select * from vw_personal_evaluar;
+
+select * from vw_evaluacion_pendiente;

@@ -229,3 +229,5 @@ begin
     end if;
   end loop;
 end;
+
+select get_ip() from dual;

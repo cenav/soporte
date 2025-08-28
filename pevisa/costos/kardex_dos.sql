@@ -159,7 +159,7 @@ select nro_doc, replace(nro_doc, ':', '')
 select *
   from analisis_consumo
  where ano = 2025
-   and mes = 4;
+   and mes = 5;
 
 select *
   from tmp_moviart_dos
@@ -845,3 +845,84 @@ select *
    and tp_transac = '29'
    and serie = 1
    and numero = 1904556;
+
+select *
+  from tmp_moviart_dos
+ where cod_alm_kardex = 'SS'
+   and tp_transac = '24'
+   and serie_kardex = 1
+   and numero_kardex = 8956;
+
+select *
+  from tmp_moviart_dos
+ where cod_alm_kardex = '01'
+   and tp_transac = '24'
+   and serie_kardex = 1
+   and numero_kardex = 8957;
+
+select *
+  from tmp_moviart_dos
+ where exists (
+   select 1
+     from tmp_carga_data
+    where tmp_moviart_dos.cod_alm_kardex = tmp_carga_data.cod_alm
+      and tmp_moviart_dos.tp_transac = tmp_carga_data.tp_transac
+      and tmp_moviart_dos.serie_kardex = tmp_carga_data.serie
+      and tmp_moviart_dos.numero_kardex = tmp_carga_data.numero
+      and tmp_moviart_dos.cod_art = tmp_carga_data.cod_art
+   );
+
+select cod_alm, sum(cantidad)
+  from tmp_carga_data
+ group by cod_alm;
+
+select cod_alm, cod_art, sum(cantidad)
+  from tmp_carga_data
+ group by cod_alm, cod_art;
+
+select *
+  from usuarios_almacenes
+ where usuario = 'PEVISA'
+   and cod_alm in ('01', '03', '05', '23', '24', '29', 'SS');
+
+select ap.tp_transac as tp_trasac, ta.descripcion as descripcion
+  from almacenes_perfil ap
+     , transacciones_almacen ta
+ where ap.tp_transac = ta.tp_transac
+   and cod_alm = :cod_alm
+   and ta.ingreso_salida = 'I'
+   and ap.estado = '1'
+ order by 1;
+
+select *
+  from almacenes_perfil
+ where cod_alm in ('01', '03', '05', '23', '24', '29', 'SS')
+   and tp_transac = '27';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';
+
+select *
+  from kardex_g
+ where num_importa = 'P1-090625';
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '27'
+   and numero = 1627357;
+
+select *
+  from tmp_moviart_dos
+ where cod_art = 'CL-O PL 80243-1ZN'
+   and fecha = to_date('30/04/2025', 'dd/mm/yyyy');
+
+select *
+  from tmp_moviart_dos
+ where cod_art = 'CL-O PL 80243-1ZN'
+   and canti = 254;
+
+select sum(stock)
+  from almacen
+ where cod_art = 'CL-O PL 80243-1ZN';

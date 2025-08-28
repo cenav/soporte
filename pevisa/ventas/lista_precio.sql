@@ -4,7 +4,7 @@ select *
 
 select *
   from lispred
- where cod_art = '66450-OSRAM';
+ where cod_art = 'RW 60 PLUS';
 
 select *
   from lispred

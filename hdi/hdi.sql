@@ -4,7 +4,7 @@ select *
    and mes = 6
    and libro = '08'
    and voucher in (
-   24
+   13018
    );
 
 -- 11/05/2023
@@ -272,10 +272,10 @@ select *
 
 select *
   from movfide
- where ano = 2024
-   and mes = 10
-   and tipo = '3'
-   and voucher = 100003;
+ where ano = 2025
+   and mes = 01
+   and tipo = '2'
+   and voucher = 13018;
 
 select *
   from factcob

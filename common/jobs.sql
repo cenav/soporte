@@ -13,14 +13,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_AVANCE_REGISTRO_PLANOS'
+      job_name => 'JOB_GESTION_DISCIPLINARIA'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'rpt_piezas_vs_registro.enviar_reporte'
-    , start_date => timestamp '2025-05-12 09:00:00 -5:00'
-    , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON'
+    , job_action => 'gestion_disciplinaria.correo_pre_pendientes'
+    , start_date => timestamp '2025-08-26 10:00:00 -5:00'
+    , repeat_interval => 'FREQ=WEEKLY;BYDAY=TUE,THU'
     , auto_drop => false
     , enabled => true
-    , comments => 'Reporte de avance de carga de planos'
+    , comments => 'Notificación de gestión disciplinaria'
   );
 end;
 
@@ -63,7 +63,7 @@ call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
 call dbms_scheduler.drop_job('JOB_AVANCE_REGISTRO_PLANOS');
 
---call dbms_scheduler.disable('PEVISA.JOB_STOCK_EMBALAJES');
+call dbms_scheduler.disable('JOB_PREMIO_PUNTUALIDAD');
 
 call dbms_scheduler.enable('JOB_CANCELACION_LEASING');
 
@@ -85,7 +85,7 @@ select *
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and job_name like '%BOSCH%'
+   and upper(job_action) like '%gestion_disciplinaria.correo_pre_pendientes%'
  order by job_name;
 
 -- SP_CORREO_STOCK_BOSCH
@@ -149,3 +149,89 @@ end;
 select *
   from powerbi.pbi_planeamiento_estados
  where trunc(fecha) = trunc(sysdate);
+
+select *
+  from powerbi.pbi_planeamiento_estados
+ where tipo = 'AR'
+   and numero = 1104903;
+
+select user as usuario, a.tipo, a.serie, a.numero, a.estado, a.estado_old
+     , to_char(a.fecha, 'DD/MM/YYYY HH24:MI:SS') as fecha, a.t4 as fecha_fin_de_mes
+     , a.usuario as usuario_armado, a.t1, b.abre01 as pedido, b.abre02 as cliente
+     , c.totlin as importe, b.cant_prog as cantidad, b.formu_art_cod_art, (
+  select distinct 'IMPRESO'
+    from vw_ot_impresos_planeamiento_20 i
+   where i.numero = b.numero
+   union
+  select distinct 'IMPRESO'
+    from pr_trasab_estado pte
+   where pte.numero = b.numero
+     and estado in ('2', '3', '4', '5', '6', '7')
+  ) as impreso, (
+  select max(pk_numero)
+    from pk_detal
+   where ot_numero = a.numero
+     and ot_serie = a.serie
+     and ot_tipo = a.tipo
+     and estado < '9'
+  ) as numero_packing, (
+  select count(distinct pk_numero)
+    from pk_detal
+   where ot_numero = a.numero
+     and ot_serie = a.serie
+     and ot_tipo = a.tipo
+     and estado < '9'
+  ) as contador_packing, (
+  select numero || '  ' || to_char(fecha, 'DD/MM/YYYY')
+    from exfacturas
+   where paclis =
+         (
+           select max(pk_numero)
+             from pk_detal
+            where ot_numero = a.numero
+              and ot_serie = a.serie
+              and ot_tipo = a.tipo
+              and estado < '9'
+           )
+     and estado < '9'
+  ) as numero_y_fecha_factura, (
+  select fch_impresion
+    from vw_ot_impresos_planeamiento_20
+   where numero = a.numero
+  ) as fch_impresion_ot, (
+  select min(fecha)
+    from pr_trasab_estado
+   where numero = a.numero
+     and tipo = a.tipo
+     and serie = a.serie
+  ) as fch_impresion_estado
+  from pr_trasab_estado a
+     , pr_ot b
+     , vw_ot_total_planeamiento_25 c
+ where a.tipo = 'AR'
+   and a.serie = 3
+   and trunc(a.fecha) >= trunc(to_date('31/05/2025', 'dd/mm/yyyy'))
+   and a.numero = b.numero
+   and a.serie = b.nuot_serie
+   and a.tipo = b.nuot_tipoot_codigo
+   and b.abre01 = c.numero
+   and b.destino = c.destino
+   and b.per_env = c.nro
+   and b.nuot_tipoot_codigo = 'AR'
+   and b.numero = 1104903
+   --and  b.estado < '7'
+   --and  b.estado not in('9')
+   and b.abre02 not like 'PC1%'
+   and b.cod_lin not in ('1970', '1971', '1972');
+
+select *
+  from powerbi.pbi_planeamiento_estados
+ where tipo = 'AR'
+   and numero = 1104903
+ order by fecha desc;
+
+begin
+  powerbijob.estados_oa(to_date('31/05/2025', 'dd/mm/yyyy'));
+end;
+
+select * from pr_trasab_estado;

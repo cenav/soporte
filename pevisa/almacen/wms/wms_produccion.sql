@@ -8,7 +8,8 @@ select * from wms_estado_solicitud order by id_estado;
 select *
   from wms_orden_sol
  where tipo = 'PR'
-   and numero in (390);
+   and serie = 2
+   and numero in (611);
 
 select *
   from wms_orden_sol
@@ -182,7 +183,8 @@ select * from wms_rec_oms;
 select *
   from wms_orden_sol
  where oms_tipo = 'WS'
-   and oms_numero = 390;
+   and oms_serie = 2
+   and oms_numero = 611;
 
 
 -- INSERT INTO PEVISA.WMS_ORDEN_SOL (TIPO, SERIE, NUMERO, FECHA_OT, JUEGO, NRO_PEDIDO, REF_CLIENTE, DESTINO, CANT_PROG, TOT_ITEMS, ESTADO, PICKER, TK_SERIE, TK_NUMERO, TK_ITEM, FECHA_REC, FECHA_DES, FECHA_ANU, OMS_TIPO, OMS_SERIE, OMS_NUMERO) VALUES ('PR', '8', 607314, TIMESTAMP '2025-04-30 14:53:57', 'CL-O PL95350-1ZN', null, null, null, 30.00, null, '8', '43469', '2', 2724, 1, TIMESTAMP '2025-05-14 11:29:03', null, null, 'WS', '2', 390);
@@ -221,3 +223,135 @@ select *
  where cod_art in (
                    'BH 0.23 - 300 ETIQ E-01', 'FOR3913', 'NI 2900 0.6-300', 'NI 2900 0.8-300'
    );
+
+select *
+  from transacciones_almacen
+ where tp_transac = '84';
+
+select *
+  from tablas_auxiliares
+ where tipo = '32'
+   and codigo = '84';
+
+  with transaccion_menor_iqf as
+         (
+           select pr.numero
+                , ka.cod_alm
+                , tp_transac
+                , ka.serie
+                , ka.numero as numero_kar
+                , ka.fch_transac
+                , pr.estado
+                , pr.formu_art_cod_art
+                , pr.fecha
+                , row_number()
+               over (partition by pr.numero
+                 order by ka.fch_transac asc)
+             as row_num
+             from pr_ot pr
+                  left join kardex_g ka
+                            on pr.numero = ka.numero_pguia
+                              and pr.nuot_tipoot_codigo = ka.tipo_pguia
+                              and pr.nuot_serie = ka.serie_pguia
+            where pr.nuot_tipoot_codigo in ('PR', 'VA')
+              and pr.numero in (
+              select distinct ot_numero
+                from pr_ot_det
+               where art_cod_art in (
+                 select cod_art
+                   from articul_iqf
+                 )
+              )
+            order by pr.numero, ka.fch_transac
+           )
+select t.formu_art_cod_art, t.numero, t.fecha
+     , t.cod_alm || '-' || t.tp_transac || '-' || t.serie || '-' || t.numero_kar as transaccion
+     , e.descripcion, t.fch_transac
+  from transaccion_menor_iqf t
+       left join pr_estadopr e on t.estado = e.estado
+ where row_num = 1;
+
+
+-- devolucion vulcano
+-- 611912 mal BH
+-- 611915 bien
+
+select *
+  from wms_rec_devol
+ where pr_referencia = 611912;
+
+select *
+  from wms_rec_devol
+ where pr_referencia = 611915;
+
+-- Libera orden producción para solicitud WMS
+select *
+  from pevisa.wms_libera_orden_surte
+ where numero in (612596, 609168);
+
+select p.numero, p.formu_art_cod_art, p.cant_prog, p.fecha, g.descripcion
+     , substr(to_char(100000000 + p.numero), 2, 8) as orden_etiqueta
+     , substr(to_char(100 + p.nuot_serie), 2, 2) as serie_etiqueta, p.nuot_tipoot_codigo
+     , p.nuot_serie, nvl(peso_por_bolsa, 0) as peso_por_bolsa
+  from pr_ot p
+     , pr_grupos_lineas gl
+     , pr_grupos g
+     , pr_formu f
+ where p.nuot_tipoot_codigo in ('PR', 'VA')
+   and p.estado in (1, 2, 3, 4)
+   and p.cod_lin = gl.cod_lin
+   and gl.id_grupo = g.id
+   and p.formu_art_cod_art = f.art_cod_art
+   and p.numero = 12004
+ order by p.numero;
+
+select *
+  from pr_formu
+ where art_cod_art = 'CL-O 290.4325ZN';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'VA'
+   and numero = 12004;
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_linea = '1068';
+
+select *
+  from pr_grupos_lineas
+ where cod_lin = '1068';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('84', '19', '16', '27');
+
+select *
+  from almacenes
+ where cod_alm in ('37', '30');
+
+select *
+  from pr_wkcieot
+ where usuario = 'JJUAREZ';
+
+select cod_art, cant_habilitada, cant_formula, consumo_real, rendimiento_real, limites, pasa
+     , usuario
+     , case when abs(rendimiento_real) > limites then 'SI' else 'NO' end as rendimiento_real_valido
+  from pr_wkcieot
+ where usuario = 'JJUAREZ';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 614351;
+
+
+select d.numero, d.cod_art, d.cantidad, a.cod_alm
+  from kardex_d d
+     , articul a
+ where d.cod_art = a.cod_art
+--AND D.COD_ALM = A.COD_ALM
+   and pr_numot = 614351
+   and pr_tipot = 'PR'
+   and tp_transac in ('29', '22')
+ order by d.cod_art;

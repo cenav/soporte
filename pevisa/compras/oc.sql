@@ -1,14 +1,25 @@
+-- 11-1777
+-- 11-1778
+-- 11-1780
 select *
   from orden_de_compra
- where serie = 13
+ where serie = 4
    and num_ped in (
-   5698
+   64501
    );
 
 select *
-  from orden_de_compra
- where serie = 25
-   and num_ped between 110 and 122;
+  from itemord
+ where serie = 4
+   and num_ped in (
+   64501
+   );
+
+select *
+  from orden_de_compra_calificacion
+ where serie = 3
+   and num_ped = 46321;
+
 
 
 select *
@@ -16,12 +27,6 @@ select *
  where serie = 25
    and num_ped between 110 and 122
    and glosa = 'APROBADO';
-
-select *
-  from orden_de_compra
- where num_ped in (
-   45137
-   );
 
 select *
   from orden_de_compra
@@ -244,7 +249,7 @@ select *
 
 select *
   from orden_de_compra_calificacion
- where num_ped = 44934
+ where num_ped = 34099
    and serie = 3;
 
 select *
@@ -820,8 +825,8 @@ select *
 
 select *
   from orden_de_compra_calificacion
- where serie = 3
-   and num_ped = 44336;
+ where serie = 81
+   and num_ped = 34099;
 
 insert into orden_de_compra_calificacion( num_ped, serie, c_resp, fecha_calificacion
                                         , detalle_servicio_recibido, evaluacion_a, evaluacion_b

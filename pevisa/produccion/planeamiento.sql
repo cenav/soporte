@@ -299,3 +299,20 @@ select o.pedido, o.pedido_item as item, o.nuot_tipoot_codigo as tipo, o.numero
      , o.formu_art_cod_art as formula, o.art_cod_art as pieza, o.cant_prog
   from vw_ordenes_impresas_piezas o
  where o.art_cod_art = '95313-CHGR';
+
+select *
+  from vw_surte_pza
+ where cod_pza = '90010SB';
+
+select *
+  from vw_surte_pza
+ where cod_pza = 'ARO 66110-I';
+
+select *
+  from vw_surte_sao
+ where cod_sao = 'ARO 66110';
+
+select *
+  from vw_surte_pza
+ where cod_pza = '180.761MLS'
+   and ot_tipo = 'AR';

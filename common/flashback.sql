@@ -918,3 +918,33 @@ select *
   from pk_glosa as of timestamp to_timestamp('30-05-2025 17:45:00', 'DD-MM-YYYY HH24:MI:SS')
  where numero = 61450;
 
+select *
+  from kardex_g as of timestamp to_timestamp('09-06-2025 10:45:00', 'DD-MM-YYYY HH24:MI:SS')
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_g.cod_alm = tmp_carga_data.cod_alm
+      and kardex_g.tp_transac = tmp_carga_data.tp_transac
+      and kardex_g.serie = tmp_carga_data.serie
+      and kardex_g.numero = tmp_carga_data.numero
+   )
+   and not exists (
+   select *
+     from kardex_d
+    where kardex_g.cod_alm = kardex_d.cod_alm
+      and kardex_g.tp_transac = kardex_d.tp_transac
+      and kardex_g.serie = kardex_d.serie
+      and kardex_g.numero = kardex_d.numero
+   );
+
+select *
+  from kardex_d as of timestamp to_timestamp('09-06-2025 10:45:00', 'DD-MM-YYYY HH24:MI:SS')
+ where exists (
+   select 1
+     from tmp_carga_data
+    where kardex_d.cod_alm = tmp_carga_data.cod_alm
+      and kardex_d.tp_transac = tmp_carga_data.tp_transac
+      and kardex_d.serie = tmp_carga_data.serie
+      and kardex_d.numero = tmp_carga_data.numero
+   )
+ order by ing_sal desc;

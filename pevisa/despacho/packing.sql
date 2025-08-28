@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   61450
+   62228
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -437,3 +437,37 @@ select *
   from pk_glosa
  order by fecha desc;
 
+
+-- esperar a la corrida para que cargue informacion
+select count(1)
+  from tmp_pedidos_30 e
+     , tmp_pedidos_detalles_30 pd
+ where e.usuario = pd.usuario
+   and e.vendedor = pd.vendedor
+   and e.numero = pd.numero
+   and e.usuario = (
+   select usuario_30
+     from exparamexpo
+   )
+   and nvl(pd.n2, 0) > 0
+   and get_prioridad(e.numero) = 7190
+   and e.numero in (
+   select id_pedido
+     from pr_embarques
+    where ano_embarque = 2025
+      and mes_embarque = 6
+   );
+
+select *
+  from pr_embarques
+ where ano_embarque = 2025
+   and mes_embarque = 6
+   and id_pedido = 16482
+ order by id_pedido;
+
+select *
+  from pr_embarques
+--  where ano_embarque = 2025
+--    and mes_embarque = 3
+ where id_pedido = 16482
+ order by id_pedido;
