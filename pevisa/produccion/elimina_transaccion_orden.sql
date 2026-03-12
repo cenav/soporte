@@ -6,8 +6,8 @@ declare
   cursor cur_orden is
     select *
       from pr_ot
-     where nuot_tipoot_codigo = 'PR'
-       and numero = 599181;
+     where nuot_tipoot_codigo = 'SA'
+       and numero = 6384;
 
   cursor cur_transacciones(p_tipo varchar2, p_serie varchar2, p_numero varchar2, p_ingsal varchar2) is
     select *
@@ -51,7 +51,10 @@ begin
     end loop;
 
     update pr_ot o
-       set estado = k_estado
+       set estado           = k_estado
+         , o.cant_ingresado = 0
+         , o.cant_merma     = 0
+         , o.cant_resul     = 0
      where o.nuot_tipoot_codigo = r.nuot_tipoot_codigo
        and o.nuot_serie = r.nuot_serie
        and o.numero = r.numero;

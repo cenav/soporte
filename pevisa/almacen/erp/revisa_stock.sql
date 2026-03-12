@@ -1,3 +1,49 @@
+-- 31 ALM CHATARRA
+
+-- revisa stock
+  with stock_kardex as (
+    select d.cod_alm, d.cod_art
+         , nvl((sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad))), 0) as stock_kdx
+      from kardex_d d
+           join almacen_local al on d.cod_alm = al.cod_alm
+     where d.estado <> '9'
+     group by d.cod_alm, d.cod_art
+    )
+select a.cod_art, a.cod_alm, nvl(a.stock, 0) as stock_alm, nvl(s.stock_kdx, 0) as stock_kdx
+  from almacen a
+       left join stock_kardex s
+                 on a.cod_alm = s.cod_alm
+                   and a.cod_art = s.cod_art
+ where a.stock <> s.stock_kdx
+   and a.cod_art = 'FOR3913'
+   and a.cod_alm = '37';
+
+
+-- revisa stock almacenes
+  with almacenes_vulcano as (
+    select al.cod_alm, a.descripcion, al.cod_local
+      from almacen_local al
+           join almacenes a on al.cod_alm = a.cod_alm
+     where al.cod_local = 'VUL'
+    )
+     , stock_kardex as (
+    select d.cod_alm, d.cod_art
+         , nvl((sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad))), 0) as stock_kdx
+      from kardex_d d
+           join almacen_local al on d.cod_alm = al.cod_alm
+     where d.estado <> '9'
+     group by d.cod_alm, d.cod_art
+    )
+select a.cod_art, a.cod_alm, nvl(a.stock, 0) as stock_alm
+  from almacen a
+       join almacenes_vulcano v
+            on a.cod_alm = v.cod_alm
+       left join stock_kardex s
+                 on a.cod_alm = s.cod_alm
+                   and a.cod_art = s.cod_art
+ where a.stock <> s.stock_kdx;
+
+
 -- revisa fecha sin hora
 select *
   from kardex_d d
@@ -44,16 +90,16 @@ select a.cod_art
               group by d.cod_art
              ), 0) as stock_kdx
   from almacen a
- where a.cod_art = :p_articulo
-   and a.stock <> nvl(
-     (
-       select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
-         from kardex_d d
-        where d.estado <> '9'
-          and d.cod_art = a.cod_art
-          and d.cod_art = :p_articulo
-        group by d.cod_art
-       ), 0);
+ where a.cod_art = :p_articulo;
+--    and a.stock <> nvl(
+--      (
+--        select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+--          from kardex_d d
+--         where d.estado <> '9'
+--           and d.cod_art = a.cod_art
+--           and d.cod_art = :p_articulo
+--         group by d.cod_art
+--        ), 0);
 
 
 select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
@@ -246,28 +292,6 @@ select *
    '95330MLS'
    );
 
--- revisa stock
-select a.cod_art, a.cod_alm, a.stock as stock_alm
-     , nvl((
-             select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
-               from kardex_d d
-              where d.estado <> '9'
-                and d.cod_art = a.cod_art
-                and d.cod_alm = :P_ALMACEN
-              group by d.cod_alm, d.cod_art
-             ), 0) as stock_kdx
-  from almacen a
- where a.cod_alm = :P_ALMACEN
-   and a.stock <> nvl(
-     (
-       select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
-         from kardex_d d
-        where d.estado <> '9'
-          and d.cod_art = a.cod_art
-          and d.cod_alm = :P_ALMACEN
-        group by d.cod_alm, d.cod_art
-       ), 0);
-
 
 -- actualiza kardex
 begin
@@ -451,4 +475,174 @@ select *
 
 select *
   from kardex_d_otros
- where id_subgrupo is not null ;
+ where id_subgrupo is not null;
+
+select cod_alm, tp_transac, serie, numero, cod_art, cantidad, fch_transac, ing_sal
+  from kardex_d
+ where cod_art = :p_articulo
+   and cod_alm = '63'
+   and trunc(fch_transac) >= to_date('30/09/2025', 'dd/mm/yyyy');
+
+
+select cod_alm, tp_transac, serie, numero, cod_art, cantidad, fch_transac, ing_sal
+  from kardex_d
+ where cod_art = :p_articulo
+   and cod_alm = '63'
+   and trunc(fch_transac) < to_date('30/09/2025', 'dd/mm/yyyy');
+
+
+-- a la fecha
+select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = :p_articulo
+--    and trunc(fch_transac) < to_date('30/09/2025', 'dd/mm/yyyy')
+ group by d.cod_alm, d.cod_art;
+
+-- stock actual
+select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_art = :p_articulo
+ group by d.cod_alm, d.cod_art;
+
+
+-- stock vulcano
+select d.cod_alm, a.descripcion, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+ where d.estado <> '9'
+   and d.cod_alm in (
+   select al.cod_alm
+     from almacen_local al
+          join almacenes a on al.cod_alm = a.cod_alm
+    where al.cod_local = 'VUL'
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion
+ order by d.cod_alm;
+
+
+-- almacenes Vulcano
+select al.cod_alm, a.descripcion, al.cod_local
+  from almacen_local al
+       join almacenes a on al.cod_alm = a.cod_alm
+ where al.cod_local = 'VUL';
+
+
+-- stock alm D2
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_alm = '39'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm;
+
+select *
+  from almacenes
+ where cod_alm = 'V3';
+
+-- stock alm 06
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_alm = '06'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm;
+
+
+-- stock alm 30 embalaje
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_alm = '30'
+   and exists(
+   select 1
+     from tab_lineas_tipo_linea l
+    where l.cod_tipo = 2
+      and l.cod_linea = b.cod_lin
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm, cod_art;
+
+select *
+  from tipo_linea
+ order by cod_tipo;
+
+select *
+  from tab_lineas_tipo_linea
+ where cod_tipo = 2;
+
+-- stock almacenes produccion
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_alm in (
+                     '31', '32', '33', '34', '35', '36', '38'
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm;
+
+select *
+  from almacenes
+ where es_stock = 1;
+
+select nvl(sum(a1.stock), 0)
+  from almacen a1
+       join almacenes a2 on a1.cod_alm = a2.cod_alm
+ where a1.cod_art = :key
+   and a2.es_stock = 1;
+
+
+select get_stock_corrida_produccion('BLAF 0.23-177N') from dual;
+
+-- stock alm D2
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_art = 'PIED-PEV-0019'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm;
+
+
+select *
+  from articul
+ where cod_art like 'PIED-PEV-0019';
+
+-- stock almacenes produccion
+select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+       join almacenes a on d.cod_alm = a.cod_alm
+       join articul b on d.cod_art = b.cod_art
+ where d.estado <> '9'
+   and d.cod_alm in ('31')
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
+ order by d.cod_alm;
+
+
+select *
+  from almacenes
+ where cod_alm = '31';

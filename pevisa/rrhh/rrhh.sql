@@ -1,65 +1,57 @@
 select *
+  from planilla10.personal
+ where nombres like '%JUAN%'
+   and apellido_paterno like '%REYES%'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select *
   from planilla10.t_cargo
- where c_cargo = 'AP';
+ where c_cargo = 'AALM';
 
 select *
   from planilla10.t_area
  order by c_area;
 
 select *
-  from planilla10.personal
- where apellido_paterno like '%SALCEDO%'
-   and situacion not in (
-   select *
-     from planilla10.t_situacion_cesado
-   );
-
-select *
-  from planilla10.personal
- where apellido_paterno like '%SAAVEDRA%'
-   and nombres like '%N%';
-
-select *
-  from planilla10.t_cargo
- where c_cargo = 'AJC';
-
-select *
   from vw_personal
- where nombre like '%PERCY%';
-
-select *
-  from planilla10.hr_personal
- where c_codigo = 'E1046';
-
--- montalvo valdez
+ where c_codigo = 'E41958';
 
 select *
   from planilla10.personal
- where nombres like '%JESUS%';
-
-select *
-  from planilla10.personal
- where nombres like '%DANIEL%'
-   and situacion not in (
-   select *
-     from planilla10.t_situacion_cesado
-   );
-
-select *
-  from planilla10.personal
- where apellido_paterno like '%REYMUNDO%';
+ where nombres like '%VICTOR%'
+   and apellido_paterno like '%REYMUNDO%';
 
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E618';
+   and c_codigo = 'E1316';
 
+select *
+  from planilla10.ingre_fijo
+ where c_codigo = 'E1188';
 
 select *
   from planilla10.t_cargo
  where c_cargo = 'SPS';
 
-select * from vw_personal;
+select *
+  from vw_personal
+ where c_codigo like '';
+
+select *
+  from planilla10.tar_encarga
+ where c_codigo = 'E618';
+
+select *
+  from vw_personal
+ where c_encargado = '040'
+   and situacion not in (
+   select situacion
+     from planilla10.t_situacion_cesado
+   );
 
 select p.c_codigo as codigo, p.nombre, p.email, p.email_p
   from vw_personal p
@@ -75,6 +67,7 @@ select p.c_codigo as codigo, p.nombre, p.email, p.email_p
    )
  order by nombre;
 
+
 select *
   from planilla10.hr_personal
  where c_codigo = :p_personal;
@@ -84,7 +77,8 @@ select *
  where c_codigo = 'E532';
 
 select *
-  from planilla10.vw_utilidades_correos;
+  from vw_personal
+ where nombre like '%ISAIAS%';
 
 select *
   from proceso_puntualidad
@@ -120,6 +114,11 @@ select *
 select *
   from evaluacion
  where id_evaluacion in (10996);
+
+select *
+  from evaluacion
+ where id_evaluado = 'E41405'
+ order by fecha desc;
 
 select * from estado_evaluacion;
 
@@ -180,7 +179,17 @@ select *
    and (fecha between :fecha_del and :fecha_al or
         (:fecha_del is null and :fecha_al is null));
 
-select * from planilla10.tar_encarga;
+select *
+  from planilla10.tar_encarga
+ where nombre like '%SOTOM%';
+
+select *
+  from planilla10.personal
+ where encargado = '065'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
 
 select *
   from vw_analpla_personal_total
@@ -1018,3 +1027,330 @@ select u.codigo_trabajador as c_codigo
        join usuarios u on um.usuario = u.usuario
  where um.modulo = :p_modulo
    and um.supermaestro = 'SI';
+
+select *
+  from planilla10.tar_encarga
+ where nombre like '%CRUZ%';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1257';
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E1137';
+
+select *
+  from planilla10.tar_encarga
+ where c_codigo = 'E1137';
+
+-- Saulo Vargas
+select *
+  from planilla10.personal
+ where encargado = '062'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+     where ((p.situacion not in (
+       select s.codigo
+         from planilla10.t_situacion_cesado s
+       ) and :p_cesado = 0) or :p_cesado = 1)
+    )
+     , autorizados as (
+    select u.codigo_trabajador as c_codigo
+      from usuario_modulo um
+           join usuarios u on um.usuario = u.usuario
+     where um.modulo = :p_modulo
+       and um.supermaestro = 'SI'
+    )
+     , raiz as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+     where (:p_codemp in (
+       select c_codigo
+         from autorizados
+       ) or e.c_codigo = :p_codemp)
+    )
+     , jerarquia (c_codigo, nombres, apellido_paterno, c_jefe, nivel) as (
+    select r.c_codigo, r.nombres, r.apellido_paterno, r.c_jefe, 1 as nivel
+      from raiz r
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe, j.nivel + 1
+      from empleados e
+           join jerarquia j on e.c_jefe = j.c_codigo
+     where e.c_codigo != j.c_codigo -- evita ciclos directos
+    )
+select j.c_codigo
+  from jerarquia j
+ where j.c_codigo = 'E4318';
+
+-- buscar a E4318 Pedro Arroyo
+
+select multiplo.superior(21, 7) from dual;
+
+begin
+  if multiplo.es(21, 7) then
+    dbms_output.put_line('Es multiplo');
+  else
+    dbms_output.put_line('No es multiplo');
+  end if;
+end;
+
+select sysdate from dual;
+
+select * from vw_vacaciones;
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%PICK%';
+
+select *
+  from planilla10.personal
+ where c_cargo = 'OPK'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from vw_personal
+ where c_cargo = 'OPK'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select * from caja_chica_serie;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'DACOSTA';
+
+select *
+  from usuarios_caja_chica
+ where serie = 7
+ order by usuario;
+
+select per.c_codigo
+     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.conini
+     , per.confin
+     , per.clase
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+ where per.encargado = enc.codigo
+   and enc.c_codigo = 'E567'
+   and per.situacion not in ('8', '9')
+   and per.c_codigo not in (
+   select id_personal
+     from cese_personal
+   )
+   and to_char(per.confin, 'MM') = to_char(sysdate, 'MM')
+--    and pevisa.sf_eval(per.c_codigo, trunc(last_day(sysdate))) is null
+ order by per.apellido_paterno;
+
+select sf_eval('E537', trunc(last_day(sysdate))) from evaluacion;
+
+select *
+  from planilla10.personal
+ where c_codigo = 'E567';
+
+select listagg(id_evaluacion, ' / ') within group (order by id_evaluacion)
+  from evaluacion
+ where id_evaluado = p_id_evaluado
+   and periodo_al = p_periodo_al;
+
+
+
+  with empleados as (
+    select p.c_codigo, p.nombres, p.apellido_paterno, o.email, j.c_codigo as c_jefe
+      from planilla10.personal p
+           left join planilla10.hr_personal o on p.c_codigo = o.c_codigo
+           left join planilla10.tar_encarga e on p.encargado = e.codigo
+           left join planilla10.personal j on e.c_codigo = j.c_codigo
+     where ((p.situacion not in (
+       select s.codigo
+         from planilla10.t_situacion_cesado s
+       ) and :p_cesado = 0) or :p_cesado = 1)
+    )
+     , autorizados as (
+    select u.codigo_trabajador as c_codigo
+      from usuario_modulo um
+           join usuarios u on um.usuario = u.usuario
+     where um.modulo = :p_modulo
+       and um.supermaestro = 'SI'
+    )
+     , raiz as (
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe
+      from empleados e
+     where (:p_codemp in (
+       select c_codigo
+         from autorizados
+       ) or e.c_codigo = :p_codemp)
+    )
+     , jerarquia (c_codigo, nombres, apellido_paterno, c_jefe, nivel) as (
+    select r.c_codigo, r.nombres, r.apellido_paterno, r.c_jefe, 1 as nivel
+      from raiz r
+     union all
+    select e.c_codigo, e.nombres, e.apellido_paterno, e.c_jefe, j.nivel + 1
+      from empleados e
+           join jerarquia j on e.c_jefe = j.c_codigo
+     where e.c_codigo != j.c_codigo -- evita ciclos directos
+    )
+select j.c_codigo
+  from jerarquia j;
+
+select *
+  from vw_personal
+ where c_codigo in (
+                    'E1211', 'E43653', 'E43785', 'E43758', 'E43816', 'E43817', 'E43130', 'E43031',
+                    'E43807', 'E43755', 'E43485', 'E43796', 'E43750', 'E43164', 'E43200', 'E43553',
+                    'E43648', 'E43470', 'E43635', 'E43632', 'E43631', 'E43763', 'E43621', 'E43599',
+                    'E43610', 'E43577', 'E43823', 'E43781', 'E43780', 'E43779', 'E43731', 'E43732',
+                    'E43733', 'E42595', 'E43006', 'E42847', 'E42955', 'E42947', 'E42940', 'E42414',
+                    'E42931', 'E41996', 'E41652', 'E41830', 'E4785', 'E41316', 'E4476', 'E4376',
+                    'E4347', 'E4312', 'E41311'
+   );
+
+select *
+  from vw_personal
+ where nombre like '%MECHATO%';
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'ISAIAS_MECHATO';
+
+select *
+  from usuario_modulo_alterno
+ where id_alterno = 'ISAIAS_MECHATO';
+
+select *
+  from usuarios
+ where usuario = 'ISAIAS_MECHATO';
+
+select per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.c_codigo, per.seccion as cod_seccion, s.nombre as seccion, a.idpersonal
+     , enc.nombre as encargado
+     , trunc(months_between(sysdate, per.f_ingreso) / 12) || ' años' as anos_servicio, per.sector
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+     , planilla10.tar_secc s
+     , asistencia.personal a
+ where per.encargado = enc.codigo
+   and per.seccion = s.codigo(+)
+   and per.c_codigo = a.cod_personal(+)
+   and exists (
+   select 1
+     from pevisa.tmp_codigo_empleado t
+    where t.c_codigo = per.c_codigo
+   )
+   and per.c_codigo != :c_codigo
+   and per.situacion not in ('8', '9')
+ order by enc.nombre, per.apellido_paterno;
+
+begin
+  sp_carga_personal_jefatura(p_codemp => :c_codigo, p_cesado => 1, p_modulo => 'PERMISO');
+end;
+
+
+select * from tmp_codigo_empleado;
+
+
+select *
+  from usuarios
+ where usuario = 'ISAIAS_MECHATO';
+
+
+select *
+  from usuarios
+ where usuario = '';
+
+-- 08A puesto anterior
+select *
+  from bono_obrero_puesto
+ where id_bono_obrero = 53;
+
+select *
+  from vw_personal
+ where c_codigo = 'E4923';
+
+-- 08A puesto anterior
+select *
+  from bono_oa_puesto
+ where cod_bono = 5;
+
+select *
+  from planilla10.personal
+ where c_cargo in ('17AD', 'AXAM', 'CARM')
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from vw_personal
+ where c_area = '004'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+   and c_codigo in ('E41958', 'E41260', 'E4923');
+
+select *
+  from personal_armado_produccion;
+
+select distinct c_cargo
+  from planilla10.personal
+ where c_codigo in (
+                    'E42206', 'E42406', 'E42412', 'E42413', 'E42449', 'E42546', 'E42599', 'E42586',
+                    'E42598', 'E43111', 'E42300', 'E42259', 'E42257', 'E42324', 'E43762', 'E43371',
+                    'E43391', 'E43343', 'E43432', 'E43352', 'E43362', 'E43523', 'E43524', 'E43526',
+                    'E43746', 'E43509', 'E43294', 'E43263', 'E43265', 'E43701', 'E43723', 'E43507',
+                    'E43228', 'E43550', 'E43350', 'E41260', 'E41761', 'E41796', 'E41893', 'E41956',
+                    'E41958', 'E42015', 'E42016', 'E42022', 'E43442', 'E43892', 'E42124', 'E42130',
+                    'E42131', 'E42160', 'E42161', 'E42164', 'E4458', 'E4901', 'E4923', 'E4998',
+                    'E43887', 'E43886', 'E43872  ', 'E43870', 'E43858', 'E43853', 'E43893',
+                    'E43894', 'E43898', 'E43899', 'E43900', 'E43901', 'E43902', 'E43903', 'E43904',
+                    'E43905', 'E43908', 'E43909', 'E43910', 'E43912', 'E42909', 'E42962', 'E43018',
+                    'E43011', 'E43053', 'E43077', 'E43100', 'E43154', 'E43153', 'E43188', 'E43167',
+                    'E43173', 'E43178', 'E43179', 'E43183', 'E43180', 'E43190', 'E43715', 'E43555',
+                    'E43840', 'E43837', 'E43399', 'E42634', 'E42638', 'E42639', 'E42683', 'E42699',
+                    'E42700', 'E42719', 'E42791', 'E42808', 'E42809', 'E42814', 'E42821', 'E42822',
+                    'E42848'
+   )
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+
+select *
+  from planilla10.t_cargo
+ where c_cargo in (
+                   'ENAR', 'AXAM', 'AXPLT', '17AD', 'SUAL', 'OPAL', 'CARM'
+   );
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%PROGRAMADOR%';
+
+select *
+  from vw_personal
+ where c_cargo = 'AP'
+ order by f_ingreso desc;
+
+select *
+  from kardex_g
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 639398
+ order by ing_sal desc, numero_pguia;

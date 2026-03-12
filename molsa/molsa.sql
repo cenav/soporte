@@ -138,12 +138,12 @@ select *
 select *
   from caja_chica
  where serie = 1
-   and numero = 224;
+   and numero = 243;
 
 select *
   from caja_chica_d
  where serie = 1
-   and numero = 224;
+   and numero = 243;
 
 select *
   from plancta

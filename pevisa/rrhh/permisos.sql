@@ -69,8 +69,12 @@ select *
 select * from concepto_permiso;
 
 select *
+  from concepto_permiso
+ where id_concepto = 'PDC';
+
+select *
   from asistencia.concepto
- where cod_concepto = 'ENFGT';
+ where cod_concepto = 'PDC';
 
 select descripcion as dsc_concepto, id_concepto as idconcepto
   from pevisa.concepto_permiso
@@ -444,3 +448,7 @@ select b.c_jefe, e.nombres, e.apellido_paterno, e.email
   from jerarquia b
        join empleados e on b.c_jefe = e.c_codigo
  where e.apellido_paterno not in ('WOLFENZON', 'LEVY');
+
+select *
+  from vw_permisos
+ where numero = 72293;

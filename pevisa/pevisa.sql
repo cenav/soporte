@@ -1592,8 +1592,6 @@ select * from exproforma_d_aprobar;
 
 select * from usuarios;
 
-select * from roles;
-
 -- select * from usuarios_roles;
 
 select * from tab_menu;

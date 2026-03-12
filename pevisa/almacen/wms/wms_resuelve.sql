@@ -711,3 +711,27 @@ select *
 select *
   from planilla10.hr_personal
  where c_codigo = 'E1196';
+
+select *
+  from wms_usuarios
+ where usuario = '42991';
+
+select *
+  from solimat_d
+ where cod_art = 'BOLSA B-2'
+ order by numero desc;
+
+-- No se encuentra tarea de solicitud
+select *
+  from solimat_g
+ where numero = 210646;
+
+select *
+  from solimat_d
+ where numero = 210646;
+
+select *
+  from articul
+ where cod_art = 'BOLSA 12.41';
+
+select sysdate from dual;

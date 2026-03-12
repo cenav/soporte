@@ -148,3 +148,30 @@ select *
  where cod_alm = '01'
    and tp_transac = '28'
    and extract(year from fch_transac) = 2024;
+
+
+select * from tab_lineas
+ where linea = '1972';
+
+select * from tab_lineas
+ where tp_art = 'X';
+
+select * from tab_lineas
+where linea = '2313';
+
+select * from tfamlin
+where cod_lin = '2313';
+
+select * from articul
+ where cod_lin = '2313';
+
+select * from articul
+ where cod_art = 'PORTA STD. PH300TN-2-I';
+
+select * from tfamlin
+ where cod_lin = '1817';
+
+select * from pr_grupos_lineas
+where cod_lin = '1817';
+
+

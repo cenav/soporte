@@ -1,12 +1,15 @@
-grant select on ot_serv to privilegios_lectura_pvs;
+-- VW_RESUMEN_EJECUTIVO_DESARRO
+-- VW_PRIORIDAD_PIEZAS_DESA_COLOR
 
-grant insert on ot_serv to privilegios_inserta_pvs;
+grant select on vw_pr_proceso_limite to privilegios_lectura_pvs;
 
-grant delete on ot_serv to privilegios_elimina_pvs;
+grant insert on vw_pr_proceso_limite to privilegios_inserta_pvs;
 
-grant update on ot_serv to privilegios_actualiza_pvs;
+grant delete on vw_pr_proceso_limite to privilegios_elimina_pvs;
 
--- grant execute on sf_act_esp to privilegios_lectura_pvs;
+grant update on vw_pr_proceso_limite to privilegios_actualiza_pvs;
+
+-- grant execute on evaluacion_personal to privilegios_lectura_pvs;
 
 -- grant alter any procedure to privilegios_actualiza_pvs;
 

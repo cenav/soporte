@@ -174,3 +174,48 @@ select p.boling as id_programa, g.id as id_grupo, p.formu_art_cod_art as pieza
    and p.boling = '250101'
    and p.estado <> '9'
  group by p.boling, g.id, p.formu_art_cod_art;
+
+-- nuevo programa Antony
+select *
+  from pr_programa_emision_ot p
+ where id_grupo = 'G005' --EMBALAJES HIJAS
+   and nuot_tipoot_codigo = 'PR'
+   and nuot_serie = 8
+   and p.numero = 607499
+--    and numero in (
+--    select numeroa
+--      from pr_ot po
+--     where p.nuot_tipoot_codigo = po.nuot_tipoot_codigo
+--       and p.nuot_serie = po.nuot_serie
+--       and p.numero = po.numero
+--       and estado < 5 --ordenes pendientes
+--    )
+ order by id_programa, fecha asc;
+
+
+-- códigos de hijas
+select p.id_programa, p.nuot_tipoot_codigo, p.nuot_serie, p.numero, o.formu_art_cod_art
+     , a.consumo_anual, a.consumo_mensual, b.pr_golpza as cavidades, m.cavidades_troquel
+  from pr_programa_emision_ot p
+       join pr_ot o
+            on p.nuot_tipoot_codigo = o.nuot_tipoot_codigo
+              and p.nuot_serie = o.nuot_serie
+              and p.numero = o.numero
+       join vw_articulo a on o.formu_art_cod_art = a.cod_art
+       join articul b on a.cod_art = b.cod_art
+       join arti_plancha m on a.cod_art = m.cod_art
+ where p.id_grupo = 'G005' --EMBALAJES HIJAS
+   and p.nuot_tipoot_codigo = 'PR'
+   and p.nuot_serie = 8
+   and o.estado <> 9
+--    and p.numero in (
+--    select numero
+--      from pr_ot po
+--     where p.nuot_tipoot_codigo = po.nuot_tipoot_codigo
+--       and p.nuot_serie = po.nuot_serie
+--       and p.numero = po.numero
+--       and p.estado < 5 --ordenes pendientes
+--    )
+ group by p.id_programa, p.nuot_tipoot_codigo, p.nuot_serie, p.numero, o.formu_art_cod_art
+        , a.consumo_anual, a.consumo_mensual, b.pr_golpza, m.cavidades_troquel
+ order by id_programa;

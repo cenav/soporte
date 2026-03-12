@@ -1,17 +1,81 @@
 select *
   from kardex_g
- where cod_alm = 'F8'
-   and tp_transac = '10'
-   and serie = 118
-   and numero in (542);
+ where cod_alm = '34'
+   and tp_transac = '28'
+   and serie = 1
+   and numero in (
+   1465
+   );
 
--- 663.69
+
+-- 34-28-1-1465
+-- 35-28-1-1466
+-- 36-28-1-1467
+-- 38-28-1-1468
 select *
   from kardex_d
- where cod_alm = 'F8'
-   and tp_transac = '10'
-   and serie = 118
-   and numero in (542);
+ where cod_alm = '34'
+   and tp_transac = '28'
+   and serie = 1
+   and numero in (
+   1465
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '29'
+   and serie = 1
+   and numero in (
+                  1997336, 1997335, 1997334, 1997333
+   );
+
+-- 663.69
+select costo_s / costo_d
+  from kardex_d
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero in (
+   12491
+   )
+   and cod_art = 'VKBC 20014 AT-SKF';
+
+
+select *
+  from factpag
+ where numero = '55710';
+
+
+select *
+  from kardex_g_movglos
+ where cod_alm = 'F0'
+   and tp_transac = '11'
+   and serie = 10
+   and numero in (
+   12491
+   );
+
+
+-- 3.372
+-- 3.320
+select *
+  from cambdol
+ where fecha = to_date('30/12/2025', 'dd/mm/yyyy');
+
+
+
+-- 3.372
+-- 3.3
+select *
+  from cambdol
+ where fecha = to_date('30/12/2025', 'dd/mm/yyyy');
+
+
+select *
+  from numdoc
+ where tp_transac = '73'
+   and serie = 171;
 
 select *
   from tab_lineas_tipo_linea
@@ -84,15 +148,6 @@ select *
  where cod_art = 'FOR3930'
    and cod_alm = 'D2';
 
-select *
-  from kardex_d
- where cod_alm = '03'
-   and tp_transac = '28'
-   and serie = 1
-   and numero in (
-   1252
-   );
-
 
 
 select *
@@ -147,12 +202,11 @@ select *
 
 select *
   from kardex_g_historia
- where cod_alm = '37'
-   and tp_transac = '16'
+ where cod_alm = 'D5'
+   and tp_transac = '30'
    and serie = 1
-   and numero in (
-   207999
-   );
+   and numero in (667);
+
 
 select *
   from kardex_g_historia
@@ -3596,3 +3650,638 @@ select *
   from kardex_d
  where cod_alm = '56'
  order by fch_transac desc;
+
+select *
+  from almacenes
+ where cod_alm in ('M4', 'M3');
+
+select *
+  from kardex_d
+ where cod_alm = 'M4'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1656079;
+
+select *
+  from kardex_d
+ where cod_alm = 'M3'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 211612;
+
+
+select a.cod_art, a.descripcion, a.unidad
+  from articul a
+ where a.cod_lin = '1610'
+ order by a.cod_art;
+
+select *
+  from articul
+ where cod_art = '300.042ANA';
+
+select o.numero, o.formu_art_cod_art, o.cant_prog, o.nuot_tipoot_codigo, o.nuot_serie, a.descripcion
+     , a.unidad
+  from pr_ot o
+     , articul a
+ where o.nuot_tipoot_codigo = 'PR'
+   and o.estado < 7
+   and a.cod_art = o.formu_art_cod_art
+   and o.numero = 626686
+   and a.cod_lin in (
+                     '1003',
+                     '1027',
+                     '1624',
+                     '1626',
+                     '1627',
+                     '1656',
+                     '1381',
+                     '1385',
+                     '1650',
+                     '1656',
+                     '1050',
+                     '1651',
+                     '1660',
+                     '1661',
+                     '1724',
+                     '1901',
+                     '1802',
+                     '1809',
+                     '1022',
+                     '1240',
+                     '1241',
+                     '1242',
+                     '1243',
+                     '1244',
+                     '1245',
+                     '1246',
+                     '1247',
+                     '1248',
+                     '1249',
+                     '1250',
+                     '1251',
+                     '1252'
+   )
+ order by o.numero;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 626686;
+
+select *
+  from almacenes
+ where cod_alm in ('D5');
+
+-- transacciones almacen f0
+select cod_alm, tp_transac, serie, numero, cod_art, fch_transac, cantidad, ing_sal
+  from kardex_d
+ where cod_art = 'CVJ 1075-A-TY'
+   and cod_alm = 'F0'
+   and fch_transac >= to_date('01/09/2025', 'dd/mm/yyyy')
+ order by fch_transac desc;
+
+select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where cod_art = 'CVJ 1075-A-TY'
+   and d.cod_alm = 'F0'
+   and d.fch_transac < to_date('01/09/2025', 'dd/mm/yyyy')
+ order by fch_transac desc;
+
+
+select sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where cod_art = 'CVJ 1075-A-TY'
+   and d.cod_alm = 'F0'
+   and trunc(d.fch_transac) < to_date('01/09/2025', 'dd/mm/yyyy')
+ order by fch_transac desc;
+
+select *
+  from almacen
+ where cod_art = 'CVJ 1075-A-TY';
+
+select *
+  from almacenes
+ where cod_alm like '%T%';
+
+select * from pr_ot_lin;
+
+select sysdate from dual;
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = :user
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from pr_usualma
+ where usuario = 'HREMUZGO';
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = 'D2'
+ order by 1;
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
+select *
+  from pr_usualma
+ where usuario = 'HREMUZGO'
+   and cod_alm in ('D2', 'D3');
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 1
+   and numero in (
+   106930
+   );
+
+select *
+  from almacen
+ where cod_alm = '30'
+   and cod_art = 'KRF 230.330-312B';
+
+select *
+  from transacciones_almacen
+ where descripcion like '%AJ%'
+ order by tp_transac;
+
+select *
+  from usuarios_almacenes_perfil
+ where tp_transac in ('15', '28', '31')
+   and usuario != 'PEVISA';
+
+
+select import_cam
+  from cambdol
+ where fecha = to_date('14/11/2025', 'dd/mm/yyyy') and tipo_cambio = 'V';
+
+select to_date('10' || '/' || lpad(mes, 2, '0') || '/' || lpad(ano, 4, '0'), 'DD/MM/YYYY')
+  into x_fecha_cambio
+  from parampla
+ where num_pla = xnum_pla;
+
+select *
+  from almacenes
+ where descripcion like '%PATRO%';
+
+select *
+  from pr_usualma
+ where cod_alm = 'AP';
+
+select *
+  from usuarios_almacenes_perfil
+ where cod_alm = 'AP';
+
+select *
+  from almacenes_perfil
+ where cod_alm = 'AP';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('16', '27');
+
+select *
+  from almacenes
+ where cod_alm = 'DC';
+
+select *
+  from almacen
+ where cod_alm = 'DC';
+
+select *
+  from almacen
+ where cod_alm = 'A1'
+   and stock > 0
+   and cod_art in (
+                   'TMC-CAJA 170.500/45-CL', 'TMC-KRF 150.450-CL', 'TMC-KRF 300.570-CL',
+                   'TMC-KRF 330.780-CL', 'TMC-KRF 340.960-CL', 'TMC-CAJA 240.260/30-CL',
+                   'TMC-KRF 090.345-CL', 'TMC-CAJA 145.430/30-CL', 'TMC-KRF 115.190-CL',
+                   'TMC-KRF 330.500-CL', 'TMC-CAJA 155.380/30-CL', 'TMC-CAJA 170.240/30-CL',
+                   'TMC-KRF 090.385-CL', 'TMC-CAJA 200.270/30-CL', 'TMC-KRF 300.470-CL',
+                   'TMC-CAJA 125.510/30-CL', 'TMC-KRF 230.430-CL', 'TMC-KRF 190.265-CL',
+                   'TMC-KRF 185.520-CL', 'TMC-KRF 275.650-CL', 'TMC-KRF 300.300-CL',
+                   'TMC-KRF 230.230-CL', 'TMC-CAJA 300.670/45-CL', 'TMC-KRF 090.500-CL',
+                   'TMC-KRF 160.435-CL', 'TMC-KRF 170.490-CL', 'TMC-CAJA 240.340/30-CL',
+                   'TMC-KRF 145.385-CL', 'TMC-KRF 115.385-CL', 'TMC-CAJA 170.440/30-CL',
+                   'TMC-KRF 160.230-CL', 'TMC-KRF 230.330-CL', 'TMC-KRF 115.500-CL',
+                   'TMC-KRF 145.320-CL', 'TMC-CAJA 310.480/65-CL', 'TMC-CAJA A-31-CL',
+                   'TMC-CAJA 195.540/30-CL', 'TMC-KRF 380.430-CL', 'TMC-KRF 540.380-CL',
+                   'TMC-KRF 120.255-CL', 'TMC-KRF 190.385-CL'
+   );
+
+select *
+  from almacen_local
+ where cod_alm = 'AP';
+
+select a.cod_alm, a.descripcion, l.descripcion as local
+  from almacenes a
+       left join almacen_local al on a.cod_alm = al.cod_alm
+       left join locales l on al.cod_local = l.cod_local
+ order by a.cod_alm;
+
+select *
+  from pieza_nacional_importada
+ where nacional = 'RC 001';
+
+select sysdate from dual;
+
+select *
+  from kardex_d
+ where cod_alm = '';
+
+select *
+  from almacenes
+ where cod_alm = '30';
+
+select *
+  from solimat_g
+ where fecha = to_date('17/12/2025', 'dd/mm/yyyy')
+   and cod_alm01 = 'A1';
+
+select *
+  from solimat_g
+ where numero = 211159;
+
+select *
+  from solimat_d
+ where numero = 211159;
+
+select *
+  from kardex_d
+ where cod_alm = 'M3'
+   and fch_transac = to_date('17/12/2025', 'dd/mm/yyyy')
+   and cod_art in (
+                   'TMC-CAJA 170.500/45-CL', 'TMC-KRF 150.450-CL', 'TMC-KRF 300.570-CL',
+                   'TMC-KRF 330.780-CL', 'TMC-KRF 340.960-CL', 'TMC-CAJA 240.260/30-CL',
+                   'TMC-KRF 090.345-CL', 'TMC-CAJA 145.430/30-CL', 'TMC-KRF 115.190-CL',
+                   'TMC-KRF 330.500-CL', 'TMC-CAJA 155.380/30-CL', 'TMC-CAJA 170.240/30-CL',
+                   'TMC-KRF 090.385-CL', 'TMC-CAJA 200.270/30-CL', 'TMC-KRF 300.470-CL',
+                   'TMC-CAJA 125.510/30-CL', 'TMC-KRF 230.430-CL', 'TMC-KRF 190.265-CL',
+                   'TMC-KRF 185.520-CL', 'TMC-KRF 275.650-CL', 'TMC-KRF 300.300-CL',
+                   'TMC-KRF 230.230-CL', 'TMC-CAJA 300.670/45-CL', 'TMC-KRF 090.500-CL',
+                   'TMC-KRF 160.435-CL', 'TMC-KRF 170.490-CL', 'TMC-CAJA 240.340/30-CL',
+                   'TMC-KRF 145.385-CL', 'TMC-KRF 115.385-CL', 'TMC-CAJA 170.440/30-CL',
+                   'TMC-KRF 160.230-CL', 'TMC-KRF 230.330-CL', 'TMC-KRF 115.500-CL',
+                   'TMC-KRF 145.320-CL', 'TMC-CAJA 310.480/65-CL', 'TMC-CAJA A-31-CL',
+                   'TMC-CAJA 195.540/30-CL', 'TMC-KRF 380.430-CL', 'TMC-KRF 540.380-CL',
+                   'TMC-KRF 120.255-CL', 'TMC-KRF 190.385-CL'
+   );
+
+select *
+  from almacenes
+ where cod_alm = 'M3';
+
+
+
+select os_username, /* nombre de usuario SO */
+  username, /* nombre de usuario BD */
+  terminal
+     , decode(returncode, '0', 'Conectado',
+              '1005', 'Solo username, sin password',
+              '1017', 'Password incorrecto',
+              returncode) as estado
+     , /* comprobacion de error */
+--   to_char(timestamp, 'DD-MON-YY HH24:MI:SS'), /* hora de entrada */
+  to_char(timestamp, 'DD-MON-YY'), /* hora de entrada */
+  to_char(logoff_time, 'DD-MON-YY HH24:MI:SS') /* hora de salida */
+  from dba_audit_session
+ where username in ('KCUCHO')
+ order by timestamp desc;
+
+select *
+  from solimat_g
+ where numero = 211686;
+
+select *
+  from solimat_d
+ where numero = 211686;
+
+select *
+  from almacenes
+ where cod_alm in ('D2', '37');
+
+select *
+  from transacciones_almacen
+ order by tp_transac;
+
+select *
+  from pagos_i
+ where serie_planilla = 81
+   and numero_planilla = 43190;
+
+select *
+  from pagos_h
+ where serie_planilla = 80;
+
+select *
+  from almacenes
+ where descripcion like '%BSF%';
+
+select *
+  from kardex_d
+ where tp_transac = 'SR';
+
+select *
+  from kardex_g
+ where cod_alm = 'SR';
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1141890;
+
+select *
+  from comisiones_planilla
+ where ano = 2025
+   and mes = 12
+   and origen = 'PROD';
+
+
+select *
+  from kardex_g
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 131
+   and numero = 2395;
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '35'
+   and serie = 131
+   and numero = 2395;
+
+select *
+  from almacenes
+ where cod_alm = '06';
+
+select *
+  from almacenes
+ where cod_alm in ('VY', 'DX', 'V3', '02', '06');
+
+select *
+  from almacen
+ where cod_art = 'DUR 170.490'
+   and cod_alm = '06';
+
+
+select *
+  from almacen
+ where cod_art = 'DUR 170.490';
+
+
+select *
+  from kardex_d
+ where cod_art = '93006GR';
+
+
+select *
+  from almacen
+ where cod_art = '93006GR';
+
+
+select *
+  from almacen
+ where stock >= 1000000;
+
+
+select *
+  from transacciones_almacen
+ where descripcion like '%AJUSTE%';
+
+
+select *
+  from transacciones_almacen
+ where descripcion like '%MERMA%';
+
+
+select max(fch_transac)
+  from kardex_d
+ where tp_transac = '31';
+
+
+select *
+  from kardex_d
+ where tp_transac = '31'
+ order by fch_transac desc;
+
+
+select *
+  from almacenes_perfil
+ where tp_transac in ('15', '31', '28');
+
+
+select distinct usuario
+  from usuarios_almacenes_perfil
+ where tp_transac in ('15', '31', '28')
+   and usuario not in ('BETY', 'APASTRANA', 'PEVISA')
+ order by usuario;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where tp_transac in ('15', '28', '31')
+   and usuario in ('EBELTRAN', 'PEVISA', 'JCABEZAS')
+ order by usuario;
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
+-- habilitar trigger para no permitir ingresos al almacen P1
+-- solo lo debe tener Betty
+
+select * from pr_usualma;
+
+select *
+  from almacenes_perfil
+ where tp_transac in ('15', '28', '31');
+
+select al.cod_alm, a.descripcion, al.cod_local
+  from almacen_local al
+       join almacenes a on al.cod_alm = a.cod_alm
+ where al.cod_local = 'VUL';
+
+
+select *
+  from kardex_g_historia
+ where cod_alm = '15'
+   and tp_transac = '24'
+   and serie = 1
+   and numero = 9325;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where tp_transac in ('24', '62', '63')
+   and usuario not in ('PEVISA', 'JCABEZAS');
+
+select *
+  from solicitud_pedido
+ where numero = 367;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+-- stock anterior 3349.3860
+-- stock cambiado 879
+select *
+  from almacen
+ where cod_art = 'FOR3913'
+   and cod_alm = '37';
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and cod_alm = '03';
+
+select *
+  from transacciones_almacen
+ where descripcion like '%MERMA%';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'CNAVARRO'
+   and cod_alm = '03';
+
+select *
+  from pr_usualma
+ where usuario = 'CNAVARRO';
+
+select *
+  from usuarios_almacenes
+ where usuario = 'CNAVARRO';
+
+select *
+  from almacenes
+ where cod_alm in ('41', '42');
+
+select *
+  from transacciones_almacen
+ where descripcion like '%AJUSTE%'
+   and tp_transac in ('15', '28')
+ order by tp_transac;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and tp_transac in ('15', '28');
+
+select *
+  from usuarios_almacenes
+ where usuario = 'EBELTRAN'
+ order by cod_alm;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and tp_transac in ('15', '28');
+
+select ap.tp_transac as tp_trasac, ta.descripcion as descripcion
+  from usuarios_almacenes_perfil uap
+     , almacenes_perfil ap
+     , transacciones_almacen ta
+ where ap.tp_transac = ta.tp_transac
+   and uap.cod_alm = ap.cod_alm
+   and uap.tp_transac = ap.tp_transac
+   and uap.usuario = 'EBELTRAN'
+   and uap.cod_alm = '03'
+   and ta.ingreso_salida = 'S'
+   and nvl(ap.estado, 0) = '1'
+ order by 1;
+
+select *
+  from almacenes_perfil
+ where cod_alm = '03'
+   and tp_transac in ('15', '28');
+
+select *
+  from kardex_d
+ where cod_art in ('PEV 090.385', 'PEV 115.385')
+ order by fch_transac desc, cod_alm, tp_transac;
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('51', '08');
+
+select *
+  from kardex_d
+ where cod_art in ('PEV 090.385', 'PEV 115.385')
+ order by fch_transac desc, cod_alm, tp_transac;
+
+select *
+  from kardex_d
+ where trunc(fch_transac) = to_date('25/02/2026', 'dd/mm/yyyy')
+   and tp_transac = '51'
+   and serie = 1;
+
+select *
+  from pr_usualma
+ where cod_alm = 'RV';
+
+select *
+  from usuarios_almacenes_perfil
+ where cod_alm = 'RV';
+
+select *
+  from kardex_g
+ where pr_procedencia = 'OTPRD'
+ order by fch_transac desc;
+
+select *
+  from kardex_g
+ where pr_procedencia = 'EMBAL'
+ order by fch_transac desc;
+
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and serie = 2
+   and tp_transac = 29
+   and numero = 639244;
+
+
+select *
+  from kardex_g
+ where cod_alm = '06'
+   and tp_transac = '10'
+   and serie = 1
+   and numero = 2636;
+
+
+select *
+  from kardex_d
+ where cod_alm = '06'
+   and tp_transac = '10'
+   and serie = 1
+   and numero = 2636;
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'CNAVARRO';
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'LDANIEL'
+   and cod_alm = '30';

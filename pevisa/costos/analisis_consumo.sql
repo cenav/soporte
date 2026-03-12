@@ -5,7 +5,7 @@ end;
 select *
   from analisis_consumo
  where ano = 2025
-   and mes = 6;
+   and mes = 8;
 
 -- delete
 --   from analisis_consumo

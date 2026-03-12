@@ -2,16 +2,96 @@
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
+--    and estado != '8'
+--    and estado = '9'
+--    and estado not in ('1', '9')
    and numero in (
-   614709
+   654664
    );
+
+select *
+  from ot_serv_d
+ where pr_numero = 653139;
+
+select *
+  from solicita_cambio_ot
+ where ot_nro = 654664;
+
+
+-- 584839 estado 8
+-- 589811 estado 3
+
+select o.numero, o.formu_art_cod_art as pieza, o.nuot_tipoot_codigo as tipo, d.art_cod_art as art
+     , d.rendimiento, round(d.rendimiento * o.cant_prog, 4) as total, d.cant_despachada, o.estado
+  from pr_ot o
+     , pr_ot_det d
+ where o.numero like '%'
+   and o.nuot_tipoot_codigo in ('PR', 'VA')
+--    and o.estado between '1' and '5'
+   and o.numero = 622851
+   and d.ot_numero = o.numero
+   and exists (
+   select w.cod_art
+     from wms_alm_ubicacion w
+    where w.cod_art = d.art_cod_art
+      and estado <> '9'
+   )
+ order by 1, 2, 3;
+
+
+select d.art_cod_art as art, a.cod_interno as cod_wms
+     , round(d.rendimiento * o.cant_prog, 4) as total, d.cant_despachada, a.und as unidad, a.linea
+     , substr(get_deslinea(a.linea), 1, 180) as deslin
+  from pr_ot o
+     , pr_ot_det d
+     , pcarticul a
+ where o.numero like :pr_referencia
+   and o.nuot_tipoot_codigo in ('PR', 'VA')
+--    and o.estado between '1' and '5'
+   and d.ot_numero = o.numero
+   and a.cod_art = d.art_cod_art
+   and exists (
+   select w.cod_art
+     from wms_alm_ubicacion w
+    where w.cod_art = d.art_cod_art
+      and estado <> '9'
+   );
+
+
+declare
+  x_count number;
+begin
+  select count(*)
+    into x_count
+    from pr_ot o
+       , pr_ot_det d
+   where o.numero like :wms_devol_sol.pr_referencia
+     and o.nuot_tipoot_codigo in ('PR', 'VA')
+--      and o.estado between '1' and '5'
+     and d.ot_numero = o.numero and exists (
+     select w.cod_art from wms_alm_ubicacion w where w.cod_art = d.art_cod_art and estado <> '9'
+     );
+
+  if x_count = 0 then
+    mal('Orden no Despachada en almacen D5...');
+  end if;
+end;
+
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 654671;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';
 
 select numero, fecha, usuario, observacion as ip
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  614709, 614710, 614711, 614712, 614713, 614714, 614715, 614716, 614717, 614718,
-                  614719, 614720, 614721, 614722, 614723
+   630620
    );
 
 select *
@@ -30,7 +110,17 @@ select *
   from pr_trasab_estado
  where tipo = 'PR'
    and numero in (
-   569657
+   654672
+   )
+ order by fecha;
+
+
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+   654672
    );
 
 select *
@@ -56,8 +146,18 @@ select * from pr_ot_sec;
 select *
   from articul
  where cod_art in (
-   'PLZN 0.35-695-1300'
+   'FOR3931'
    );
+
+select *
+  from tab_lineas
+ where linea = '1648';
+
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_subgrupo in ('S042', 'S043')
+   and id_linea = '1648';
 
 select *
   from pr_ot
@@ -67,7 +167,7 @@ select *
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
-   and ot_numero = 611808;
+   and ot_numero = 654969;
 
 select * from vw_detalle_orden_sol_mat;
 
@@ -1848,7 +1948,17 @@ select *
   from ruta_docvirtual
  where docvirtual = 'DESARROLLO';
 
-select * from pr_for_ins;
+select *
+  from pr_for_ins
+ where formu_art_cod_art = '90035CS-2/0.50';
+
+select *
+  from articul
+ where cod_art = 'LAF 0.5-1219-2438GZ';
+
+select *
+  from articul
+ where cod_art = 'FOR3919';
 
 select distinct usuario
   from vw_solicita_cambio_ot
@@ -2086,3 +2196,483 @@ select *
  where numero = 603994;
 
 select * from pr_forsec;
+
+select sysdate from dual;
+
+select *
+  from amonestacion
+ where numero = 680;
+
+-- 16964
+
+-- pedido de muestras
+select *
+  from vw_ordenes_pedido_pendiente
+ where pedido = 16968;
+
+-- pedido de muestras
+select *
+  from expedidos
+ where numero = 16968;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1126093;
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1126093;
+
+select *
+  from pr_ot
+ where abre01 = '16865'
+   and per_env = 103;
+
+select *
+  from expedido_d
+ where numero = 16865
+   and nro in (103, 99);
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 623771;
+
+select *
+  from kardex_g_historia
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 623771;
+
+select *
+  from kardex_d
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 623771;
+
+select *
+  from kardex_g_historia
+ where cod_alm = '30'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 623771;
+
+select *
+  from tab_lineas
+ where linea = '1309';
+
+select *
+  from pr_embarques
+ where ano_embarque = 2025
+   and mes_embarque = 11;
+
+select * from exparamexpo;
+
+select *
+  from pr_embarques
+     , exparamexpo
+ where ano_embarque = to_char(sysdate, 'YYYY')
+   and mes_embarque = to_char(sysdate, 'MM')
+   and id_pedido = 16940;
+
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 630220;
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (630220, 627261);
+
+select lg.num_importa as numero, o.tipo as serie, lg.fecha as fecha_orden, lg.nombre
+     , d.fch_transac as ingreso
+  from lg_vpedjam lg
+     , kardex_g g
+     , kardex_d d
+     , lg_pedjam o
+ where lg.cod_art = d.cod_art
+   and f_pieza_nueva_tg(d.cod_art) = :art_cod_art
+   and lg.num_importa = d.pr_referencia
+   and d.tp_transac = '11'
+   and d.estado < 9
+   and g.cod_alm = d.cod_alm
+   and g.tp_transac = d.tp_transac
+   and g.serie = d.serie
+   and g.numero = d.numero
+   and lg.num_importa = d.pr_referencia
+   and lg.num_importa = o.num_importa
+ order by 1;
+
+select *
+  from lg_vpedjam
+ where extract(year from fecha) = 2025;
+
+select *
+  from pevisa.pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and cant_merma > 0
+ order by fecha desc;
+
+
+-- solo líneas para poder emitir manual
+-- FOR y BATCH
+select *
+  from prod_subgrupo_linea_rel
+ where id_subgrupo in ('S042', 'S043');
+
+select *
+  from articul
+ where cod_lin = '1601';
+
+select cod_art, (nvl(consumo_mensual, 0) * 2) - nvl(stock, 0) - nvl(saldo_op, 0) +
+                nvl(cant_requerida, 0) as maximo_emitir
+  from vw_articulo
+ where
+   (nvl(consumo_mensual, 0) * 2) - nvl(stock, 0) - nvl(saldo_op, 0) + nvl(cant_requerida, 0) > 10;
+
+
+select *
+  from vw_articulo_requerimiento
+ where cod_lin between '1630' and '1633';
+
+
+select *
+  from articul
+ where cod_lin = '1630';
+
+
+  with op_curso
+    as (
+      select cod_art, sum(saldo) as saldo_op, listagg(
+          numero || '(' || estado || ' ' || cant_prog || ')',
+          ' | ')
+          within group (order by estado, numero)
+        as numero_op
+        from vw_ordenes_curso
+       where nuot_tipoot_codigo = 'PR'
+       group by cod_art
+      )
+     , requerimiento as (
+--       select cod_art
+--            , 0 as cant_requerida
+--            , 0 as cant_separado
+--            , 0 as cant_faltante
+--            , 0 as stock_requerida
+--         from articul
+      select cod_art, sum(cant_requerida) as cant_requerida, sum(cant_separado) as cant_separado
+           , sum(faltante) as cant_faltante, sum(stock) as stock_requerida
+        from pevisa.vw_requerimiento_articulo
+       group by cod_art
+      )
+     , stock_art as (
+      select cod_art, sum(stock) as stock
+        from almacen
+       group by cod_art
+      )
+     , ribete as (
+      select f.formu_art_cod_art, listagg(f.art_cod_art, ' | ')
+                                          within group (order by f.art_cod_art) as ribete
+        from pevisa.pr_for_ins f
+           , pevisa.articul a
+       where f.art_cod_art = a.cod_art and (a.cod_lin in
+                                            ('1431', '1432', '1433', '1434', '1435', '1436',
+                                             '1437'))
+       group by f.formu_art_cod_art
+      )
+     , anillo as (
+      select f.formu_art_cod_art, listagg(f.art_cod_art, ' | ')
+                                          within group (order by f.art_cod_art) as anillo
+        from pevisa.pr_for_ins f
+           , pevisa.articul a
+       where f.art_cod_art = a.cod_art and (a.cod_lin in ('1445'))
+       group by f.formu_art_cod_art
+      )
+     , aro_fire_ring as (
+      select f.formu_art_cod_art, listagg(f.art_cod_art, ' | ')
+                                          within group (order by f.art_cod_art) as aro_fire
+        from pevisa.pr_for_ins f
+           , pevisa.articul a
+       where f.art_cod_art = a.cod_art and (a.cod_lin in ('1450', '1455', '922'))
+       group by f.formu_art_cod_art
+      )
+     , material as (
+      select f.formu_art_cod_art, listagg(f.art_cod_art, ' | ')
+                                          within group (order by f.art_cod_art)
+        as art_cod_art
+           , listagg(round(c.consumo_anual), ' | ')
+                     within group (order by c.consumo_anual)
+        as consumo_anual_material
+        from pr_for_ins f
+             join articul a on f.art_cod_art = a.cod_art
+             join vw_articulo_consumo c on f.art_cod_art = c.cod_art
+       where (a.cod_lin in ('1601', '2004', '2005')
+         or (a.cod_lin between '1620' and '1634')
+         or (a.cod_lin between '2010' and '2019'))
+         --or (a.cod_lin in ('1431','1432','1433','1434','1435','1436','1437','1445','1450','1455'))
+         and length(a.cod_lin) = 4
+       group by f.formu_art_cod_art
+      )
+select a.cod_art, a.descripcion, a.cod_lin
+     , g.id_grupo, g.dsc_grupo, r.cant_requerida
+     , r.cant_separado, r.cant_faltante, nvl(s.stock, 0) as stock, r.stock_requerida, o.numero_op
+     , o.saldo_op, c.consumo_anual, c.consumo_mensual, c.frecuencia_meses
+     , a.s_act - r.cant_separado as cant_disponible, a.pr_golpez as golpes, a.pr_golpza as cavidades
+--      , m.art_cod_art as material, m.consumo_anual_material
+     , pl.cod_plancha as maquina
+     , a.pr_medpza as ubicacion_art, a.pr_observacion, rb.ribete, an.anillo, fr.aro_fire
+  from articul a
+       left join op_curso o on a.cod_art = o.cod_art
+       left join requerimiento r on a.cod_art = r.cod_art
+       left join stock_art s on a.cod_art = s.cod_art
+--        left join material m on a.cod_art = m.formu_art_cod_art
+       left join ribete rb on a.cod_art = rb.formu_art_cod_art
+       left join anillo an on a.cod_art = an.formu_art_cod_art
+       left join aro_fire_ring fr on a.cod_art = fr.formu_art_cod_art
+       left join vw_articulo_consumo c on a.cod_art = c.cod_art
+       left join vw_articulo_grupo g on a.cod_art = g.cod_art
+       left join arti_plancha pl on a.cod_art = pl.cod_art
+ where cod_lin = '1630';
+
+
+
+select tipo_pguia, serie_pguia, numero_pguia, tip_doc_ref
+  from kardex_g
+ where cod_alm = :NEW.cod_alm
+   and tp_transac = :NEW.tp_transac
+   and serie = :NEW.serie
+   and numero = :NEW.numero;
+
+/*
+IF X_WMS = 'TK' THEN X_TIPO_ORDEN:='TK'; END IF;
+IF (NVL(X_TIPO_ORDEN,'0') = 'PR') THEN
+       IF (F_INGR_PROD_MENOR_A_PROGRAMADO ( X_TIPO_ORDEN, X_SERIE_ORDEN, X_NUMERO_ORDEN, :NEW.CANTIDAD) = 'SI')
+       THEN
+            RAISE_APPLICATION_ERROR(-20001, :NEW.COD_ART || ' Cant prod: ' || :NEW.CANTIDAD || ' > a la programada OP: '|| X_NUMERO_ORDEN|| '='||(:NEW.COD_ALM ||'-'||:NEW.TP_TRANSAC ||'-'|| :NEW.SERIE ||'-'||:NEW.NUMERO));
+END IF;
+END IF;
+*/
+
+select * from view_oa_cambio_de_piezas;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+                     592791, 592742, 592407, 592406, 591622, 591620, 591961, 591960, 592339, 592338,
+                     592337, 591641, 592811, 591613, 591612, 591611, 592345, 592344, 592579, 592578,
+                     592743, 591646, 591645, 592805, 592825, 592834, 592774, 592530, 591922, 591920,
+                     592593, 592592, 591373, 592855, 592087, 592085, 592245, 592244, 592007, 592009,
+                     592008, 592589, 592159, 592158, 592157, 592840, 592771, 592773, 592876, 591973,
+                     591972, 591971, 592012, 592854, 592120, 592119, 592118, 592090, 592089, 592654,
+                     603465, 603464, 604014, 603843, 603555, 603554, 603873, 603872, 603707, 603852,
+                     603851, 604012, 603952, 603491, 603969, 603594, 603849, 603848, 603912, 603489,
+                     603909, 603945, 603985, 603965, 603980, 608990, 609095, 609016, 609038, 609097,
+                     611540, 611553, 611452, 611418, 611444, 611563, 612008, 622942, 622943, 622885,
+                     622838, 622660, 622735, 622798, 622810, 622809, 622727, 622728, 622726, 622731,
+                     622652, 622747, 630062, 630041, 629941, 629975, 630038, 630028, 629937, 629938,
+                     629939, 629970, 629971, 630530, 630958, 630959, 635213, 647401, 647196, 647394,
+                     647203, 647268, 647307, 647308, 647311, 647312, 647309, 647291, 647391, 647299,
+                     647064, 647306, 647302, 647301, 647300, 647430, 647432, 647392, 647128, 647100,
+                     647397, 647509, 647145, 647507, 647360, 647363, 647126, 647437, 647444, 647384,
+                     647098, 647200, 647201, 647199, 647274, 647197, 647198, 647383, 647381, 647129,
+                     647303, 647271, 647376, 647101, 647102, 647518, 647305, 647532, 647333, 647404,
+                     647405, 647051, 647515, 647426, 647502, 647147, 647144, 647358, 647329, 647116,
+                     647364, 647365, 647195, 647513, 647362, 647118, 647119, 647127, 647361, 647273,
+                     647205, 647206, 647503, 647504, 647269, 647099, 647350, 647407, 647409, 647314,
+                     647321, 647112, 647204, 647266, 647369, 647440, 647442, 647210, 647247, 647471,
+                     647249, 647250, 647410, 647412, 647213, 647255, 647125, 647467, 647469, 647470,
+                     647472, 647222, 647214, 647246, 647242, 647244, 647207, 647208, 647243, 647283,
+                     647110, 647109, 647389, 647245, 647076, 647218, 647464, 647460, 647192, 647521,
+                     647221, 647219, 647061, 647484, 647486, 647488, 647482, 646056, 647474, 647062,
+                     647124, 647060, 647476, 647114, 647063, 647475, 647191, 647193, 647194, 648322,
+                     648284, 648306, 648314, 648303, 648329, 648275, 648315, 648285, 648288, 648318,
+                     648308, 648263, 648317, 648299, 648302, 648307, 648274, 648300, 648319, 648259,
+                     648255, 648766, 648793, 648779, 648777, 648784, 648756, 648747, 648763, 648775,
+                     648765, 648754, 648796, 648794, 648761, 648792, 648780, 648781, 648757, 648767,
+                     648799, 648768, 648800, 648774, 648748, 648797, 648770, 648783, 648760, 648764
+   );
+
+
+select d.*
+  from pr_ot o
+       join pr_ot_det d
+            on o.nuot_tipoot_codigo = d.ot_nuot_tipoot_codigo
+              and o.nuot_serie = d.ot_nuot_serie
+              and o.numero = d.ot_numero
+ where o.nuot_tipoot_codigo = 'PR'
+   and o.estado = '1'
+   and d.art_cod_art like '%SLIM%';
+
+select *
+  from articul
+ where cod_art = 'FOR3202';
+
+select *
+  from prod_grupo_subgrupo_rel
+ where id_grupo = 'G011';
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_subgrupo in ('S006', 'S025');
+
+
+select *
+  from prod_megagrupo
+ where id_megagrupo = 'M002';
+
+select *
+  from prod_grupo
+ where id_grupo = 'G011';
+
+select *
+  from prod_subgrupo
+ where id_subgrupo in ('S006', 'S025');
+
+select m.id_megagrupo, g.id_grupo, g.id_subgrupo, l.id_linea
+  from prod_megagrupo_grupo_rel m
+       join prod_grupo_subgrupo_rel g
+            on m.id_megagrupo = g.id_megagrupo
+              and m.id_grupo = g.id_grupo
+       join prod_subgrupo_linea_rel l
+            on g.id_subgrupo = l.id_subgrupo
+ where m.id_megagrupo = 'M002'
+   and g.id_grupo = 'G011'
+ order by id_subgrupo;
+
+
+select m.id_megagrupo, g.id_grupo, g.id_subgrupo, l.id_linea
+  from prod_megagrupo_grupo_rel m
+       join prod_grupo_subgrupo_rel g
+            on m.id_megagrupo = g.id_megagrupo
+              and m.id_grupo = g.id_grupo
+       join prod_subgrupo_linea_rel l
+            on g.id_subgrupo = l.id_subgrupo
+ where m.id_megagrupo = 'M002'
+   and g.id_grupo != 'G011'
+ order by id_subgrupo;
+
+
+select *
+  from pcmasters
+ where cod_art = '41015MLS';
+
+select *
+  from pcformulas
+ where cod_art = '41015MLS';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 654664;
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 654664;
+
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 654664;
+
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT_DET'
+   and cod_id_pk = 'PR-654664';
+
+select *
+  from pr_for_ins
+ where formu_art_cod_art = 'FOR3805'
+   and art_cod_art = 'POB 514';
+
+
+select *
+  from pr_formu
+ where art_cod_art = 'FOR3805';
+
+
+select *
+  from pr_formu f
+ where f.vigencia = 1
+   and f.art_cod_art = 'FOR3805';
+
+
+select f.art_cod_art, f.cantidad, f.almacen, a.descripcion, a.c_pro, f.cod_lin, f.pr_secuencia
+  from pr_for_ins f
+     , articul a
+ where formu_art_cod_art = 'FOR3805'
+   and f.art_cod_art = a.cod_art
+   and formu_receta = 1
+   and art_cod_art = cod_art
+   and rtrim(a.flag_cal) is null
+   --CONDICION NUEVA DE NO CONSIDERAR EL GRUPO DE SLIM
+   --and GET_GRUPO_PIEZA(f.ART_COD_ART) not in ('29')
+   and f.art_cod_art not in (
+   select distinct cod_servicio
+     from lg_precios_servi_limp
+   );
+
+select (round((0.0380 * :p_cantidad) / :p_lote, 4))
+  from dual;
+
+begin
+  p_corrida_previo_02();
+end;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_nuot_serie = 8
+   and ot_numero = 650509
+   and cant_despachada > 0;
+
+select *
+  from planilla10.t_cargo
+ where c_cargo like '%ANALISTA%';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 655386;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 655386;
+
+select *
+  from planilla10.personal
+ where c_codigo in (
+                    'E43895', 'E43970', 'E43981', 'E44003'
+   );
+
+select *
+  from planilla10.t_cargo
+ where c_cargo in ('OPAC', 'OPAL');
+
+select *
+  from planilla10.t_cargo
+ where c_cargo in (
+                   'OPK', 'OPAL', 'AALM', 'OIQ', 'COA'
+   );
+
+
+select *
+  from almacen
+ where cod_alm in (
+                   '34', '35', '35', '36', '36', '36', '36', '36', '36', '36', '38', '38', '38'
+   )
+   and stock > 0;
+
+

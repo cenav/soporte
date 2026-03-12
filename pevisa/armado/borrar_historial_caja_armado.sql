@@ -3,7 +3,7 @@ declare
     select numero
       from pr_ot
      where numero in (
-       394664
+       1129068
        )
        and nuot_tipoot_codigo = 'AR';
 begin

@@ -345,7 +345,6 @@ select *
  where nuot_tipoot_codigo = 'PR'
    and numero = 614351;
 
-
 select d.numero, d.cod_art, d.cantidad, a.cod_alm
   from kardex_d d
      , articul a

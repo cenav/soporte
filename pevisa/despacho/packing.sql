@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   62228
+   65248
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -42,7 +42,7 @@ select *
 select *
   from pk_gnumero
  where pk_numero in (
-   60880
+   64623
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -52,20 +52,54 @@ select *
 -- packing por pedido
 select *
   from pk_glosa
- where pk_numero = 60616
-   and packlis = 165777;
+ where pk_numero = 63160
+   and packlis = 169646
+   and pk_serie = '1'
+   and pk_tipo = 'PK';
+
+-- PACKLIS= PACKLIS AND
+-- PK_NUMERO = PK_NUMERO AND
+-- PK_SERIE = PK_SERIE AND
+-- PK_TIPO = PK_TIPO
 
 -- cartones (cajas)
 select *
   from pk_pesos
- where pk_numero = 60616
-   and packlis = 165777;
+ where pk_numero = 63160
+   and packlis = 169646
+   and pk_serie = '1'
+   and pk_tipo = 'PK'
+   and numero_paleta = 6
+   and caja = 'Z6';
+
+-- cartones (cajas)
+-- cambia caja de paleta
+update pk_pesos
+   set caja          = 'Ñ4'
+     , numero_paleta = 4
+     , packlis       = 169644
+ where pk_numero = 63160
+   and packlis = 169646
+   and pk_serie = '1'
+   and pk_tipo = 'PK'
+   and numero_paleta = 6
+   and caja = 'Z6';
+
+-- PK_DETAL.PK_NUMERO =  PK_PESOS.PK_NUMERO AND
+-- PK_DETAL.PK_TIPO =  PK_PESOS.PK_TIPO  AND
+-- PK_DETAL.PK_SERIE =  PK_PESOS.PK_SERIE  AND
+-- PK_DETAL.PACKLIS  =  PK_PESOS.PACKLIS AND
+-- PK_DETAL.CAJA      =   PK_PESOS.CAJA AND
+-- PK_DETAL.EMBALA  =   PK_PESOS.EMBALA
 
 -- productos en caja
 select *
   from pk_detal
- where pk_numero = 60616
-   and packlis = 165777;
+ where pk_numero = 63160
+   and packlis = 169646
+   and pk_serie = '1'
+   and pk_tipo = 'PK'
+   and caja = 'LL4';
 
 -- antiguo
 select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni
@@ -209,12 +243,30 @@ select *
  where tp_transac = '26'
    and numero = 23160;
 
+
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 26788;
+
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 26788;
+
+
 select *
   from kardex_dpk
  where cod_alm = '01'
    and tp_transac = '26'
    and serie = 19
-   and numero = 23160;
+   and numero = 26788;
+
 
 select *
   from kardex_g
@@ -471,3 +523,79 @@ select *
 --    and mes_embarque = 3
  where id_pedido = 16482
  order by id_pedido;
+
+select *
+  from kardex_g
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 25868;
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 25868;
+
+select *
+  from kardex_dpk
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and extract(year from fecha) = 2025
+   and extract(month from fecha) = 9
+ order by fecha desc;
+
+select distinct prod_get_cliente_xpedido(po.abre01, po.destino) as cod_cliente, po.abre01, po.abre02
+              , pa.dato_agrupa, po.destino
+  from produccion_armado pa
+     , pr_ot po
+ where po.numero = pa.numero_oa
+   and po.nuot_tipoot_codigo = 'AR'
+   and po.nuot_serie = 3
+   and po.estado in (3, 4, 5, 6)
+   and po.abre01 = 16935
+ order by 1, abre01, dato_agrupa;
+
+select distinct prod_get_cliente_xpedido(po.abre01, po.destino) as cod_cliente, po.abre01, po.abre02
+              , pa.dato_agrupa, po.destino
+  from produccion_armado pa
+     , pr_ot po
+ where po.numero = pa.numero_oa
+   and po.nuot_tipoot_codigo = 'AR'
+   and po.nuot_serie = 3
+   and po.estado in (3, 4, 5, 6)
+   and po.abre01 = 16935
+ order by 1, abre01, dato_agrupa;
+
+select *
+  from produccion_armado
+ where abrev_ped = '16935';
+
+
+-- cambia antiguo por nuevo
+select distinct pk_tipo, pk_serie, pk_numero, g.cod_cliente, c.nombre, g.estado, scod_alm, sguia_tp
+              , sguia_serie, sguia_numero, sguia_fecha, transporte_medio
+  from pk_glosa g
+     , exclientes c
+ where g.cod_cliente = c.cod_cliente
+   and g.estado = '7'
+   and g.scod_alm is not null
+   and g.sguia_tp is not null
+   and g.sguia_serie is not null
+   and g.sguia_numero is not null
+   and g.pk_tipo = 'PK'
+   and g.pk_serie = '1'
+   and g.pk_numero = 63254;
+
+select *
+  from pk_glosa
+ where pk_numero = 64623;
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '26'
+   and serie = 19
+   and numero = 25850;

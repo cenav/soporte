@@ -20,6 +20,28 @@ begin
   p_convierte_planeadas_armado(); --> si ya tiene ordenes planeadas genera oa
 end;
 
+
+begin
+  p_corrida_emitida_a_planeada;
+  p_corrida_previo_02; -- genera OS orden de servicio
+  p_corrida_previo_01; -- P_REGENERA_ORDENES
+  p_convierte_planeadas_armado;
+  p_corrida_armado;
+  p_corrida_produccion;
+  p_corrida_posterior_03;
+exception
+  when others then
+    dbms_output.put_line('XXXXXXXXXXXXXXX-' || 'PROCESO INTERRUMPIDO 1111111' || '-*****');
+    rollback;
+    dbms_output.put_line('XXXXXXXXXXXXXXX-' || 'PROCESO INTERRUMPIDO 2222222' || '-*****');
+    update parametros_produccion
+       set procesos = procesos || chr(10) ||
+                      '####ERROR#  Corrida de produccion NO TERMINO #####..: ' ||
+                      to_char(sysdate, 'DD/MM/YYYY HH24:MI');
+    commit;
+end;
+
+
 select *
   from articul
  where cod_art = '90010SB'

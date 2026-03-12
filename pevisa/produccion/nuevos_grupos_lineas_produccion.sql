@@ -89,3 +89,15 @@ select *
 select *
   from prod_subgrupo_linea_rel
  where id_linea = '1010';
+
+select * from prod_subgrupo order by id_subgrupo;
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_linea between '1360' and '1366'
+   and length(id_linea) = 4;
+
+select *
+  from tab_lineas
+ where linea between '1360' and '1366'
+   and length(linea) = 4;

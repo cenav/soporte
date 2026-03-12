@@ -1,19 +1,19 @@
-alter user troquelado account unlock;
+alter user ldaniel account unlock;
 
-alter user lrojas account lock;
+alter user rcarrion account lock;
 
-alter user mmiranda identified by "mamalucy9+";
+alter user mdiazh identified by "";
 
-alter user apinedo password expire;
+alter user evaliente password expire;
 
 grant select any table, insert any table, delete any table, update any table to asocial;
 
-alter user uarmado profile default;
+alter user armado profile default;
 
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%LDANIEL%';
+ where username like 'JROMAN';
 
 -- drop user evasquez cascade;
 
@@ -25,7 +25,7 @@ select u.usuario, u.email, c.cambio_linea_a_produccion
   from usuarios u
      , correos_programas c
  where u.usuario = c.usuario
-   and c.cambio_linea_a_produccion = 'SI';
+   and c.cambio_linea_a_produccion = 'si';
 
 select * from correos_programas;
 
@@ -65,18 +65,23 @@ select s.owner as syn_owner
 -- acceso MGVENTAS
 select *
   from seccrus
- where co_ctrctr = 'M_SOLIMAT_M';
+ where co_ctrctr = 'M_PRODUC_M'
+   and co_usrusr = 'CWONG';
+
+insert into seccrus(co_usrusr, co_ctrctr)
+values
+  ('EALVITES', 'M_SOLIMAT_M');
 
 -- rodrichx
 
 select *
   from seccrus
- where co_usrusr in ('JCABEZAS', 'BETY', 'CNAVARRO')
+ where co_usrusr in ('EBELTRAN')
  order by co_usrusr;
 
 select *
   from seccrus
- where co_usrusr in ('JCABEZAS');
+ where co_usrusr in ('AUXLASER');
 
 select *
   from all_constraints
@@ -97,17 +102,18 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%asiscont3%')
-   and owner = 'PEVISA';
+ where upper(text) like upper('%baterigama%')
+   and owner = 'PEVISA'
+   and type = 'TRIGGER';
 
 select *
   from dba_source
- where upper(text) like upper('%Inasistencias%')
-   and owner = 'PLANILLA10';
+ where upper(text) like upper('%klopez%')
+   and owner = 'PEVISA';
 
 select *
   from all_source
- where upper(text) like upper('%contratos que vencen%')
+ where upper(text) like upper('%baterigama%')
    and owner = 'PEVISA';
 
 select owner, table_name
@@ -124,27 +130,31 @@ select * from v$parameter where lower("NAME") like '%result_cache%';
 -- result cache disabled
 select dbms_result_cache.status() from dual;
 
+
 select *
   from user_types;
 
 
 select *
   from alcontrol
- where usuario in ('JCABEZAS', 'OLGA');
+ where usuario in ('DCONTRERAS', 'EBELTRAN');
 
 -- menu almacenes materia prima
 select 'APASTRANA', tp_art
   from alcontrol
  where usuario in ('EDITH', 'APASTRANA');
 
+
 select *
   from seccrus
  where co_usrusr in ('JENNY_LEON');
+
 
 select *
   from seccrus
  where co_ctrctr = 'M_COSTO_M'
    and co_usrusr = 'APASTRANA';
+
 
 select usuario, nombres, estado, email, codigo_trabajador
   from usuarios
@@ -190,8 +200,43 @@ select cod_menu, descripcion, menus, titulo, nivel, 'JPOZO', estado, sistema, id
 
 select *
   from tab_menu
- where usuario = 'JCABEZAS'
-   and sistema = 'M_COSTO_M';
+ where sistema = 'M_SOLIMAT_M'
+   and cod_menu in ('2004', '2006')
+   and usuario in (
+                   'GFORTUN', 'GFALCON', 'DCONTRERAS', 'LDANIEL', 'KCUCHO', 'MJUAREZ', 'AGIL',
+                   'JMEJIA', 'YCHUNGA', 'MGUIELAC'
+   );
+
+
+select *
+  from tab_menu
+ where sistema = 'M_SOLIMAT_M'
+   and cod_menu in ('2055')
+   and usuario in (
+                   'GFORTUN', 'GFALCON', 'DCONTRERAS', 'LDANIEL', 'KCUCHO', 'MJUAREZ', 'AGIL',
+                   'JMEJIA', 'YCHUNGA', 'MGUIELAC'
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '01'
+   and extract(year from fch_transac) = 2026
+   and extract(month from fch_transac) = 1;
+
+select distinct usuario
+  from kardex_d_historia
+ where extract(year from fecha) = 2026
+   and extract(month from fecha) = 1
+   and cod_alm = '01';
+
+-- adescartes
+
+select *
+  from usuarios
+ where usuario in (
+                   'GFORTUN', 'GFALCON', 'DCONTRERAS', 'LDANIEL', 'KCUCHO', 'MJUAREZ', 'AGIL',
+                   'JMEJIA', 'YCHUNGA', 'MGUIELAC'
+   );
 
 select *
   from tab_menu
@@ -203,17 +248,25 @@ select *
 
 select *
   from usuarios
- where usuario in ('LDANIEL');
+ where usuario like ('%BHUARA%');
+
+select *
+  from vw_personal
+ where c_codigo = 'E43871';
+
+select *
+  from usuarios
+ where nombres like ('%BARBARA%');
 
 select * from aut_rol_usuario;
 
 select *
   from usuario_modulo
- where usuario = 'EVASQUEZ';
+ where usuario = 'RGONZALES';
 
 select *
   from usuarios_almacenes
- where usuario = 'EVASQUEZ';
+ where usuario = 'RGONZALES';
 
 select *
   from planilla10.personal
@@ -266,13 +319,13 @@ select *
 
 select *
   from usuario_modulo
- where modulo in ('DISTRIBUCION_GASTO')
+ where modulo in ('GUIA_MANUAL')
  order by usuario, modulo;
 
 select *
   from usuario_modulo
- where modulo in ('CAMBIO_OT')
-   and usuario in ('CNAVARRO', 'PEVISA')
+ where modulo in ('GUIA_MANUAL')
+   and usuario in ('MMILLONES', 'PEVISA')
  order by usuario, modulo;
 
 select *
@@ -289,7 +342,7 @@ select * from modulo;
 
 select *
   from usuario_modulo
- where modulo in ('HENCARGA_COSTO')
+ where modulo in ('EMITE_OP')
  order by usuario, modulo;
 
 select *
@@ -498,7 +551,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'CNAVARRO'
+ where co_usrusr = 'HCHALCO'
  order by co_ctrctr;
 
 select *
@@ -1400,7 +1453,7 @@ select *
 
 select *
   from usuarios
- where usuario = 'DCONTRERAS';
+ where usuario = 'JCORREA';
 
 select sysdate from dual;
 
@@ -1438,3 +1491,162 @@ select *
  where cod_lin = '1062';
 
 
+select distinct v.encargado as codigo, v.nombre, t.ecorreo as correo
+  from planilla10.v_contratos_encargados v
+     , tar_encarga t
+ where v.confin = to_date('01/09/2025', 'dd/mm/yyyy')
+   and t.codigo = v.encargado
+   and t.ecorreo is not null
+ order by 3;
+
+
+select *
+  from tab_menu
+ where usuario = 'MMIRANDA'
+   and sistema = 'M_LOGIST_M'
+   and estado = '1';
+
+select *
+  from almacenes
+ where descripcion like '%BSF%';
+
+select *
+  from usuario_modulo
+ where modulo = 'PERMISO';
+
+select *
+  from usuario_modulo
+ where modulo like '%GUIA_MANUAL%';
+
+select * from modulo;
+
+select *
+  from usuario_modulo
+ where modulo like '%MANUAL%';
+
+select *
+  from tab_menu
+ where sistema = 'M_SOLIMAT_M'
+   and cod_menu in (1017, 1000)
+   and usuario in (
+                   'DNUNEZM', 'JACUNA', 'DCONTRERAS', 'GFORTUN', 'EMURO', 'JJUAREZ', 'HOLIVARES',
+                   'JQUISPEB', 'JCABEZAS', 'HREMUZGO', 'MDIAZH'
+   );
+
+select *
+  from usuarios_almacenes
+ where usuario = 'HREMUZGO'
+   and cod_alm = 'M1';
+
+select *
+  from pr_usualma
+ where cod_alm = 'D5';
+
+select *
+  from usuario_modulo
+ where modulo like 'CAMBIO_TRX';
+
+select *
+  from solicita_cambio_ot
+ where ot_nro = 631054;
+
+select * from solicita_cambio_ot;
+
+select *
+  from usuario_modulo
+ where modulo = 'EMITE_OP_LIMITE';
+
+select *
+  from articul
+ where cod_art = 'SA 70046-1';
+
+select *
+  from log_auditoria
+ where tabla = 'PCFORMULAS'
+   and cod_id_pk = 'SA 70046-1'
+ order by fecha desc;
+
+select * from pcformulas;
+
+select *
+  from log_auditoria
+ where tabla = '';
+
+
+select count(*)
+  from usuario_modulo
+ where modulo = 'NOMBRE_CLIENTE'
+   and usuario = 'JCABEZAS';
+
+select * from view_oa_cambio_de_piezas;
+
+  with permisos as (
+    select count(*) as habilitado
+      from usuario_modulo
+     where modulo = 'NOMBRE_CLIENTE'
+       and usuario = user
+    )
+select x.numero, x.nuot_serie, x.nuot_tipoot_codigo, o.cant_prog, o.formu_art_cod_art
+     , o.abre01 as pedido
+     , case when p.habilitado > 0 then o.abre02 else '*****' end as abreviatura
+     , x.fecha, x.id_motivo, x.detalle, x.art_cod_art
+     , x.glosa, x.cantidad_faltante as faltante, x.cantidad_sobrante as sobrante
+     , x.cantidad_deteriorada as deteriorada, x.pr_numero, x.pr_nuot_serie, x.pr_nuot_tipoot_codigo
+     , x.pr_nombre_trabajador, x.pr_nombre_trabajador_almacen, x.calidad_usuario
+  from pr_ot_cambios_piezas x
+       join pr_ot o
+            on x.numero = o.numero
+              and x.nuot_serie = o.nuot_serie
+              and x.nuot_tipoot_codigo = o.nuot_tipoot_codigo
+       cross join permisos p;
+
+select *
+  from pr_ot_cambios_piezas
+ where pr_nombre_trabajador is not null;
+
+select *
+  from planilla10.personal
+ where situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select * from planilla10.t_area;
+
+select *
+  from planilla10.tar_secc
+ where c_area = '004';
+
+select c_codigo, nombre
+  from vw_personal
+ where c_area = '004'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+ order by nombre;
+
+select *
+  from almacenes
+ where cod_alm = 'B1';
+
+select * from expedido_d;
+
+select * from expedido_d_historia;
+
+select *
+  from seccrus
+ where co_usrusr = 'CWONG'
+   and co_usrusr = 'M_LOGIST%';
+
+select *
+  from lg_personal_compras_series
+ where serie_orden_de_compra = 6;
+
+select *
+  from planilla10.plcontrol
+ where usuario = 'PEVISA';
+
+select 0.105 * 100 from dual;
+
+select * from orden_de_compra;

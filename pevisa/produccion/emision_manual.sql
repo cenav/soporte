@@ -2,7 +2,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('400.3554SIL', 300, false, op);
+  emite.op('95118GR', 200, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -76,7 +76,7 @@ select a.dsc_grupo as grupo, o.numero as op
               and o.nuot_serie = e.serie
               and o.numero = e.numero
        join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) = to_date('29/04/2025', 'dd/mm/yyyy')
+ where trunc(e.fecha) = to_date('17/10/2025', 'dd/mm/yyyy')
    and e.usuario = 'PEVISA'
    and e.t1 = '25.0.3.33'
    and e.estado = 1
@@ -128,30 +128,8 @@ update pr_ot
     where pr_ot.numero = tmp_carga_data.numero
    );
 
-select * from vw_personal where nombre like '%ROJAS%INGA%';
+select cod_art, cantidad
+  from tmp_carga_data;
 
-select *
-  from permiso
- where id_personal = 'E42643'
- order by fecha desc;
-
-select *
-  from planilla10.personal
- where apellido_paterno like 'OSORIO';
-
-select *
-  from planilla10.hr_personal
- where c_codigo = 'E43177';
-
-select o.numero as op
-  from pr_ot o
-       join pr_trasab_estado e
-            on o.nuot_tipoot_codigo = e.tipo
-              and o.nuot_serie = e.serie
-              and o.numero = e.numero
-       join vw_articulo a on o.formu_art_cod_art = a.cod_art
- where trunc(e.fecha) >= to_date('21/03/2025', 'dd/mm/yyyy')
-   and e.usuario = 'ALBERTO'
---    and e.t1 = '25.0.3.33'
-   and e.estado = 1
- order by a.dsc_grupo;
+select sum(cantidad)
+  from tmp_carga_data;

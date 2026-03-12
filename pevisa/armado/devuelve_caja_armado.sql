@@ -3,7 +3,7 @@ declare
     select cod_caja as codigo_caja
       from vw_cajas_armado
      where cod_caja in (
-                        414258
+       455607
        );
 begin
   dbms_output.put_line('=====================');

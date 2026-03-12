@@ -7,3 +7,7 @@ select *
   from caja_chica_d
  where serie = 2
    and numero = 250001;
+
+select *
+  from caja_chica_serie
+ order by id_serie;

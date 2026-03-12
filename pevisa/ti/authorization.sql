@@ -36,9 +36,11 @@ select * from aut_objcamval;
 
 select * from aut_permiso;
 
+
 select *
-  from aut_rol_usuario
- where usuario = 'ICATALAN';
+  from aut_objcamval
+ where id_objeto = 'RH_PRMSO'
+   and id_campo = 'CPTO_PRMSO';
 
 select *
   from aut_rol_usuario
@@ -46,7 +48,7 @@ select *
 
 select *
   from aut_rol_usuario
- where usuario = 'OLGA';
+ where usuario = 'FURTEAGA';
 
 select *
   from aut_rol_usuario
@@ -75,15 +77,14 @@ select *
 
 select *
   from aut_permiso
- where id_objeto = 'RH_PRMSO'
-   and id_campo in ('ACTVD', 'CPTO_PRMSO')
-   and valor in ('18', 'EGT');
+ where id_rol = 'RH_PRMSO_USER';
 
 
 select *
   from aut_permiso
  where id_rol = 'RH_PRMSO_ASOCIAL'
-   and id_objeto = 'RH_PRMSO';
+   and id_objeto = 'RH_PRMSO'
+   and id_campo = 'CPTO_PRMSO';
 
 select *
   from aut_permiso
@@ -100,3 +101,5 @@ select *
 select *
   from concepto_permiso
  where id_concepto = 'PTD';
+
+select * from caja_chica_serie;

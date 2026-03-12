@@ -17,3 +17,9 @@ select *
  where c_codigo in (
                     'E41916', 'E4526'
    );
+
+select * from responsabilidad_cargo;
+
+select *
+  from planilla10.t_cargo
+ where c_cargo = 'CHM';

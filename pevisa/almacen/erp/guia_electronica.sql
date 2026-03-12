@@ -74,12 +74,12 @@ select *
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
-   and numero in (
-   45668
-   );
+ where cod_alm = 'A4'
+   and tp_transac = '73'
+   and serie = 171
+   and numero in (20);
+
+-- INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T171', 20, DATE '2025-10-16', '150103', '150137', 'Av. santa rosa 573', '20100084768', 'A4', '73', 171, 20, '01', '.', '01', '52', 1.00, 1000.0000, '05', '03', '02', 'venta de maquina', null, null, null, null, null, 1000.0000, null, null, null, '10806801955', 'VENTA', '0004', '0000', TIMESTAMP '2025-10-16 11:19:24', null, null, null, null, null, null);
 
 select *
   from kardex_g_guia_remision
@@ -99,20 +99,22 @@ select *
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T001'
+ where guia_serie = 'T151'
+   and guia_numero = '150'
  order by guia_numero desc;
 
 select *
   from nrodoc
  where serie = 'T001';
 
+
 ---------------------------------------------
 
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T001'
-   and guia_numero = 45668;
+ where guia_serie = 'T143'
+   and guia_numero = 523;
 
 select max(guia_numero)
   from kardex_g_guia_remision
@@ -950,3 +952,4 @@ select t.codigo, t.descripcion, t.indicador1
    select distinct cod_alm_origen
      from traslados_almacenes
    );
+

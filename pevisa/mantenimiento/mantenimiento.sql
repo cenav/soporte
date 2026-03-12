@@ -319,3 +319,9 @@ select *
 select * from prod_subgrupo_linea_rel;
 
 select * from tab_lineas;
+
+select *
+  from ot_mantto
+ where id_tipo = 'MQ'
+   and id_activo_fijo = 'MQ1LAB-009'
+   and estado = 0;

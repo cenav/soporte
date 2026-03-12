@@ -2029,3 +2029,5 @@ select *
  where p_ano = 2024
    and p_mes = 12
    and cta_cte_banco = '191-9411292-0-54';
+
+select * from pla_control;

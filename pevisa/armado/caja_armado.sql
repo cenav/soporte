@@ -19,7 +19,7 @@ select *
 --::::::::::::::::::::::::::::--
 select *
   from produccion_armado
- where numero_oa = 1120272;
+ where numero_oa = 1151649;
 
 select *
   from produccion_armado_cajas
@@ -32,3 +32,17 @@ select *
 select id_linea_prod
   from produccion_armado
  where numero_oa = 1042842;
+
+select *
+  from produccion_armado_rev
+ where cod_caja = 459570;
+
+select *
+  from produccion_armado_cajas_det
+ where cod_caja = 459570;
+
+select *
+  from produccion_armado_his
+ where numero_oa = 1136026;
+
+select sysdate from dual;

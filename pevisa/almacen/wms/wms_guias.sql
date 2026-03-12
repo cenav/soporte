@@ -29,4 +29,14 @@ select *
                g.numero = d.numero
  where g.tip_doc_ref = 'TK'
    and g.nro_doc_ref = '645'
-   and g.estado != '9'
+   and g.estado != '9';
+
+select *
+  from wms_rec_guia
+ where rec_numero = 150;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';
+
+alter trigger tib_kardex_g_wms enable;

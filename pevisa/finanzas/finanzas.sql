@@ -1,16 +1,22 @@
 select *
   from movfigl
- where ano = 2024
-   and mes = 10
-   and tipo = '2'
-   and voucher = 103634;
+ where ano = 2025
+   and mes = 8
+   and tipo = '3'
+ order by voucher desc;
 
 select *
   from movfide
- where ano = 2024
-   and mes = 11
-   and tipo = '2'
-   and voucher = 113361;
+ where ano = 2025
+   and mes = 8
+   and tipo = '3'
+   and voucher = 80014;
+
+select *
+  from nrotipo
+ where ano = 2025
+   and mes = 8
+   and tipo = '3';
 
 select *
   from factpag
@@ -82,8 +88,9 @@ select *
 
 select *
   from pagos_h
- where serie_planilla = 34
-   and numero_planilla in (2327);
+ where serie_planilla = 41
+   and numero_planilla in (287);
+
 
 select *
   from pagos_h
@@ -413,7 +420,41 @@ select *
    and numero_planilla = 44465;
 
 select *
+  from prestamo_banco
+ where cod_banco = '09'
+   and cod_prestamo = '436885';
+
+select *
   from prestamo_banco_cuota
  where cod_banco = '09'
-   and cod_prestamo = '43667'
+   and cod_prestamo = '436885'
  order by nro_cuota;
+
+select *
+  from serie_caja_usuario
+ where id_serie = 1;
+
+select *
+  from serie_caja
+ where id_serie = 1;
+
+select *
+  from caja
+ where id_serie = 1
+   and id_numero in (274, 275, 276);
+
+select *
+  from factpag
+ where cod_proveedor = '20100043140'
+   and tipdoc = '26'
+   and serie_num = '001'
+   and numero = '436885';
+
+select *
+  from movfide
+ where ecodigo = '20100043140'
+   and etipor = '26'
+   and eserie = '001'
+   and enumero = '436885';
+
+select sysdate from dual;

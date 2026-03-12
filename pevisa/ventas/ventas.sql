@@ -1,7 +1,7 @@
 select *
   from cotizacion
- where serie = 21
-   and num_ped in (272914);
+ where serie = 20
+   and num_ped in (261201);
 
 select *
   from cotizacion
@@ -14,8 +14,9 @@ select *
 
 select *
   from itemcot
- where serie = 21
-   and num_ped in (619);
+ where cod_art = '0341002003'
+   and serie = 20
+ order by num_ped desc;
 
 select *
   from pedido
@@ -53,7 +54,7 @@ select *
 
 select *
   from articul
- where cod_art = 'S4 38DA-NS40';
+ where cod_art = '0341002003';
 
 select *
   from articul
@@ -1456,7 +1457,6 @@ select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moned
    and c.serie = 24
    and c.num_ped = 5767;
 
-union
 select c.serie, c.num_ped, c.fecha, c.nombre as cliente, c.total_pedido, c.moneda
      , v.nombre as vendedor, c.numero_ref, c.nro_sucur, s.nombre_sucursal
   from cotizacion c
@@ -1692,3 +1692,258 @@ select gp.cod_grupo_venta
         , gc.tipo_cliente
         , gc.tipo_rango
  order by 1;
+
+select *
+  from tab_lineas
+ where linea = '111';
+
+select a.marca, a.cod_art as cod_art, a.linea, a.indicador, decode(
+    :P_FACTOR,
+    'SI', round(
+        decode(substr(t.indicador, 1, 1),
+               'I', a.precio * l.factor2 * :P_CAMBIO,
+               a.precio * l.factor1 * :P_CAMBIO)
+          * (1.18),
+        2),
+    decode(substr(t.indicador, 1, 1),
+           'I', a.precio * l.factor2 * :P_CAMBIO,
+           a.precio * l.factor1 * :P_CAMBIO))
+  as precio
+     , a.grupo, round(decode(substr(t.indicador, 1, 1),
+                             'I', a.precio * l.factor2 * :P_CAMBIO,
+                             a.precio * l.factor1 * :P_CAMBIO), 2)
+  as vta
+     , get_costos(cod_art, '01') as costo_fob, get_costos(cod_art, '04') as costo_almacen, a.nuevo
+     , f_lista_precio(cod_art, 80) as lista80_dolar_oferta
+  from articul_mis a
+     , tab_indicador t
+     , tab_lineas l
+ where t.indicador = a.indicador
+   and (t.visible <> 'N' or t.visible is null)
+   and a.indicador <> 'OB'
+   and nvl(a.marca, 0) like :P_MARCA
+   and nvl(a.grupo, 0) like :P_GRUPO
+   and nvl(a.linea, 0) like :P_LINEA
+   and a.cod_art like :P_ART
+   --AND NVL(A.GRUPO,0) NOT IN ( '1','2','3','4','5','6','7','8','9','10','11','12','13','14','21','28','30','32','33','35')
+   and lpad(l.linea, 4, '0') = lpad(a.linea, 4, '0')
+   and nvl(l.cod_titulo, '0') <> '9'
+---union all
+ union
+select a.marca, a.cod_art as cod_art, a.linea, a.indicador, decode(
+    :P_FACTOR,
+    'SI', round(
+        decode(substr(t.indicador, 1, 1),
+               'I', a.precio * l.factor2 * :P_CAMBIO,
+               a.precio * l.factor1 * :P_CAMBIO)
+          * (1.18),
+        2),
+    decode(substr(t.indicador, 1, 1),
+           'I', a.precio * l.factor2 * :P_CAMBIO,
+           a.precio * l.factor1 * :P_CAMBIO))
+  as precio
+     , a.grupo, round(decode(substr(t.indicador, 1, 1),
+                             'I', a.precio * l.factor2 * :P_CAMBIO,
+                             a.precio * l.factor1 * :P_CAMBIO), 2)
+  as vta
+     , get_costos(cod_art, '01') as costo_fob, get_costos(cod_art, '04') as costo_almacen, a.nuevo
+     , f_lista_precio(cod_art, 80) as lista80_dolar_oferta
+  from articul_mis a
+     , tab_indicador t
+     , tab_lineas l
+ where t.indicador = a.indicador
+--         AND A.INDICADOR <> 'OB'
+   and nvl(a.marca, 0) like :P_MARCA
+   and nvl(a.grupo, 0) like :P_GRUPO
+   and nvl(a.linea, 0) like :P_LINEA
+   and a.cod_art like :P_ART
+   and l.linea in ('111', '206', '222')
+   --AND NVL(A.GRUPO,0) NOT IN ( '1','2','3','4','5','6','7','8','9','10','11','12','13','14','21','28','30','32','33','35')
+   and lpad(l.linea, 3, '0') = lpad(a.linea, 3, '0')
+   and nvl(l.cod_titulo, '0') <> '9'
+ order by 6, 1, 2;
+
+
+select *
+  from articul
+ where cod_art = 'FS 3520 BR';
+
+select *
+  from tab_lineas
+ where linea = '02';
+
+select *
+  from articul_mis
+ where cod_art = 'FS 3520 BR'
+ order by cod_art;
+
+select *
+  from articul_mae
+ where cod_art = 'FS 3520 BR';
+
+select grupo, descripcion
+  from tab_grupos
+ where ind_vta1 != '1000'
+ order by descripcion, grupo
+
+select *
+  from tab_descuento_rango
+ where cod_grupo_venta in ('83')
+ order by cod_grupo_venta, tipo_cliente, cod_rango;
+
+
+
+select *
+  from tab_descuento_comercial
+ order by 1;
+
+
+select cod_grupo_venta
+     , listagg(cod_linea, ', ') within group (order by cod_linea) as lista_empleados
+  from tab_descuento_gpolin
+ where cod_grupo_venta in ('80', '83')
+ group by cod_grupo_venta;
+
+select *
+  from tab_descuento_rango
+ where cod_grupo_venta in ('83')
+ order by cod_grupo_venta, tipo_cliente, cod_rango;
+
+
+  with lineas as (
+    select cod_grupo_venta
+         , listagg(cod_linea, ', ') within group (order by cod_linea) as lista_lineas
+      from tab_descuento_gpolin
+     group by cod_grupo_venta
+    )
+select tdr.cod_grupo_venta, tdc.descripcion, l.lista_lineas
+     , case tdr.tipo_cliente when 'L' then 'LIMA' when 'P' then 'PROVINCIA' end as tipo
+     , tdr.cod_rango, tdr.rango_a
+     , tdr.rango_b, tdr.porcentaje_dscto1, tdr.porcentaje_dscto2
+  from tab_descuento_rango tdr
+       join tab_descuento_comercial tdc on tdr.cod_grupo_venta = tdc.cod_grupo_venta
+       left join lineas l on tdr.cod_grupo_venta = l.cod_grupo_venta
+ order by tdr.cod_grupo_venta, tdr.tipo_cliente, tdr.cod_rango;
+
+select *
+  from tab_lineas
+ where linea = '281';
+
+select *
+  from tab_grupos
+ where grupo = '29';
+
+select *
+  from grupo_venta
+ where cod_grupo_venta = '2000';
+
+select p.num_ped, p.cod_cliente, p.nombre, p.cod_vende
+  from pedido p
+ where p.serie = :serie
+   and (exists(
+   select 1
+     from vendedores
+    where indicador1 in ('GC')
+      and abreviada = :usuario
+   )
+   or p.cod_vende in (
+     select cod_vendedor
+       from vendedores
+      where abreviada = :usuario
+     ))
+ order by p.num_ped;
+
+select *
+  from vendedores
+ where abreviada = 'DTIRAVANTI';
+
+select *
+  from usuarios_cotizacion
+ where usuario = 'LAVILA';
+
+select *
+  from vendedores
+ where abreviada = 'YNAUPARI';
+
+select distinct indicador1 from vendedores;
+
+select *
+  from vendedores
+ where indicador1 = 'AC';
+
+select p.num_ped, p.cod_cliente, p.nombre
+  from pedido p
+ where p.serie = :serie
+   and (exists(
+   select 1
+     from vendedores
+    where indicador1 in ('GC')
+      and abreviada = :usuario
+   )
+   or p.cod_vende in (
+     select cod_vendedor
+       from vendedores
+      where abreviada = :usuario
+     ))
+ order by p.num_ped;
+
+
+select a.cod_art, a.descripcion, a.unidad, n.stock, a.u_eqv, l.cod_linea as linea
+     , l.cod_grupo as grupo, v.importe as precio, pr_medpza as cod_ing, t.grupo_venta
+  from articul a
+     , tab_descuento_gpolin l
+     , lispred v
+     , lispreg g
+     , tab_lineas t
+     , almacen n
+ where a.tp_art in ('T', 'S')
+   and l.cod_linea = a.cod_lin
+   and l.cod_grupo is not null
+   and g.nro_lista = :nro_lista
+   and l.moneda = g.moneda
+   and v.cod_art = a.cod_art
+   and v.nro_lista = g.nro_lista
+   and t.linea = l.cod_linea
+   and n.cod_art(+) = a.cod_art
+   and n.cod_alm(+) = 'F0'
+   and a.cod_art = '0341002003'
+--    and exists(
+--    select *
+--      from tab_lineas lin
+--           join tab_grupos gpo on lin.grupo = gpo.grupo
+--     where lin.linea = l.cod_linea
+--       and gpo.ind_vta1 in ('1000', '2000', '5000')
+--    )
+ order by l.cod_grupo, a.cod_art;
+
+select *
+  from articul
+ where cod_art in ('0341002003', '0341003004');
+
+
+select * from lispreg;
+
+
+select *
+  from lispred
+ where cod_art = '0341002003'
+   and nro_lista = 1;
+
+
+select *
+  from almacen
+ where cod_alm = 'F0'
+   and cod_art = '0341002003';
+
+
+select *
+  from tab_descuento_gpolin
+ where cod_linea in ('256', '283');
+
+select *
+  from tab_grupos
+ where grupo = 42;
+
+select *
+  from tab_descuento_comercial
+ where descripcion like '%BOSCH';

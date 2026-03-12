@@ -134,3 +134,141 @@ select '78', t.descripcion as nombre_vendedor, e.numero, e.fecha
    and p.tipo = '3'
    and ex.cod_cliente = e.cod_cliente
    and substr(e.referencia, 1, 2) <> 'PC';
+
+
+-- total fila superior programa embarques
+  with backorder as (
+    select v.id_vendedor, v.nombre_vendedor, v.prioridad, v.nombre_cliente, v.monto_completo
+         , v.rojo_a_facturar, v.monto_completo + v.rojo_a_facturar as importe, e.ano_embarque
+         , e.mes_embarque
+      from view_prioridades_pendientes_38 v
+           join
+             pr_embarques e on e.id_vendedor = v.id_vendedor
+     where exists (
+       select 1
+         from view_pedidos_pendientes_38 p
+        where p.id_pedido = e.id_pedido
+          and p.id_vendedor = v.id_vendedor
+          and p.prioridad = v.prioridad
+       )
+     group by v.id_vendedor, v.nombre_vendedor, v.prioridad, v.nombre_cliente, v.monto_completo
+            , v.rojo_a_facturar, e.ano_embarque, e.mes_embarque
+    )
+select sum(b.importe) as total
+  from backorder b
+ where b.ano_embarque = 2025
+   and b.mes_embarque = 10
+   and b.id_vendedor = '05';
+
+-- sum monto completo detalle embarques
+select sum(monto_completo) + sum(monto_saos_por_armar) + sum(servicio_cuno) as monto_completo
+  from view_prioridades_pendientes_38
+ where (id_vendedor <> '77' or (id_vendedor = '77' and nombre_cliente = 'PEVISA'))
+   and id_vendedor = '05'
+   and exists (
+   select 1
+     from pr_embarques
+    where id_vendedor = view_prioridades_pendientes_38.id_vendedor
+      and ano_embarque = 2025
+      and mes_embarque = 10
+      and id_pedido in (
+      select distinct id_pedido
+        from view_pedidos_pendientes_38
+       where id_vendedor = view_prioridades_pendientes_38.id_vendedor
+         and prioridad = view_prioridades_pendientes_38.prioridad
+      )
+   );
+
+-- prioridades marcadas
+select count(1)
+  from pr_embarques
+ where id_vendedor = :id_vendedor
+   and ano_embarque = :x_ano
+   and mes_embarque = :x_mes
+   and id_pedido in (
+   select distinct id_pedido
+     from view_pedidos_pendientes_38
+    where id_vendedor = :id_vendedor
+      and prioridad = :prioridad
+   );
+
+-- total nacional, importado, desarrollo, reparacion
+select nvl(sum(decode(color, 'R', importe, 0)), 0) as nacional
+     , nvl(sum(decode(color, 'M', importe, 0)), 0) as importado
+     , nvl(sum(decode(color, 'G', importe, 0)), 0) as desarrollo
+     , nvl(sum(decode(color, 'RE', importe, 0)), 0) as reparacion
+  from view_prioridad_colores_30;
+
+-- total nacional
+  with prioridades_color as (
+    select prioridad, color
+         , decode(color,
+                  'G', 'Desarrollo',
+                  'M', 'Inc. Importado',
+                  'R', 'Inc. Nacional',
+                  'RE', 'Inc. Reparación',
+                  'B', 'Azul',
+                  'Otro')
+      as descripcion_color
+         , sum(valor_art) as importe
+      from pr_prioridad_tmp_30
+     where color in ('G', 'M', 'R', 'RE')
+     group by prioridad, color
+     union all
+    select prioridad, '%' as color, 'Total' as descripcion_color, sum(valor_art) as importe
+      from pr_prioridad_tmp_30
+     where color in ('G', 'M', 'R', 'RE')
+     group by prioridad
+     order by prioridad, color
+    )
+select c.descripcion_color, sum(c.importe) as importe
+  from prioridades_color c
+ where c.color = 'R'
+ group by c.descripcion_color;
+
+select * from tmp_pedidos_30;
+
+
+select *
+  from vw_pedidos_pendientes_x_vend
+ where ano_embarque = 2025
+   and mes_embarque = 4
+   and id_vendedor = '05';
+
+-- (:VIEW_PRIORIDADES_PENDIENTES.X_MONTO_MAXIMO_A_FACTURAR * :VIEW_PRIORIDADES_PENDIENTES.X_05 * :VIEW_PRIORIDADES_PENDIENTES.X_SELECCIONADO)
+
+select sum(monto_completo)
+  from view_prioridades_pendientes_38
+ where id_vendedor = '05';
+
+
+select *
+  from view_prioridad_colores_30
+ where prioridad = 6255;
+
+
+select nvl(sum(monto_saos_por_armar), 0)
+  from view_pedidos_pendientes_38
+ where id_vendedor = p_vendedor
+   and prioridad = p_prioridad;
+
+
+select *
+  from pr_prioridad_tmp_30
+ where color like '%';
+
+select sum(valor_art)
+  from pr_prioridad_tmp_30
+ where prioridad = 6255;
+
+select *
+  from pr_prioridad_tmp_30
+ where prioridad = 6255
+   and color like 'R';
+
+select *
+  from pr_prioridad_tmp_30
+ where color = 'RE';
+
+select *
+  from view_pedidos_pendientes_38;

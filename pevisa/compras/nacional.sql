@@ -49,3 +49,7 @@ select *
  where fecha = to_date('20/03/2024', 'dd/mm/yyyy');
 
 select * from orden_de_compra;
+
+select *
+  from log_auditoria
+ where tabla = 'PROVEED';

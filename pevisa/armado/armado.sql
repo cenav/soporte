@@ -1,16 +1,36 @@
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'SA'
+ where nuot_tipoot_codigo = 'AR'
    and numero in (
-   7219
+                  1154973, 1159523
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1117516
+   1143035
    );
+
+select *
+  from vw_analisis_embalaje
+ where cod_art = 'KIT MXF HS 3804897 SB';
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'SA'
+   and numero = 8503
+ order by creacion_cuando;
+
+select *
+  from solicita_cambio_ot
+ where ot_tpo = 'SA'
+   and ot_nro = 8503
+ order by fch_solicitud desc;
+
+select *
+  from solicita_cambio_ot
+ where ot_nro = 8503;
 
 select *
   from pr_ot
@@ -31,8 +51,8 @@ select * from estado_cambio_oa;
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'AR'
-   and destino = '2'
-   and abre01 = '480';
+   and per_env = '1'
+   and abre01 = '16974';
 
 
 select *
@@ -1128,3 +1148,123 @@ select *
 select *
   from articul
  where cod_art = '400.539';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'SA'
+   and numero in (
+--                   1137625, 1138959, 1138430, 1137664, 1138171, 1138486, 1138302
+                  1137399, 1127059, 1140617
+   );
+
+select *
+  from solicita_cambio_ot
+ where ot_tpo = 'SA'
+   and ot_nro = 8503;
+
+select * from solicita_cambio_ot;
+
+select *
+  from pcformulas
+ where cod_for = 'SA 70046-1';
+
+select codigo, descripcion
+  from tablas_auxiliares
+ where tipo = '33'
+   and codigo <> '....'
+   and not exists (
+   select 1
+     from almacenes
+    where tipo_alm = 'WMS'
+      and almacenes.cod_alm = tablas_auxiliares.codigo
+   )
+ order by codigo;
+
+select *
+  from tablas_auxiliares
+ where codigo = '37'
+   and tipo = '33';
+
+select *
+  from almacenes
+ where tipo_alm = 'WMS';
+
+select *
+  from almacenes
+ where cod_alm = '37';
+
+select *
+  from almacen
+ where cod_art = 'CAJA A-21PV';
+
+select *
+  from almacen
+ where cod_art = 'NKS 245.520';
+
+select *
+  from tfamlin
+ where cod_lin = '800';
+
+select *
+  from tab_lineas
+ where linea = '800';
+
+select *
+  from tfamlin
+ where cod_lin = '800';
+
+select sysdate from dual;
+
+select * from armado;
+
+  with stock_art as (
+    select cod_art, sum(stock) as stock
+      from almacen
+     where cod_alm in ('06')
+     group by cod_art
+    )
+     , orden_impresa as (
+    select formu_art_cod_art, nvl(sum(cant_prog), 0) as stock_orden_impresa
+      from vw_ordenes_impresas_embalaje
+     group by formu_art_cod_art
+    )
+select m.cod_art, listagg(f.cod_for, ' | ') within group (order by f.cod_for) as tipo_embalaje
+     , listagg(f.canti, ' | ') within group (order by f.canti) as rendimiento
+     , listagg(s.stock, ' | ') within group (order by s.stock) as stock_06
+     , listagg(nvl(i.stock_orden_impresa, 0), ' | ')
+               within group (order by i.stock_orden_impresa) as stock_orden_impresa
+     , f_stock_almacen(m.cod_art, 'F0') as stock_f0
+     , (
+  select nvl(sum(cantidad), 0)
+    from kardex_d d
+   where tp_transac in ('21')
+     and cod_alm = 'F0'
+     and d.cod_art = m.cod_art
+     and fch_transac between sysdate - 365 and sysdate
+     and estado <> '9'
+  ) as consumo_anual
+  from pcmasters m
+       join pcformulas f on m.cod_art = f.cod_art
+       join articul a on a.cod_art = f.cod_for
+       left join stock_art s on f.cod_for = s.cod_art
+       left join orden_impresa i on f.cod_for = i.formu_art_cod_art
+ where m.cod_art = 'KIT MXF CS 3802389'
+   and a.cod_lin in (
+   select cod_linea
+     from tab_lineas_tipo_linea
+    where cod_tipo = 3
+   )
+ group by m.cod_art;
+
+select *
+  from pcmasters
+ where cod_art = 'KIT MXF HS 3804897 SB';
+
+select f.cod_art, f.cod_for, f.tipo, f.canti, f.neto, f.linea, a.cod_lin
+  from pcformulas f
+       join articul a on f.cod_for = a.cod_art
+ where f.cod_art = 'KIT MXF HS 3804897 SB';
+
+select *
+  from vw_analisis_embalaje
+ where cod_art = 'KIT MXF HS 3804897 SB';

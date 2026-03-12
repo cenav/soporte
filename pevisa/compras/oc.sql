@@ -5,22 +5,47 @@ select *
   from orden_de_compra
  where serie = 4
    and num_ped in (
-   64501
+   66782
    );
+
+select *
+  from orden_de_compra_estado
+ where estado = '4';
+
+select * from orden_de_compra_estado;
+
+select * from proveed;
+
+select distinct forma_de_pago
+  from orden_de_compra;
+
+select *
+  from lg_condpag
+ where cond_pag = '08';
 
 select *
   from itemord
- where serie = 4
+ where serie = 11
    and num_ped in (
-   64501
-   );
+   1905
+   )
+ order by cod_art;
+
+select * from kardex_d;
 
 select *
   from orden_de_compra_calificacion
- where serie = 3
-   and num_ped = 46321;
+ where serie = 2
+   and num_ped in (
+   23576
+   );
 
-
+select *
+  from orden_de_compra_historia
+ where serie = 4
+   and num_ped in (
+   66710
+   );
 
 select *
   from orden_de_compra_historia
@@ -355,8 +380,8 @@ select *
 
 select *
   from oc_registro_facturas
- where serie_oc = 5
-   and numero_oc = 2137;
+ where serie_oc = 2
+   and numero_oc = 23499;
 
 select *
   from kardex_g
@@ -557,7 +582,8 @@ select h.c_codigo, planilla10.pr_nombre(h.c_codigo) as nombre
 
 select *
   from lg_personal_compras_series
- where codigo_personal = 'E618';
+ where codigo_personal = 'E590'
+ order by serie_orden_de_compra;
 
 select *
   from orden_de_compra
@@ -1236,3 +1262,234 @@ select *
 select *
   from pr_grupos_lineas
  where cod_lin = '2540';
+
+select *
+  from pr_usualma
+ where cod_alm = 'M4';
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm = 'M3';
+
+select h.c_codigo, planilla10.pr_nombre(h.c_codigo) as nombre
+  from planilla10.personal h
+ where h.tipo_tra = 'E'
+   and h.c_codigo in (
+   select lg.codigo_personal
+     from lg_personal_compras_series lg
+    where lg.serie_orden_de_compra = 22
+   )
+ order by 1;
+
+select *
+  from lg_personal_compras_series
+ where serie_orden_de_compra = 22;
+
+select *
+  from lg_personal_compras_series
+ where codigo_personal = 'E1209';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+select * from vacaciones;
+
+select *
+  from planilla10.personal
+ where apellido_paterno like '%ZONCO%';
+
+select *
+  from planilla10.hr_personal
+ where c_codigo = 'E1237';
+
+select centro_costo, nombre
+  from centro_de_costos
+ where estado = '1'
+ order by nombre;
+
+select distinct o.num_ped, o.cod_proveed, p.nombre, o.cond_pag, o.moneda, o.moneda as moneda_factura
+              , o.por_desc1, o.por_desc2, c.descripcion as descripcion_pago, o.fecha, p.ruc
+              , o.impsto, o.tot_valvta, o.tot_impu, o.tot_orden, c.v01
+              , decode(o.moneda, 'D', 'US$', 'S', 'S/.', 'XXX') as simbolo_moneda
+              , o.tot_valvta as tot_valvta_back, o.total_facturado
+  from orden_de_compra o
+     , itemord i
+     , proveed p
+     , lg_condpag c
+ where o.tipo_docto = (82)
+   and o.estado >= 2
+   and o.estado <= 4
+   and i.serie = o.serie
+   and i.num_ped = o.num_ped
+   and nvl(i.saldo, 0) > 0
+   and o.cod_proveed = p.cod_proveed
+   and o.cond_pag = c.cond_pag
+   and o.serie = 30
+   and c.tipo = 'A'
+ order by o.num_ped;
+
+-- 09
+select *
+  from orden_de_compra
+ where serie = 30
+   and num_ped = 820;
+
+select *
+  from itemord
+ where serie = 30
+   and num_ped = 820;
+
+select *
+  from lg_condpag
+ where cond_pag = '09';
+
+select *
+  from lg_condpag
+ where tipo = 'A';
+
+select * from pla_control;
+
+select *
+  from articul
+ where cod_lin = '1628';
+
+select *
+  from usuario_modulo
+ where modulo = 'SOLICITUD_PEDIDO'
+   and usuario = 'YBERROSPI';
+
+
+select *
+  from usuario_modulo
+ where modulo = 'SOLICITUD_PEDIDO'
+   and usuario = 'RCARRION';
+
+
+select *
+  from solicitud_pedido_comprador
+ where comprador_asignado = 'YBERROSPI';
+
+
+select comprador_asignado, maestro, supermaestro, estado
+  from solicitud_pedido_comprador
+ where comprador_asignado = 'RSALAZAR';
+
+
+select * from almacenes;
+
+
+select *
+  from proveed
+ where cod_proveed = '20100084768';
+
+
+select *
+  from kardex_d
+ where cod_alm = 'SR';
+
+
+select *
+  from transacciones_almacen
+ where tp_transac = 'SR';
+
+
+select *
+  from usuarios_almacenes
+ where usuario = 'PEVISA';
+
+
+select *
+  from almacenes_perfil
+ where cod_alm = 'SR'
+   and tp_transac = 'SR';
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'PEVISA'
+   and cod_alm = 'SR'
+   and tp_transac = 'SR';
+
+
+select automatico, tipo_cambio
+  from numdoc
+ where tp_transac = 'SR'
+   and serie = :KARDEX_G.serie;
+
+
+select *
+  from numdoc
+ where tp_transac = 'SR';
+
+select *
+  from solicitud_pedido
+ where numero = 367;
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20301734574'
+   and num_ped = 23576;
+
+  with servicios_cartones as (
+    select os.numero, os.nuot_serie, os.nuot_tipoot_codigo, os.oc_numero, os.oc_serie
+         , oc.fecha as fecha_oc, oc.cod_proveed, proveedor(oc.cod_proveed) as nombre
+         , op.formu_art_cod_art
+         , op.cant_prog, op.fecha as fecha_op, i.cod_art, i.cantidad
+      from orden_de_compra oc
+         , itemord i
+         , pr_ot_orden_de_servicio os
+         , articul_servicios arts
+         , pr_ot op
+     where i.num_ped = oc.num_ped
+       and i.serie = oc.serie
+       and oc.estado < '9'
+       and i.num_ped = os.oc_numero
+       and i.serie = os.oc_serie
+       and i.cod_art = arts.cod_art
+       and os.numero = op.numero
+       and os.nuot_serie = op.nuot_serie
+       and os.nuot_tipoot_codigo = op.nuot_tipoot_codigo
+       and op.formu_art_cod_art = arts.cod_art_produccion
+       and op.estado = 1
+       and os.kardex_numero is null
+    )
+select *
+  from servicios_cartones
+ where cod_proveed = '20301734574'
+   and numero = 23576;
+
+select *
+  from pr_ot_orden_de_servicio
+ where oc_serie = 2
+   and oc_numero = 23576;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and nuot_serie = 8
+   and numero = 654672;
+
+select *
+  from proveed
+ where nombre like '%RESOTEX%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20252370481'
+ order by fecha desc;
+
+select sysdate from dual;
+
+select * from pr_ot_orden_de_servicio;
+
+select *
+  from proveed
+ where nombre like '%JL SOFT%';
+
+select *
+  from factpag
+ where cod_proveedor = '20546371108'
+ order by f_vencto desc;
+

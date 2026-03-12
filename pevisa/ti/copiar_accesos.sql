@@ -1,25 +1,29 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'ELEON';
+ where username like 'CLOZANO';
 
 select *
   from usuarios
- where usuario = 'EALVITES';
+ where usuario like '%MMUNOZ%';
+
+select *
+  from usuarios
+ where nombres in ('WMUERAS', 'JHUARI');
 
 declare
-  k_newusr varchar2(30) := 'EALVITES';
+  k_newusr varchar2(30) := 'RGONZALES';
 begin
 
   delete from seccrus where co_usrusr = k_newusr;
 
   delete from tab_menu where usuario = k_newusr;
 
-  delete from usuario_modulo where usuario = k_newusr;
-
   delete from usuario_modulo_alterno where id_usuario = k_newusr;
 
   delete from usuario_modulo_alterno where id_alterno = k_newusr;
+
+  delete from usuario_modulo where usuario = k_newusr;
 
   delete from usuarios_almacenes where usuario = k_newusr;
 
@@ -27,16 +31,25 @@ begin
 
   delete from pr_usualma where usuario = k_newusr;
 
+  delete from aut_rol_usuario where usuario = k_newusr;
+
+  delete from usuarios_libros where usuario = k_newusr;
+
+  delete from usuarios_tipos where usuario = k_newusr;
+
+  delete from usuarios_caja_chica where usuario = k_newusr;
+
   delete from usuarios_cotizacion where usuario = k_newusr;
 
+  delete from solicitud_pedido_comprador where comprador_asignado = k_newusr;
 end;
 
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'JDFLORES';
-  k_newusr varchar2(30) := 'DSALDANA';
+  k_oldusr varchar2(30) := 'RCARRION';
+  k_newusr varchar2(30) := 'JROMAN';
 begin
 
   insert into seccrus
@@ -82,7 +95,7 @@ begin
     from usuario_modulo_alterno
    where id_alterno = k_oldusr;
 
-  insert into usuarios_almacenes
+  insert into usuarios_almacenes(usuario, cod_alm, estado)
   select k_newusr, ua.cod_alm, ua.estado
     from usuarios_almacenes ua
    where ua.usuario = k_oldusr
@@ -161,6 +174,7 @@ begin
         and u2.usuario = k_newusr
      );
 
+
   insert into usuarios_cotizacion( usuario, indicador1, indicador2, indicador3, minimo
                                  , aprobacion_netos, cod_supervisor)
   select k_newusr, u.indicador1, u.indicador2, u.indicador3, u.minimo
@@ -173,6 +187,17 @@ begin
       where u2.usuario = u.usuario
         and u2.usuario = k_newusr
      );
+
+
+  insert into solicitud_pedido_comprador
+  select k_newusr, maestro, supermaestro, u.estado
+    from solicitud_pedido_comprador u
+   where u.comprador_asignado = k_oldusr
+     and not exists (
+     select *
+       from solicitud_pedido_comprador u2
+      where u2.comprador_asignado = k_newusr
+     );
 end;
 
 ------------------------------------------------
@@ -181,7 +206,7 @@ end;
 
 select *
   from usuarios_cotizacion
- where usuario in ('FORIUNDO', 'MVARGAS');
+ where usuario in ('ACORDOVA');
 
 select co_usrusr, co_ctrctr, co_clave, nombres
   from seccrus s
@@ -195,15 +220,15 @@ select co_usrusr, co_ctrctr, co_clave, nombres
 
 select *
   from seccrus
- where co_usrusr = 'PFALMAUX005';
+ where co_usrusr in ('JROMAN');
 
 select distinct sistema
   from tab_menu
- where usuario = 'JOSORIO';
+ where usuario = 'EBELTRAN';
 
 select *
   from tab_menu
- where usuario = 'JOSORIO';
+ where usuario = 'AMORAN';
 
 select *
   from tab_lineas
@@ -240,7 +265,7 @@ select id_usuario, id_modulo, id_alterno
 
 select *
   from usuario_modulo
- where usuario = 'ARODRIGUEZ';
+ where usuario = 'AMALDONADO';
 
 select usuario, cod_alm, tp_transac, insertar_registros, consulta, estado
   from usuarios_almacenes_perfil
@@ -266,15 +291,15 @@ select *
 
 select *
   from tab_menu
- where usuario = 'DISENO';
+ where usuario = 'LPACCO';
 
 select *
   from seccrus
- where co_usrusr in ('MREQUIS');
+ where co_usrusr in ('LPACCO');
 
 select *
   from seccrus
- where co_ctrctr like '%WMS%';
+ where co_ctrctr like '%LPACCO%';
 
 select *
   from aut_rol_usuario
@@ -290,10 +315,104 @@ select *
 
 select *
   from usuario_modulo
- where usuario = 'JQUISPEB';
+ where usuario = 'MARONES';
 
 select *
   from usuario_modulo
  where usuario = 'JVILLAR';
 
 select * from otm_serie_usuario;
+
+select * from tmp_selecciona_cliente;
+
+select *
+  from almacenes
+ where cod_alm in ('RV', 'RD', 'RS')
+ order by cod_alm;
+
+select *
+  from usuarios_almacenes
+ where usuario in ('GSORIANO', 'JMEJIA', 'CNAVARRO')
+   and cod_alm = 'RV';
+
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = 'RV'
+ order by 1;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = 'RV';
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = 'GSORIANO'
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select *
+  from pr_usualma
+ where cod_alm = 'RV';
+
+select t.codigo, t.descripcion, t.indicador1
+  from tablas_auxiliares t
+ where t.tipo = 33
+   and t.codigo in (
+   select cod_alm
+     from pr_usualma
+    where cod_alm = t.codigo
+      and usuario = user
+   )
+   and t.codigo in (
+   select distinct cod_alm_origen
+     from traslados_almacenes
+   );
+
+select n.serie, n.automatico
+  from numdoc n
+     , almacen_trasaccion_serie t
+ where n.tp_transac = '35'
+   and n.tp_transac = t.tp_transac
+   and t.cod_alm = 'RV'
+   and n.serie = t.serie
+ order by 1;
+
+select * from almacen_trasaccion_serie;
+
+
+select m.cod_art, a.descripcion, m.stock, a.tp_c_stck, f.cuenta69, a.tp_art, a.unidad, a.cod_lin
+  from almacen m
+     , articul a
+     , tfamlin f
+ where m.cod_alm = :KARDEX_G.cod_alm
+   and a.cod_art = m.cod_art
+   and f.tp_art = a.tp_art
+   and f.cod_fam = a.cod_fam
+   and f.cod_lin = a.cod_lin
+   and m.stock > 0;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'VA'
+   and numero = 12330;
+
+select *
+  from usuario_modulo
+ where modulo = 'NOMBRE_CLIENTE'
+   and usuario = 'CNAVARRO';
+
+select *
+  from usuarios_libros
+ where usuario = 'AMORAN';

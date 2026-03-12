@@ -61,3 +61,29 @@ select *
 select *
   from pr_proceso
  where codigo = 'CORI';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 546979;
+
+select formu_art_cod_art, fecha
+  from pr_ot
+ where numero = 546979
+   and nuot_tipoot_codigo = 'PR';
+
+-- bloqueo FIFO
+-- select count(1)
+select *
+  from pr_ot p
+ where p.nuot_tipoot_codigo = 'PR'
+   and p.estado < 8
+   and p.formu_art_cod_art = '54237MLS'
+   and p.fecha < to_date('01/02/2024','dd/mm/yyyy')
+   and p.numero not in (546979, 546983, 546982, 546981, 546980, 630290, 630291,
+                        630292) --> temporal hasta que que pasen número de OR
+   and not exists (
+   select 1
+     from pr_parte_produccion pr
+    where pr.numero_op = p.numero
+   );

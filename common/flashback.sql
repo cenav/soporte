@@ -851,22 +851,21 @@ select *
     as of timestamp to_timestamp('06-02-2025 14:00:00', 'DD-MM-YYYY HH24:MI:SS')
  where codigo_proceso in ('LIMP', 'EMBO');
 
-
 select *
   from kardex_g
-    as of timestamp to_timestamp('14-03-2025 09:00:00', 'DD-MM-YYYY HH24:MI:SS')
- where cod_alm = 'M4'
-   and tp_transac = '35'
-   and serie = 140
-   and numero in (2918, 2964);
+    as of timestamp to_timestamp('02-12-2025 16:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'D5'
+   and tp_transac = '27'
+   and serie = 3
+   and numero in (164307);
 
 select *
   from kardex_d
-    as of timestamp to_timestamp('14-03-2025 09:00:00', 'DD-MM-YYYY HH24:MI:SS')
- where cod_alm = 'M4'
-   and tp_transac = '35'
-   and serie = 140
-   and numero in (2918, 2964);
+    as of timestamp to_timestamp('02-12-2025 16:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = 'D5'
+   and tp_transac = '27'
+   and serie = 3
+   and numero in (164307);
 
 select *
   from kardex_d
@@ -948,3 +947,57 @@ select *
       and kardex_d.numero = tmp_carga_data.numero
    )
  order by ing_sal desc;
+
+-- cartones (cajas)
+select *
+  from pk_pesos as of timestamp to_timestamp('10-10-2025 18:20:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 63160
+   and packlis = 169646
+   and numero_paleta = 6
+   and caja = 'A6';
+
+
+select *
+  from pk_pesos as of timestamp to_timestamp('10-10-2025 18:20:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 63160
+   and packlis = 169646
+   and numero_paleta = 4
+   and caja = 'L4';
+
+-- insert into pk_pesos
+select *
+  from pk_pesos as of timestamp to_timestamp('10-10-2025 18:15:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 63160
+   and packlis = 169646;
+
+select *
+  from pk_detal as of timestamp to_timestamp('10-10-2025 18:20:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 63160
+   and packlis = 169646
+   and caja = 'J6';
+
+-- insert into pk_detal
+select *
+  from pk_detal as of timestamp to_timestamp('10-10-2025 18:15:00', 'DD-MM-YYYY HH24:MI:SS')
+ where pk_numero = 63160
+   and packlis = 169646;
+
+select *
+  from pedido_flujo as of timestamp to_timestamp('03-01-2026 11:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where num_ped in (
+                   283649, 283596, 283625, 283615, 283669, 283570, 283716, 283907, 283801, 283749,
+                   283670, 283462, 283675, 283445, 283377, 283543, 283650, 283562, 283563, 283654,
+                   283740, 283808, 283678, 283727, 283799, 283798, 283569, 283728, 283444, 283481,
+                   283565, 283457, 283495, 283460, 283717, 283360, 283340, 283548, 283363, 283573,
+                   283729, 283500, 283502, 283763, 283452, 283696, 283768, 283527, 283554, 283600,
+                   283442, 283719, 283681, 283571, 283430, 283814, 283690, 283688, 283677, 283715,
+                   283440, 283618, 283556, 283641, 283463, 283750, 283680, 283732, 283613, 283652,
+                   283653, 283634
+   )
+   and codigo_area = '72';
+
+
+select *
+  from usuarios_almacenes_perfil as of timestamp to_timestamp('17-02-2026 11:59:00', 'DD-MM-YYYY HH24:MI:SS')
+ where tp_transac in ('15', '31', '28')
+   and usuario not in ('BETY', 'APASTRANA', 'PEVISA');

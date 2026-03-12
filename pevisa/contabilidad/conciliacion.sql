@@ -12,9 +12,9 @@ select *
 select *
   from movfide
  where ano = 2025
-   and mes = 6
+   and mes = 9
    and tipo = '2'
-   and voucher = 63333;
+   and voucher = 94114;
 
 select *
   from movfide

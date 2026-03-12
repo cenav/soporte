@@ -1,8 +1,8 @@
 begin
-  pkg_cominac.genera_contrato(2025, 3, 'S', 17018, 'SI');
+  pkg_cominac.genera_contrato(2025, 9, 'S', 17088, 'SI');
   --   pkg_cominac.genera_periodo(2024, 4, 'S');
   -- pkg_cominac.elimina_periodo(2023, 2);
---   pkg_cominac.elimina_proceso(4316);
+--   pkg_cominac.elimina_proceso(04691);
 end;
 
 -- Elimina comision en un intervalo de numeros de proceso
@@ -26,9 +26,9 @@ end;
 declare
   cursor cr_anomes is
       with periodo as (
-         select trunc(to_date('31/05/2022', 'DD/MM/YYYY') + 1 - rownum) as fecha
+         select trunc(to_date('30/09/2025', 'DD/MM/YYYY') + 1 - rownum) as fecha
            from dual
-        connect by rownum < 180
+        connect by rownum < 270
          )
     select to_number(to_char(fecha, 'YYYY')) as ano
          , to_number(to_char(fecha, 'MM')) as mes
@@ -39,10 +39,9 @@ declare
 begin
   for r in cr_anomes loop
     sys.dbms_output.put_line(r.ano || ' ' || r.mes);
-    pkg_cominac.genera_contrato(r.ano, r.mes, 'S', 17067, 'SI');
+    pkg_cominac.genera_contrato(r.ano, r.mes, 'S', 17088, 'SI');
   end loop;
 end;
-
 
 -- Actualiza el archivo para planilla
 declare
@@ -68,15 +67,15 @@ declare
   cursor cr_procesos is
     select *
       from vw_cominac_consulta
-     where ano >= 2021
-       and cod_vendedor in ('N1')
+--      where (ano >= 2025 or (ano = 2024 and mes = 12))
+    where (ano >= 2025 )
+       and cod_vendedor in ('42')
      order by ano desc, mes desc;
 begin
   for r in cr_procesos loop
     pkg_cominac.elimina_proceso(r.cod_proceso);
   end loop;
 end;
-
 
 declare
   cursor cr_procesos is
@@ -371,7 +370,6 @@ select linea
   from tab_lineas
  where grupo = '16';
 
-
 -- 104
 -- 161
 -- 217
@@ -385,3 +383,43 @@ select *
 --    and mes = 4;
 
 select sysdate from dual;
+
+select *
+  from tab_lineas
+ where linea = '29';
+
+select *
+  from tab_grupos
+ where grupo = 2;
+
+select *
+  from cominac_concepto
+ where estado = '0';
+
+select *
+  from articul
+ where cod_art = 'CL-O 291.4127/1.0';
+
+select m.cod_art, a.descripcion, m.stock, a.tp_c_stck, f.cuenta69, a.tp_art, a.unidad, a.cod_lin
+  from almacen m
+     , articul a
+     , tfamlin f
+ where m.cod_alm = '37'
+   and a.cod_art = m.cod_art
+   and f.tp_art = a.tp_art
+   and f.cod_fam = a.cod_fam
+   and f.cod_lin = a.cod_lin
+   and a.cod_art = 'CL-O 291.4127/1.0'
+   and m.stock > 0;
+
+select cod_art, tp_art, cod_fam, cod_lin
+  from articul
+ where cod_art = 'CL-O 291.4127/1.0';
+
+select *
+  from tfamlin
+ where cod_lin = '1492';
+
+select *
+  from almacen
+ where cod_art = 'CL-O 291.4127/1.0';
