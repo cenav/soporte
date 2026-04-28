@@ -1,4 +1,3 @@
--- 5298 total para repartir
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
@@ -6,8 +5,15 @@ select *
 --    and estado = '9'
 --    and estado not in ('1', '9')
    and numero in (
-   654664
+   652689
    );
+
+--1426.0000
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 655283;
 
 select *
   from ot_serv_d
@@ -91,8 +97,10 @@ select numero, fecha, usuario, observacion as ip
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   630620
+                  657453, 657450, 657451
    );
+
+commit
 
 select *
   from pr_ot_impresion
@@ -108,9 +116,9 @@ select *
 
 select *
   from pr_trasab_estado
- where tipo = 'PR'
+ where tipo = 'VA'
    and numero in (
-   654672
+   11973
    )
  order by fecha;
 
@@ -120,7 +128,7 @@ select *
   from pr_ot_historia
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   654672
+   657607
    );
 
 select *
@@ -2676,3 +2684,28 @@ select *
    and stock > 0;
 
 
+select *
+  from almacenes
+ where cod_alm = '32';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('03', '05');
+
+select *
+  from tablas_auxiliares
+ where tipo = '32'
+   and codigo in ('03', '05');
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('16', '19');
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+                     655207, 655208, 655209, 655211, 655212, 656696, 656701, 655227, 655228, 655230,
+                     655231, 655232, 655233, 655243, 655244, 656705
+   )
+   and art_cod_art like 'SER%';

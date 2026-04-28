@@ -1,35 +1,23 @@
--- 11-1777
--- 11-1778
--- 11-1780
 select *
   from orden_de_compra
- where serie = 4
+ where serie = 2
    and num_ped in (
-   66782
+                   23610, 23604, 23612, 23605
    );
 
 select *
-  from orden_de_compra_estado
- where estado = '4';
+  from itemord
+ where serie = 2
+   and num_ped in (
+   23592
+   )
+ order by item;
 
 select * from orden_de_compra_estado;
-
-select * from proveed;
-
-select distinct forma_de_pago
-  from orden_de_compra;
 
 select *
   from lg_condpag
  where cond_pag = '08';
-
-select *
-  from itemord
- where serie = 11
-   and num_ped in (
-   1905
-   )
- order by cod_art;
 
 select * from kardex_d;
 
@@ -70,7 +58,7 @@ select *
 
 select *
   from orden_de_compra
- where num_ped = 64103;
+ where num_ped = 47431;
 
 select *
   from orden_de_compra
@@ -234,12 +222,12 @@ select *
 
 select *
   from orden_de_compra
- where cod_proveed = '20600735668'
+ where cod_proveed = '20301734574'
  order by fecha desc;
 
 select *
   from proveed
- where cod_proveed = '20600735668';
+ where cod_proveed = '20301734574';
 
 select *
   from proveed
@@ -1392,7 +1380,7 @@ select *
 
 select *
   from transacciones_almacen
- where tp_transac = 'SR';
+ where tp_transac = '29';
 
 
 select *
@@ -1493,3 +1481,22 @@ select *
  where cod_proveedor = '20546371108'
  order by f_vencto desc;
 
+
+select *
+  from orden_de_compra
+ where serie = 1
+   and num_ped = 259;
+
+select *
+  from itemord
+ where serie = 2
+   and num_ped = 23588;
+
+select *
+  from caja_chica_serie
+ order by id_serie;
+
+select *
+  from caja_chica
+ where serie = 1
+   and numero = 259;

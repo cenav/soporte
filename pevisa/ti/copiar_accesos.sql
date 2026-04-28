@@ -1,18 +1,18 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'CLOZANO';
+ where username like 'GURBANO';
 
 select *
   from usuarios
- where usuario like '%MMUNOZ%';
+ where usuario like '%GURBANO%';
 
 select *
   from usuarios
- where nombres in ('WMUERAS', 'JHUARI');
+ where usuario in ('GURBANO', 'JLLOPEZ');
 
 declare
-  k_newusr varchar2(30) := 'RGONZALES';
+  k_newusr varchar2(30) := 'KCHACARA';
 begin
 
   delete from seccrus where co_usrusr = k_newusr;
@@ -48,8 +48,8 @@ end;
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'RCARRION';
-  k_newusr varchar2(30) := 'JROMAN';
+  k_oldusr varchar2(30) := 'JLLOPEZ';
+  k_newusr varchar2(30) := 'GURBANO';
 begin
 
   insert into seccrus
@@ -200,6 +200,8 @@ begin
      );
 end;
 
+-- para usario de RH habilitar en planilla
+select * from planilla10.plcontrol;
 ------------------------------------------------
 ------------------------------------------------
 ------------------------------------------------
@@ -220,7 +222,7 @@ select co_usrusr, co_ctrctr, co_clave, nombres
 
 select *
   from seccrus
- where co_usrusr in ('JROMAN');
+ where co_usrusr in ('GURBANO');
 
 select distinct sistema
   from tab_menu
@@ -307,7 +309,7 @@ select *
 
 select *
   from usuarios_libros
- where usuario = 'YDOMINGUEZ';
+ where usuario = 'RVASQUEZ';
 
 select *
   from usuarios_tipos
@@ -416,3 +418,30 @@ select *
 select *
   from usuarios_libros
  where usuario = 'AMORAN';
+
+select * from transacciones_almacen;
+
+select ta.cod_alm_destino, a.descripcion
+  from traslados_almacenes ta
+     , almacenes a
+ where ta.cod_alm_destino = a.cod_alm
+   and ta.cod_alm_origen = '31'
+ order by 1;
+
+select *
+  from traslados_almacenes
+ where cod_alm_origen = '31';
+
+select *
+  from cotizacion
+ where serie = 20
+   and num_ped = 269915;
+
+select *
+  from itemcot
+ where cod_art = 'SC20HR11'
+ order by num_ped desc;
+
+select *
+  from almacenes
+ where cod_alm = '31';

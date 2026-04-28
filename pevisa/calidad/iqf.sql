@@ -99,3 +99,65 @@ begin
     dbms_output.put_line('no');
   end if;
 end;
+
+-- Con tabla relación para unir a subgrupo
+select sl.id_linea, gs.id_subgrupo, s.id_subgrupo, g.id_grupo, g.dsc_grupo, m.id_megagrupo
+     , m.dsc_megagrupo
+  from prod_subgrupo_linea_rel sl
+       join prod_grupo_subgrupo_rel gs on sl.id_subgrupo = gs.id_subgrupo
+       join prod_megagrupo_grupo_rel mg
+            on gs.id_megagrupo = mg.id_megagrupo
+              and gs.id_grupo = mg.id_grupo
+       join prod_subgrupo s on gs.id_subgrupo = s.id_subgrupo
+       join prod_grupo g on mg.id_grupo = g.id_grupo
+       join prod_megagrupo m on mg.id_megagrupo = m.id_megagrupo
+ where m.id_megagrupo = 'M010'
+   and g.id_grupo in ('G035', 'G035')
+ order by id_megagrupo, id_grupo, s.id_subgrupo, id_linea;
+
+select *
+  from articul
+ where cod_lin = '2128';
+
+select *
+  from articul_iqf
+ where cod_art = 'VUL 104';
+
+select sl.id_linea
+  from articul a
+       join prod_subgrupo_linea_rel sl on a.cod_lin = sl.id_linea
+       join prod_grupo_subgrupo_rel gs on sl.id_subgrupo = gs.id_subgrupo
+       join prod_megagrupo_grupo_rel mg
+            on gs.id_megagrupo = mg.id_megagrupo
+              and gs.id_grupo = mg.id_grupo
+       join prod_subgrupo s on gs.id_subgrupo = s.id_subgrupo
+       join prod_grupo g on mg.id_grupo = g.id_grupo
+       join prod_megagrupo m on mg.id_megagrupo = m.id_megagrupo
+ where m.id_megagrupo = 'M010'
+   and g.id_grupo in ('G034', 'G035')
+   and a.cod_art = 'SOL 805'
+   and not exists(
+   select 1
+     from articul_iqf a2
+    where a2.cod_art = a.cod_art
+   );
+
+
+select count(sl.id_linea)
+  from articul a
+       join prod_subgrupo_linea_rel sl on a.cod_lin = sl.id_linea
+       join prod_grupo_subgrupo_rel gs on sl.id_subgrupo = gs.id_subgrupo
+       join prod_megagrupo_grupo_rel mg
+            on gs.id_megagrupo = mg.id_megagrupo
+              and gs.id_grupo = mg.id_grupo
+       join prod_subgrupo s on gs.id_subgrupo = s.id_subgrupo
+       join prod_grupo g on mg.id_grupo = g.id_grupo
+       join prod_megagrupo m on mg.id_megagrupo = m.id_megagrupo
+ where m.id_megagrupo = 'M010'
+   and g.id_grupo in ('G034', 'G035') --> productos quimicos
+   and a.cod_art = 'VUL 104'
+   and not exists(
+   select 1
+     from articul_iqf ai
+    where ai.cod_art = a.cod_art
+   );

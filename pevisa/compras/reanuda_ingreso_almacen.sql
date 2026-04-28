@@ -181,3 +181,9 @@ select *
  where usuario = 'DCONTRERAS'
    and cod_alm = '01';
 
+
+select *
+  from oc_registro_facturas
+ where tipdoc_cp = '01'
+   and serie_cp = 'F070'
+   and numero_cp = '672050';

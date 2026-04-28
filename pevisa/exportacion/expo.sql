@@ -814,3 +814,26 @@ select *
 select *
   from almacenes
  where cod_alm = '31';
+
+
+-- autozone 1 codigo por caja
+-- otros clientes también
+
+-- OA deberia imprimir notas, observaciones del cliente
+-- notas AUTOZONE no mezclar item por caja
+-- cuantas piezas de ese item unico van en la caja
+
+-- en el pedido fecha del cliente, detalle
+
+select *
+  from pr_embarques
+ where id_pedido = 17211;
+
+select *
+  from pr_embarques
+ where ano_embarque = 2026
+   and mes_embarque = 4;
+
+select *
+  from exclientes_detalle
+ where texto like '%MEZCLAR%';

@@ -2,7 +2,7 @@
 declare
   op pr_ot%rowtype;
 begin
-  emite.op('95118GR', 200, false, op);
+  emite.op('MAH 230.430', 30, false, op);
   commit;
   dbms_output.put_line(op.numero);
 end;
@@ -10,7 +10,7 @@ end;
 --revisar consumo anual
 select *
   from vw_articulo
- where cod_art in ('92011/16');
+ where cod_art in ('MAH 230.430');
 
 select cod_art, cantidad from tmp_carga_data;
 

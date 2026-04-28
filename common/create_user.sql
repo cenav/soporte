@@ -1,28 +1,30 @@
 -- CREAR EN USUARIOS
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%RCARRION%';
+ where username like '%YLIFONSO%';
 
 select *
   from usuarios
- where usuario like '%JROMAN%';
+ where usuario like '%LOPEZ%';
 
 ---------------------------
 ---------------------------
 ---------------------------
 
-create user jroman
+create user ylifonso
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
-  profile default
+  profile profile_usuario_sig
   account unlock;
 
-grant privilegios_usuarios_sig to jroman;
+grant privilegios_usuarios_sig to ylifonso;
 
-alter user jroman default role all;
+alter user ylifonso default role all;
 
-alter user jroman password expire;
+alter user ylifonso password expire;
+
+-- alter user nvelez profile profile_usuario_sig;
 
 ---------------------------
 ---------------------------

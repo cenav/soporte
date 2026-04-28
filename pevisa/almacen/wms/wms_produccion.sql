@@ -354,3 +354,55 @@ select d.numero, d.cod_art, d.cantidad, a.cod_alm
    and pr_tipot = 'PR'
    and tp_transac in ('29', '22')
  order by d.cod_art;
+
+select *
+  from wms_orden_sol_item
+ where numero = 614351
+   and tk_numero is not null and tipo not in ('AR') and (
+   (:blk_data.p_opc = 'P' and estado not in ('3', '8', '9'))
+     or (estado like :blk_data.p_opc)
+   );
+
+select *
+  from wms_orden_sol_item
+ where tk_numero = 8849;
+
+
+-- LOTE
+select min(lote)
+  from wms_alm_ubicacion a
+ where cod_art like 'BAX C430 0.4-110'
+   and referencia = '9127'
+   and serie_ref = '2';
+
+
+select *
+  from wms_alm_ubicacion
+ where cod_art like 'BAX C430 0.4-110'
+   and referencia = '9127'
+   and serie_ref = '2';
+
+select get_deslinea(get_linea(d.cod_art)) as descripcion
+     , substr(to_char(100000000 + d.lote), 2, 8) as orden_etiqueta
+     , substr(to_char(100 + 1), 2, 2) as serie_etiqueta, 'PR', 8 as nuot_serie, 0 as peso_por_bolsa
+  from wms_rec_devol d
+ where d.lote = '90';
+
+select *
+  from wms_rec_devol
+ where lote = '90';
+
+
+select * from vwms_solicitud;
+
+select *
+  from wms_orden_rec_item
+ where tipo = 'WR'
+   and serie = 11
+   and numero = 398;
+
+select *
+  from wms_orden_rec
+ where tipo = 'WR'
+   and serie = 11
+   and numero = 398;

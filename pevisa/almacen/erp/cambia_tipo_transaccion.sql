@@ -1,20 +1,28 @@
 -- cambia el tipo de transaccion y la serie que son el id correlativo
 declare
-  k_trx_new constant numdoc.tp_transac%type := '28';
+  k_trx_new constant numdoc.tp_transac%type := '30';
   l_num              numdoc.numero%type     := 0;
   l_kardexg_changes  pls_integer            := 0;
   l_kardexd_changes  pls_integer            := 0;
 
   cursor cr_trx_to_change is
+--     select *
+--       from kardex_g g
+--      where exists (
+--        select 1
+--          from tmp_carga_data t
+--         where g.cod_alm = t.cod_alm
+--           and g.tp_transac = t.tp_transac
+--           and g.serie = t.serie
+--           and g.numero = t.numero
+--        );
     select *
       from kardex_g g
-     where exists (
-       select 1
-         from tmp_carga_data t
-        where g.cod_alm = t.cod_alm
-          and g.tp_transac = t.tp_transac
-          and g.serie = t.serie
-          and g.numero = t.numero
+     where cod_alm = 'F0'
+       and tp_transac = '22'
+       and serie = 45
+       and numero in (
+       161
        );
 
 begin
@@ -44,6 +52,15 @@ begin
   dbms_output.put_line('cambios kardexg ' || l_kardexg_changes);
   dbms_output.put_line('cambios kardexd ' || l_kardexd_changes);
 end;
+
+select *
+  from despacho_provincia
+ where cod_alm = 'F0'
+   and tp_transac = '30'
+   and serie = 45
+   and numero = 1611;
+
+-- INSERT INTO PEVISA.DESPACHO_PROVINCIA (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_TRANSP, AGENCIA, SERGUIA_AGENCIA, NROGUIA_AGENCIA, FECHA_AGENCIA, CONTACTO, CLAVE_RECOJO, NOMBRE_ARCHIVO) VALUES ('F0', '30', 45, 1611, '20100084768', 'PEVISA AUTO PARTS S.A.C.', '0', 0, DATE '2026-03-12', null, null, null);
 
 -- revisa cambios
 select *

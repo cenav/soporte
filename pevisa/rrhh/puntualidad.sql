@@ -1,4 +1,4 @@
-call puntualidad.automatico(2025, 1);
+call puntualidad.automatico(2026, 3);
 
 call puntualidad.email(2025, 1);
 
@@ -175,3 +175,13 @@ begin
     dbms_output.put_line(l_emails_txt);
   end loop;
 end;
+
+select g_proceso.id_proceso, p.cod_personal, p.persona, p.cod_encargado, p.encargado
+     , p.tot_he_hr, p.tot_tardanza_hr, p.tingreso_fmt, p.trefrigerio_fmt, p.hes25_fmt, p.hes35_fmt
+     , p.hedn_fmt
+  from vw_puntualidad p
+ where p.idperiodo = g_proceso.id_periodo
+   and p.tot_tardanza_hr = 0
+   and p.tot_he_hr >= c_min_he;
+
+--      where p.sector in ('10', '40')

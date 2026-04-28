@@ -1,4 +1,8 @@
-select * from exmetas;
+select *
+  from exmetas
+ where anio = 2026;
+
+-- 651379
 
 select cod_proveedor, detalle, importe_capital
   from tmp_carga_data;
@@ -22,7 +26,7 @@ when matched then
   update set t.cod_proveedor = e.cod_cliente;
 
 insert into exmetas(anio, cod_cliente, nombre, meta)
-select 2024, cod_proveedor, detalle, importe_capital
+select 2026, cod_proveedor, detalle, importe_capital
   from tmp_carga_data;
 
 select t.cod_proveedor, t.detalle, t.importe_capital, e.cod_cliente
@@ -61,3 +65,4 @@ select *
  where cod_cliente in (
                        '990937', '996057'
    );
+

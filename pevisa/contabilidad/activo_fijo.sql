@@ -130,3 +130,7 @@ select * from activo_fijo_area;
 select * from locales;
 
 select * from activo_fijo_estado;
+
+select *
+  from articul
+ where cod_art in ('EQLAB1', 'EQLAB5', 'EQLAB6');

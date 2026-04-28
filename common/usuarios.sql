@@ -1,8 +1,9 @@
-alter user ldaniel account unlock;
+alter user mdiazh account unlock;
 
-alter user rcarrion account lock;
+alter user cchayco account lock;
 
-alter user mdiazh identified by "";
+-- alter user rrodriguez identified by "$rodrichx9";
+alter user mpanez identified by "pevisa.123";
 
 alter user evaliente password expire;
 
@@ -13,11 +14,11 @@ alter user armado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'JROMAN';
+ where username like '%MDIAZH%';
 
 -- drop user evasquez cascade;
 
--- alter trigger tbu_movglos_cierre enable;
+alter trigger tbu_pr_ot_cambio_anulado enable;
 
 
 -- revisar correos cuando se eliminan
@@ -108,7 +109,7 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%klopez%')
+ where upper(text) like upper('%ALERTA DE VENCIMIENTO%')
    and owner = 'PEVISA';
 
 select *
@@ -1650,3 +1651,133 @@ select *
 select 0.105 * 100 from dual;
 
 select * from orden_de_compra;
+
+select * from caja_chica_serie;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'KSMOLSA';
+
+select * from vw_turno;
+
+select r.id_cargo, p.desc_cargo, p.c_codigo, p.nombre, p.c_encargado, p.desc_encargado, p.turno
+     , case p.turno
+         when 1 then 'DIA'
+         when 2 then 'TARDE'
+         when 3 then 'NOCHE'
+       end as dsc_turno
+     , case p.turno
+         when 1 then r.bono_dia
+         when 2 then r.bono_tarde
+         when 3 then r.bono_noche
+         else 0
+       end as bono
+  from vw_personal p
+       join responsabilidad_cargo r on p.c_cargo = r.id_cargo
+ where p.situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+   and not exists (
+   select id_personal
+     from bono_obrero_excluye e
+          join bono_obrero_excluye_modulo m on e.id_excluye = m.id_excluye
+    where periodo_ano = 2026
+      and periodo_mes = 2
+      and id_personal = p.c_codigo
+      and id_bono = 2
+   )
+ order by desc_cargo, desc_encargado, nombre;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where cod_alm = '30'
+   and usuario = 'PEVISA';
+
+select *
+  from transacciones_almacen
+ where flg_transferencia = 1;
+
+select *
+  from almacenes
+ where cod_alm = 'FC';
+
+select *
+  from kardex_d
+ where cod_alm = 'FC'
+ order by fch_transac desc;
+
+select *
+  from usuario_modulo
+ where modulo like '%BIENESTAR%';
+
+select nvl(stock, 0)
+  from almacen a
+ where cod_art = 'aoeuaou'
+   and cod_alm = 'aoeuaoue';
+
+
+select *
+  from pr_usualma
+ where usuario = 'PEVISA'
+   and cod_alm = '98';
+
+
+select *
+  from tab_menu m
+ where m.sistema = 'M_PLANEAMIENTO_M'
+   and m.cod_menu in ('2001')
+   and m.estado = '1'
+   and exists(
+   select 1
+     from tab_menu m2
+    where m.usuario = m2.usuario
+      and m.sistema = m2.sistema
+      and m.cod_menu = m2.cod_menu
+      and m2.cod_menu = '2000'
+      and m2.estado = '1'
+   );
+
+select *
+  from tab_menu m
+ where m.sistema = 'M_PLANEAMIENTO_M'
+   and m.cod_menu = '2001'
+   and m.estado = '1'
+   -- Validar que tenga el 2000 activo
+   and exists (
+   select 1
+     from tab_menu m2
+    where m2.usuario = m.usuario
+      and m2.sistema = m.sistema
+      and m2.cod_menu = '2000'
+      and m2.estado = '1'
+   )
+   -- Validar que el usuario esté en SECCRUS
+   and exists (
+   select 1
+     from seccrus s
+    where s.co_usrusr = m.usuario
+      and s.co_ctrctr = m.sistema
+   )
+ order by usuario;
+
+select *
+  from tab_menu
+ where usuario = 'ARODRIGUEZ';
+
+select co_usrusr, co_ctrctr, co_clave, nombres
+  from seccrus
+ where co_ctrctr = 'M_PLANEAMIENTO_M';
+
+select *
+  from usuario_modulo
+ where modulo = 'PLANEAMIENTO';
+
+select *
+  from almacenes
+ where cod_alm = '72';
+
+select *
+  from almacenes
+ where cod_alm_transito = '72';

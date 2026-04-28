@@ -1,8 +1,8 @@
 begin
-  pkg_cominac.genera_contrato(2025, 9, 'S', 17088, 'SI');
+  pkg_cominac.genera_contrato(2026, 3, 'S', 17053, 'SI');
   --   pkg_cominac.genera_periodo(2024, 4, 'S');
   -- pkg_cominac.elimina_periodo(2023, 2);
---   pkg_cominac.elimina_proceso(04691);
+--   pkg_cominac.elimina_proceso(5021);
 end;
 
 -- Elimina comision en un intervalo de numeros de proceso
@@ -68,7 +68,7 @@ declare
     select *
       from vw_cominac_consulta
 --      where (ano >= 2025 or (ano = 2024 and mes = 12))
-    where (ano >= 2025 )
+     where (ano >= 2025)
        and cod_vendedor in ('42')
      order by ano desc, mes desc;
 begin
@@ -423,3 +423,126 @@ select *
 select *
   from almacen
  where cod_art = 'CL-O 291.4127/1.0';
+
+select case p_moneda
+         when 'S' then nvl(sum(total_soles), 0)
+         else nvl(sum(total_dolares), 0)
+       end
+  into l_venta_total
+  from vw_venta_detalle
+ where ((p_concepto.cod_tipo_venta = pkg_cominac_cst.c_venta_indiv
+   and cod_vende = p_cod_vendedor)
+   or (p_concepto.cod_tipo_venta = pkg_cominac_cst.c_venta_todo
+     and cod_vende like '%')
+   or (p_concepto.cod_tipo_venta = pkg_cominac_cst.c_venta_grupal
+     and cod_vende in (
+       select cod_vendedor
+         from cominac_concepto_venta_grupal
+        where cod_concepto = p_concepto.cod_concepto
+       )))
+   and fecha between p_fecha_del and p_fecha_al
+   and ((p_concepto.lineas = 'TODO'
+   and cod_lin like '%')
+   or (p_concepto.lineas = 'ESTABLECIDO'
+     and cod_lin in (
+       select cod_linea
+         from cominac_concepto_linea
+        where cod_concepto = p_concepto.cod_concepto
+       ))
+   or (p_concepto.lineas = 'GRUPO'
+     and cod_lin in (
+       select l.linea
+         from cominac_concepto_grupo g
+              join tab_lineas l on g.cod_grupo = l.grupo
+        where g.cod_concepto = p_concepto.cod_concepto
+       ))
+   or (p_concepto.lineas = 'MEGAGRUPO'
+     and cod_lin in (
+       select l.linea
+         from cominac_concepto_megagrupo g
+              join tab_grupos r on g.cod_megagrupo = r.ind_vta1
+              join tab_lineas l on r.grupo = l.grupo
+        where g.cod_concepto = p_concepto.cod_concepto
+       )))
+   and cod_cliente not in (
+   select cod_cliente
+     from cominac_concepto_excluye_clie
+    where cod_concepto = p_concepto.cod_concepto
+   )
+   and not exists
+   (
+     select 1
+       from cominac_concepto_excluye_doc
+      where cod_concepto = p_concepto.cod_concepto
+        and tipodoc = vw_venta_detalle.tipodoc
+        and serie = vw_venta_detalle.serie
+        and numero = vw_venta_detalle.numero
+     );
+
+select d.cod_vende, d.tipodoc, x.descripcion as nombre_doc, d.serie, d.numero, d.fecha
+     , d.cod_cliente, c.nombre as nombre_cliente, i.cod_art, i.item, i.cod_lin, l.descripcion
+     , l.grupo, g.descripcion, g.ind_vta1, m.descripcion, i.cantidad, d.tip_doc_ref
+     , d.ser_doc_ref, d.nro_doc_ref, d.moneda, d.import_cam, nvl(i.neto, 0) as neto
+     , decode(d.moneda, 'S', nvl(i.neto, 0), 0) as soles
+     , decode(d.moneda, 'D', nvl(i.neto, 0), 0) as dolares
+     , round(decode(d.moneda, 'S', nvl(i.neto, 0), 'D', nvl(i.neto, 0) * d.import_cam),
+             2) as total_soles
+     , round(decode(d.moneda, 'D', nvl(i.neto, 0), 'S', nvl(i.neto, 0) / d.import_cam),
+             2) as total_dolares
+     , round(i.cantidad * p.costo * d.import_cam, 2) as costo_soles
+     , round(i.cantidad * p.costo, 2) as costo_dolares
+  from docuvent d
+       join itemdocu i
+            on (d.tipodoc = i.tipodoc
+              and d.serie = i.serie
+              and d.numero = i.numero)
+       left join clientes c on d.cod_cliente = c.cod_cliente
+       left join tablas_auxiliares x
+                 on d.tipodoc = x.codigo
+                   and x.tipo = '02'
+       left join pcart_precios p
+                 on i.cod_art = p.cod_art
+                   and p.cod_costo = '04'
+       left join tab_lineas l on i.cod_lin = l.linea
+       left join tab_grupos g on l.grupo = g.grupo
+       left join grupo_venta m on g.ind_vta1 = m.cod_grupo_venta
+ where d.tipodoc in ('01', '03', '07')
+   and d.origen <> 'EXPO'
+   and d.estado <> '9'
+   and d.cod_vende = '70'
+   and d.fecha between to_date('21/02/2026', 'dd/mm/yyyy') and to_date('20/03/2026', 'dd/mm/yyyy')
+ order by d.cod_vende, d.tipodoc, d.serie, d.numero, i.cod_lin, i.cod_art;
+
+select *
+  from docuvent d
+ where d.cod_vende = '70'
+   and d.fecha between to_date('21/02/2026', 'dd/mm/yyyy') and to_date('20/03/2026', 'dd/mm/yyyy')
+   and d.estado = '9';
+
+select *
+  from docuvent_anulados
+ where tipodoc = '01'
+   and serie = 'F050'
+   and numero = 244546;
+
+select *
+  from docuvent_anulados a
+ where exists(
+   select *
+     from docuvent d
+    where d.cod_vende = '70'
+      and d.fecha between to_date('21/02/2026', 'dd/mm/yyyy') and to_date('20/03/2026', 'dd/mm/yyyy')
+      and d.estado = '9'
+      and d.tipodoc = a.tipodoc
+      and d.serie = a.serie
+      and d.numero = a.numero
+   );
+
+
+select case :p_moneda
+         when 'S' then nvl(sum(total_soles), 0)
+         else nvl(sum(total_dolares), 0)
+       end
+  from vw_venta_detalle
+ where cod_vende = '70'
+   and fecha between to_date('21/02/2026', 'dd/mm/yyyy') and to_date('20/03/2026', 'dd/mm/yyyy');

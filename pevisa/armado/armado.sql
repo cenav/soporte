@@ -1,16 +1,29 @@
+-- 24-27-1-1716185
+-- 08-06-1-892606
+-- 08-27-1-1716186
+-- 08-29-1-2008794
+-- 01-17-1-845548
+
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'AR'
+ where nuot_tipoot_codigo = 'SA'
    and numero in (
-                  1154973, 1159523
+   13841
    );
+
+select * from pr_estados;
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1143035
+   1127467
    );
+
+select *
+  from expedido_d
+ where numero = 16980
+   and nro = 211;
 
 select *
   from vw_analisis_embalaje
@@ -40,7 +53,7 @@ select *
 select *
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'AR'
-   and numero = 1081418;
+   and numero in (1142406, 1136784);
 
 select *
   from pr_ot_impresion
@@ -1268,3 +1281,17 @@ select f.cod_art, f.cod_for, f.tipo, f.canti, f.neto, f.linea, a.cod_lin
 select *
   from vw_analisis_embalaje
  where cod_art = 'KIT MXF HS 3804897 SB';
+
+select *
+  from pr_ot_bolsas
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1163090;
+
+-- INSERT INTO PEVISA.PR_OT_BOLSAS (NUMERO, NUOT_SERIE, NUOT_TIPOOT_CODIGO, BOLSA, FECHA, CANTIDAD, USUARIO, OBSERVACION, ESTADO, ID_TRABAJADOR, ID_ETIQUETA) VALUES (1163156, '3', 'AR', 1, TIMESTAMP '2026-04-15 11:02:33', 30.0000, 'DSALDANA', '10.0.0.146', 1, null, '030116315600001');
+
+
+select *
+  from estimado_armado
+ where tipo = 'AR'
+   and serie = 3
+   and numero = 1148769;

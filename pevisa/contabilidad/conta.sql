@@ -951,3 +951,9 @@ select *
 select *
   from proveed
  where cod_proveed = '20604082669';
+
+select * from caja_chica_serie;
+
+select *
+  from caja_chica
+ where numero = 260044;

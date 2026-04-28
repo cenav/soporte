@@ -15,8 +15,8 @@ select a.cod_art, a.cod_alm, nvl(a.stock, 0) as stock_alm, nvl(s.stock_kdx, 0) a
                  on a.cod_alm = s.cod_alm
                    and a.cod_art = s.cod_art
  where a.stock <> s.stock_kdx
-   and a.cod_art = 'FOR3913'
-   and a.cod_alm = '37';
+   and a.cod_art = 'BO-N2095 0.8'
+   and a.cod_alm = '03';
 
 
 -- revisa stock almacenes
@@ -102,11 +102,45 @@ select a.cod_art
 --        ), 0);
 
 
-select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
  where d.estado <> '9'
    and d.cod_art = :p_articulo
+--    and trunc(d.fch_transac) <= to_date('31/08/2024', 'dd/mm/yyyy')
  group by d.cod_alm, d.cod_art;
+
+
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_alm = '98'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+
+select *
+  from tablas_auxiliares
+ where tipo = 33
+ order by codigo;
+
+select * from almacenes order by cod_alm;
+
+select *
+  from almacenes_perfil
+ where cod_alm = 'DC';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'PEVISA'
+   and cod_alm = 'DC';
+
+select *
+  from transacciones_almacen
+ where descripcion like '%TRANSFERENCIA%';
+
 
 select *
   from almacen
@@ -620,11 +654,21 @@ select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
        join almacenes a on d.cod_alm = a.cod_alm
        join articul b on d.cod_art = b.cod_art
  where d.estado <> '9'
-   and d.cod_art = 'PIED-PEV-0019'
+   and d.cod_art = '93014'
+   and d.cod_alm = 'D3'
+   and trunc(d.fch_transac) <= to_date('07/04/2026', 'dd/mm/yyyy')
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
  order by d.cod_alm;
 
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+select *
+  from almacen
+ where cod_art = 'BO-N2095 0.8'
+   and cod_alm = '03';
 
 select *
   from articul
@@ -637,12 +681,60 @@ select d.cod_alm, a.descripcion, d.cod_art, b.cod_lin
        join almacenes a on d.cod_alm = a.cod_alm
        join articul b on d.cod_art = b.cod_art
  where d.estado <> '9'
-   and d.cod_alm in ('31')
+   and d.cod_alm in ('98')
+   and d.cod_art = 'UTI0088'
+--    and trunc(d.fch_transac) <= to_date('09/03/2025', 'dd/mm/yyyy')
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art, a.descripcion, b.cod_lin
  order by d.cod_alm;
 
+select *
+  from almacen
+ where cod_alm = '98'
+   and cod_art = 'UTI0088';
 
 select *
-  from almacenes
- where cod_alm = '31';
+  from kardex_d
+ where cod_alm = '98';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '51';
+
+select * from exmetas;
+
+
+select *
+  from kardex_d
+ where cod_art = 'PEV 090.385'
+   and tp_transac = '51'
+ order by fch_transac desc;
+
+
+select *
+  from kardex_d
+ where cod_art = 'PEV 090.385'
+   and extract(year from fch_transac) = 2026
+   and extract(month from fch_transac) = 2
+ order by fch_transac desc;
+
+select *
+  from kardex_d
+ where cod_alm = '08'
+   and tp_transac = '51'
+   and serie = 1
+   and numero = 27781
+   and cod_art = 'CAJA 250.525/45 KRF';
+
+
+select *
+  from kardex_d
+ where cod_alm = '08'
+   and tp_transac = '08'
+   and serie = 1
+   and numero = 27689
+   and cod_art = 'CAJA 300.550 KRF';
+
+select *
+  from almacen
+ where cod_art = 'UTI0003';

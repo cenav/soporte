@@ -1,15 +1,32 @@
 select *
   from planilla10.personal
- where nombres like '%JUAN%'
-   and apellido_paterno like '%REYES%'
+ where nombres like '%YANELY%'
+   and apellido_paterno like '%LIFONSO%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
    );
 
 select *
+  from planilla10.personal
+ where extract(year from f_ingreso) = 2026
+   and extract(month from f_ingreso) = 4;
+
+
+select *
+  from vw_personal
+ where extract(year from f_ingreso) = 2026
+   and extract(month from f_ingreso) = 4;
+
+select *
+  from planilla10.personal
+ where nombres like '%RAFAEL%'
+   and apellido_paterno like '%TELLO%';
+
+
+select *
   from planilla10.t_cargo
- where c_cargo = 'AALM';
+ where c_cargo = 'AXAM';
 
 select *
   from planilla10.t_area
@@ -17,7 +34,7 @@ select *
 
 select *
   from vw_personal
- where c_codigo = 'E41958';
+ where c_codigo = 'E961';
 
 select *
   from planilla10.personal
@@ -27,7 +44,14 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E1316';
+   and c_codigo = 'E42015';
+
+
+select *
+  from planilla10.ingre_fijo
+ where c_concepto = '1001'
+   and valor = 8000;
+
 
 select *
   from planilla10.ingre_fijo
@@ -1280,7 +1304,7 @@ select *
 
 select *
   from vw_personal
- where c_codigo = 'E4923';
+ where c_codigo = 'E1325';
 
 -- 08A puesto anterior
 select *
@@ -1354,3 +1378,64 @@ select *
    and serie = 2
    and numero = 639398
  order by ing_sal desc, numero_pguia;
+
+select *
+  from planilla10.v_contratos_encargados
+ where nombre like '%QUISPE%';
+
+select *
+  from planilla10.tar_encarga
+ where nombre like '%QUISPE%';
+
+
+select r.id_cargo, p.desc_cargo, p.c_codigo, p.nombre, p.c_encargado, p.desc_encargado, p.turno
+     , case p.turno
+         when 1 then 'DIA'
+         when 2 then 'TARDE'
+         when 3 then 'NOCHE'
+       end as dsc_turno
+     , case p.turno
+         when 1 then r.bono_dia
+         when 2 then r.bono_tarde
+         when 3 then r.bono_noche
+         else 0
+       end as bono
+  from vw_personal p
+       join responsabilidad_cargo r on p.c_cargo = r.id_cargo
+ where p.situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   )
+   and not exists (
+   select id_personal
+     from bono_obrero_excluye e
+          join bono_obrero_excluye_modulo m on e.id_excluye = m.id_excluye
+    where periodo_ano = 2026
+      and periodo_mes = 2
+      and id_personal = p.c_codigo
+      and id_bono = 2
+   )
+ order by desc_cargo, desc_encargado, nombre;
+
+select *
+  from prod_grupo
+ where id_grupo = '';
+
+select *
+  from prod_megagrupo
+ where id_megagrupo = 'M010';
+
+-- Con tabla relación para unir a subgrupo
+select sl.id_linea, gs.id_subgrupo, s.id_subgrupo, g.id_grupo, g.dsc_grupo, m.id_megagrupo
+     , m.dsc_megagrupo
+  from prod_subgrupo_linea_rel sl
+       join prod_grupo_subgrupo_rel gs on sl.id_subgrupo = gs.id_subgrupo
+       join prod_megagrupo_grupo_rel mg
+            on gs.id_megagrupo = mg.id_megagrupo
+              and gs.id_grupo = mg.id_grupo
+       join prod_subgrupo s on gs.id_subgrupo = s.id_subgrupo
+       join prod_grupo g on mg.id_grupo = g.id_grupo
+       join prod_megagrupo m on mg.id_megagrupo = m.id_megagrupo
+ where m.id_megagrupo = 'M010'
+   and g.id_grupo = 'G035'
+ order by id_megagrupo, id_grupo, s.id_subgrupo, id_linea;

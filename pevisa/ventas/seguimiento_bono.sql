@@ -264,8 +264,7 @@ select * from seguimiento_bono;
 
 select *
   from seguimiento_bono_d
- where id_seguimiento = 2
-   and cod_concepto = 515;
+ where id_seguimiento = 3
 
 -- create or replace view vw_seguimiento_bono as
 -- seguimiento bono
@@ -309,7 +308,7 @@ select *
             where cod_concepto = c.cod_concepto
            )))
 --        and fecha between c.vigencia_del and c.vigencia_al
-       and fecha between to_date('01/10/2025', 'dd/mm/yyyy') and to_date('31/12/2025', 'dd/mm/yyyy')
+       and fecha between to_date('01/01/2026', 'dd/mm/yyyy') and to_date('31/03/2026', 'dd/mm/yyyy')
        and ((c.lineas = 'TODO'
        and cod_lin like '%')
        or (c.lineas = 'ESTABLECIDO'

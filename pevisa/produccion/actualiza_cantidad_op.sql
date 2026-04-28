@@ -1,15 +1,45 @@
+declare
+  k_num_op    constant number := 656701;
+  k_cant_prog constant number := 1988;
+  l_lote               number := 0;
+begin
+     update pr_ot
+        set cant_prog = k_cant_prog
+      where nuot_tipoot_codigo = 'PR'
+        and nuot_serie = 8
+        and numero = k_num_op
+  returning lote into l_lote;
+
+  dbms_output.put_line(l_lote);
+
+  update pr_ot_det d
+     set d.cant_formula    = (k_cant_prog * d.rendimiento) / nullif(l_lote, 0)
+       , d.cant_despachada = (k_cant_prog * d.rendimiento) / nullif(l_lote, 0)
+   where d.ot_nuot_tipoot_codigo = 'PR'
+     and d.ot_numero = k_num_op;
+exception
+  when others then
+    raise_application_error(-20000, sqlerrm);
+end;
+
+select *
+  from pevisa.pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and estado != '9'
+   and extract(year from fecha) = 2025;
+
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-   655633
+   559927
    );
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'PR'
    and ot_numero in (
-   655633
+   655599
    );
 
 -- Obtenemos el número de lote
@@ -22,9 +52,9 @@ select *
 -- Actualizamos la cantidad de la fórmula
 update pr_ot_det d
    set d.cant_formula = (:p_cant_programada * d.rendimiento) / nullif(:p_lote, 0)
- where d.ot_nuot_tipoot_codigo = 'AR'
+ where d.ot_nuot_tipoot_codigo = 'PR'
    and d.ot_numero in (
-   1127467
+   655633
    );
 
 select *
@@ -63,3 +93,6 @@ select *
  where cod_art = 'SERV PEV 790.590-R';
 
 -- agrupas por OP (OS) y mandas la candida a compras
+
+select *
+  from tmp_carga_data;

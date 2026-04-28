@@ -82,7 +82,7 @@ call dbms_scheduler.enable('JOB_AVANCE_REGISTRO_PLANOS');
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
- and upper(job_action) like upper('%reporte%')
+   and upper(job_action) like upper('%reporte%')
  order by job_name;
 
 select *
@@ -95,7 +95,7 @@ select *
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and upper(job_action) like '%gestion_disciplinaria.correo_pre_pendientes%'
+   and upper(job_action) like upper('%REPORTE_TRX_PENDIENTE_TRANSITO%')
  order by job_name;
 
 -- SP_CORREO_STOCK_BOSCH
