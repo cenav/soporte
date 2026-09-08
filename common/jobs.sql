@@ -13,14 +13,14 @@ end;
 
 begin
   dbms_scheduler.create_job(
-      job_name => 'JOB_ALERTA_STOCK'
+      job_name => 'JOB_ALERTA_SCR'
     , job_type => 'STORED_PROCEDURE'
-    , job_action => 'reporte_alerta_stock.envia_correo'
-    , start_date => timestamp '2025-11-01 00:00:00 -5:00'
-    , repeat_interval => 'FREQ=WEEKLY;BYDAY=MON;BYHOUR=8;BYMINUTE=0;BYSECOND=0'
+    , job_action => 'lv_saldos_pendientes_xls.listado_para_vendedor'
+    , start_date => timestamp '2026-09-02 00:00:00 -5:00'
+    , repeat_interval => 'FREQ=WEEKLY;BYDAY=WED;BYHOUR=8;BYMINUTE=0;BYSECOND=0'
     , auto_drop => false
     , enabled => true
-    , comments => 'reporte de stock de reposicion e IQF'
+    , comments => 'Notificacion de documentos pendientes SCR'
   );
 end;
 
@@ -69,7 +69,7 @@ end;
 
 call dbms_scheduler.run_job('JOB_FACT_NO_EMB1');
 
-call dbms_scheduler.drop_job('JOB_AVANCE_REGISTRO_PLANOS');
+call dbms_scheduler.drop_job('JOB_ALERTA_SCR');
 
 call dbms_scheduler.disable('JOB_PREMIO_PUNTUALIDAD');
 
@@ -82,13 +82,13 @@ call dbms_scheduler.enable('JOB_AVANCE_REGISTRO_PLANOS');
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and upper(job_action) like upper('%reporte%')
+   and upper(job_action) like upper('%scr%')
  order by job_name;
 
 select *
   from dba_scheduler_jobs
  where owner = upper('pevisa')
-   and upper(job_name) like '%PLANOS%'
+   and upper(job_name) like '%SCR%'
  order by job_name;
 
 
@@ -245,4 +245,3 @@ begin
 end;
 
 select * from pr_trasab_estado;
-

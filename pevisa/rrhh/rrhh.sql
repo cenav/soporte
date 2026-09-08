@@ -1,11 +1,46 @@
 select *
   from planilla10.personal
- where nombres like '%YANELY%'
-   and apellido_paterno like '%LIFONSO%'
+ where nombres like '%DEISY%'
+   and apellido_paterno like '%BAZAN%'
    and situacion not in (
    select *
      from planilla10.t_situacion_cesado
    );
+
+-- Practicantes
+select *
+  from planilla10.personal
+ where situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   )
+   and c_codigo like '%P%';
+
+
+select *
+  from vw_personal
+ where c_codigo in ('E567');
+
+
+select *
+  from vw_personal
+ where nombre like '%BELTRAN%'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from vw_personal
+ where seccion = '37'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+select *
+  from planilla10.t_area
+ where dsc_area like '%SOMA%';
 
 select *
   from planilla10.personal
@@ -26,7 +61,7 @@ select *
 
 select *
   from planilla10.t_cargo
- where c_cargo = 'AXAM';
+ where c_cargo = '610E';
 
 select *
   from planilla10.t_area
@@ -44,8 +79,12 @@ select *
 select *
   from planilla10.ingre_fijo
  where c_concepto = '1001'
-   and c_codigo = 'E42015';
+   and c_codigo = 'E1242';
 
+
+select *
+  from planilla10.ingre_fijo
+ where c_codigo = 'P001';
 
 select *
   from planilla10.ingre_fijo
@@ -67,13 +106,13 @@ select *
 
 select *
   from planilla10.tar_encarga
- where c_codigo = 'E618';
+ where c_codigo = 'E567';
 
 select *
   from vw_personal
- where c_encargado = '040'
+ where c_encargado = '057'
    and situacion not in (
-   select situacion
+   select codigo
      from planilla10.t_situacion_cesado
    );
 
@@ -1304,7 +1343,7 @@ select *
 
 select *
   from vw_personal
- where c_codigo = 'E1325';
+ where c_codigo = 'E1188';
 
 -- 08A puesto anterior
 select *
@@ -1439,3 +1478,122 @@ select sl.id_linea, gs.id_subgrupo, s.id_subgrupo, g.id_grupo, g.dsc_grupo, m.id
  where m.id_megagrupo = 'M010'
    and g.id_grupo = 'G035'
  order by id_megagrupo, id_grupo, s.id_subgrupo, id_linea;
+
+select *
+  from pedido
+ where fecha = to_date('31/05/2026', 'dd/mm/yyyy');
+
+select sysdate from dual;
+
+select *
+  from amonestacion
+ where numero = 837;
+
+select *
+  from permiso
+ where numero = 73862;
+
+select * from estado_permiso;
+
+select * from prevencionista;
+
+
+select count(*)
+  from vw_personal
+ where c_cargo = '15M'
+   and situacion not in (
+   select codigo
+     from planilla10.t_situacion_cesado
+   );
+
+
+
+select *
+  from planilla10.t_cargo
+ where descripcion like '%BM%';
+
+
+select c_cargo, descripcion
+  from planilla10.t_cargo
+ where perfil = 'SI'
+   and nvl(status, '0') != '9'
+ order by c_cargo;
+
+
+select *
+  from bono_obrero_puesto
+ where id_bono_obrero = 65
+ order by orden_reporte;
+
+
+select *
+  from vacaciones
+ where numero = 21420;
+
+
+select *
+  from vw_personal
+ where c_encargado = '004'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   )
+ order by length(c_codigo), c_codigo;
+
+
+select sf_renovar('E1301', to_date('30/06/2026', 'dd/mm/yyyy')) as renovar
+  from dual;
+
+
+select *
+  from evaluacion
+ where id_evaluado = 'E1356';
+
+
+select *
+  from evaluacion
+ where id_evaluado = 'E42669'
+ order by fecha desc;
+
+
+select per.c_codigo
+     , per.apellido_paterno || ' ' || per.apellido_materno || ', ' || per.nombres as nombre
+     , per.conini
+     , per.confin
+     , per.clase
+  from planilla10.personal per
+     , planilla10.tar_encarga enc
+ where per.encargado = enc.codigo
+   and enc.c_codigo = :id_evaluador
+   and per.situacion not in ('8', '9')
+   and per.c_codigo not in (
+   select id_personal
+     from cese_personal
+   )
+   and to_char(per.confin, 'MM') = to_char(:p_fecha, 'MM')
+   and pevisa.sf_eval(per.c_codigo, trunc(last_day(:p_fecha))) is null
+ order by per.apellido_paterno;
+
+
+select *
+  from planilla10.tar_encarga
+ where codigo = '057';
+
+
+select *
+  from planilla10.personal
+ where encargado = '057'
+   and situacion not in (
+   select *
+     from planilla10.t_situacion_cesado
+   );
+
+
+select *
+  from almacenes
+ where descripcion like 'MERMA%';
+
+
+select *
+  from almacenes
+ where cod_alm = 'DM';

@@ -43,7 +43,7 @@ select *
    and pr_numot in (1037709, 1037763, 1055771, 1052697, 1057410)
  order by ing_sal;
 
-alter trigger TUA_ALMACEN enable ;
+alter trigger tua_almacen enable;
 
 select *
   from kardex_d
@@ -174,11 +174,12 @@ select a.cod_alm, a.cod_art, a.stock
 
 -- modelo de orden completa
 select *
-  from pevisa.pr_ot
+  from pr_ot
  where nuot_tipoot_codigo = 'AR'
    and extract(year from fecha) = 2024
    and extract(month from fecha) = 4
    and estado = 7;
+
 
 select *
   from kardex_g
@@ -187,9 +188,26 @@ select *
    and nro_doc_ref in (1039371)
  order by fch_transac, ing_sal;
 
+
 select *
   from kardex_g
  where tipo_pguia = 'AR'
    and serie_pguia = 3
    and numero_pguia in (1039371)
  order by fch_transac, ing_sal;
+
+
+select *
+  from kardex_g
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+   and numero = 1043150;
+
+
+select *
+  from kardex_d
+ where cod_alm = '57'
+   and tp_transac = '27'
+   and serie = 2
+ order by fch_transac desc;

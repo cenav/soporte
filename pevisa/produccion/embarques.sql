@@ -190,6 +190,15 @@ select *
      and num_importa = 'PVC24095'
      and cod_art = 'AT-B-GM-017-F MLS';
 
+
   select * from estados_liberacion_producto;
 
-  select * from kardex_d;
+
+  select *
+    from embarques_g_historia
+   where numero_embarque = 6170;
+
+
+  select *
+    from embarques_g
+   where numero_embarque = 6170;

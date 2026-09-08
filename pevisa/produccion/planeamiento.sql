@@ -601,3 +601,8 @@ select nuot_tipoot_codigo, nuot_serie, numero, fecha, pedido, formu_art_cod_art,
      , art_cod_art, cant_formula
   from vw_ordenes_impresas_piezas
  order by fecha;
+
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR';

@@ -15,8 +15,8 @@ select a.cod_art, a.cod_alm, nvl(a.stock, 0) as stock_alm, nvl(s.stock_kdx, 0) a
                  on a.cod_alm = s.cod_alm
                    and a.cod_art = s.cod_art
  where a.stock <> s.stock_kdx
-   and a.cod_art = 'BO-N2095 0.8'
-   and a.cod_alm = '03';
+   and a.cod_art = 'AX 0.30 C201-1219-2438-MATTE'
+   and a.cod_alm = '48';
 
 
 -- revisa stock almacenes
@@ -107,19 +107,61 @@ select d.cod_alm, d.cod_art
   from kardex_d d
  where d.estado <> '9'
    and d.cod_art = :p_articulo
---    and trunc(d.fch_transac) <= to_date('31/08/2024', 'dd/mm/yyyy')
+--    and trunc(d.fch_transac) <= to_date('02/06/2026', 'dd/mm/yyyy')
  group by d.cod_alm, d.cod_art;
 
+
+-- 2188.6
+-- 2192.8475
+
+select 2188.6, 2192.8475, 2188.6 - 2192.8475 from dual;
 
 select d.cod_alm, d.cod_art
      , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
  where d.estado <> '9'
-   and d.cod_alm = '98'
+   and d.cod_alm = 'KT'
 having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
  group by d.cod_alm, d.cod_art
  order by cod_alm, cod_art;
 
+select *
+  from kardex_d
+ where cod_art = '180.441MLS'
+ order by fch_transac desc;
+
+select *
+  from kardex_g
+ where glosa like '%OBSERV%'
+   and cod_alm = '48'
+ order by fch_transac desc;
+
+
+select *
+  from kardex_g
+ where cod_alm = '48'
+ order by fch_transac desc;
+
+select *
+  from kardex_g
+ where num_importa = 'OSERVADOS';
+
+select *
+  from kardex_g_historia
+ where cod_alm = '48'
+   and tp_transac = '16'
+   and serie = 1
+   and numero in (
+                  216158, 216159, 216160, 216161, 216162, 216163, 216164, 216165, 216166, 216168,
+                  216296, 216385
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '48'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 216385;
 
 select *
   from tablas_auxiliares
@@ -148,7 +190,7 @@ select *
 
 select *
   from articul
- where cod_art like 'HJ 23-320%';
+ where cod_art like '30520';
 
 select d.cod_alm, sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
   from kardex_d d
@@ -210,6 +252,10 @@ select 'KARDEX' as origen, cod_alm, cod_art
    and d.cod_art = :p_articulo
  group by d.cod_alm, d.cod_art;
 
+select *
+  from tmp_carga_data
+ where cod_art = 'AX 0.30 C201-1219-2438-MATTE';
+
 select * from tmp_carga_data;
 
 -- stock por almacen
@@ -249,7 +295,7 @@ select d.cod_alm, d.cod_art
   from kardex_d d
  where d.estado != '9'
    and d.cod_art = :p_articulo
-   and d.fch_transac <= to_date('31/08/2024', 'dd/mm/yyyy')
+--    and d.fch_transac <= to_date('31/08/2024', 'dd/mm/yyyy')
  group by d.cod_alm, d.cod_art;
 
 
@@ -727,14 +773,146 @@ select *
    and cod_art = 'CAJA 250.525/45 KRF';
 
 
+
+select *
+  from kardex_g
+ where cod_alm = '48'
+   and tp_transac = '16'
+   and serie = 1
+   and numero = 210203;
+
 select *
   from kardex_d
- where cod_alm = '08'
-   and tp_transac = '08'
+ where cod_alm = '48'
+   and tp_transac = '16'
    and serie = 1
-   and numero = 27689
-   and cod_art = 'CAJA 300.550 KRF';
+   and numero = 210203;
 
 select *
   from almacen
  where cod_art = 'UTI0003';
+
+select *
+  from almacenes
+ where cod_alm = '79';
+
+
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_alm = '48'
+--    and exists(
+--    select 1
+--      from kardex_g g
+--     where g.cod_alm = d.cod_alm
+--       and g.tp_transac = d.tp_transac
+--       and g.serie = d.serie
+--       and g.numero = d.numero
+--       and g.num_importa = 'OSERVADOS'
+--    )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_g g
+       left join kardex_d d
+                 on g.cod_alm = d.cod_alm and g.tp_transac = d.tp_transac and g.serie = d.serie and
+                    g.numero = d.numero
+ where d.estado <> '9'
+   and d.cod_alm = '48'
+   and num_importa = 'OSERVADOS'
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+
+select cod_art, stock from tmp_carga_data;
+
+select cod_art, stock from tmp_carga_data where cod_art = 'P.CAV.INF-M-400.096-1L/144-REP';
+
+
+-- insert into tmp_carga_data(cod_alm, cod_art, stock)
+select *
+  from almacen
+ where cod_art = 'AX 0.30 C201-1219-2438-MATTE';
+
+
+select *
+  from kardex_d
+ where cod_art = 'BO 1.6GR-158'
+   and cod_alm = 'DM'
+ order by fch_transac desc;
+
+
+select *
+  from almacenes
+ where cod_alm = 'KT';
+
+
+select *
+  from almacenes
+ where cod_alm_transito = 'TM';
+
+
+select cod_alm, cod_art, stock from tmp_carga_data;
+
+-- insert into tmp_carga_data(cod_alm, cod_art, stock)
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_alm = 'B1'
+   and d.cod_art in (
+   '275/70R22.5 AU04+'
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_alm = 'KT'
+   and d.cod_art in (
+   'BO 1.6NA-435'
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+
+select *
+  from pr_usualma
+ where usuario = 'JMEJIA';
+
+
+select *
+  from tab_lineas
+ where linea = '78';
+
+
+select *
+  from articul
+ where cod_art = 'R-H 403';
+
+
+select *
+  from articul
+ where cod_art = 'R-MB 161152-AKU';
+
+
+select *
+  from tab_lineas
+ where descripcion like '%LIO%';
+
+
+select *
+  from embarques_g_historia
+ where numero_embarque = 6170
+ order by creacion_cuando;

@@ -21,11 +21,11 @@ select *
 select *
   from pedido
  where serie = 21
-   and num_ped in (618);
+   and num_ped in (276901);
 
 select *
   from itemped
- where num_ped in (272914);
+ where num_ped in (276901);
 
 
 -- 20608751531
@@ -145,7 +145,8 @@ select *
 
 select *
   from vendedores
- where cod_vendedor = 'B10';
+ where cod_vendedor like 'M%'
+ order by cod_vendedor;
 
 select *
   from pedido
@@ -1863,7 +1864,7 @@ select *
 
 select *
   from vendedores
- where abreviada = 'YNAUPARI';
+ where abreviada = 'OVELARDE';
 
 select distinct indicador1 from vendedores;
 
@@ -1940,10 +1941,36 @@ select *
   from tab_descuento_gpolin
  where cod_linea in ('256', '283');
 
+
 select *
   from tab_grupos
  where grupo = 42;
 
+
 select *
   from tab_descuento_comercial
  where descripcion like '%BOSCH';
+
+
+select *
+  from vendedores
+ where estado = '1'
+   and supervisor = '01'
+ order by cod_vendedor;
+
+
+select *
+  from vendedores
+ where nombre like '%VELARDE%';
+
+select *
+  from nrodoc
+ where tipodoc = 'P2'
+   and serie = 20;
+
+select *
+  from pedidos
+ where serie = 20
+   and num_ped = 300325;
+
+select sysdate from dual;

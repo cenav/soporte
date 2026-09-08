@@ -56,7 +56,21 @@ select *
  where nuot_tipoot_codigo = 'AR'
    and extract(year from fecha) = 2025;
 
+
 select *
   from kardex_d
  where cod_art = 'VKBC 20014 AT-SKF'
    and fch_transac = to_date('30/12/2025', 'dd/mm/yyyy');
+
+
+select id_linea
+  from lineas_armado
+ where ip_linea = '10.0.0.139'
+   and programa = 'PRODUCCION_ARMADO_PRODUCCION';
+
+
+select *
+  from lineas_armado
+ where programa = 'PRODUCCION_ARMADO_PRODUCCION';
+
+-- linea 08 = 10.0.0.209

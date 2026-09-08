@@ -24,9 +24,15 @@ select *
   from exbooking_d
  where numero_booking = 'TCL0000150/2024';
 
+
+select *
+  from exproformas
+ where numero = 20864;
+
+
 select *
   from exproforma_d
- where numero = 20017;
+ where numero = 20864;
 
 select *
   from exproforma_d
@@ -99,7 +105,7 @@ select *
 
 select *
   from exproforma_libre
- where numero = 20379;
+ where numero = 20779;
 
 -- 20379 / 20380/ 20381/ 20382 / 20383
 
@@ -225,8 +231,8 @@ select *
 
 select *
   from expedido_d
- where numero = 16913
-   and cod_art = 'V 41015 R';
+ where numero = 16942
+   and cod_art = 'KIT AUTUS VK 95318 US1 R';
 
 select *
   from exproforma_d
@@ -837,3 +843,203 @@ select *
 select *
   from exclientes_detalle
  where texto like '%MEZCLAR%';
+
+select * from exclientes_descuentos_grupos;
+
+select * from exclientes_notacredito;
+
+select *
+  from exproformas
+ where numero = 20642;
+
+select *
+  from exproforma_d
+ where numero = 20642;
+
+select *
+  from expedidos
+ where numero = 17357;
+
+select *
+  from exproformas_expedidos
+ where numero_proforma = 20642;
+
+select d.numero, d.nro, d.id, d.cod_cliente, d.fecha
+     , d.cod_eqi, d.cod_art, d.descri1, d.descri2, d.descri3
+     , a.partida, d.cantp, d.canti, d.preuni, d.saldo
+     , d.totlin, d.saldo_ot, d.por_desc1, d.por_desc2, d.pneto
+     , d.nro_en_pedido, d.aprobacion, d.precio_lista, d.precio_aprobado, d.precio_solicitado
+     , d.tipo_aprobacion
+  from exproforma_d d
+     , articul_pev a
+ where d.numero = :proforma
+   and d.cod_art is not null
+   and nvl(d.nro_en_pedido, 0) = 0
+   and nvl(d.id, '0') = '0'
+   and a.cod_art = d.cod_art;
+
+select * from color_surtimiento;
+
+select *
+  from almacenes
+ where cod_alm = '71';
+
+select *
+  from almacenes
+ where descripcion like '%OBSERVADOS%';
+
+
+select *
+  from almacenes
+ where descripcion like '%MERMA%';
+
+
+select *
+  from comisiones_planilla
+ where ano = 2026
+   and mes = 6
+--    and origen = 'EXPO';
+ order by ano, mes, origen, cod_personal;
+
+
+select *
+  from expedido_d
+ where numero = 17045
+   and nro = 389;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1149593;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'AR'
+   and ot_numero = 1149593;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17045'
+   and per_env = '44';
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17045'
+   and formu_art_cod_art = 'FS 95450 MLS';
+
+
+select numero, nro, cod_art, canti
+  from expedido_d
+ where numero = 17045
+   and cod_art = 'FS 95450 MLS'
+   and nvl(id, '0') != 'AN';
+
+
+select f.serie, decode(f.serie, 'F055', (d.numero - 55000000), d.numero) as numero
+     , f.numero as numero_factura, f.referencia, d.nro
+     , d.cod_eqi, d.cod_art, d.descri1, tab_aux_obs(ar.unidad, 36) as unidad
+     , d.partida, d.canti, d.preuni, d.totlin, d.flete, d.seguro, d.gastos, d.otros, d.merca
+     , d.fob, d.cif, d.marca, get_marca_articulmae(d.cod_art) as marcas
+     , f.paclis, decode(nvl(x.idioma_factura, 'E'), 'E', a.descripcion_expo,
+                        a.descripcion_expo_ingles) as descripcion_oficial
+     , decode(nvl(x.idioma_factura, 'E'), 'E', r.nombre, r.name1) as partida_descripcion_oficial
+     , f.fecha as fecha_factura, ar.peso_std
+     , v.descripcion as vendedor, x.nombre as cliente, p.nombre as pais
+  from exfactura_d d
+     , exfacturas f
+     , articul_pev a
+     , exclientes x
+     , expartidas r
+     , articul ar
+     , extablas_expo v
+     , expaises p
+ where a.cod_art = d.cod_art
+   and x.cod_cliente(+) = d.cod_cliente
+   and r.partida(+) = a.partida
+   and d.numero = f.numero
+   and d.cod_art = ar.cod_art
+   ---
+   and f.zona = v.codigo
+   and v.tipo = '13' and v.codigo <> '....'
+   and x.pais = p.pais
+   ---
+   and nvl(f.estado, '0') != '9'
+   ----no van muestras---
+   and f.cond_pago != '111'
+   and f.cod_cliente = :p_cliente
+   and f.fecha between :p_fecha_ini and :p_fecha_fin
+   and not exists(
+   select 1
+     from exfacturas_his h
+    where h.accion = '92'
+      and h.numero = f.numero
+   )
+   and ((:p_embarcado = 'NO' and not exists(
+   select 1
+     from exfacturas_his h
+    where h.accion in ('70', '71', '73')
+      and h.numero = f.numero
+   )) or :p_embarcado = 'SI')
+ order by f.fecha, f.numero, nro;
+
+
+select d.pk_tipo, d.pk_serie, d.pk_numero, d.cod_eqi, d.cod_art, sum(d.canti) as cantidad, d.numero
+  from pk_detal d
+     , expedido_d p
+ where d.pk_numero = :p_packing
+   and p.numero = d.numero
+   and p.nro = d.nro_ped
+   and d.cod_art = :p_cod_art
+--    and d.cod_eqi = p_cod_eqi
+ group by d.pk_tipo, d.pk_serie, d.pk_numero, d.cod_eqi, d.cod_art, d.numero
+ order by d.cod_eqi, d.cod_art;
+
+
+select *
+  from pk_detal
+ where numero = 17045
+   and nro_ped in (388, 44);
+
+select *
+  from exfacturas
+ where paclis = 65818;
+
+
+select d.cod_cliente, d.partida, d.preuni, k.cod_art, k.cod_eqi, k.numero, k.nro_ped
+     , d.cod_art as cod_art_ped, d.cod_eqi as cod_eqi_ped
+  from pk_detal k
+     , expedido_d d
+ where k.pk_numero = 66908
+   and k.numero = d.numero
+   and k.nro_ped = d.nro
+   and nvl(d.id, ' ') <> 'AN'
+   and (k.cod_art <> d.cod_art
+   or k.cod_eqi <> d.cod_eqi
+   );
+
+select *
+  from pk_detal
+ where pk_numero = 66908
+   and numero = 17064
+   and nro_ped = 70;
+
+
+select *
+  from expedido_d
+ where numero = 17064
+   and nro = 70;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17064'
+   and per_env = '121'
+   and estado != '9';
+
+begin
+  lv_saldos_pendientes_xls.listado_para_vendedor();
+end;

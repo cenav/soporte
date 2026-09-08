@@ -1,11 +1,115 @@
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'PR'
---    and estado != '8'
---    and estado = '9'
---    and estado not in ('1', '9')
    and numero in (
-   652689
+                  661231, 650947, 659099, 583268, 673581, 673642, 673565, 656809, 665500
+   );
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  674182, 670101
+   );
+
+select id_programa
+  from pr_programa_emision
+ where estado < 9 and estado = '1';
+
+select * from pr_programas;
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+   670101
+   );
+
+
+select *
+  from pr_trasab_estado
+ where tipo = 'PR'
+   and numero in (
+   670101
+   )
+ order by fecha;
+
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT'
+   and cod_id_pk like '609089';
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 609089;
+
+-- no tiene ordenes con fecha de transacción mayor a la fecha de cierre
+select *
+  from kardex_g
+ where tipo_pguia = 'PR'
+   and serie_pguia = '8'
+   and numero_pguia in (
+                        660723, 660226, 659655, 648215, 651352, 660858, 624173, 662559, 624275,
+                        629389, 662719, 650452, 660242, 660848, 662544, 660839, 659583, 660835,
+                        629154, 650447, 652140, 663813, 566351, 660695, 653090, 649243, 653200,
+                        651285, 651278
+   )
+   and fch_transac > to_date('31/05/2026', 'dd/mm/yyyy');
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+   660320
+   );
+
+
+select *
+  from pr_programa_emision_ot
+ where numero = 665127;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+--    and estado = '1'
+   and numero in (
+   655516
+   );
+
+select *
+  from kardex_g
+ where tip_doc_ref = 'OS'
+   and nro_doc_ref = '409';
+
+select *
+  from os_serv_d
+ where id_numero = 330
+   and id_item in (58, 65)
+ order by id_item;
+
+select *
+  from os_serv_d
+ where pr_numero = 409;
+
+select *
+  from os_serv_d
+ where id_numero = 330 and id_serv = 58 and (
+   (:rad_op = '%')
+     or (:rad_op = '0' and oc_numero is null)
+     or (
+     (:rad_op = '1' and oc_numero is not null) and (pr_numero not in (
+       select nvl(ot_numero, 0)
+         from view_pr_guias_os
+       ))
+     )
+     or (
+     (:rad_op = '2' and oc_numero is not null) and (pr_numero in (
+       select ot_numero
+         from view_pr_guias_os
+       ))
+     )
    );
 
 --1426.0000
@@ -100,14 +204,12 @@ select numero, fecha, usuario, observacion as ip
                   657453, 657450, 657451
    );
 
-commit
 
 select *
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'PR'
    and numero in (
-                  614709, 614710, 614711, 614712, 614713, 614714, 614715, 614716, 614717, 614718,
-                  614719, 614720, 614721, 614722, 614723
+   652174
    );
 
 select *
@@ -1427,7 +1529,7 @@ select numero, fecha, estado, cant_prog, formu_art_cod_art as codigo, cod_lin
 select *
   from pr_ot_bolsas
  where nuot_tipoot_codigo = 'PR'
-   and numero = 583244;
+   and numero = 652174;
 
 -- INSERT INTO PEVISA.PR_OT_BOLSAS (NUMERO, NUOT_SERIE, NUOT_TIPOOT_CODIGO, BOLSA, FECHA, CANTIDAD, USUARIO, OBSERVACION, ESTADO, ID_TRABAJADOR, ID_ETIQUETA) VALUES (583244, '8', 'PR', 1, TIMESTAMP '2024-10-24 14:50:57', 4, 'JJUAREZ', '25.0.3.162', 1, '44736038', '08005832440001');
 
@@ -2709,3 +2811,281 @@ select *
                      655231, 655232, 655233, 655243, 655244, 656705
    )
    and art_cod_art like 'SER%';
+
+
+select *
+  from pr_ot
+ where numero in (
+   664807
+   )
+   and nuot_tipoot_codigo = 'PR'
+   and nuot_serie = '8'
+   and estado in (1)
+   and numero in (
+   select distinct cod_art
+     from tmp_filtro_plan_produccion
+   );
+
+
+select *
+  from tmp_filtro_plan_produccion
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 664807;
+
+select * from tmp_filtro_plan_produccion;
+
+select *
+  from pr_ordenes_partidas
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 664807;
+
+select *
+  from articul
+ where cod_art = 'LMC 170.535-6.5';
+
+select *
+  from pr_grupos_lineas
+ where cod_lin = '1352';
+
+select * from pr_grupos;
+
+select *
+  from vw_orden_prod_partir_d
+ where nuot_tipoot_codigo = 'PR'
+   and nuot_serie = '8'
+   and estado in (1)
+   and numero in (
+   select distinct cod_art
+     from tmp_filtro_plan_produccion
+   );
+
+select descripcion
+     , length(descripcion)
+  from articul
+ where cod_art = 'CA-73R-M';
+
+select *
+  from almacen
+ where stock > 0
+   and cod_alm = '01';
+
+select * from transacciones_almacen;
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'HREMUZGO'
+   and cod_alm = 'D2'
+   and tp_transac in ('84', '16');
+
+begin
+  enviar_correo(
+      msg_from => 'cnavarro@pevisa.pe'
+    , msg_to => 'cnavarro1112@gmail.com'
+    , msg_subject => 'nuevo zimbra erp'
+    , msg_text => 'a gmail'
+  );
+end;
+
+select *
+  from tab_lineas
+ where descripcion like '%DESCONT%';
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 665464;
+
+select *
+  from pr_ot_detalles
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (665463, 665464);
+
+select *
+  from pcmasters
+ where cod_art = 'FOR3560C';
+
+select *
+  from log_auditoria
+ where tabla = 'PCMASTERS';
+
+select *
+  from log_auditoria
+ where tabla = 'PCFORMULAS'
+   and accion = 'INSERT';
+
+select *
+  from solicita_cambio_ot
+ where ot_tpo = 'PR'
+   and ot_nro = 665464;
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT'
+   and cod_id_pk = 'PR-665464';
+
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT_DET'
+   and cod_id_pk = 'PR-665464';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero in (
+   select numero
+     from pr_ot
+    where nuot_tipoot_codigo = 'PR'
+      and estado = 1
+      and trunc(fecha) = trunc(sysdate)
+      and g_grupo_pieza_new(formu_art_cod_art) = 'G005'
+   )
+   and art_cod_art like 'SERV TROQ%';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+                  668803, 668953, 668758, 668759, 668818, 668760, 668795, 668796, 668718, 668719,
+                  668720
+   );
+
+select *
+  from log_auditoria
+ where tabla = 'PCFORMULAS'
+   and cod_id_pk = '380.641';
+
+select *
+  from pr_ot_det
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 29841;
+
+select *
+  from pr_ot_detalles
+ where ot_nuot_tipoot_codigo = 'PR'
+   and ot_numero = 29841;
+
+
+select *
+  from articul
+ where cod_art = 'SLIM CAUCHO GRANDE F';
+
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT'
+   and cod_id_pk = 'PR-660231';
+
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT_DET'
+   and cod_id_pk = 'PR-660231';
+
+
+select *
+  from solicita_cambio_ot
+ where ot_tpo = 'PR'
+   and ot_nro = 660231;
+
+
+select *
+  from emite_op_log
+ where tipo = 'PR'
+   and numero = 660231;
+
+select *
+  from tab_menu
+ where sistema = 'M_PRODUC_M'
+   and cod_menu in ('300202', '3002');
+
+
+select listagg(id_evaluacion, ' / ') within group (order by id_evaluacion)
+  from evaluacion
+ where id_evaluado = 'E1301'
+   and periodo_al = to_date('20/07/2026', 'dd/mm/yyyy');
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and estado not in ('8', '9')
+   and extract(year from fecha) between 2020 and 2025;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and estado not in ('8', '9')
+   and extract(year from fecha) = 2025;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero = 629023;
+
+select nuot_tipoot_codigo, numero, formu_art_cod_art, estado, desc_estado, programa, cant_prog
+     , cant_ingresado, cant_pendiente, fecha, fecha_descarga, dias_emision, dias_descarga
+  from vw_op_abiertas
+ where fecha between :del and :al
+ order by fecha, formu_art_cod_art;
+
+select *
+  from seccrus
+ where co_ctrctr = 'M_CALIDAD_M';
+
+
+select *
+  from pr_grupos
+ where id = '218';
+
+select *
+  from pr_grupos_lineas
+ where id_grupo = '218'
+   and cod_lin in ('2048', '2062');
+
+select *
+  from pr_grupos_lineas
+ where cod_lin = '2048';
+
+select *
+  from tab_lineas
+ where linea in ('2048', '2062');
+
+select *
+  from prod_subgrupo
+ where id_subgrupo = 'S065';
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_subgrupo = 'S065'
+   and id_linea in ('2048', '2062');
+
+select *
+  from prod_subgrupo_linea_rel
+ where id_linea = '2062';
+
+select *
+  from articul
+ where cod_art like 'CA-73R-K';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and abre01 like 'PRG%';
+
+select art_cod_art as cod_art, cant_ingresada, rendimiento, cant_base_cierre, cant_descargada
+     , saldo_descargar as saldo, min_permitido, max_permitido, estado
+  from pevisa.vw_produccion_cierre_descargas
+ where ot_nuot_tipoot_codigo = 'PR'
+--    and ot_nuot_serie = :pr_ot.nuot_serie
+   and ot_numero != 656778
+   and estado <> 'DENTRO DE TOLERANCIA'
+ order by art_cod_art;
+
+
+-- 2022
+-- pedidos ingresados
+-- calcular la explosion de la venta
+-- para calcular la meta
+-- venta vs produccion
+
+select * from auditoria_encabezado;

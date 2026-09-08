@@ -17,5 +17,10 @@ select *
    and ot_serie = 8
    and nro_ser_lote = 629959
    and ing_sal = 'I'
-   and estado < '8'
+   and estado < '8';
 --    and cod_art = 629959;
+
+
+select *
+  from wms_solimat_sol
+ where numero = 217285;

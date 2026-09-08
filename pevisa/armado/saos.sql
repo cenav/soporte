@@ -5,7 +5,13 @@ select *
 select *
   from pr_ot
  where nuot_tipoot_codigo = 'SA'
-   and numero in (1047, 1691);
+   and numero in (5772);
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'SA'
+   and extract(year from fecha) = 2026
+ order by fecha;
 
 select *
   from pr_ot

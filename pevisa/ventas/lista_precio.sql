@@ -25,13 +25,22 @@ select t.cod_art, t.importe_igv
 
 select *
   from lispred
- where nro_lista = '95';
+ where nro_lista = 1;
 
-select * from tab_descuento_gpolin;
+select * from lispreg;
+
+select *
+  from lispred
+ where nro_lista = 1
+   and cod_art = 'R-MB 161152-AKU';
 
 select *
   from tab_descuento_gpolin
- where cod_grupo = '39';
+ where cod_linea = '55';
+
+select *
+  from tab_descuento_gpolin
+ where cod_linea = '78';
 
 select * from tab_grupo_venta;
 

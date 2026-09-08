@@ -1,12 +1,12 @@
 declare
-  k_nueva_cantidad constant pls_integer := 12;
+  k_nueva_cantidad constant pls_integer := 40;
   l_items_cambiados pls_integer := 0;
 
   cursor cr_ordenes is
     select *
       from pr_ot
      where nuot_tipoot_codigo = 'AR'
-       and numero = 1047645      ;
+       and numero = 1149593;
 begin
   for r in cr_ordenes loop
     update pr_ot

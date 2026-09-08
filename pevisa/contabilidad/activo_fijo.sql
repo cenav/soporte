@@ -7,7 +7,7 @@ select *
 
 select *
   from transacciones_almacen
- where tp_transac = '22';
+ where tp_transac = '37';
 
 select *
   from numdoc
@@ -134,3 +134,37 @@ select * from activo_fijo_estado;
 select *
   from articul
  where cod_art in ('EQLAB1', 'EQLAB5', 'EQLAB6');
+
+select *
+  from activo_fijo
+ where cod_activo_fijo in (
+                           'LICENCIA A.CAD38', 'LICENCIA COREL22', 'CPUC57', 'CPUC57-MONI',
+                           'AC1PJEB-004', '02ELEV22', '03TORN1', '03TORN2', 'MQ1PJEB-033',
+                           '02VENT27'
+   );
+
+
+select * from activo_fijo_estado;
+
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'SECV ARMADO PT MAN3';
+
+
+select *
+  from nroafijo
+ where cod_activo_fijo = 'SECV ARMADO PT';
+
+
+select *
+  from activo_fijo
+ where cod_activo_fijo = 'SECV ARMADO PT';
+
+
+declare
+  l_next nroafijo.numero%type;
+begin
+  l_next := api_nroafijo.next_key('SECV ARMADO PT', 'MAN');
+  dbms_output.put_line(l_next);
+end;

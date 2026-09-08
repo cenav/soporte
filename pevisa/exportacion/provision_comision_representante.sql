@@ -1,16 +1,16 @@
 select *
   from exprovision_comision
- where periodo_ano = 2024
-   and periodo_mes = 4;
+ where periodo_ano = 2026
+   and periodo_mes = 6;
 
 select *
   from exprovision_comision_det
- where periodo_ano = 2024
-   and periodo_mes = 4;
+ where periodo_ano = 2026
+   and periodo_mes = 6;
 
 declare
-  c_ano constant pls_integer := 2024;
-  c_mes constant pls_integer := 4;
+  c_ano constant pls_integer := 2026;
+  c_mes constant pls_integer := 6;
 begin
 
   delete

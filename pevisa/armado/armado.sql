@@ -1,24 +1,65 @@
--- 24-27-1-1716185
--- 08-06-1-892606
--- 08-27-1-1716186
--- 08-29-1-2008794
--- 01-17-1-845548
+select numero, cant_prog, abre01, per_env, destino --> 1 expo 2 nac
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+                  1185683, 1185653
+   );
+
 
 select *
   from pr_ot
- where nuot_tipoot_codigo = 'SA'
+ where nuot_tipoot_codigo = 'AR'
    and numero in (
-   13841
+   1125634
    );
 
-select * from pr_estados;
+select *
+  from pr_ot
+ where abre01 = '17196'
+   and per_env = 9;
+
+
+select numero, nro, preuni, canti
+  from expedido_d
+ where numero = 17196
+   and nro = 9;
+
+
+select * from expednac;
+
+
+select * from expednac_d;
+
+
+select *
+  from pr_ot
+ where abre01 = 17342
+   and per_env = 9;
+
+
+select * from pr_estados order by 1;
+
 
 select *
   from pr_ot_det
  where ot_nuot_tipoot_codigo = 'AR'
    and ot_numero in (
-   1127467
+   1175157
    );
+
+select *
+  from log_auditoria
+ where tabla = 'PR_OT_DET'
+   and cod_id_pk = 'AR-1175157';
+
+select *
+  from pr_ot_historia
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1175157;
+
+-- 1335.0000
+-- 1335.0000
+-- 6675.0000
 
 select *
   from expedido_d
@@ -53,7 +94,9 @@ select *
 select *
   from pr_ot_impresion
  where nuot_tipoot_codigo = 'AR'
-   and numero in (1142406, 1136784);
+   and numero in (
+                  1175488, 1176059, 1147400, 1147333, 1175488
+   );
 
 select *
   from pr_ot_impresion
@@ -114,7 +157,7 @@ select *
   from pr_trasab_estado
  where tipo = 'AR'
    and numero in (
-   1050925
+   1160367
    )
  order by fecha desc;
 
@@ -1295,3 +1338,181 @@ select *
  where tipo = 'AR'
    and serie = 3
    and numero = 1148769;
+
+select sysdate from dual;
+
+select *
+  from articul
+ where cod_art = '92020/20-CH GR';
+
+select *
+  from tab_lineas
+ where linea = '100';
+
+select *
+  from tfamlin
+ where cod_fam = '001'
+   and cod_lin = '100'
+ order by cod_lin;
+
+select *
+  from articul
+ where cod_art = 'CHP 95237 GR';
+
+select *
+  from pr_ot_bolsas
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+                  1175488, 1176059, 1147400, 1147333, 1175488
+   );
+
+select * from pr_estados order by estado;
+
+select * from pr_estados_sao;
+
+select *
+  from estimado_armado
+ where numero in (
+                  1183925, 1180615, 1180624, 1180595, 1180553, 1180552, 1180497, 1180617, 1180606,
+                  1180518, 1180573, 1180551, 1180576, 1180616, 1180555, 1180521, 1180529, 1180502,
+                  1180500, 1180519, 1180557, 1180556, 1180544, 1180593, 1180620, 1180618, 1180541,
+                  1180543
+   );
+
+select * from lineas_armado;
+
+select *
+  from expedido_d
+ where numero = 17043;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17043'
+   and per_env = 29
+   and estado != '9';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero = 1184913;
+
+update pr_ot
+   set fecha_cierre = decode(x_estado, '6', :BLK_DATA.fecha, fecha_cierre)
+     , estado       = x_estado
+ where nuot_tipoot_codigo = :PR_OTS.nuot_tipoot_codigo
+   and nuot_serie = :PR_OTS.nuot_serie
+   and numero = :PR_OTS.numero;
+
+
+
+select distinct prod_get_cliente_xpedido(po.abre01, po.destino) as cod_cliente, po.abre01, po.abre02
+              , pa.dato_agrupa, po.destino
+  from produccion_armado pa
+     , pr_ot po
+ where po.numero = pa.numero_oa
+   and po.nuot_tipoot_codigo = 'AR'
+   and po.nuot_serie = 3
+   and po.abre01 = 17072
+--    and po.numero = 1160367
+   and po.estado in (3, 4, 5, 6)
+ order by 1, abre01, dato_agrupa;
+
+select *
+  from produccion_armado
+ where abrev_ped = '17072'
+   and dato_agrupa != '1-17072';
+
+-- 1142358
+-- 1140822
+-- 1142425
+-- 1173129
+-- 1140766
+-- 1140800
+-- 1173452
+-- 1145041
+-- 1140827
+-- 1140768
+-- 1173509
+-- 1173204
+-- 1178644
+-- 1174388
+-- 1145042
+-- 1185990
+-- 1184950
+-- 1184961
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17072';
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+                  1176916, 1177391, 1176937, 1177063, 1177371, 1177360, 1177065, 1176521, 1176675
+   );
+
+select *
+  from pr_ot_impresion
+ where nuot_tipoot_codigo = 'AR'
+   and numero in (
+                  1176916, 1177391, 1176937, 1177063, 1177371, 1177360, 1177065, 1176521, 1176675
+   )
+ order by fecha;
+
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17335'
+   and destino = '1'
+   and estado = '9';
+
+
+select *
+  from expedidos
+ where numero = 17335;
+
+
+select *
+  from expedido_d
+ where numero = 17335;
+
+-- 3	AN
+-- 19	AN
+-- 30	AN
+-- 45	AN
+-- 44	AN
+
+
+select *
+  from exproformas
+ where numero = 20642;
+
+
+select *
+  from exproformas_expedidos
+ where numero_proforma = 20642;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '37';
+
+select *
+  from almacenes
+ where cod_alm = 'KT';
+
+
+select saldo_pk
+  from expedido_d
+ where numero = 17064
+   and nro = 215
+   and cod_art = 'FS 80040 TG';
+
+
+select *
+  from expedido_d
+ where numero = 17064
+   and nro = 215;

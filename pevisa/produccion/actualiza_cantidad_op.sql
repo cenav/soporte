@@ -1,12 +1,12 @@
 declare
-  k_num_op    constant number := 656701;
-  k_cant_prog constant number := 1988;
+  k_num_op    constant number := 409;
+  k_cant_prog constant number := 1000;
   l_lote               number := 0;
 begin
      update pr_ot
         set cant_prog = k_cant_prog
-      where nuot_tipoot_codigo = 'PR'
-        and nuot_serie = 8
+      where nuot_tipoot_codigo = 'OS'
+        and nuot_serie = 1
         and numero = k_num_op
   returning lote into l_lote;
 
@@ -15,7 +15,7 @@ begin
   update pr_ot_det d
      set d.cant_formula    = (k_cant_prog * d.rendimiento) / nullif(l_lote, 0)
        , d.cant_despachada = (k_cant_prog * d.rendimiento) / nullif(l_lote, 0)
-   where d.ot_nuot_tipoot_codigo = 'PR'
+   where d.ot_nuot_tipoot_codigo = 'OS'
      and d.ot_numero = k_num_op;
 exception
   when others then

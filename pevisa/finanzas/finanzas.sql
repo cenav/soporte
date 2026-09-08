@@ -1,22 +1,41 @@
 select *
   from movfigl
- where ano = 2025
+ where ano = 2026
    and mes = 8
-   and tipo = '3'
+   and tipo = '2'
  order by voucher desc;
+
+
+select *
+  from movfigl
+ where ano = 2026
+   and mes = 8
+   and tipo = '2'
+   and voucher = 84073;
+
 
 select *
   from movfide
- where ano = 2025
+ where ano = 2026
    and mes = 8
-   and tipo = '3'
-   and voucher = 80014;
+   and tipo = '2'
+   and voucher = 84073;
+
+
+select *
+  from movfigl_historia
+ where ano = 2026
+   and mes = 8
+   and tipo = '2'
+   and voucher = 84073;
+
 
 select *
   from nrotipo
  where ano = 2025
    and mes = 8
    and tipo = '3';
+
 
 select *
   from factpag
@@ -27,6 +46,7 @@ select *
   from factpag
  where cod_proveedor = '20611401486'
    and numero = '0000037';
+
 
 select *
   from orden_de_compra
@@ -83,7 +103,7 @@ select *
 --17/11/2024 al  23/11/2024
 select *
   from tab_semanas
- where extract(year from del) = 2025
+ where extract(year from del) = 2026
  order by al;
 
 select *
@@ -458,3 +478,31 @@ select *
    and enumero = '436885';
 
 select sysdate from dual;
+
+select *
+  from pagos_i
+ where numero_planilla = 4044
+   and serie_planilla = 3;
+
+select *
+  from pagos_h
+ where numero_planilla = 4044
+   and serie_planilla = 3;
+
+select *
+  from proveed
+ where nombre like '%LINUX%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20600735668'
+ order by fecha desc;
+
+select *
+  from almacenes
+ where cod_alm in ('71');
+
+
+select *
+  from almacenes
+ where descripcion like '%TEMP%';

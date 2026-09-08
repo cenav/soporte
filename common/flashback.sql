@@ -998,6 +998,34 @@ select *
 
 
 select *
-  from usuarios_almacenes_perfil as of timestamp to_timestamp('17-02-2026 11:59:00', 'DD-MM-YYYY HH24:MI:SS')
+  from usuarios_almacenes_perfil as of timestamp to_timestamp('17-02-2026 11:59:00',
+                                                              'DD-MM-YYYY HH24:MI:SS')
  where tp_transac in ('15', '31', '28')
    and usuario not in ('BETY', 'APASTRANA', 'PEVISA');
+
+insert into kardex_g
+select *
+  from kardex_g as of timestamp to_timestamp('24-06-2026 17:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = '72'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1726879;
+
+insert into kardex_d
+select *
+  from kardex_d as of timestamp to_timestamp('24-06-2026 17:00:00', 'DD-MM-YYYY HH24:MI:SS')
+ where cod_alm = '72'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1726879;
+
+select *
+  from kardex_d_otros
+ where cod_alm = '72'
+   and tp_transac = '27'
+   and serie = 1
+   and numero = 1726879;
+
+select *
+  from produccion_armado as of timestamp to_timestamp('03-07-2026 15:05:00', 'DD-MM-YYYY HH24:MI:SS')
+ where numero_oa = 1170734;

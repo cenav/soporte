@@ -1,6 +1,6 @@
 -- cambia el tipo de transaccion y la serie que son el id correlativo
 declare
-  k_trx_new constant numdoc.tp_transac%type := '30';
+  k_trx_new constant numdoc.tp_transac%type := '08';
   l_num              numdoc.numero%type     := 0;
   l_kardexg_changes  pls_integer            := 0;
   l_kardexd_changes  pls_integer            := 0;
@@ -18,11 +18,11 @@ declare
 --        );
     select *
       from kardex_g g
-     where cod_alm = 'F0'
-       and tp_transac = '22'
-       and serie = 45
+     where cod_alm = '31'
+       and tp_transac = '16'
+       and serie = 1
        and numero in (
-       161
+       216395
        );
 
 begin

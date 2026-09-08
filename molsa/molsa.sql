@@ -92,18 +92,18 @@ select *
  where cod_prestamo = '19012023';
 
 select *
-  from orden_de_compra
- where serie = 3
-   and num_ped = 921;
-
-select *
   from lg_condpag
  where upper(descripcion) like '%ADEL%30%';
 
 select *
+  from orden_de_compra
+ where serie = 3
+   and num_ped = 1194;
+
+select *
   from itemord
  where serie = 3
-   and num_ped = 922;
+   and num_ped = 1194;
 
 select *
   from movdeta d
@@ -225,7 +225,7 @@ select o.num_ped, p.nombre, o.estado, o.cod_proveed, o.fecha, (o.fecha + o.plazo
 select *
   from orden_de_compra
  where serie = 3
-   and num_ped = 894;
+   and num_ped = 1194;
 
 select *
   from orden_de_compra_historia

@@ -31,7 +31,7 @@
 select *
   from pk_gnumero
  where pk_numero in (
-   65248
+   66641
    );
 
 --::::::::::::::::::::::::::::::::::::--
@@ -65,12 +65,12 @@ select *
 -- cartones (cajas)
 select *
   from pk_pesos
- where pk_numero = 63160
-   and packlis = 169646
+ where pk_numero = 66908
+   and packlis = 170654
    and pk_serie = '1'
    and pk_tipo = 'PK'
-   and numero_paleta = 6
-   and caja = 'Z6';
+   and numero_paleta = 2
+   and caja = 'A2';
 
 -- cartones (cajas)
 -- cambia caja de paleta
@@ -95,11 +95,15 @@ update pk_pesos
 -- productos en caja
 select *
   from pk_detal
- where pk_numero = 63160
-   and packlis = 169646
+ where pk_numero = 66908
+   and packlis = 170654
    and pk_serie = '1'
    and pk_tipo = 'PK'
-   and caja = 'LL4';
+   and caja = 'N2';
+
+-- si al intentar insetar en pk_detal salta el trigger TIA_PK_DETAL
+-- o si se genera pk_detal vació es porque han cambiado el código del pedido
+-- pero no han cambiado en packing
 
 -- antiguo
 select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni
@@ -141,7 +145,7 @@ select d.pk_numero, d.cod_art, d.cod_eqi, d.canti, e.preuni, p.pneto, p.pbruto
 select *
   from pk_gnumero
  where pk_numero in (
-   59965
+                     1185683, 1185653
    );
 
 update pk_paletas_cierre c
@@ -159,8 +163,27 @@ update pk_paletas_cierre c
    );
 
 --::::::::::::::::::::::::::::::::::::--
+--        cambia codigo cliente       --
 --::::::::::::::::::::::::::::::::::::--
 
+select *
+  from prod_term_paletas
+ where cod_cliente = '998144';
+
+select *
+  from prod_term_paletas
+ where cod_paleta in (
+                      18572, 18075, 18214, 18894, 18930
+   );
+
+select *
+  from prod_term_paletas
+ where cod_cliente = '990816'
+ order by cod_paleta desc;
+
+
+--::::::::::::::::::::::::::::::::::::--
+--::::::::::::::::::::::::::::::::::::--
 
 select sum(canti)
   from pk_pesos
@@ -599,3 +622,108 @@ select *
    and tp_transac = '26'
    and serie = 19
    and numero = 25850;
+
+-- packing por pedido
+select pk_numero, fecha, estado, cod_cliente, marca1, marca2, total_cantidad, total_cajas
+     , total_paletas
+  from pk_gnumero
+ where estado not in ('0', '7', '9')
+ order by fecha desc;
+
+select *
+  from tab_menu
+ where sistema = 'M_PACKING_M'
+   and cod_menu = '6014'
+   and estado != 0;
+
+select distinct 'N'
+  from pk_paletas_cierre
+ where pk_numero = 67003
+   and numero_paleta = :LR_DATA.numero_paleta;
+
+
+select *
+  from pk_paletas_cierre
+ where pk_numero = 66920
+   and numero_paleta >= 3;
+
+
+select *
+  from pk_paletas_cierre
+ where pk_numero = 65733;
+
+-- INSERT INTO PEVISA.PK_PALETAS_CIERRE (PK_TIPO, PK_SERIE, PK_NUMERO, NUMERO_PALETA, ESTADO, FECHA_CIERRE, USUARIO, PALETA_COD_ALM, PALETA_TP_TRANSAC, PALETA_SERIE, PALETA_NUMERO, CAJA_COD_ALM, CAJA_TP_TRANSAC, CAJA_SERIE, CAJA_NUMERO, MATERIAL_COD_ALM, MATERIAL_TP_TRANSAC, MATERIAL_SERIE, MATERIAL_NUMERO) VALUES ('PK', '1', 65733, 1, '2', TIMESTAMP '2026-03-31 16:53:43', 'YCHUNGA', '27', '22', 1, 338605, '27', '22', 1, 338606, '27', '22', 1, 338607);
+
+select * from view_prodterm_pedidos;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'AR'
+   and abre01 = '17033'
+   and numero = 1135967;
+
+select prod_get_cliente_xpedido(17033, 1) from dual;
+
+select *
+  from exclientes
+ where cod_cliente = '990816';
+
+select *
+  from prod_term_paletas
+ where cod_cliente = 998144
+   and cod_paleta in (18637, 18189, 18386);
+
+select *
+  from prod_term_paletas
+ where cod_cliente = 990816
+   and cod_paleta in (18637, 18189, 18386);
+
+
+select *
+  from pk_glosa
+ where pk_numero = 67274;
+
+
+select pp.cod_paleta, pp.cod_cliente, pp.estado, pp.tipo_paleta, pp.peso, pp.altura, pp.volumen
+     , pa.abrev_cli, pa.dato_agrupa, pc.destino, pk.pk_tipo, pk.pk_serie, pk.pk_numero, pk.fecha
+     , pk.transporte_medio, pk.numero_paleta, pk.estado as pk_estado, pk.sguia_numero
+     , pk.sguia_fecha, count(distinct pc.cod_caja) as ncajas
+  from prod_term_paletas pp
+     , produccion_armado_cajas pc
+     , produccion_armado_cajas_det cd
+     , produccion_armado pa
+     , pk_glosa pk
+ where pp.cod_paleta = pc.cod_paleta(+)
+   and pc.cod_caja = cd.cod_caja(+)
+   and cd.numero_oa = pa.numero_oa(+)
+   --PACKIN VS PALETA
+   and pp.cod_paleta = pk.cod_paleta(+)
+   and nvl(pk.estado, 'NULL') in ('0', '2', 'B', 'G', 'NULL')
+ group by pp.cod_paleta, pp.cod_cliente, pp.estado, pp.tipo_paleta, pp.peso, pp.altura, pp.volumen
+        , pa.abrev_cli, pa.dato_agrupa, pc.destino, pk.pk_tipo, pk.pk_serie, pk.pk_numero, pk.fecha
+        , pk.transporte_medio, pk.numero_paleta, pk.estado, pk.sguia_numero, pk.sguia_fecha
+ order by pp.cod_cliente, pa.dato_agrupa, pk.pk_numero, numero_paleta;
+
+
+select *
+  from pk_detal
+ where numero = 17983;
+
+
+select cod_cliente
+  from pk_gnumero
+ where pk_numero = :p_numero
+   and pk_serie = :p_serie;
+
+select *
+  from pk_gnumero
+ where pk_numero = 67274;
+
+select *
+  from exclientes
+ where cod_cliente = 998144;
+
+select cod_cliente, nombre, direcc || ' ' || direc2, ciudad, pais, ruc
+  into :XCOD_CLIENTE,:XNOMBRE,:XDIRECC,:XCIUDAD,:XPAIS,:XRUC
+  from exclientes
+ where cod_cliente = :xcod_cliente;

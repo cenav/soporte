@@ -452,3 +452,7 @@ select b.c_jefe, e.nombres, e.apellido_paterno, e.email
 select *
   from vw_permisos
  where numero = 72293;
+
+select *
+  from permiso
+ where numero = 76342;

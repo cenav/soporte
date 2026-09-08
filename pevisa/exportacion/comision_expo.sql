@@ -85,3 +85,38 @@ select sum(detalle.total_expo)
   from detalle
  where ano = 2025
    and mes = 2;
+
+select r.ano, r.mes, v.cod_personal, v.cod_vendedor
+     , sum(decode(nvl(r.incentivo, 'N'), 'N', r.comision, 'S', 0)) as comision
+     , sum(decode(nvl(r.incentivo, 'N'), 'S', r.comision, 'N', 0)) as incentivo
+     , sysdate, :p_moneda, 'EXPO'
+  from excomision_resumen r
+     , extablas_expo t
+     , vendedores v
+ where r.vendedor = t.codigo
+   and t.lista_pre = v.cod_vendedor
+   and t.tipo = '13'
+   and t.codigo <> '....'
+   and r.ano = :ano
+   and r.mes = :mes
+ group by r.ano, r.mes, v.cod_personal, v.cod_vendedor, sysdate, :p_moneda, 'EXPO';
+
+
+select *
+  from excomision_resumen
+ where ano = 2026
+   and mes = 6
+   and vendedor = '02'
+   and incentivo = 'N';
+
+select *
+  from comisiones_planilla
+ where ano = 2026
+   and mes = 6
+   and origen = 'EXPO';
+
+select numero, fecha, nombre, tbruto, cod_cliente, zona as vendedor, packing_agrupar
+  from exproformas
+ where estado not in ('8', '9')
+   and numero = 20642
+ order by numero desc;

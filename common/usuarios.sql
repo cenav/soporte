@@ -1,9 +1,9 @@
-alter user mdiazh account unlock;
+alter user caucho account unlock;
 
-alter user cchayco account lock;
+alter user jhermoza account lock;
 
 -- alter user rrodriguez identified by "$rodrichx9";
-alter user mpanez identified by "pevisa.123";
+alter user rrodriguez identified by "$rodrichx9";
 
 alter user evaliente password expire;
 
@@ -14,11 +14,11 @@ alter user armado profile default;
 -- Account locked
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%MDIAZH%';
+ where username like '%CAUCHO%';
 
--- drop user evasquez cascade;
+drop user csuarez cascade;
 
-alter trigger tbu_pr_ot_cambio_anulado enable;
+alter trigger tbiu_componentes_importados enable;
 
 
 -- revisar correos cuando se eliminan
@@ -66,12 +66,13 @@ select s.owner as syn_owner
 -- acceso MGVENTAS
 select *
   from seccrus
- where co_ctrctr = 'M_PRODUC_M'
-   and co_usrusr = 'CWONG';
+ where co_ctrctr = 'M_EXPO_M'
+   and co_usrusr = 'JAIME';
 
 insert into seccrus(co_usrusr, co_ctrctr)
 values
   ('EALVITES', 'M_SOLIMAT_M');
+
 
 -- rodrichx
 
@@ -109,12 +110,14 @@ select *
 
 select *
   from dba_source
- where upper(text) like upper('%ALERTA DE VENCIMIENTO%')
+ where upper(text) like upper('%CIERRE DE VENTAS EXPORTACION%')
    and owner = 'PEVISA';
+
+-- ctacob>contab>reporte>contab>balance>balance compoc y vc excel
 
 select *
   from all_source
- where upper(text) like upper('%baterigama%')
+ where upper(text) like upper('%PERMISO DE SALIDA NRO.%')
    and owner = 'PEVISA';
 
 select owner, table_name
@@ -190,7 +193,8 @@ select *
 
 select *
   from seccrus
- where co_usrusr in ('JNEYRA', 'PCALDERON');
+ where co_usrusr in ('JQUISPEB', 'APASTRANA')
+ order by co_usrusr;
 
 -- copia menu a usuario
 insert into tab_menu
@@ -249,7 +253,7 @@ select *
 
 select *
   from usuarios
- where usuario like ('%BHUARA%');
+ where usuario like ('%JMEDINA%');
 
 select *
   from vw_personal
@@ -263,7 +267,12 @@ select * from aut_rol_usuario;
 
 select *
   from usuario_modulo
- where usuario = 'RGONZALES';
+ where usuario = 'APASTRANA';
+
+select *
+  from usuario_modulo
+ where modulo = 'PLANEAMIENTO'
+ order by usuario;
 
 select *
   from usuarios_almacenes
@@ -552,7 +561,7 @@ select *
 
 select *
   from seccrus
- where co_usrusr = 'HCHALCO'
+ where co_usrusr = 'APASTRANA'
  order by co_ctrctr;
 
 select *
@@ -658,8 +667,12 @@ select *
 
 select *
   from usuarios_almacenes_perfil
- where usuario = 'MJUAREZ'
-   and cod_alm = 'A1';
+ where usuario = 'JMEJIA'
+   and cod_alm = '48';
+
+select *
+  from transacciones_almacen
+ where tp_transac in ('16', '27');
 
 select *
   from pr_usualma
@@ -1509,7 +1522,7 @@ select *
 
 select *
   from almacenes
- where descripcion like '%BSF%';
+ where descripcion like '%DIFERENC%';
 
 select *
   from usuario_modulo
@@ -1781,3 +1794,52 @@ select *
 select *
   from almacenes
  where cod_alm_transito = '72';
+
+select *
+  from kardex_g_historia
+ where cod_alm = '62'
+   and tp_transac = '22'
+   and serie = 1
+   and numero = 332399;
+
+select *
+  from ot_mantto
+ where id_tipo = 'MQ'
+   and id_serie = 2
+   and id_numero = 1453;
+
+select *
+  from clientes
+ where email = 'pepeperezlara@gmail.com';
+
+select *
+  from clientes
+ where email = 'matse21032005@gmail.com';
+
+select *
+  from vw_solicitud_pedido
+ where comprador_asignado_correo = 'richard.carrion@pevisa.com.pe';
+
+select *
+  from usuario_modulo
+ where modulo = 'EMBARQUES'
+   and usuario = 'APASTRANA';
+
+select sysdate from dual;
+
+-- por pais sacar promedio de pago (fecha de embarque -> fecha de pago)
+-- ver que documentos entraron en los dias promedios de pago
+-- lo que no esta transmitido debe llegar alerta de lo pendiente
+
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
+
+select *
+  from transacciones_almacen
+ where tp_transac = '18';
+
+
+select * from pla_control;

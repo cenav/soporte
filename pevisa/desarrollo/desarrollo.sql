@@ -150,28 +150,45 @@ select *
    and extract(year from fch_transac) = 2024;
 
 
-select * from tab_lineas
+select *
+  from tab_lineas
  where linea = '1972';
 
-select * from tab_lineas
+select *
+  from tab_lineas
  where tp_art = 'X';
 
-select * from tab_lineas
-where linea = '2313';
+select *
+  from tab_lineas
+ where linea = '2313';
 
-select * from tfamlin
-where cod_lin = '2313';
-
-select * from articul
+select *
+  from tfamlin
  where cod_lin = '2313';
 
-select * from articul
+select *
+  from articul
+ where cod_lin = '2313';
+
+select *
+  from articul
  where cod_art = 'PORTA STD. PH300TN-2-I';
 
-select * from tfamlin
+select *
+  from tfamlin
  where cod_lin = '1817';
 
-select * from pr_grupos_lineas
-where cod_lin = '1817';
+select *
+  from pr_grupos_lineas
+ where cod_lin = '1817';
 
 
+
+select * from vw_articulo_browser;
+
+select *
+  from pr_ot
+ where nuot_tipoot_codigo = 'PR'
+   and numero in (
+   609089
+   );

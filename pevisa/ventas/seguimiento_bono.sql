@@ -264,7 +264,7 @@ select * from seguimiento_bono;
 
 select *
   from seguimiento_bono_d
- where id_seguimiento = 3
+ where id_seguimiento = 3;
 
 -- create or replace view vw_seguimiento_bono as
 -- seguimiento bono
@@ -275,7 +275,7 @@ select *
            join cominac_contrato_item i on c.cod_contrato = i.cod_contrato
            join cominac_concepto e on i.cod_concepto = e.cod_concepto
            join seguimiento_bono_d s on e.cod_concepto = s.cod_concepto
-     where s.id_seguimiento = 2
+     where s.id_seguimiento = 3
 --        and e.cod_concepto = 516
     )
      , rangos as (
@@ -308,7 +308,7 @@ select *
             where cod_concepto = c.cod_concepto
            )))
 --        and fecha between c.vigencia_del and c.vigencia_al
-       and fecha between to_date('01/01/2026', 'dd/mm/yyyy') and to_date('31/03/2026', 'dd/mm/yyyy')
+       and fecha between to_date('01/04/2026', 'dd/mm/yyyy') and to_date('30/06/2026', 'dd/mm/yyyy')
        and ((c.lineas = 'TODO'
        and cod_lin like '%')
        or (c.lineas = 'ESTABLECIDO'

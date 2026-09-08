@@ -74,10 +74,10 @@ select *
 --:::::::::::::::::::::::::::::::::::::::::--
 select *
   from kardex_g_guia_remision
- where cod_alm = 'D3'
+ where cod_alm = '30'
    and tp_transac = '35'
-   and serie = 139
-   and numero in (5364);
+   and serie = 118
+   and numero in (1013);
 
 -- INSERT INTO PEVISA.KARDEX_G_GUIA_REMISION (GUIA_SERIE, GUIA_NUMERO, FECHA_TRASLADO, UBIGEO_PARTIDA, UBIGEO_LLEGADA, DIRECCION_LLEGADA, RUC, COD_ALM, TP_TRANSAC, SERIE, NUMERO, MOTIVO_TRASLADO, TRANSPORTE_EMPRESA, TRANSPORTE_CHOFER, TRANSPORTE_UNIDAD, BULTOS, PESO, NRO_SUCURSAL_PARTIDA, NRO_SUCURSAL_LLEGADA, MODALIDAD_TRASLADO, DETALLE, CONTENEDOR, PRECINTO, NUMERO_DOCUMENTO_RELACIONADO, CODIGO_DOCUMENTO_RELACIONADO, DESCRI_DOCUMENTO_RELACIONADO, PESO_ITEMS, PK_SERIE, PK_NUMERO, PK_TIPO, RUC_LLEGADA, DESCRIPCION_MOTIVO_TRASLADO, CODIGO_ESTABLECIMIENTO_PARTIDA, CODIGO_ESTABLECIMIENTO_LLEGADA, FECHA_EMISION, PRECINTO_LINEA, CARRETA, MARCA_1, CARTONES, MARCA_2, MARCA_3) VALUES ('T139', 5364, DATE '2026-04-07', '150103', '150103', 'AV. SEPARADORA INDUSTRIAL 2187 URB.VULCANO LIMA 03', '20100084768', 'D3', '35', 139, 5364, '04', '20100084768', '01', '32', 1.00, 10.0000, '06', '04', '02', 'PARA SEPARADORA-MARIELA-RECTIFICACION DE EMBOLSADO', null, null, null, null, null, 10.0000, null, null, null, '20100084768', 'TRASLADO ENTRE ESTABLECIMIENTO', '0000', '0011', TIMESTAMP '2026-04-07 18:59:39', null, null, null, null, null, null);
 
@@ -99,8 +99,8 @@ select *
 
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T180'
-   and guia_numero = '900'
+ where guia_serie = 'T131'
+   and guia_numero = '4382'
  order by guia_numero desc;
 
 select *
@@ -113,8 +113,8 @@ select *
 -- F0	21	25	22027
 select *
   from kardex_g_guia_remision
- where guia_serie = 'T143'
-   and guia_numero = 523;
+ where guia_serie = 'T140'
+   and guia_numero = 6650;
 
 select max(guia_numero)
   from kardex_g_guia_remision
@@ -122,23 +122,33 @@ select max(guia_numero)
 
 select *
   from kardex_g
- where cod_alm = 'F0'
-   and tp_transac = '21'
-   and serie = 25
+ where cod_alm = '01'
+   and tp_transac = '25'
+   and serie = 118
    and numero in (
-   45668
+   1042
    );
 
 select *
-  from kardex_g
- where cod_alm = '';
+  from kardex_d
+ where cod_alm = '01'
+   and tp_transac = '25'
+   and serie = 118
+   and numero in (
+   1042
+   );
+
+
 
 select *
-  from kardex_d
- where cod_alm = 'D3'
-   and tp_transac = '35'
-   and serie = 139
-   and numero = 3821;
+  from kardex_dpk
+ where cod_alm = '01'
+   and tp_transac = '25'
+   and serie = 118
+   and numero in (
+   1013
+   );
+
 
 select *
   from kardex_d
@@ -888,17 +898,21 @@ select *
  where cod_art = 'CL-O 290.3791ZN'
  order by fch_transac desc;
 
+
 select *
   from kardex_g_guia_remision
  where guia_serie = 'T140'
    and numero = 2629;
 
+
 select *
   from vendedores
  where cod_vendedor = 'L2';
 
+
 select *
   from vwms_rec_guia;
+
 
 select g.tp_transac as rec_tipo, g.serie as rec_serie, g.numero as rec_numero
      , g.fch_transac as rec_fecha, g.cod_alm as alm_origen, a.descripcion, l.cod_local
@@ -931,6 +945,7 @@ select g.tp_transac as rec_tipo, g.serie as rec_serie, g.numero as rec_numero
       and w.rec_numero = g.numero
    );
 
+
 select *
   from kardex_d
  where cod_alm = '99'
@@ -952,3 +967,23 @@ select t.codigo, t.descripcion, t.indicador1
    select distinct cod_alm_origen
      from traslados_almacenes
    );
+
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T144';
+
+
+select *
+  from kardex_g_guia_remision
+ where guia_serie = 'T147';
+
+
+select *
+  from kardex_g
+ where serie = 153;
+
+
+select *
+  from kardex_g
+ where serie = 150;

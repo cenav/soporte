@@ -1,17 +1,31 @@
 -- contabilidad maestro
 select *
   from movglos
- where ano = 2025
+ where ano = 2026
    and mes = 8
-   and libro = '08'
-   and voucher = 82485;
+   and libro = '05'
+   and voucher = 60417;
 
 select *
   from movdeta
- where ano = 2024
-   and mes = 8
-   and libro = '25'
-   and voucher = 80042;
+ where ano = 2026
+   and mes = 6
+   and libro = '05'
+   and voucher = 60417;
+
+select *
+  from movglos_historia
+ where ano = 2026
+   and mes = 6
+   and libro = '05'
+   and voucher = 60471;
+
+select *
+  from factpag
+ where ano = 2026
+   and mes = 6
+   and libro = '05'
+   and voucher = 60417;
 
 select *
   from usuarios_libros
@@ -957,3 +971,8 @@ select * from caja_chica_serie;
 select *
   from caja_chica
  where numero = 260044;
+
+select *
+  from notificacion
+ where sistema = 'ACTIVO_FIJO'
+   and proceso = 'ACTIVACION';

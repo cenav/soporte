@@ -1,30 +1,103 @@
+-- 48-16-1-216163
 select *
   from kardex_g
- where cod_alm = '03'
-   and tp_transac = '08'
+ where cod_alm = '31'
+   and tp_transac = '29'
    and serie = 1
    and numero in (
-   27815
+   2059008
    );
 
--- 34-28-1-1465
--- 35-28-1-1466
--- 36-28-1-1467
--- 38-28-1-1468
+-- INSERT INTO PEVISA.KARDEX_G (COD_ALM, TP_TRANSAC, SERIE, NUMERO, FCH_TRANSAC, TIP_DOC_REF, SER_DOC_REF, NRO_DOC_REF, GLOSA, TP_RELACION, COD_RELACION, NRO_SUCUR, COND_PAG, NRO_LISTA, MONEDA, COD_VENDE, CLIENTE_AFECTO, POR_DESC1, POR_DESC2, MOTIVO, ESTADO, ORIGEN, ING_SAL, FLG_IMPR, UBICACION, COD_TRANSP, DOMICILIO, RUC_TRANSP, NOMBRE, DIRECCION, RUC, TARA_CO, TARA_BO, TARA_CA, PLACA_TRANSP, LE_TRANSP, CANT_ITEM, NUM_IMPORTA, TIPO_PGUIA, SERIE_PGUIA, NUMERO_PGUIA, PR_PROCEDENCIA, PR_NUMPED, NOMBRE_ARCHIVO, NOMBRE_ARCHIVO_INGRESO, TEXTO_1, TEXTO_2, NUMERO_1, NUMERO_2) VALUES ('31', '29', 1, 2059008, DATE '2026-09-05', 'PR', 8, 673299, null, null, null, null, null, null, null, null, null, 0.00, 0.00, '0', '2', 'P', 'S', '0', null, null, null, null, null, null, null, 0.0000, 0.0000, 0.0000, null, null, 0, 'OP673299', 'PR', '8', 673299, 'ORDPR', null, null, null, null, null, null, null);
 
--- 99	27	999	899
 select *
   from kardex_d
- where cod_alm = '03'
-   and tp_transac = '18'
-   and serie = 2
+ where cod_alm = '31'
+   and tp_transac = '29'
+   and serie = 1
    and numero in (
-   642984
+   2059008
    );
+
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('31', '29', 1, 2059008, 'MHL 1000.700/26-F B', 380.0000, 0.000000, 0.000000, DATE '2026-09-05', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 673299, null);
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('31', '29', 1, 2059008, 'MHL 1200.700/26-F A', 380.0000, 0.000000, 0.000000, DATE '2026-09-05', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 673299, null);
 
 select *
   from transacciones_almacen
- where tp_transac = '18';
+ where flg_ajuste = 1;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and cod_alm = 'F0';
+
+
+select *
+  from usuarios_almacenes_perfil
+ where cod_alm = 'RV';
+
+select *
+  from pr_usualma
+ where usuario = 'EPALOMINO'
+   and cod_alm = 'F0';
+
+
+select *
+  from kardex_g_historia
+ where cod_alm = 'RV'
+   and tp_transac = '18'
+   and serie = 2
+   and numero in (
+   653642
+   );
+
+
+select *
+  from kardex_d_historia
+ where cod_alm = 'F0'
+   and tp_transac = '37'
+   and serie = 10
+   and numero in (
+   1259
+   );
+
+
+-- INSERT INTO PEVISA.KARDEX_D (COD_ALM, TP_TRANSAC, SERIE, NUMERO, COD_ART, CANTIDAD, COSTO_D, COSTO_S, FCH_TRANSAC, POR_DESC1, POR_DESC2, IMP_VVB, ESTADO, CUENTA69, ORIGEN, ING_SAL, LOTE, CONOS, TARA, FLAG, AUTONUM, ORDEN, PR_PROVEEDOR, PR_REFERENCIA, PR_ORDCOMP, PR_CODPZA, PR_VALVTA, PR_COSFOB, PR_CANTHABI, PR_TIPOT, PR_NUMOT, PR_NUMPED) VALUES ('15', '29', 1, 1909037, 'FOR3903', 0.1210, 0.000000, 0.000000, DATE '2025-04-04', 0.00, 0.00, 0.000, '2', null, 'P', 'S', null, null, null, null, null, null, null, null, null, null, 0.00, 0.0000, 0.0000, 'PR', 605982, null);
+
+select *
+  from almacen
+ where cod_art = 'KIT AUT MS 5887 SR A';
+
+select *
+  from oc_registro_facturas
+ where cod_alm = '31'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (
+   35912
+   );
+
+select *
+  from kardex_d
+ where cod_alm = '31'
+   and tp_transac = '11'
+   and serie = 1
+   and numero in (35912);
+
+select *
+  from almacen
+ where cod_art in (
+                   'NI 2900 0.4-100', 'NI 2900 0.4-300', 'NI 2900 0.6-120', 'NI 2900 0.6-149',
+                   'NI 2900 0.6-165', 'NI 2900 0.6-184', 'NI 2900 0.6-192', 'NI 2900 0.6-390',
+                   'NI 2900 0.6-435', 'NI 2900 0.8-270', 'NI 2900 1.0-270'
+   )
+   and cod_alm = 'BT'
+   and stock > 0;
+
+select *
+  from transacciones_almacen
+ where tp_transac = '72';
 
 select *
   from kardex_d
@@ -72,21 +145,6 @@ select *
    );
 
 
--- 3.372
--- 3.320
-select *
-  from cambdol
- where fecha = to_date('30/12/2025', 'dd/mm/yyyy');
-
-
-
--- 3.372
--- 3.3
-select *
-  from cambdol
- where fecha = to_date('30/12/2025', 'dd/mm/yyyy');
-
-
 select *
   from numdoc
  where tp_transac = '73'
@@ -95,74 +153,6 @@ select *
 select *
   from tab_lineas_tipo_linea
  where cod_tipo = 2;
-
-insert into pevisa.kardex_g
-  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
-  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
-  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
-  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
-  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-  , pr_numped, nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1, numero_2)
-values
-  ( '03', '40', 1, 12202, date '2025-06-09', 'AR', 3, 1036489, null, null, null, null, null, null
-  , null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null
-  , 0.0000, 0.0000, 0.0000, null, null, 0, 'DVHS 4955596 GR', 'AR', '3', 1023787, 'ORDPR', null
-  , null, null, null, null, null, null);
-
-
-insert into pevisa.kardex_d
-  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
-  , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
-  , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
-  , pr_numot, pr_numped)
-values
-  ( '03', '40', 1, 12202, '200.2523FIB', 5.0000, 0.000000, 0.000000, date '2025-06-09', 0.00, 0.00
-  , 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00
-  , 0.0000, 0.0000, 'AR', 1023787, null);
-
-insert into pevisa.kardex_g
-  ( cod_alm, tp_transac, serie, numero, fch_transac, tip_doc_ref, ser_doc_ref, nro_doc_ref, glosa
-  , tp_relacion, cod_relacion, nro_sucur, cond_pag, nro_lista, moneda, cod_vende, cliente_afecto
-  , por_desc1, por_desc2, motivo, estado, origen, ing_sal, flg_impr, ubicacion, cod_transp
-  , domicilio, ruc_transp, nombre, direccion, ruc, tara_co, tara_bo, tara_ca, placa_transp
-  , le_transp, cant_item, num_importa, tipo_pguia, serie_pguia, numero_pguia, pr_procedencia
-  , pr_numped, nombre_archivo, nombre_archivo_ingreso, texto_1, texto_2, numero_1, numero_2)
-values
-  ( '08', '40', 1, 12201, date '2025-06-09', 'AR', 3, 1023787, null, null, null, null, null, null
-  , null, null, null, 0.00, 0.00, '0', '2', 'P', 'I', '0', null, null, null, null, null, null, null
-  , 0.0000, 0.0000, 0.0000, null, null, 0, 'DVHS 4955596 GR', 'AR', '3', 1023787, 'ORDPR', null
-  , null, null, null, null, null, null);
-
-insert into pevisa.kardex_d
-  ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
-  , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
-  , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
-  , pr_numot, pr_numped)
-values
-  ( '08', '40', 1, 12201, 'CAJA PHD-25', 5.0000, 0.000000, 0.000000, date '2025-06-09', 0.00, 0.00
-  , 0.000, '2', null, 'P', 'I', null, null, null, null, null, null, null, null, null, null, 0.00
-  , 0.0000, 0.0000, 'AR', 1023787, null);
-
-select *
-  from almacen
- where cod_art = 'SOL 814';
-
-select *
-  from kardex_d
- where cod_alm = 'F0'
-   and tp_transac = '28'
-   and serie = 1
-   and numero = 1304
-   and cod_art = 'YR-TA18H +LINE';
-
--- 1208.9100
--- 3074.5700
-
-select *
-  from almacen
- where cod_art = 'FOR3930'
-   and cod_alm = 'D2';
-
 
 
 select *
@@ -196,16 +186,6 @@ select *
  where cod_art = 'MET 400.717'
    and cod_alm = '05';
 
--- insert into pevisa.kardex_d
---   ( cod_alm, tp_transac, serie, numero, cod_art, cantidad, costo_d, costo_s, fch_transac, por_desc1
---   , por_desc2, imp_vvb, estado, cuenta69, origen, ing_sal, lote, conos, tara, flag, autonum, orden
---   , pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob, pr_canthabi, pr_tipot
---   , pr_numot, pr_numped)
--- values
---   ( 'F8', '10', 118, 542, 'F 200.028 NA', 160.0000, 0.000000, 0.000000, date '2025-02-14', 0.00
---   , 0.00, 0.000, '6', null, '*', 'I', null, null, null, null, null, null, null, null, null, null
---   , null, null, null, null, null, null);
-
 select *
   from kardex_d
  where cod_alm = '37'
@@ -217,11 +197,11 @@ select *
 
 select *
   from kardex_g_historia
- where cod_alm = 'T6'
-   and tp_transac = '10'
-   and serie = 140
+ where cod_alm = 'D2'
+   and tp_transac = '28'
+   and serie = 1
    and numero in (
-   5890
+   1459
    );
 
 
@@ -267,7 +247,7 @@ select *
 
 select *
   from almacenes
- where cod_alm = '19';
+ where cod_alm = 'KT';
 
 select *
   from kardex_d
@@ -490,13 +470,17 @@ select *
 select *
   from solimat_g
  where serie = 1
-   and numero = 205360;
-
-select * from kardex_g;
+   and numero = 215323;
 
 select *
   from solimat_d
- where numero = 203700;
+ where numero = 215323;
+
+select *
+  from kardex_g
+ where cod_alm = '03'
+   and fch_transac >= to_date('15/05/2026', 'dd/mm/yyyy')
+   and nro_doc_ref = 214941;
 
 
 select *
@@ -774,8 +758,8 @@ select *
 
 select *
   from pr_usualma
- where usuario = 'DCONTRERAS'
-   and cod_alm = '37'
+ where usuario = 'JMEJIA'
+   and cod_alm = '48'
  order by cod_alm;
 
 select *
@@ -2900,6 +2884,19 @@ select *
  order by codigo;
 
 select *
+  from almacenes
+ where descripcion like '%DIFEREN%';
+
+
+select *
+  from almacenes
+ where descripcion like '%OBSER%';
+
+select *
+  from almacenes
+ where cod_alm = 'OD';
+
+select *
   from kardex_d
  where cod_alm = '56';
 
@@ -4420,3 +4417,284 @@ select *
 begin
   reporte_trx_pendiente_transito.listado();
 end;
+
+select *
+  from almacenes
+ where cod_alm = 'TF';
+
+select *
+  from kardex_d
+ where cod_art = 'BO 2.0NA-171'
+ order by fch_transac desc;
+
+select g.serie, g.numero, g.estado, to_char(g.fecha, 'DD/MM/YYYY') as fecha, g.cod_alm01
+     , g.cod_alm02, g.observacion, g.numero_ref
+  from solimat_g g
+ where g.estado < 4
+   and g.numero = 214941
+   and exists (
+   select distinct -1
+     from solimat_d d
+    where g.serie = d.serie
+      and g.numero = d.numero
+      and d.saldo > 0
+   )
+   and nvl(cod_tipo_solimat, 'OTRO') = 'OTRO';
+--    and g.cod_alm01 in (
+--    select cod_alm
+--      from pr_usualma
+--     where cod_alm = g.cod_alm01 and usuario = user
+--    )
+--    and not exists (
+--    select 1
+--      from almacenes
+--     where nvl(tipo_alm, '0') in ('WMS')
+--       and (cod_alm = g.cod_alm01 or cod_alm = g.cod_alm02)
+--    )
+--  order by g.serie, g.numero desc;
+
+select *
+  from kardex_d
+ where cod_art = '95000GR'
+   and fch_transac = to_date('25/05/2026', 'dd/mm/yyyy');
+
+select *
+  from kardex_d_otros
+ where cod_alm = 'D3'
+   and tp_transac = '18'
+   and serie = 2
+   and numero = 645474;
+
+select *
+  from pr_estados
+ order by estado;
+
+select length('Za1!Bc2@De3#Fg4$Hi5%') from dual;
+
+-- 2	GENERO SALIDA DE EMBALAJE
+-- 3	SALID ALM PZAS ING.ALM DE JABAS
+
+select * from pcarticul_historia;
+
+select *
+  from almacenes
+ where cod_alm = 'D3';
+
+
+select *
+  from transacciones_almacen
+ where flg_ajuste = 1;
+
+
+select *
+  from almacenes_perfil
+ where cod_alm = 'D3';
+
+
+select count(*)
+  from almacenes_perfil ap
+     , tablas_auxiliares ta
+ where ap.tp_transac = ta.codigo
+   and ta.tipo = '32'
+   and ap.cod_alm = '18'
+   and ta.indicador1 = 'S';
+
+
+select *
+  from tablas_auxiliares
+ where tipo = '32'
+   and codigo = '....';
+--    and codigo = 'D3'
+--    and indicador1 = 'S';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and cod_alm = '56';
+
+select distinct ua.cod_alm as cod_alm, a.descripcion as descripcion
+  from usuarios_almacenes_perfil ua
+     , almacenes a
+ where usuario = 'CNAVARRO'
+   and ua.cod_alm = a.cod_alm
+   and nvl(ua.estado, 0) = 1
+ order by 1;
+
+select *
+  from vw_personal
+ where nombre like '%FALCON%';
+
+select *
+  from transacciones_almacen
+ where tp_transac = '08';
+
+select *
+  from almacenes
+ where cod_alm = 'B1';
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN'
+   and tp_transac = '51'
+   and cod_alm = '02';
+
+
+select cod_art, descripcion, cod_alm, stock, mg
+  from (
+         select a.cod_art, a.descripcion, x.cod_alm, x.stock, g_m_grupo_pieza_new(a.cod_art) as mg
+           from articul a
+              , almacen x
+          where a.cod_art = x.cod_art
+            and x.stock >= 0 and a.cod_art <> :PR_WKTRANG.cod_art_sal
+         )
+ where (
+       user = 'SVARGAS'
+     and cod_alm = 'M1'
+     and mg = 'M014'
+   )
+    or (
+       user = 'DNUNEZM'
+     and cod_alm = 'M2'
+     and mg = 'M014'
+   )
+    or (
+       user = 'HREMUZGO'
+     and cod_alm = 'M3'
+     and mg = 'M014'
+   )
+    or (
+       user not in ('SVARGAS', 'DNUNEZM', 'HREMUZGO')
+     and cod_alm = :PR_WKTRANG.xcod_alm_ingreso
+   );
+
+select *
+  from articul
+ where cod_art = 'LTC 430-170-3.2';
+
+select *
+  from almacen
+ where cod_art = 'LMC 648-334-3.2';
+
+
+select *
+  from almacen
+ where cod_art = 'LTC 430-170-3.2';
+
+
+select *
+  from kardex_d
+ where cod_alm = 'B1'
+   and tp_transac = '51'
+   and serie = 1
+   and numero in (
+   28426
+   );
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'PEVISA';
+
+select *
+  from articul
+ where cod_art = '70003/24GR';
+
+select *
+  from tab_lineas
+ where linea = '100';
+
+select *
+  from tab_lineas
+ where descripcion like '%DESCONT%'
+ order by cast(linea as number);
+
+-- CA 73R-K
+
+select *
+  from pr_ot o
+       join pr_ot_det d
+            on o.nuot_tipoot_codigo = d.ot_nuot_tipoot_codigo
+              and o.nuot_serie = d.ot_nuot_serie
+              and o.numero = d.ot_numero
+ where o.nuot_tipoot_codigo = 'PR'
+   and o.estado not in ('8', '9');
+
+select *
+  from expedidos
+ where numero = '17192';
+
+select *
+  from exproformas_expedidos
+ where numero_pedido = 17192;
+
+select *
+  from exproformas
+ where numero = '20554';
+
+select *
+  from exproforma_d
+ where numero = '20554'
+   and nro = 255;
+
+select *
+  from exproforma_d
+ where numero = '20554'
+   and nro = 255;
+
+select *
+  from expedido_d
+ where numero = '17192'
+   and nro = 255;
+
+select *
+  from exproforma_d
+ where numero = '20554'
+   and cod_art = 'HS 93013 TG-10';
+
+
+select *
+  from expedido_d
+ where numero = 545
+   and nro = 247;
+
+
+select *
+  from transacciones_almacen
+ where flg_ajuste = 1;
+
+
+select *
+  from usuarios_almacenes_perfil
+ where usuario = 'EBELTRAN';
+
+
+select *
+  from almacenes
+ where cod_alm = '62';
+
+
+select cod_alm, cod_art, stock from tmp_carga_data;
+
+-- CAR 412	25.0000
+-- LTC 500-200-1.6	708.0000
+
+-- insert into tmp_carga_data(cod_alm, cod_art, stock)
+select d.cod_alm, d.cod_art
+     , sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) as stock
+  from kardex_d d
+ where d.estado <> '9'
+   and d.cod_alm = 'B1'
+   and d.cod_art in (
+   '275/70R22.5 AU04+'
+   )
+having sum(decode(d.ing_sal, 'S', (d.cantidad * -1), d.cantidad)) > 0
+ group by d.cod_alm, d.cod_art
+ order by cod_alm, cod_art;
+
+-- 1376 -> count
+select * from tmp_carga_data;
+
+
+select *
+  from transacciones_almacen
+ where tp_transac = '27';

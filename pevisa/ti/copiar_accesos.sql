@@ -1,18 +1,18 @@
 -- copia accesos entre usuarios
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like 'GURBANO';
+ where username like '%OVELARDE%';
 
 select *
   from usuarios
- where usuario like '%GURBANO%';
+ where usuario like '%PEREZ%';
 
 select *
   from usuarios
- where usuario in ('GURBANO', 'JLLOPEZ');
+ where usuario in ('RTARRILLO');
 
 declare
-  k_newusr varchar2(30) := 'KCHACARA';
+  k_newusr varchar2(30) := 'ALMACEN';
 begin
 
   delete from seccrus where co_usrusr = k_newusr;
@@ -48,8 +48,8 @@ end;
 ------------------------------------------------
 ------------------------------------------------
 declare
-  k_oldusr varchar2(30) := 'JLLOPEZ';
-  k_newusr varchar2(30) := 'GURBANO';
+  k_oldusr varchar2(30) := 'RTARRILLO';
+  k_newusr varchar2(30) := 'DBAZAN';
 begin
 
   insert into seccrus
@@ -208,21 +208,11 @@ select * from planilla10.plcontrol;
 
 select *
   from usuarios_cotizacion
- where usuario in ('ACORDOVA');
-
-select co_usrusr, co_ctrctr, co_clave, nombres
-  from seccrus s
- where co_usrusr = 'JACUNA'
-   and not exists (
-   select *
-     from seccrus s2
-    where s2.co_ctrctr = s.co_ctrctr
-      and s2.co_usrusr = 'FSANCHEZ'
-   );
+ where usuario in ('OVELARDE');
 
 select *
   from seccrus
- where co_usrusr in ('GURBANO');
+ where co_usrusr in ('DBAZAN');
 
 select distinct sistema
   from tab_menu
@@ -293,11 +283,12 @@ select *
 
 select *
   from tab_menu
- where usuario = 'LPACCO';
+ where usuario = 'JMEDINA'
+   and sistema = 'M_CALIDAD_M';
 
 select *
   from seccrus
- where co_usrusr in ('LPACCO');
+ where co_usrusr in ('GATANACIO');
 
 select *
   from seccrus
@@ -445,3 +436,13 @@ select *
 select *
   from almacenes
  where cod_alm = '31';
+
+select *
+  from caja_chica_serie
+ where id_serie = 7;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'MREQUIS';
+
+select sysdate from dual;

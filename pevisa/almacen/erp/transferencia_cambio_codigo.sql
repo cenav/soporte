@@ -1,4 +1,4 @@
--- Transferencia por cambio de codigo
+-- Transferencia observados
 declare
   k_trx_sal constant kardex_g.tp_transac%type := '51';
   k_ser_sal constant kardex_g.serie%type      := 1;
@@ -12,11 +12,11 @@ declare
   l_nro_ing          kardex_g.numero%type;
 begin
   for r in (
-    select distinct a.cod_alm
-      from almacen a
-           join tmp_carga_data t on a.cod_art = t.cod_art
-     where a.stock > 0
-     order by a.cod_alm
+    select vw.cod_alm
+      from tmp_carga_data vw
+     where vw.cod_alm not in ('P1')
+     group by vw.cod_alm, vw.descripcion
+     order by vw.cod_alm
     )
   loop
     l_nro_sal := api_kardex_g.next_numero(k_trx_sal, k_ser_sal);
@@ -38,11 +38,13 @@ begin
       , numero_1, numero_2)
     values
       ( r.cod_alm, k_trx_sal, k_ser_sal, l_nro_sal, k_fch, null, null, null
-      , 'TRANSFERENCIA CAMBIO CODIGO', null, null, null, null, 1, null, null, null, 0, 0, '1', '0'
-      , 'D', 'S', '0', null, null, null, null, null, null, null, 0, 0, 0, null, null, 0
-      , substr('TRANSFERENCIA', 1, 15), null, null, null, null, 0 /*----*/ , null, null, null, null
+      , r.cod_alm || '-' || k_trx_ing || '-' || k_ser_ing || '-' || l_nro_ing, null, null, null
+      , null, 1, null, null, null, 0, 0, '1', '0', 'D', 'S', '0', null, null, null, null, null, null
+      , null, 0, 0, 0, null, null, 0, substr('CAMBIO CODIGO', 1, 15), null, null, null, null
+      , 0 /*----*/ , null, null, null, null
       , 0, 0);
 
+    dbms_output.put_line(sql%rowcount);
     -------------
     -- INGRESO --
     -------------
@@ -56,17 +58,18 @@ begin
       , numero_1, numero_2)
     values
       ( r.cod_alm, k_trx_ing, k_ser_ing, l_nro_ing, k_fch, null, null, null
-      , 'TRANSFERENCIA CAMBIO CODIGO', null, null, null, null, 1, null, null, null, 0, 0, '0', '0'
-      , 'D', 'I', '0', null, null, null, null, null, null, null, 0, 0, 0, null, null, 0
-      , substr('TRANFERENCIA', 1, 15), null, null, null, null, 0, null, null, null, null, 0, 0);
+      , r.cod_alm || '-' || k_trx_sal || '-' || k_ser_sal || '-' || l_nro_sal, null, null, null
+      , null, 1, null, null, null, 0, 0, '0', '0', 'D', 'I', '0', null, null, null, null, null, null
+      , null, 0, 0, 0, null, null, 0, substr('CAMBIO CODIGO', 1, 15), null, null, null, null, 0
+      , null, null, null, null, 0, 0);
+
+    dbms_output.put_line(sql%rowcount);
 
     for rs in (
-      select a.cod_art, a.stock, t.cod_activo_fijo as cod_cambio
-        from almacen a
-             join tmp_carga_data t on a.cod_art = t.cod_art
-       where a.stock > 0
-         and a.cod_alm = r.cod_alm
-       order by a.cod_art, a.cod_alm
+      select vw.cod_alm, vw.cod_art, vw.cod_activo_fijo, vw.stock
+        from tmp_carga_data vw
+       where vw.cod_alm = r.cod_alm
+       order by vw.cod_alm, vw.stock desc
       )
     loop
       ------------
@@ -80,18 +83,16 @@ begin
       values
         ( r.cod_alm, k_trx_sal, k_ser_sal, l_nro_sal, rs.cod_art, rs.stock, 0, 0, k_fch, 0
         , 0, 0, '0', '6910101', 'D', 'S', null, null, null, null, null, null, null
-        , substr(rs.cod_cambio, 1, 30), null, null, 0, 0, 0, null, null, 0);
+        , substr(rs.cod_activo_fijo, 1, 30), null, null, 0, 0, 0, null, null, 0);
     end loop;
 
+    dbms_output.put_line(sql%rowcount);
 
     for ri in (
-      select t.cod_activo_fijo as cod_cambio, sum(a.stock) as stock
-           , listagg(a.cod_art, '|') within group (order by a.cod_art) as cod_art
-        from almacen a
-             join tmp_carga_data t on a.cod_art = t.cod_art
-       where a.stock > 0
-         and a.cod_alm = r.cod_alm
-       group by t.cod_activo_fijo
+      select vw.cod_alm, vw.cod_art, vw.cod_activo_fijo, vw.stock
+        from tmp_carga_data vw
+       where vw.cod_alm = r.cod_alm
+       order by vw.cod_alm, vw.stock desc
       )
     loop
       -------------
@@ -103,99 +104,11 @@ begin
         , autonum, orden, pr_proveedor, pr_referencia, pr_ordcomp, pr_codpza, pr_valvta, pr_cosfob
         , pr_canthabi, pr_tipot, pr_numot, pr_numped)
       values
-        ( r.cod_alm, k_trx_ing, k_ser_ing, l_nro_ing, ri.cod_cambio, ri.stock, 0, 0, k_fch
+        ( r.cod_alm, k_trx_ing, k_ser_ing, l_nro_ing, ri.cod_activo_fijo, ri.stock, 0, 0, k_fch
         , 0, 0, 0, '0', '6910101', 'D', 'I', null, null, null, null, null, null, null
         , ri.cod_art, null, null, 0, 0, 0, null, null, 0);
     end loop;
+
+    dbms_output.put_line(sql%rowcount);
   end loop;
 end;
-
-select a.cod_art, a.cod_alm, a.stock
-  from almacen a
- where a.cod_art in ('PEV 090.385')
-   and stock > 0
- order by a.cod_art, a.cod_alm;
-
--- stock 06 -> 465.0000
-select a.cod_art, a.cod_alm, a.stock
-  from almacen a
- where a.cod_art in ('PEV 115.385')
-   and stock > 0
- order by a.cod_art, a.cod_alm;
-
-select a.cod_art, a.cod_alm, a.stock
-  from almacen a
- where a.cod_art in ('PEV 115.385', 'DUR 090.385')
- order by a.cod_art, a.cod_alm;
-
-select *
-  from transacciones_almacen
- where tp_transac in ('51', '08');
-
-
-select distinct cod_alm
-  from almacen
- where cod_art in ('PEV 090.385', 'DUR 090.385')
-   and stock > 0
- order by cod_alm;
-
-
-select a.cod_art, a.stock, t.cod_activo_fijo as cod_cambio
-  from almacen a
-       join tmp_carga_data t on a.cod_art = t.cod_art
- where a.cod_art in ('PEV 090.385', 'DUR 090.385')
-   and a.stock > 0
-   and a.cod_alm = '06'
- order by a.cod_art, a.cod_alm;
-
-
-select cod_art, cod_activo_fijo
-  from tmp_carga_data;
-
-
-select *
-  from almacenes
- where cod_alm = '58';
-
-
-select *
-  from almacen a
-       join tmp_carga_data t on a.cod_art = t.cod_art
- where a.stock > 0
-   and a.cod_alm = 'P1'
- order by a.cod_alm;
-
-
-select a.cod_art, a.stock
-  from almacen a
-       join tmp_carga_data t on a.cod_art = t.cod_art
- where a.stock > 0
-   and a.cod_alm = 'EY'
- order by a.cod_art, a.cod_alm;
-
-
-select t.cod_activo_fijo as cod_cambio, sum(a.stock) as stock
-     , listagg(a.cod_art, '|') within group (order by a.cod_art) as cod_art
-  from almacen a
-       join tmp_carga_data t on a.cod_art = t.cod_art
- where a.stock > 0
-   and a.cod_alm = 'EY'
- group by t.cod_activo_fijo;
-
-
-select cod_art, cod_activo_fijo
-  from tmp_carga_data
- where cod_art = 'DUR 145.385';
-
-
-select *
-  from pr_ot_det
- where ot_nuot_tipoot_codigo = 'AR'
-   and ot_numero in (
-   1143035
-   );
-
-
-select *
-  from tmp_carga_data
- where cod_art = 'SERV TROQ KRF 300.470-312B';

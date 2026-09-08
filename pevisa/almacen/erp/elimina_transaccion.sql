@@ -21,13 +21,18 @@ declare
 
 --   TD	10	140	2964
   cursor trx is --> por número de transaccion
+--     select *
+--       from kardex_g
+--      where tp_transac in ('51', '08')
+--        and fch_transac >= to_date('13/05/2026', 'dd/mm/yyyy')
+--        and numero not in (28112, 27887);
     select *
       from kardex_g
-     where cod_alm = '03'
-       and tp_transac = '18'
-       and serie = 2
+     where cod_alm = '31'
+       and tp_transac = '29'
+       and serie = 1
        and numero in (
-       642984
+       2059008
        )
      order by ing_sal desc, numero_pguia;
 

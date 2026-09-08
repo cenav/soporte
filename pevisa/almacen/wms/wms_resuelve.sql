@@ -27,7 +27,7 @@ select *
 select *
   from wms_solimat_sol
  where tipo = 'SM'
-   and numero = 200398;
+   and numero = 217290;
 
 select *
   from wms_solimat_sol
@@ -735,3 +735,21 @@ select *
  where cod_art = 'BOLSA 12.41';
 
 select sysdate from dual;
+
+select a.cod_art, a.cod_art, b.saldo, b.saldo, b.tk_numero
+  from pcarticul a
+     , wms_packing_alm b
+ where a.cod_interno = :buscar_articulo
+   and b.tk_serie = '20'
+--    and b.tk_numero = :x_lote
+   and b.cod_art = a.cod_art
+   and b.saldo > 0
+   and rownum = 1;
+
+select *
+  from wms_packing_alm
+ where cod_art = 'CL-O PL 80243-1ZN';
+
+select *
+  from pcarticul
+ where cod_interno = :buscar_articulo;

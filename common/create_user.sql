@@ -1,30 +1,33 @@
 -- CREAR EN USUARIOS
 select username, account_status, created, lock_date, expiry_date
   from dba_users
- where username like '%YLIFONSO%';
+ where username like '%DBAZAN%';
 
 select *
   from usuarios
- where usuario like '%LOPEZ%';
+ where usuario like '%DBAZAN%';
 
 ---------------------------
 ---------------------------
 ---------------------------
 
-create user ylifonso
+create user dbazan
   identified by "pevisa.123"
   default tablespace pevisad
   temporary tablespace temp
   profile profile_usuario_sig
+--   profile default
   account unlock;
 
-grant privilegios_usuarios_sig to ylifonso;
+grant privilegios_usuarios_sig to dbazan;
 
-alter user ylifonso default role all;
+alter user dbazan default role all;
 
-alter user ylifonso password expire;
+alter user dbazan password expire;
 
 -- alter user nvelez profile profile_usuario_sig;
+
+-- drop user jperez;
 
 ---------------------------
 ---------------------------
@@ -113,3 +116,7 @@ select *
   from cotizacion
  where fecha = to_date('01/01/2026', 'dd/mm/yyyy');
 
+
+select *
+  from usuario_modulo_alterno
+ where id_usuario = 'EMURO';

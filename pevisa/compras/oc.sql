@@ -1,15 +1,45 @@
 select *
   from orden_de_compra
- where serie = 2
+ where serie = 1
    and num_ped in (
-                   23610, 23604, 23612, 23605
+   87968
    );
+
+-- revisa si tiene pago
+select *
+  from factpag
+ where nro_referencia = '87938';
+
+-- revisa si tiene pago
+select *
+  from factpag
+ where serie_ref = '2'
+   and nro_referencia = '23636';
+
+-- revisa si tiene cancelacion
+select c.*
+  from factpag f
+       join cabfpag c
+            on f.cod_proveedor = c.cod_proveedor
+              and f.tipdoc = c.tipdoc
+              and f.serie_num = c.serie_num
+              and f.numero = c.numero
+ where f.serie_ref = '2'
+   and f.nro_referencia = '87938';
+
+
+select *
+  from factpag
+ where serie_ref = '2'
+   and nro_referencia = '23636';
+
+
 
 select *
   from itemord
  where serie = 2
    and num_ped in (
-   23592
+   23627
    )
  order by item;
 
@@ -30,9 +60,9 @@ select *
 
 select *
   from orden_de_compra_historia
- where serie = 4
+ where serie = 3
    and num_ped in (
-   66710
+   47810
    );
 
 select *
@@ -58,7 +88,8 @@ select *
 
 select *
   from orden_de_compra
- where num_ped = 47431;
+ where serie = 3
+   and num_ped = 47753;
 
 select *
   from orden_de_compra
@@ -370,6 +401,13 @@ select *
   from oc_registro_facturas
  where serie_oc = 2
    and numero_oc = 23499;
+
+select *
+  from oc_registro_facturas
+ where cod_alm = '31'
+   and tp_transac = '11'
+   and serie = 1
+   and numero = 35912;
 
 select *
   from kardex_g
@@ -1500,3 +1538,34 @@ select *
   from caja_chica
  where serie = 1
    and numero = 259;
+
+select *
+  from proveed
+ where nombre like '%LINUX%';
+
+select *
+  from orden_de_compra
+ where cod_proveed = '20251505111'
+ order by fecha desc;
+
+-- carga de items en cotizacion excel
+
+select *
+  from solicitud_pedido
+ where numero = 620;
+
+select * from solicitud_pedido_estado order by estado;
+
+select *
+  from usuarios_caja_chica
+ where usuario = 'YBERROSPI';
+
+select *
+  from solicitud_pedido
+ where numero = 704;
+
+select *
+  from proceso_rsc
+ where id_proceso = 31;
+
+select * from estado_proceso;
